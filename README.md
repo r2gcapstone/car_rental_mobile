@@ -10,15 +10,11 @@
 
 `yarn install`
 
-## How to RUN
+## How to start
 
 `yarn start`
 
-## How to TEST
-
-`yarn test`
-
-# DOCUMENTATION ---------------------------------------------------------------------
+# DOCUMENTATION
 
 ## Folder structure
 
@@ -48,10 +44,9 @@ car-rental/
 ├── babel.config.js
 ├── .expo-shared/
 │   └── ...
-├── node_modules/
-│   └── ...
-└──__tests__
-      └── ...
+└── node_modules/
+    └── ...
+
 ```
 
 1. Assets - This folder contains subdirectories to store images, fonts, and other static assets used in your project.
@@ -74,5 +69,3 @@ car-rental/
 9. .expo-shared - Internal folder used by Expo. You typically don't need to interact with it directly.
 
 10. Node_modules - The folder where all the installed dependencies are stored (auto-generated when you run npm install).
-
-11. tests- This folder contains the test components using jest.
