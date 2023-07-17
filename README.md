@@ -69,3 +69,5 @@ car-rental/
 9. .expo-shared - Internal folder used by Expo. You typically don't need to interact with it directly.
 
 10. Node_modules - The folder where all the installed dependencies are stored (auto-generated when you run npm install).
+
+11. tests - folder that contains components for unit testing using JEST framework.
