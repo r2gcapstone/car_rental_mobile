@@ -3,25 +3,34 @@
 ### Built with React native + firebase
 
 ## Prerequisite
-
-`Node js: "v18.15.0^"`
-`yarn package manager`
+```
+* Node js: "v18.15.0^"
+* Yarn package manager
+```
 
 ## CLI used
 
-`expo cli - (installed using npx create-expo-app --template)`
+```
+expo cli - (installed using npx create-expo-app --template)
+```
 
 ## Installation
 
-`yarn install`
+```
+yarn install
+```
 
 ## How to RUN
 
-`yarn start`
+```
+yarn start
+```
 
 ## How to TEST
 
-`yarn test`
+```
+yarn test
+```
 
 # DOCUMENTATION
 
