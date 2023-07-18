@@ -3,6 +3,7 @@
 ### Built with React native + firebase
 
 ## Prerequisite
+
 ```
 * Node js: "v18.15.0^"
 * Yarn package manager
@@ -91,4 +92,6 @@ car-rental/
 
 11. `Node_modules` - The folder where all the installed dependencies are stored (auto-generated when you run npm install).
 
-12. `tests` - folder that contains components for unit testing using JEST framework.
+12. `tests` - Folder that contains components for unit testing using JEST framework.
+
+13. `services` - This folder contains all the firebase configs and services.
