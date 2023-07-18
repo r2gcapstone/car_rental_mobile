@@ -10,9 +10,13 @@
 
 `yarn install`
 
-## How to start
+## How to RUN
 
 `yarn start`
+
+## How to TEST
+
+`yarn test`
 
 # DOCUMENTATION
 
