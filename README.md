@@ -24,24 +24,26 @@
 
 ```
 car-rental/
-├── assets/
-│   ├── images/
-│   ├── fonts/
-├── components/
-│   ├── MyComponent1.js
-│   ├── MyComponent2.js
-│   └── ...
-├── screens/
-│   ├── HomeScreen.js
-│   ├── ProfileScreen.js
-│   └── ...
-├── navigation/
-│   ├── AppNavigator.js
-│   └── MainTabNavigator.js
-├── config/
-│   ├── Colors.js
-│   ├── Fonts.js
-│   └── ...
+├── app/
+│    ├── assets/
+│    │   ├── images/
+│    │   ├── fonts/
+│    ├── components/
+│    │   ├── MyComponent1.js
+│    │   ├── MyComponent2.js
+│    │   └── ...
+│    ├── screens/
+│    │   ├── HomeScreen.js
+│    │   ├── ProfileScreen.js
+│    │   └── ...
+│    ├── navigation/
+│    │   ├── AppNavigator.js
+│    │   └── MainTabNavigator.js
+│    └── config/
+│        ├── Colors.js
+│        ├── Fonts.js
+│        └── ...
+│
 ├── App.js
 ├── package.json
 ├── app.json
