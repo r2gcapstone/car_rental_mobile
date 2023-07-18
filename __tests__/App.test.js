@@ -9,9 +9,9 @@ describe("App component", () => {
     expect(helloWorldText).toBeTruthy();
   });
 
-  test("renders StatusBar component", () => {
-    const { getByTestId } = render(<App />);
-    // // const statusBarComponent = getByTestId("status-bar");
-    // expect(statusBarComponent).toBeTruthy();
-  });
+  // test("renders StatusBar component", () => {
+  //   const { getByTestId } = render(<App />);
+  //   const statusBarComponent = getByTestId("status-bar");
+  //   expect(statusBarComponent).toBeTruthy();
+  // });
 });
