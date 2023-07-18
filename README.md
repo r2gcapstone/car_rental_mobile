@@ -5,6 +5,11 @@
 ## Prerequisite
 
 `Node js: "v18.15.0^"`
+`yarn package manager`
+
+## CLI used
+
+`expo cli - (installed using npx create-expo-app --template)`
 
 ## Installation
 
