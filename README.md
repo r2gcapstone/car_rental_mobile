@@ -5,15 +5,18 @@
 ## Prerequisite
 
 ```
-* Node js: "v18.15.0^"
+* Node js
 * Yarn package manager
 ```
 
 ## CLI used
 
 ```
-expo cli - (installed using npx create-expo-app --template)
+expo cli - (installed using npx create-expo-app@latest --template tabs@49)
+
 ```
+
+#### This includes the routing system of the app which is a folder based one.
 
 ## Installation
 
@@ -39,34 +42,40 @@ yarn test
 
 ```
 car-rental/
-├── app/
-│    ├── assets/
-│    │   ├── images/
-│    │   ├── fonts/
-│    ├── components/
-│    │   ├── MyComponent1.js
-│    │   ├── MyComponent2.js
-│    │   └── ...
-│    ├── screens/
-│    │   ├── HomeScreen.js
-│    │   ├── ProfileScreen.js
-│    │   └── ...
-│    ├── navigation/
-│    │   ├── AppNavigator.js
-│    │   └── MainTabNavigator.js
-│    └── config/
-│        ├── Colors.js
-│        ├── Fonts.js
-│        └── ...
-│
-├── App.js
-├── package.json
-├── app.json
-├── babel.config.js
-├── .expo-shared/
-│   └── ...
-└── node_modules/
-    └── ...
+  ├── .expo/
+  ├── app
+  │   ├── (tabs)
+  │   │   ├── __layout.tsx
+  │   │   ├── index.tsx
+  │   │   ├── two.tsx
+  │   │   └── ...
+  │   ├── __layout.tsx
+  │   ├── [...missing].js
+  │   ├── +html.tsx
+  │   ├── modal.tsx
+  │   │   └── ...
+  ├── assets/
+  │   ├── icon.png
+  │   ├── splash.png
+  │   └── ...
+  ├── components/
+  │   └── ...
+  ├── constants
+  │   ├── Colors.js
+  │   └── ...
+  ├── node_modules/
+  │   └── ...
+  ├── screens/
+  │   ├── HomeScreen.js
+  │   ├── SettingsScreen.js
+  │   └── ...
+  ├── App.js
+  ├── app.json
+  ├── babel.config.js
+  ├── package.json
+  ├── README.md
+  └── yarn.lock
+
 
 ```
 
@@ -78,7 +87,7 @@ car-rental/
 
 4. `Navigation` - This folder handles the navigation logic for your app. You might use React Navigation or any other navigation library here.
 
-5. `Config` -This folder is for storing config/constants used in your application, such as colors, fonts, API endpoints, etc.
+5. `constants` -This folder is for storing config/constants used in your application, such as colors, fonts, API endpoints, etc.
 
 6. `App.js` - The entry point of your Expo app. This is where you'll set up the root component and navigation.
 
