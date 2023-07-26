@@ -6,11 +6,7 @@ export default function ThemedText(props) {
   const theme = useContext(ThemeContext);
 
   const { style, ...otherProps } = props;
-  const textStyle = [
-    { fontFamily: theme.fontFamily },
-    { color: theme.textColor },
-    style,
-  ];
+  const textStyle = [{ color: theme.textColor }, style];
 
   return <Text style={textStyle} {...otherProps} />;
 }
