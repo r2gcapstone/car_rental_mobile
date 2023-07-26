@@ -115,12 +115,14 @@ const SignInScreen = () => {
       {/* Register */}
       <View style={styles.registerContainer}>
         <Text>Don't have an account?</Text>
-        <TouchableOpacity
-          style={styles.registerButton}
-          onPress={handleRegister}
-        >
-          <Text style={styles.registerText}>Register here!</Text>
-        </TouchableOpacity>
+        <Link href={"/SignIn"} asChild>
+          <TouchableOpacity
+            style={styles.registerButton}
+            onPress={handleRegister}
+          >
+            <Text style={styles.registerText}>Register here!</Text>
+          </TouchableOpacity>
+        </Link>
       </View>
     </View>
   );
