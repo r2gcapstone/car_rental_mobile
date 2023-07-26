@@ -10,7 +10,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import Text from "../components/ThemedText";
-import Colors, { colors } from "../constants/Colors";
+import { colors } from "../constants/Colors";
 
 const LandingPage = () => {
   return (

@@ -5,10 +5,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   Pressable,
+  Image,
 } from "react-native";
 
 import View from "../components/ThemedView";
 import Text from "../components/ThemedText";
+
+import { colors } from "../constants/Colors";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
@@ -62,6 +65,12 @@ const SignInScreen = () => {
   return (
     <View style={styles.container}>
       {/* Logo and App Title */}
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("../assets/images/logo.png")}
+          style={styles.logo}
+        />
+      </View>
       <Text style={styles.logoTitle}>R2G</Text>
       <Text style={styles.appSlogan}>Your Go-To Car Rental Mobile App</Text>
 
@@ -94,11 +103,12 @@ const SignInScreen = () => {
       <TouchableOpacity style={styles.forgotPasswordButton}>
         <Text style={styles.forgotPasswordButton}>Forgot your password?</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+      <TouchableOpacity
+        style={[styles.loginButton, { backgroundColor: colors.blue.slitedark }]}
+        onPress={handleLogin}
+      >
         <Link href="/">
-          <Pressable>
-            <Text style={styles.buttonText}>Login</Text>
-          </Pressable>
+          <Text style={styles.buttonText}>Login</Text>
         </Link>
       </TouchableOpacity>
 
@@ -128,10 +138,24 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   appSlogan: {
-    fontSize: 16,
+    fontSize: 28,
+    textAlign: "center",
     marginBottom: 20,
   },
-  label: { alignSelf: "flex-start" },
+  label: {
+    alignSelf: "flex-start",
+    marginBottom: 8,
+  },
+  logoContainer: {
+    height: "auto",
+    // marginTop: 20,
+    marginBottom: 0,
+  },
+  logo: {
+    width: 89,
+    height: 107,
+    marginBottom: 10,
+  },
   input: {
     width: "100%",
     height: 40,
@@ -144,6 +168,7 @@ const styles = StyleSheet.create({
   },
   forgotPasswordButton: {
     alignSelf: "flex-start",
+    marginTop: 8,
     marginBottom: 10,
   },
   loginButton: {
@@ -153,11 +178,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 10,
+    marginBottom: 20,
   },
   registerContainer: {},
   registerText: {
     fontWeight: "700",
+    textAlign: "center",
+    marginTop: 8,
   },
   registerButton: {},
   buttonText: {
