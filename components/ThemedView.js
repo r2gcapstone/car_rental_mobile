@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View } from "react-native";
+import { View, StatusBar } from "react-native";
 import ThemeContext from "../context/ThemeContext";
 
 export default function ThemedView(props) {
@@ -9,6 +9,7 @@ export default function ThemedView(props) {
   const viewStyle = [
     { backgroundColor: theme.backgroundColor },
     { paddingHorizontal: 40 },
+    { paddingTop: StatusBar.currentHeight },
     style,
   ];
 

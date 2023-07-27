@@ -6,6 +6,8 @@ import {
   StyleSheet,
   Pressable,
   Image,
+  ScrollView,
+  SafeAreaView,
   //   CheckBox,
 } from "react-native";
 
@@ -63,87 +65,93 @@ const SignUpScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Title and Logo */}
-      <View style={styles.titleContainer}>
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>Create an Account</Text>
-          <Text style={styles.subtitle}>
-            Create an account first before using Rent A Car Service
-          </Text>
-        </View>
-        <View style={styles.logoContainer}>
-          <Image
-            source={require("../assets/images/logo.png")}
-            style={styles.logo}
+      <SafeAreaView>
+        <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+          {/* Title and Logo */}
+          <View style={styles.titleContainer}>
+            <View style={styles.textContainer}>
+              <Text style={styles.title}>Create an Account</Text>
+              <Text style={styles.subtitle}>
+                Create an account first before using Rent A Car Service
+              </Text>
+            </View>
+            <View style={styles.logoContainer}>
+              <Image
+                source={require("../assets/images/logo.png")}
+                style={styles.logo}
+              />
+            </View>
+          </View>
+
+          {/* Sign-Up Fields */}
+          <Text style={styles.label}>Username</Text>
+          <TextInput
+            style={styles.input}
+            value={username}
+            onChangeText={handleUsernameChange}
           />
-        </View>
-      </View>
 
-      {/* Sign-Up Fields */}
-      <Text style={styles.label}>Username</Text>
-      <TextInput
-        style={styles.input}
-        value={username}
-        onChangeText={handleUsernameChange}
-      />
+          <Text style={styles.label}>Full Name</Text>
+          <TextInput
+            style={styles.input}
+            value={fullName}
+            onChangeText={handleFullNameChange}
+          />
 
-      <Text style={styles.label}>Full Name</Text>
-      <TextInput
-        style={styles.input}
-        value={fullName}
-        onChangeText={handleFullNameChange}
-      />
+          <Text style={styles.label}>Address</Text>
+          <TextInput
+            style={styles.input}
+            value={address}
+            onChangeText={handleAddressChange}
+          />
 
-      <Text style={styles.label}>Address</Text>
-      <TextInput
-        style={styles.input}
-        value={address}
-        onChangeText={handleAddressChange}
-      />
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            autoComplete="email"
+            autoCapitalize="none"
+            keyboardType="email-address"
+            value={email}
+            onChangeText={handleEmailChange}
+          />
 
-      <Text style={styles.label}>Email</Text>
-      <TextInput
-        style={styles.input}
-        autoComplete="email"
-        autoCapitalize="none"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={handleEmailChange}
-      />
+          <Text style={styles.label}>Mobile Number</Text>
+          <TextInput
+            style={styles.input}
+            keyboardType="phone-pad"
+            value={mobileNumber}
+            onChangeText={handleMobileNumberChange}
+          />
 
-      <Text style={styles.label}>Mobile Number</Text>
-      <TextInput
-        style={styles.input}
-        keyboardType="phone-pad"
-        value={mobileNumber}
-        onChangeText={handleMobileNumberChange}
-      />
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
+            secureTextEntry
+            value={password}
+            onChangeText={handlePasswordChange}
+          />
 
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        style={styles.input}
-        secureTextEntry
-        value={password}
-        onChangeText={handlePasswordChange}
-      />
+          {/* Checkbox for Agreeing to Terms */}
+          <View style={styles.checkboxContainer}>
+            {/* <CheckBox value={agreeToTerms} onValueChange={setAgreeToTerms} /> */}
+            <Text style={styles.checkboxLabel}>
+              Please confirm that you agree to our terms & conditions
+            </Text>
+          </View>
 
-      {/* Checkbox for Agreeing to Terms */}
-      <View style={styles.checkboxContainer}>
-        {/* <CheckBox value={agreeToTerms} onValueChange={setAgreeToTerms} /> */}
-        <Text style={styles.checkboxLabel}>
-          Please confirm that you agree to our terms & conditions
-        </Text>
-      </View>
-
-      <TouchableOpacity
-        style={[
-          styles.registerButton,
-          { backgroundColor: colors.blue.slitedark },
-        ]}
-        onPress={handleRegister}
-      >
-        <Text style={styles.buttonText}>Register</Text>
-      </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.registerButton,
+              { backgroundColor: colors.blue.slitedark },
+            ]}
+            //   onPress={handleRegister}
+          >
+            <Link href={"/"}>
+              <Text style={styles.buttonText}>Register</Text>
+            </Link>
+          </TouchableOpacity>
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 };
@@ -153,25 +161,29 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 40,
   },
+  scroll: {},
   textContainer: {
     flexDirection: "column",
+    left: -20,
+    // width: "100%",
   },
   titleContainer: {
     flexDirection: "row",
-    alignItems: "center",
+    // alignItems: "center",
+
+    marginBottom: 20,
     justifyContent: "space-evenly",
+    marginTop: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
+    marginBottom: 10,
     fontWeight: "bold",
-    marginLeft: 10,
   },
   subtitle: {
-    fontSize: 16,
-    marginBottom: 20,
-    textAlign: "center",
+    fontSize: 14,
+    textAlign: "left",
   },
   label: {
     alignSelf: "flex-start",
@@ -181,8 +193,9 @@ const styles = StyleSheet.create({
     height: "auto",
   },
   logo: {
-    width: 89,
-    height: 107,
+    width: 100,
+    height: 120,
+    right: -20,
   },
   input: {
     width: "100%",
@@ -210,6 +223,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
+    marginBottom: 20,
   },
   buttonText: {
     fontSize: 16,
