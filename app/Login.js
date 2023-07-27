@@ -115,7 +115,7 @@ const SignInScreen = () => {
       {/* Register */}
       <View style={styles.registerContainer}>
         <Text>Don't have an account?</Text>
-        <Link href={"/SignIn"} asChild>
+        <Link href={"/sign-up"} asChild>
           <TouchableOpacity
             style={styles.registerButton}
             onPress={handleRegister}
