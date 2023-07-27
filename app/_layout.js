@@ -42,7 +42,7 @@ function RootLayoutNav() {
     <ThemeContext.Provider value={DefaultTheme}>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="Login" options={{ headerShown: true }} />
+        <Stack.Screen name="Login" options={{ headerShown: false }} />
       </Stack>
     </ThemeContext.Provider>
   );

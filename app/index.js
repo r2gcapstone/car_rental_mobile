@@ -10,7 +10,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import Text from "../components/ThemedText";
-import Colors, { colors } from "../constants/Colors";
+import { colors } from "../constants/Colors";
 
 const LandingPage = () => {
   return (
@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 60,
     borderRadius: 8,
-    flexWrap: false,
   },
   buttonText: {
     color: "#fff",
