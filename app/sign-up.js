@@ -25,6 +25,7 @@ const SignUpScreen = () => {
   const [email, setEmail] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   const handleUsernameChange = (text) => {
@@ -84,14 +85,14 @@ const SignUpScreen = () => {
           </View>
 
           {/* Sign-Up Fields */}
-          <Text style={styles.label}>Username</Text>
+          <Text style={styles.label}>First Name</Text>
           <TextInput
             style={styles.input}
             value={username}
             onChangeText={handleUsernameChange}
           />
 
-          <Text style={styles.label}>Full Name</Text>
+          <Text style={styles.label}>Last Name</Text>
           <TextInput
             style={styles.input}
             value={fullName}
@@ -129,6 +130,14 @@ const SignUpScreen = () => {
             secureTextEntry
             value={password}
             onChangeText={handlePasswordChange}
+          />
+
+          <Text style={styles.label}>Confirm Password</Text>
+          <TextInput
+            style={styles.input}
+            secureTextEntry
+            value={confirmPassword}
+            // onChangeText={handleConfirmPasswordChange}
           />
 
           {/* Checkbox for Agreeing to Terms */}
