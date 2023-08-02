@@ -1,28 +1,23 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-
-// Read environment variables from the .env file
-const apiKey = process.env.API_KEY;
-const authDomain = process.env.AUTH_DOMAIN;
-const projectId = process.env.PROJECT_ID;
-const storageBucket = process.env.STORAGE_BUCKET;
-const messagingSenderId = process.env.MESSAGING_SENDER_ID;
-const appId = process.env.APP_ID;
-const measurementId = process.env.MEASUREMENT_ID;
+import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey,
-  authDomain,
-  projectId,
-  storageBucket,
-  messagingSenderId,
-  appId,
-  measurementId,
+  apiKey: "AIzaSyBDtIEEWidJlohVndtDuqWicR5_VCIYpSk",
+  authDomain: "car-rental-project-246ee.firebaseapp.com",
+  projectId: "car-rental-project-246ee",
+  storageBucket: "car-rental-project-246ee.appspot.com",
+  messagingSenderId: "845241485062",
+  appId: "1:845241485062:web:8f2c51f4373e85ca798087",
+  measurementId: "G-5ZD4FJE10D",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+
+// Create a Firestore instance
+const db = getFirestore(app);
+
+export { app, db };

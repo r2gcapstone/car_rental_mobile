@@ -11,16 +11,15 @@ import {
 import View from "../components/ThemedView";
 import Text from "../components/ThemedText";
 
+//constants
 import { colors } from "../constants/Colors";
+import { emailRegex } from "../constants/RegexValidation";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
-  // Regular expression for email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleEmailChange = (text) => {
     setEmail(text);

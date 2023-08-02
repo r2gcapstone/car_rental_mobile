@@ -8,19 +8,22 @@ import {
   Image,
   ScrollView,
   SafeAreaView,
-  //   CheckBox,
 } from "react-native";
 
-// import { CheckBox } from "@react-native-community/checkbox";
-
+//components
 import View from "../components/ThemedView";
 import Text from "../components/ThemedText";
 
+//constants
 import { colors } from "../constants/Colors";
+import { emailRegex } from "../constants/RegexValidation";
+
+//firebase
+import { signup } from "../api/auth";
 
 const SignUpScreen = () => {
-  const [username, setUsername] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
@@ -28,40 +31,61 @@ const SignUpScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
-  const handleUsernameChange = (text) => {
-    setUsername(text);
-  };
+  //validation
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordError2, setPasswordError2] = useState("");
 
-  const handleFullNameChange = (text) => {
-    setFullName(text);
-  };
+  const handleRegister = async () => {
+    if (password.length < 6) {
+      // console.error("Password is to weak");
+      setPasswordError("Password is to weak");
+      return;
+    }
 
-  const handleAddressChange = (text) => {
-    setAddress(text);
+    if (password !== confirmPassword) {
+      // console.error("Password does not match!");
+      setPasswordError2("Password does not match!");
+      return;
+    }
+
+    if (
+      !!firstName ||
+      !!lastName ||
+      !!address ||
+      !!email ||
+      !!mobileNumber ||
+      !!password
+    ) {
+      alert("All fields are required!");
+      return;
+    }
+
+    const response = await signup(
+      firstName,
+      lastName,
+      address,
+      email,
+      mobileNumber,
+      password
+    );
+
+    if (response.error === true) {
+      console.error("Something Went Wrong");
+    } else {
+      console.log("Signup Success!");
+      alert("success!");
+    }
   };
 
   const handleEmailChange = (text) => {
     setEmail(text);
-  };
-
-  const handleMobileNumberChange = (text) => {
-    setMobileNumber(text);
-  };
-
-  const handlePasswordChange = (text) => {
-    setPassword(text);
-  };
-
-  const handleRegister = () => {
-    // Validation and registration logic here
-    if (!agreeToTerms) {
-      alert("Please confirm that you agree to our terms & conditions.");
-      return;
+    // Validate email
+    if (text.trim() === "" || emailRegex.test(text)) {
+      setEmailError("");
+    } else {
+      setEmailError("Invalid email address!");
     }
-
-    // Perform registration logic here
-    // For example, make an API call to create a new account
-    // If successful, navigate to the login screen or the main app screen
   };
 
   return (
@@ -88,22 +112,22 @@ const SignUpScreen = () => {
           <Text style={styles.label}>First Name</Text>
           <TextInput
             style={styles.input}
-            value={username}
-            onChangeText={handleUsernameChange}
+            value={firstName}
+            onChangeText={(text) => setFirstName(text)}
           />
 
           <Text style={styles.label}>Last Name</Text>
           <TextInput
             style={styles.input}
-            value={fullName}
-            onChangeText={handleFullNameChange}
+            value={lastName}
+            onChangeText={(text) => setLastName(text)}
           />
 
           <Text style={styles.label}>Address</Text>
           <TextInput
             style={styles.input}
             value={address}
-            onChangeText={handleAddressChange}
+            onChangeText={(text) => setAddress(text)}
           />
 
           <Text style={styles.label}>Email</Text>
@@ -115,13 +139,14 @@ const SignUpScreen = () => {
             value={email}
             onChangeText={handleEmailChange}
           />
+          {!!emailError && <Text style={styles.errorText}>{emailError}</Text>}
 
           <Text style={styles.label}>Mobile Number</Text>
           <TextInput
             style={styles.input}
             keyboardType="phone-pad"
             value={mobileNumber}
-            onChangeText={handleMobileNumberChange}
+            onChangeText={(text) => setMobileNumber(text)}
           />
 
           <Text style={styles.label}>Password</Text>
@@ -129,16 +154,22 @@ const SignUpScreen = () => {
             style={styles.input}
             secureTextEntry
             value={password}
-            onChangeText={handlePasswordChange}
+            onChangeText={(text) => setPassword(text)}
           />
+          {!!passwordError && (
+            <Text style={styles.errorText}>{passwordError}</Text>
+          )}
 
           <Text style={styles.label}>Confirm Password</Text>
           <TextInput
             style={styles.input}
             secureTextEntry
             value={confirmPassword}
-            // onChangeText={handleConfirmPasswordChange}
+            onChangeText={(text) => setConfirmPassword(text)}
           />
+          {!!passwordError2 && (
+            <Text style={styles.errorText}>{passwordError2}</Text>
+          )}
 
           {/* Checkbox for Agreeing to Terms */}
           <View style={styles.checkboxContainer}>
@@ -153,11 +184,11 @@ const SignUpScreen = () => {
               styles.registerButton,
               { backgroundColor: colors.blue.slitedark },
             ]}
-            //   onPress={handleRegister}
+            onPress={handleRegister}
           >
-            <Link href={"/"}>
-              <Text style={styles.buttonText}>Register</Text>
-            </Link>
+            {/* <Link href={"/"}> */}
+            <Text style={styles.buttonText}>Register</Text>
+            {/* </Link> */}
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
@@ -239,6 +270,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     paddingHorizontal: 10,
     color: "#fff",
+  },
+  errorText: {
+    alignSelf: "flex-start",
+    color: "red",
+    marginBottom: 5,
   },
 });
 
