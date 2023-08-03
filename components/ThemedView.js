@@ -8,7 +8,6 @@ export default function ThemedView(props) {
   const { style, ...otherProps } = props;
   const viewStyle = [
     { backgroundColor: theme.backgroundColor },
-    { paddingHorizontal: 40 },
     { paddingTop: StatusBar.currentHeight },
     style,
   ];

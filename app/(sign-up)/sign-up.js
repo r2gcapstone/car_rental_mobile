@@ -7,18 +7,19 @@ import {
   Image,
   ScrollView,
   SafeAreaView,
+  Pressable,
 } from "react-native";
 
 //components
-import View from "../components/ThemedView";
-import Text from "../components/ThemedText";
+import View from "../../components/ThemedView";
+import Text from "../../components/ThemedText";
 
 //constants
-import { colors } from "../constants/Colors";
-import { emailRegex, phoneNumberRegex } from "../constants/RegexValidation";
+import { colors } from "../../constants/Colors";
+import { emailRegex, phoneNumberRegex } from "../../constants/RegexValidation";
 
 //firebase
-import { signup } from "../api/auth";
+import { signup } from "../../api/auth";
 
 const SignUpScreen = () => {
   const [firstName, setFirstName] = useState("");
@@ -37,8 +38,20 @@ const SignUpScreen = () => {
   const [passwordError2, setPasswordError2] = useState("");
 
   const handleRegister = async () => {
+    if (
+      !firstName ||
+      !lastName ||
+      !address ||
+      !email ||
+      !mobileNumber ||
+      !password ||
+      !confirmPassword
+    ) {
+      alert("All fields are required!");
+      return;
+    }
     if (password.length < 6) {
-      setPasswordError("Password is to weak");
+      setPasswordError("Weak password!");
       return;
     } else {
       setPasswordError("");
@@ -49,19 +62,6 @@ const SignUpScreen = () => {
       return;
     } else {
       setPasswordError2("");
-    }
-
-    if (
-      !firstName ||
-      !lastName ||
-      !address ||
-      !email ||
-      !mobileNumber ||
-      !password ||
-      confirmPassword
-    ) {
-      alert("All fields are required!");
-      return;
     }
 
     const response = await signup(
@@ -102,7 +102,7 @@ const SignUpScreen = () => {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView>
+      <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
           {/* Title and Logo */}
           <View style={styles.titleContainer}>
@@ -114,7 +114,7 @@ const SignUpScreen = () => {
             </View>
             <View style={styles.logoContainer}>
               <Image
-                source={require("../assets/images/logo.png")}
+                source={require("../../assets/images/logo.png")}
                 style={styles.logo}
               />
             </View>
@@ -187,9 +187,13 @@ const SignUpScreen = () => {
           {/* Checkbox for Agreeing to Terms */}
           <View style={styles.checkboxContainer}>
             {/* <CheckBox value={agreeToTerms} onValueChange={setAgreeToTerms} /> */}
-            <Text style={styles.checkboxLabel}>
-              Please confirm that you agree to our terms & conditions
-            </Text>
+            <Pressable>
+              <Link href={"/terms-and-conditions"}>
+                <Text style={styles.checkboxLabel}>
+                  Please confirm that you agree to our terms & conditions
+                </Text>
+              </Link>
+            </Pressable>
           </View>
 
           <TouchableOpacity
@@ -213,21 +217,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    paddingHorizontal: 25,
     alignItems: "center",
   },
-  scroll: {},
-  textContainer: {
-    flexDirection: "column",
-    left: -20,
-    // width: "100%",
-  },
+  textContainer: { flex: 1 },
   titleContainer: {
     flexDirection: "row",
-    // alignItems: "center",
-
     marginBottom: 20,
     justifyContent: "space-evenly",
     marginTop: 20,
+    gap: 10,
   },
   title: {
     fontSize: 28,
@@ -248,7 +247,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 100,
     height: 120,
-    right: -20,
   },
   input: {
     width: "100%",
