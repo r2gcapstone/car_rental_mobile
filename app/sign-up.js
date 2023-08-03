@@ -4,7 +4,6 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Pressable,
   Image,
   ScrollView,
   SafeAreaView,
@@ -16,7 +15,7 @@ import Text from "../components/ThemedText";
 
 //constants
 import { colors } from "../constants/Colors";
-import { emailRegex } from "../constants/RegexValidation";
+import { emailRegex, phoneNumberRegex } from "../constants/RegexValidation";
 
 //firebase
 import { signup } from "../api/auth";
@@ -33,29 +32,33 @@ const SignUpScreen = () => {
 
   //validation
   const [emailError, setEmailError] = useState("");
+  const [MobileError, setMobileError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [passwordError2, setPasswordError2] = useState("");
 
   const handleRegister = async () => {
     if (password.length < 6) {
-      // console.error("Password is to weak");
       setPasswordError("Password is to weak");
       return;
+    } else {
+      setPasswordError("");
     }
 
     if (password !== confirmPassword) {
-      // console.error("Password does not match!");
       setPasswordError2("Password does not match!");
       return;
+    } else {
+      setPasswordError2("");
     }
 
     if (
-      !!firstName ||
-      !!lastName ||
-      !!address ||
-      !!email ||
-      !!mobileNumber ||
-      !!password
+      !firstName ||
+      !lastName ||
+      !address ||
+      !email ||
+      !mobileNumber ||
+      !password ||
+      confirmPassword
     ) {
       alert("All fields are required!");
       return;
@@ -71,10 +74,19 @@ const SignUpScreen = () => {
     );
 
     if (response.error === true) {
-      console.error("Something Went Wrong");
+      // console.error(response.error);
+      alert(response.status);
     } else {
-      console.log("Signup Success!");
-      alert("success!");
+      alert("Signup Success!");
+    }
+  };
+
+  const isValidPhoneNumber = (phoneNumber) => {
+    setMobileNumber(phoneNumber);
+    if (phoneNumberRegex.test(phoneNumber)) {
+      setMobileError("");
+    } else {
+      setMobileError("Invalid Mobile Number!");
     }
   };
 
@@ -146,8 +158,9 @@ const SignUpScreen = () => {
             style={styles.input}
             keyboardType="phone-pad"
             value={mobileNumber}
-            onChangeText={(text) => setMobileNumber(text)}
+            onChangeText={isValidPhoneNumber}
           />
+          {!!MobileError && <Text style={styles.errorText}>{MobileError}</Text>}
 
           <Text style={styles.label}>Password</Text>
           <TextInput
