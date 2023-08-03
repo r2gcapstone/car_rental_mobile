@@ -94,13 +94,13 @@ export default function terms() {
               violate any applicable laws or regulations.
             </Text>
             <Text style={styles.context}>
-              <Text style={styles.titleText}> 6. Compliance with Laws </Text> -
+              <Text style={styles.titleText}>6. Compliance with Laws </Text> -
               You will comply with all applicable laws, rules, and regulations
               in connection with your use of the App, including but not limited
               to laws related to vehicle rental, taxation, and data privacy.
             </Text>
             <Text style={styles.context}>
-              <Text style={styles.titleText}> 7. Prohibited Activities </Text> -
+              <Text style={styles.titleText}>7. Prohibited Activities </Text> -
               Violating any laws or regulations; Interfering with the App's
               operation or disrupting the services provided; Impersonating any
               person or entity or falsely representing your affiliation with any
@@ -110,7 +110,7 @@ export default function terms() {
             </Text>
 
             <Text style={styles.context}>
-              <Text style={styles.titleText}> 8. Intellectual Property</Text> -
+              <Text style={styles.titleText}>8. Intellectual Property</Text> -
               The R2G Car Rental Mobile App, including its content, features,
               and functionality, is owned by R2G Car Rental Mobile App and is
               protected by copyright, trademark, and other intellectual property

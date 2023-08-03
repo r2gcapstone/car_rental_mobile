@@ -109,7 +109,11 @@ const SignUpScreen = () => {
             <View style={styles.textContainer}>
               <Text style={styles.title}>Create an Account</Text>
               <Text style={styles.subtitle}>
-                Create an account first before using Rent A Car Service
+                Create an account first before using{" "}
+                <Text style={{ color: "#9DB2BF", fontWeight: "bold" }}>
+                  Rent A Car{" "}
+                </Text>
+                Service
               </Text>
             </View>
             <View style={styles.logoContainer}>
@@ -238,6 +242,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   label: {
+    fontSize: 16,
     alignSelf: "flex-start",
     marginBottom: 8,
   },
