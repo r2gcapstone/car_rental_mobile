@@ -1,10 +1,18 @@
-import { StyleSheet, Image, TouchableOpacity, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Modal,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
+import { router } from "expo-router";
 
 //components
 import View from "../../components/ThemedView";
 import Text from "../../components/ThemedText";
+import LoadingAnimation from "../../components/LoadingAnimation";
 
 //constants
 import { colors } from "../../constants/Colors";
@@ -16,7 +24,7 @@ import { useSignUp } from "../../context/SignUpContext";
 import { signup } from "../../api/auth";
 
 export default function ProfileImage() {
-  // const [image, setImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     firstName,
     lastName,
@@ -44,6 +52,8 @@ export default function ProfileImage() {
   };
 
   const handleRegister = async () => {
+    setIsLoading(true); // Show loading modal
+
     const response = await signup(
       firstName,
       lastName,
@@ -56,10 +66,11 @@ export default function ProfileImage() {
     );
 
     if (response.error === true) {
-      // console.error(response.error);
+      setIsLoading(false);
       alert(response.status);
     } else {
-      alert("Signup Success!");
+      setIsLoading(false);
+      router.replace("/success-modal");
     }
   };
 
@@ -91,6 +102,8 @@ export default function ProfileImage() {
           <Text style={styles.skipBtnText}>Skip for Now</Text>
         </TouchableOpacity>
       </View>
+
+      <LoadingAnimation isVisible={isLoading} />
     </View>
   );
 }
@@ -146,7 +159,7 @@ const styles = StyleSheet.create({
   proceedButton: {
     backgroundColor: colors.blue.slitedark,
     paddingVertical: 12,
-    borderRadius: 10,
+    borderRadius: 18,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
@@ -163,5 +176,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingHorizontal: 10,
     color: "#fff",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 });

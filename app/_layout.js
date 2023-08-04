@@ -46,6 +46,8 @@ function RootLayoutNav() {
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="login" options={{ headerShown: false }} />
+
+          {/* Signup */}
           <Stack.Screen
             name="(sign-up)/sign-up"
             options={{ headerShown: false }}
@@ -56,6 +58,10 @@ function RootLayoutNav() {
           />
           <Stack.Screen
             name="(sign-up)/profile-image"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(sign-up)/success-modal"
             options={{ headerShown: false }}
           />
         </Stack>
