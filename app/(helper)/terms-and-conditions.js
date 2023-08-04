@@ -6,12 +6,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import { Link } from "expo-router";
 
 //components
 import View from "../../components/ThemedView";
 import Text from "../../components/ThemedText";
-import { backButton } from "../../components/backButton";
+import { BackButton } from "../../components/BackButton";
 
 //constants
 import { colors } from "../../constants/Colors";
@@ -124,7 +123,7 @@ export default function terms() {
               styles.backButton,
               { backgroundColor: colors.blue.slitedark },
             ]}
-            onPress={backButton}
+            onPress={BackButton}
           >
             {/* <Link href={"/sign-up"}> */}
             <Text style={styles.buttonText}>Go back</Text>

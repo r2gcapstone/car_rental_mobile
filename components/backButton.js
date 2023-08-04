@@ -1,5 +1,5 @@
 import { router } from "expo-router";
 
-export const backButton = () => {
+export const BackButton = () => {
   router.back("/sign-up");
 };

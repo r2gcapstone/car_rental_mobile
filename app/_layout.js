@@ -51,6 +51,10 @@ function RootLayoutNav() {
           name="(helper)/terms-and-conditions"
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="(sign-up)/profile-image"
+          options={{ headerShown: false }}
+        />
       </Stack>
     </ThemeContext.Provider>
   );
