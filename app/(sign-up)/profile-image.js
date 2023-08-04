@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#A6A6A6",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: "100%",
+    borderRadius: 100,
     marginTop: 20,
   },
   uploadText: {
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   proceedButton: {
     backgroundColor: colors.blue.slitedark,
     paddingVertical: 12,
-    borderRadius: 5,
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
