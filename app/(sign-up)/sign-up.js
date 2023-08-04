@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   SafeAreaView,
+  Pressable,
 } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
@@ -29,6 +30,7 @@ const SignUpScreen = () => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   //validation
@@ -76,6 +78,7 @@ const SignUpScreen = () => {
       email,
       mobileNumber,
       password,
+      imageUrl,
       agreeToTerms
     );
 
@@ -216,17 +219,12 @@ const SignUpScreen = () => {
               </Link>
             </Text>
           </View>
-          <TouchableOpacity
-            style={[
-              styles.registerButton,
-              { backgroundColor: colors.blue.slitedark },
-            ]}
-            onPress={handleRegister}
-          >
-            {/* <Link href={"/"}> */}
-            <Text style={styles.buttonText}>Register</Text>
-            {/* </Link> */}
-          </TouchableOpacity>
+
+          <Link href="/profile-image" asChild>
+            <TouchableOpacity style={styles.registerButton}>
+              <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity>
+          </Link>
         </ScrollView>
       </SafeAreaView>
     </View>
@@ -250,7 +248,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     borderCurve: 0,
   },
-  inputContainer: { flex: 1 },
+  inputContainer: { flex: 1, height: "auto" },
   input: { flex: 1 },
   textContainer: { flex: 1 },
   titleContainer: {
@@ -303,7 +301,7 @@ const styles = StyleSheet.create({
   },
   checkboxLabel: { flex: 1 },
   registerButton: {
-    backgroundColor: "#007BFF",
+    backgroundColor: colors.blue.slitedark,
     paddingVertical: 12,
     borderRadius: 5,
     alignItems: "center",

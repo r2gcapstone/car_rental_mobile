@@ -12,6 +12,7 @@ export const signup = async (
   email,
   mobileNumber,
   password,
+  imageUrl,
   agreeToTerms
 ) => {
   try {
@@ -32,6 +33,7 @@ export const signup = async (
       address,
       email,
       mobileNumber,
+      imageUrl,
       agreeToTerms,
     });
 
