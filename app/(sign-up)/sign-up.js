@@ -11,7 +11,7 @@ import {
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 //context
-import { useSignUp, SignUpContext } from "../../context/signUpContext";
+import { useSignUp } from "../../context/SignUpContext";
 
 //components
 import View from "../../components/ThemedView";
@@ -20,9 +20,6 @@ import Text from "../../components/ThemedText";
 //constants
 import { colors } from "../../constants/Colors";
 import { emailRegex, phoneNumberRegex } from "../../constants/RegexValidation";
-
-//firebase
-// import { signup } from "../../api/auth";
 
 const SignUpScreen = () => {
   const {
@@ -40,13 +37,10 @@ const SignUpScreen = () => {
     setPassword,
     confirmPassword,
     setConfirmPassword,
-    imageUrl,
-    setImageUrl,
     agreeToTerms,
     setAgreeToTerms,
   } = useSignUp();
 
-  // const [firstName, setFirstName] = useState("");
   // const [lastName, setLastName] = useState("");
   // const [address, setAddress] = useState("");
   // const [email, setEmail] = useState("");

@@ -9,8 +9,25 @@ import Text from "../../components/ThemedText";
 //constants
 import { colors } from "../../constants/Colors";
 
-export default function ProfileImage({}) {
-  const [image, setImage] = useState(null);
+//context
+import { useSignUp } from "../../context/SignUpContext";
+
+//firebase
+import { signup } from "../../api/auth";
+
+export default function ProfileImage() {
+  // const [image, setImage] = useState(null);
+  const {
+    firstName,
+    lastName,
+    address,
+    email,
+    mobileNumber,
+    password,
+    imageUrl,
+    setImageUrl,
+    agreeToTerms,
+  } = useSignUp();
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -22,15 +39,35 @@ export default function ProfileImage({}) {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImageUrl(result.assets[0].uri);
+    }
+  };
+
+  const handleRegister = async () => {
+    const response = await signup(
+      firstName,
+      lastName,
+      address,
+      email,
+      mobileNumber,
+      password,
+      imageUrl,
+      agreeToTerms
+    );
+
+    if (response.error === true) {
+      // console.error(response.error);
+      alert(response.status);
+    } else {
+      alert("Signup Success!");
     }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.uploadContainer}>
-        {image ? (
-          <Image source={{ uri: image }} style={styles.selectedImage} />
+        {imageUrl ? (
+          <Image source={{ uri: imageUrl }} style={styles.selectedImage} />
         ) : (
           <Image
             source={require("../../assets/images/profileIcon.png")}
@@ -46,13 +83,13 @@ export default function ProfileImage({}) {
       </View>
 
       <View style={styles.btnContainer}>
-        <TouchableOpacity style={styles.proceedButton}>
+        <TouchableOpacity style={styles.proceedButton} onPress={handleRegister}>
           <Text style={styles.proceedBtnText}>Proceed</Text>
         </TouchableOpacity>
 
-        <Pressable>
+        <TouchableOpacity onPress={handleRegister}>
           <Text style={styles.skipBtnText}>Skip for Now</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -64,7 +101,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     paddingHorizontal: 25,
-    // alignItems: "center",
   },
   profileIcon: {
     width: 250,

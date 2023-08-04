@@ -1,6 +1,6 @@
 import React, { useContext, createContext, useMemo, useState } from "react";
 
-export const SignUpContext = React.createContext();
+const SignUpContext = createContext();
 
 export const SignUpProvider = ({ children }) => {
   const [firstName, setFirstName] = useState("");
@@ -10,7 +10,7 @@ export const SignUpProvider = ({ children }) => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(null);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   const signUpValues = useMemo(
@@ -41,6 +41,7 @@ export const SignUpProvider = ({ children }) => {
       email,
       mobileNumber,
       password,
+      confirmPassword,
       imageUrl,
       agreeToTerms,
     ]
