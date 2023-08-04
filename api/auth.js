@@ -11,7 +11,8 @@ export const signup = async (
   address,
   email,
   mobileNumber,
-  password
+  password,
+  agreeToTerms
 ) => {
   try {
     // Signup using createUserWithEmailAndPassword function of firebase
@@ -31,6 +32,7 @@ export const signup = async (
       address,
       email,
       mobileNumber,
+      agreeToTerms,
     });
 
     return {

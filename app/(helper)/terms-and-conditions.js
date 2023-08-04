@@ -19,7 +19,7 @@ import { colors } from "../../constants/Colors";
 export default function terms() {
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.safeView}>
         <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
           <View style={styles.logoContainer}>
             <Image
@@ -139,11 +139,15 @@ export default function terms() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
     justifyContent: "center",
-    alignItems: "center",
     paddingHorizontal: 25,
+    alignItems: "center",
   },
-
+  safeView: {
+    flex: 1,
+    width: "100%",
+  },
   contextContainer: {
     paddingBottom: 20,
   },

@@ -7,8 +7,8 @@ import {
   Image,
   ScrollView,
   SafeAreaView,
-  Pressable,
 } from "react-native";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 //components
 import View from "../../components/ThemedView";
@@ -64,13 +64,19 @@ const SignUpScreen = () => {
       setPasswordError2("");
     }
 
+    if (agreeToTerms === false) {
+      alert("Please confirm that you agree to our terms and conditions!");
+      return;
+    }
+
     const response = await signup(
       firstName,
       lastName,
       address,
       email,
       mobileNumber,
-      password
+      password,
+      agreeToTerms
     );
 
     if (response.error === true) {
@@ -102,7 +108,7 @@ const SignUpScreen = () => {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.safeView}>
         <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
           {/* Title and Logo */}
           <View style={styles.titleContainer}>
@@ -123,83 +129,93 @@ const SignUpScreen = () => {
               />
             </View>
           </View>
-
           {/* Sign-Up Fields */}
-          <Text style={styles.label}>First Name</Text>
-          <TextInput
-            style={styles.input}
-            value={firstName}
-            onChangeText={(text) => setFirstName(text)}
-          />
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>First Name</Text>
+            <TextInput
+              style={styles.input}
+              value={firstName}
+              onChangeText={(text) => setFirstName(text)}
+            />
 
-          <Text style={styles.label}>Last Name</Text>
-          <TextInput
-            style={styles.input}
-            value={lastName}
-            onChangeText={(text) => setLastName(text)}
-          />
+            <Text style={styles.label}>Last Name</Text>
+            <TextInput
+              style={styles.input}
+              value={lastName}
+              onChangeText={(text) => setLastName(text)}
+            />
 
-          <Text style={styles.label}>Address</Text>
-          <TextInput
-            style={styles.input}
-            value={address}
-            onChangeText={(text) => setAddress(text)}
-          />
+            <Text style={styles.label}>Address</Text>
+            <TextInput
+              style={styles.input}
+              value={address}
+              onChangeText={(text) => setAddress(text)}
+            />
 
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={styles.input}
-            autoComplete="email"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            value={email}
-            onChangeText={handleEmailChange}
-          />
-          {!!emailError && <Text style={styles.errorText}>{emailError}</Text>}
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+              style={styles.input}
+              autoComplete="email"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              value={email}
+              onChangeText={handleEmailChange}
+            />
+            {!!emailError && <Text style={styles.errorText}>{emailError}</Text>}
 
-          <Text style={styles.label}>Mobile Number</Text>
-          <TextInput
-            style={styles.input}
-            keyboardType="phone-pad"
-            value={mobileNumber}
-            onChangeText={isValidPhoneNumber}
-          />
-          {!!MobileError && <Text style={styles.errorText}>{MobileError}</Text>}
+            <Text style={styles.label}>Mobile Number</Text>
+            <TextInput
+              style={styles.input}
+              keyboardType="phone-pad"
+              value={mobileNumber}
+              onChangeText={isValidPhoneNumber}
+            />
+            {!!MobileError && (
+              <Text style={styles.errorText}>{MobileError}</Text>
+            )}
 
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
-            secureTextEntry
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-          />
-          {!!passwordError && (
-            <Text style={styles.errorText}>{passwordError}</Text>
-          )}
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              style={styles.input}
+              secureTextEntry
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
+            {!!passwordError && (
+              <Text style={styles.errorText}>{passwordError}</Text>
+            )}
 
-          <Text style={styles.label}>Confirm Password</Text>
-          <TextInput
-            style={styles.input}
-            secureTextEntry
-            value={confirmPassword}
-            onChangeText={(text) => setConfirmPassword(text)}
-          />
-          {!!passwordError2 && (
-            <Text style={styles.errorText}>{passwordError2}</Text>
-          )}
-
+            <Text style={styles.label}>Confirm Password</Text>
+            <TextInput
+              style={styles.input}
+              secureTextEntry
+              value={confirmPassword}
+              onChangeText={(text) => setConfirmPassword(text)}
+            />
+            {!!passwordError2 && (
+              <Text style={styles.errorText}>{passwordError2}</Text>
+            )}
+          </View>
           {/* Checkbox for Agreeing to Terms */}
           <View style={styles.checkboxContainer}>
-            {/* <CheckBox value={agreeToTerms} onValueChange={setAgreeToTerms} /> */}
-            <Pressable>
-              <Link href={"/terms-and-conditions"}>
-                <Text style={styles.checkboxLabel}>
-                  Please confirm that you agree to our terms & conditions
-                </Text>
-              </Link>
-            </Pressable>
-          </View>
+            <BouncyCheckbox
+              size={25}
+              fillColor={colors.green[0]}
+              unfillColor="#FFFFFF"
+              style={styles.checkBox}
+              innerIconStyle={{ borderWidth: 0 }}
+              onPress={() => {
+                setAgreeToTerms((prevValue) => !prevValue);
+              }}
+            />
 
+            <Text style={styles.checkboxLabel}>
+              Please confirm that you agree to our
+              <Link href={"/terms-and-conditions"}>
+                <Text style={styles.termsBtn}> Terms & Conditions</Text>
+              </Link>
+            </Text>
+          </View>
           <TouchableOpacity
             style={[
               styles.registerButton,
@@ -220,10 +236,22 @@ const SignUpScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
     justifyContent: "center",
     paddingHorizontal: 25,
     alignItems: "center",
   },
+  safeView: {
+    flex: 1,
+    width: "100%",
+  },
+  scroll: { flex: 1 },
+  checkBox: {
+    borderRadius: 0,
+    borderCurve: 0,
+  },
+  inputContainer: { flex: 1 },
+  input: { flex: 1 },
   textContainer: { flex: 1 },
   titleContainer: {
     flexDirection: "row",
@@ -235,6 +263,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     marginBottom: 10,
+    fontWeight: "bold",
+  },
+  termsBtn: {
+    color: "#9DB2BF",
     fontWeight: "bold",
   },
   subtitle: {
@@ -254,7 +286,6 @@ const styles = StyleSheet.create({
     height: 120,
   },
   input: {
-    width: "100%",
     height: 40,
     borderWidth: 1,
     borderColor: "#ccc",
@@ -264,15 +295,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   checkboxContainer: {
+    flex: 1,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
+    marginTop: 5,
     marginBottom: 10,
   },
-  checkboxLabel: {
-    marginLeft: 8,
-  },
+  checkboxLabel: { flex: 1 },
   registerButton: {
-    width: "100%",
     backgroundColor: "#007BFF",
     paddingVertical: 12,
     borderRadius: 5,
