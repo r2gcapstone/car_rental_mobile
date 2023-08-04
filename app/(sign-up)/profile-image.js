@@ -9,7 +9,7 @@ import Text from "../../components/ThemedText";
 //constants
 import { colors } from "../../constants/Colors";
 
-export default function ProfileImage() {
+export default function ProfileImage({}) {
   const [image, setImage] = useState(null);
 
   const pickImage = async () => {
@@ -37,10 +37,6 @@ export default function ProfileImage() {
             style={styles.profileIcon}
           />
         )}
-
-        {/* {image && (
-        
-      )} */}
 
         <Text style={styles.uploadText}>Upload Profile Picture</Text>
 

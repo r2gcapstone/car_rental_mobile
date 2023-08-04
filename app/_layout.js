@@ -5,6 +5,7 @@ import { useEffect } from "react";
 
 import ThemeContext from "../context/ThemeContext";
 import DefaultTheme from "../constants/Theme";
+import { SignUpProvider } from "../context/signUpContext";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -39,23 +40,25 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <ThemeContext.Provider value={DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="login" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="(sign-up)/sign-up"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(helper)/terms-and-conditions"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(sign-up)/profile-image"
-          options={{ headerShown: false }}
-        />
-      </Stack>
-    </ThemeContext.Provider>
+    <SignUpProvider>
+      <ThemeContext.Provider value={DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="login" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="(sign-up)/sign-up"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(helper)/terms-and-conditions"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(sign-up)/profile-image"
+            options={{ headerShown: false }}
+          />
+        </Stack>
+      </ThemeContext.Provider>
+    </SignUpProvider>
   );
 }

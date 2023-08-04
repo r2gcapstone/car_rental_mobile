@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import {
   TextInput,
@@ -7,9 +7,11 @@ import {
   Image,
   ScrollView,
   SafeAreaView,
-  Pressable,
 } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+
+//context
+import { useSignUp, SignUpContext } from "../../context/signUpContext";
 
 //components
 import View from "../../components/ThemedView";
@@ -20,18 +22,39 @@ import { colors } from "../../constants/Colors";
 import { emailRegex, phoneNumberRegex } from "../../constants/RegexValidation";
 
 //firebase
-import { signup } from "../../api/auth";
+// import { signup } from "../../api/auth";
 
 const SignUpScreen = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const {
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    address,
+    setAddress,
+    email,
+    setEmail,
+    mobileNumber,
+    setMobileNumber,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    imageUrl,
+    setImageUrl,
+    agreeToTerms,
+    setAgreeToTerms,
+  } = useSignUp();
+
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
+  // const [address, setAddress] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [mobileNumber, setMobileNumber] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
+  // const [imageUrl, setImageUrl] = useState("");
+  // const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   //validation
   const [emailError, setEmailError] = useState("");
@@ -39,7 +62,7 @@ const SignUpScreen = () => {
   const [passwordError, setPasswordError] = useState("");
   const [passwordError2, setPasswordError2] = useState("");
 
-  const handleRegister = async () => {
+  const handleRegister = () => {
     if (
       !firstName ||
       !lastName ||
@@ -71,23 +94,8 @@ const SignUpScreen = () => {
       return;
     }
 
-    const response = await signup(
-      firstName,
-      lastName,
-      address,
-      email,
-      mobileNumber,
-      password,
-      imageUrl,
-      agreeToTerms
-    );
-
-    if (response.error === true) {
-      // console.error(response.error);
-      alert(response.status);
-    } else {
-      alert("Signup Success!");
-    }
+    //Proceed to upload profile image screen when validation is all passed
+    router.push("/profile-image");
   };
 
   const isValidPhoneNumber = (phoneNumber) => {
@@ -220,11 +228,12 @@ const SignUpScreen = () => {
             </Text>
           </View>
 
-          <Link href="/profile-image" asChild>
-            <TouchableOpacity style={styles.registerButton}>
-              <Text style={styles.buttonText}>Register</Text>
-            </TouchableOpacity>
-          </Link>
+          <TouchableOpacity
+            style={styles.registerButton}
+            onPress={handleRegister}
+          >
+            <Text style={styles.buttonText}>Register</Text>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     </View>
