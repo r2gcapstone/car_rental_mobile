@@ -41,15 +41,6 @@ const SignUpScreen = () => {
     setAgreeToTerms,
   } = useSignUp();
 
-  // const [lastName, setLastName] = useState("");
-  // const [address, setAddress] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [mobileNumber, setMobileNumber] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
-  // const [imageUrl, setImageUrl] = useState("");
-  // const [agreeToTerms, setAgreeToTerms] = useState(false);
-
   //validation
   const [emailError, setEmailError] = useState("");
   const [MobileError, setMobileError] = useState("");
@@ -83,7 +74,7 @@ const SignUpScreen = () => {
       setPasswordError2("");
     }
 
-    if (agreeToTerms === false) {
+    if (!agreeToTerms) {
       alert("Please confirm that you agree to our terms and conditions!");
       return;
     }
@@ -92,23 +83,25 @@ const SignUpScreen = () => {
     router.push("/profile-image");
   };
 
-  const isValidPhoneNumber = (phoneNumber) => {
-    setMobileNumber(phoneNumber);
-    if (phoneNumberRegex.test(phoneNumber)) {
-      setMobileError("");
-    } else {
-      setMobileError("Invalid Mobile Number!");
+  const isValidEmail = (email) => {
+    setEmail(email);
+    // Validate email
+    if (emailRegex.test(email)) {
+      setEmailError("");
+      return;
     }
+
+    setEmailError("Invalid email address!");
   };
 
-  const handleEmailChange = (text) => {
-    setEmail(text);
-    // Validate email
-    if (text.trim() === "" || emailRegex.test(text)) {
-      setEmailError("");
-    } else {
-      setEmailError("Invalid email address!");
+  const isValidPhoneNumber = (phoneNumber) => {
+    setMobileNumber(phoneNumber);
+    // Validate phone number
+    if (phoneNumberRegex.test(phoneNumber)) {
+      setMobileError("");
+      return;
     }
+    setMobileError("Invalid Mobile Number!");
   };
 
   return (
@@ -164,7 +157,7 @@ const SignUpScreen = () => {
               autoCapitalize="none"
               keyboardType="email-address"
               value={email}
-              onChangeText={handleEmailChange}
+              onChangeText={isValidEmail}
             />
             {!!emailError && <Text style={styles.errorText}>{emailError}</Text>}
 
