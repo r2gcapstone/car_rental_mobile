@@ -10,11 +10,13 @@ import {
 } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
-import { useNavigation } from "@react-navigation/native"; // Import the useNavigation hook
+// Import the useNavigation hook
+import { useNavigation } from "@react-navigation/native";
 
 //components
 import View from "../../components/ThemedView";
 import Text from "../../components/ThemedText";
+import KeyboardAvoidingContainer from "../../components/KeyboardAvoidingView";
 
 //constants
 import { colors } from "../../constants/Colors";
@@ -130,77 +132,82 @@ const SignUpScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.safeView}>
-        <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-          {/* Title and Logo */}
-          <View style={styles.titleContainer}>
-            <View style={styles.textContainer}>
-              <Text style={styles.title}>Create an Account</Text>
-              <Text style={styles.subtitle}>
-                Create an account first before using{" "}
-                <Text style={{ color: "#9DB2BF", fontWeight: "bold" }}>
-                  Rent A Car{" "}
+    <KeyboardAvoidingContainer>
+      <View style={styles.container}>
+        <SafeAreaView style={styles.safeView}>
+          <ScrollView
+            style={styles.scroll}
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Title and Logo */}
+            <View style={styles.titleContainer}>
+              <View style={styles.textContainer}>
+                <Text style={styles.title}>Create an Account</Text>
+                <Text style={styles.subtitle}>
+                  Create an account first before using{" "}
+                  <Text style={{ color: "#9DB2BF", fontWeight: "bold" }}>
+                    Rent A Car{" "}
+                  </Text>
+                  Service
                 </Text>
-                Service
+              </View>
+              <View style={styles.logoContainer}>
+                <Image
+                  source={require("../../assets/images/logo.png")}
+                  style={styles.logo}
+                />
+              </View>
+            </View>
+            {/* Sign-Up Fields */}
+            <View style={styles.inputContainer}>
+              {Object.keys(formData).map((key) => (
+                <React.Fragment key={key}>
+                  <Text style={styles.label}>{toSentenceCase(key)}</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={formData[key]}
+                    onChangeText={(text) => handleInputChange(key, text)}
+                    secureTextEntry={
+                      key === "password" || key === "confirmPassword"
+                    }
+                  />
+                  {!!formErrors[key] && (
+                    <Text style={styles.errorText}>{formErrors[key]}</Text>
+                  )}
+                </React.Fragment>
+              ))}
+            </View>
+            {/* Checkbox for Agreeing to Terms */}
+            <View style={styles.checkboxContainer}>
+              <BouncyCheckbox
+                size={25}
+                fillColor={colors.green[0]}
+                unfillColor="#FFFFFF"
+                style={styles.checkBox}
+                innerIconStyle={{ borderWidth: 0 }}
+                onPress={() => {
+                  setAgreeToTerms((prevValue) => !prevValue);
+                }}
+              />
+
+              <Text style={styles.checkboxLabel}>
+                Please confirm that you agree to our
+                <Link href={"/terms-and-conditions"}>
+                  <Text style={styles.termsBtn}> Terms & Conditions</Text>
+                </Link>
               </Text>
             </View>
-            <View style={styles.logoContainer}>
-              <Image
-                source={require("../../assets/images/logo.png")}
-                style={styles.logo}
-              />
-            </View>
-          </View>
-          {/* Sign-Up Fields */}
-          <View style={styles.inputContainer}>
-            {Object.keys(formData).map((key) => (
-              <React.Fragment key={key}>
-                <Text style={styles.label}>{toSentenceCase(key)}</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData[key]}
-                  onChangeText={(text) => handleInputChange(key, text)}
-                  secureTextEntry={
-                    key === "password" || key === "confirmPassword"
-                  }
-                />
-                {!!formErrors[key] && (
-                  <Text style={styles.errorText}>{formErrors[key]}</Text>
-                )}
-              </React.Fragment>
-            ))}
-          </View>
-          {/* Checkbox for Agreeing to Terms */}
-          <View style={styles.checkboxContainer}>
-            <BouncyCheckbox
-              size={25}
-              fillColor={colors.green[0]}
-              unfillColor="#FFFFFF"
-              style={styles.checkBox}
-              innerIconStyle={{ borderWidth: 0 }}
-              onPress={() => {
-                setAgreeToTerms((prevValue) => !prevValue);
-              }}
-            />
 
-            <Text style={styles.checkboxLabel}>
-              Please confirm that you agree to our
-              <Link href={"/terms-and-conditions"}>
-                <Text style={styles.termsBtn}> Terms & Conditions</Text>
-              </Link>
-            </Text>
-          </View>
-
-          <TouchableOpacity
-            style={[styles.registerButton]}
-            onPress={handleRegister}
-          >
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </SafeAreaView>
-    </View>
+            <TouchableOpacity
+              style={[styles.registerButton]}
+              onPress={handleRegister}
+            >
+              <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </SafeAreaView>
+      </View>
+    </KeyboardAvoidingContainer>
   );
 };
 
