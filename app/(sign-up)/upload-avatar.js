@@ -19,7 +19,7 @@ export default function UploadAvatar() {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
   const route = useRoute(); // Use the useRoute hook
-  const { formData } = route.params; // Retrieve the formData parameter
+  const { signUpFormData } = route.params; // Retrieve the signUpFormData parameter
 
   const {
     firstName,
@@ -29,7 +29,7 @@ export default function UploadAvatar() {
     mobileNumber,
     password,
     agreeToTerms,
-  } = formData;
+  } = signUpFormData;
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library

@@ -12,9 +12,6 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 import { useNavigation } from "@react-navigation/native"; // Import the useNavigation hook
 
-//context
-import { useSignUp } from "../../context/SignUpContext";
-
 //components
 import View from "../../components/ThemedView";
 import Text from "../../components/ThemedText";
@@ -24,106 +21,111 @@ import { colors } from "../../constants/Colors";
 import { emailRegex, phoneNumberRegex } from "../../constants/RegexValidation";
 
 const SignUpScreen = () => {
-  const navigation = useNavigation(); // Use the useNavigation hook
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  // Use the useNavigation hook
+  const navigation = useNavigation();
 
-  const {
-    firstName,
-    setFirstName,
-    lastName,
-    setLastName,
-    address,
-    setAddress,
-    email,
-    setEmail,
-    mobileNumber,
-    setMobileNumber,
-    password,
-    setPassword,
-    confirmPassword,
-    setConfirmPassword,
-    agreeToTerms,
-    setAgreeToTerms,
-  } = useSignUp();
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    address: "",
+    email: "",
+    mobileNumber: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-  //validation
-  const [emailError, setEmailError] = useState("");
-  const [MobileError, setMobileError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [passwordError2, setPasswordError2] = useState("");
+  const [formErrors, setFormErrors] = useState({
+    email: "",
+    mobileNumber: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const validateEmail = (email) => {
+    if (emailRegex.test(email)) {
+      return "";
+    }
+    return "Invalid email address!";
+  };
+
+  const validatePhoneNumber = (phoneNumber) => {
+    if (phoneNumberRegex.test(phoneNumber)) {
+      return "";
+    }
+    return "Invalid Mobile Number!";
+  };
+
+  const validatePassword = (password) => {
+    if (password.length < 6) {
+      return "Weak password!";
+    }
+    return "";
+  };
+
+  const handleInputChange = (key, value) => {
+    setFormData((prevData) => ({ ...prevData, [key]: value }));
+    if (key === "email") {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        email: validateEmail(value),
+      }));
+    } else if (key === "mobileNumber") {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        mobileNumber: validatePhoneNumber(value),
+      }));
+    } else if (key === "password") {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        password: validatePassword(value),
+      }));
+    } else if (key === "confirmPassword") {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        confirmPassword:
+          value === formData.password ? "" : "Password does not match!",
+      }));
+    }
+  };
 
   const handleRegister = () => {
-    const signUpForms = [
-      firstName,
-      lastName,
-      address,
-      email,
-      mobileNumber,
-      password,
-      confirmPassword,
-    ];
+    const isFormEmpty = Object.values(formData).some((value) => !value);
 
-    const isCheckEmpty = signUpForms.findIndex((find) => !find) > -1;
-
-    if (isCheckEmpty) {
-      alert("All field are required");
+    if (isFormEmpty) {
+      alert("All fields are required");
       return;
     }
 
-    //check if valid password
-    if (password.length < 6) {
-      setPasswordError("Weak password!");
+    const passwordValidationError = validatePassword(formData.password);
+    if (passwordValidationError) {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        password: passwordValidationError,
+      }));
       return;
-    } else {
-      setPasswordError("");
     }
 
-    //check if password matches
-    if (password !== confirmPassword) {
-      setPasswordError2("Password does not match!");
+    if (formData.password !== formData.confirmPassword) {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        confirmPassword: "Password does not match!",
+      }));
       return;
-    } else {
-      setPasswordError2("");
     }
 
     if (!agreeToTerms) {
       alert("Please confirm that you agree to our terms and conditions!");
       return;
     }
-
-    const formData = {
-      firstName: firstName,
-      lastName: lastName,
-      address: address,
-      email: email,
-      mobileNumber: mobileNumber,
-      password: password,
-      agreeToTerms: agreeToTerms,
+    // Append the agreeToTerms value to the formData
+    const signUpFormData = {
+      ...formData,
+      agreeToTerms: true,
     };
 
-    //Proceed to upload profile image screen when validation is all passed
-    // router.push("/profile-image");
-    navigation.navigate("(sign-up)/upload-avatar", { formData }); // Use the useNavigation hook
-  };
-
-  const isValidEmail = (email) => {
-    setEmail(email);
-    // Validate email
-    if (emailRegex.test(email)) {
-      setEmailError("");
-      return;
-    }
-
-    setEmailError("Invalid email address!");
-  };
-
-  const isValidPhoneNumber = (phoneNumber) => {
-    setMobileNumber(phoneNumber);
-    // Validate phone number
-    if (phoneNumberRegex.test(phoneNumber)) {
-      setMobileError("");
-      return;
-    }
-    setMobileError("Invalid Mobile Number!");
+    // Proceed to upload profile image screen when validation is all passed
+    navigation.navigate("(sign-up)/upload-avatar", { signUpFormData });
   };
 
   return (
@@ -151,70 +153,22 @@ const SignUpScreen = () => {
           </View>
           {/* Sign-Up Fields */}
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>First Name</Text>
-            <TextInput
-              style={styles.input}
-              value={firstName}
-              onChangeText={(text) => setFirstName(text)}
-            />
-
-            <Text style={styles.label}>Last Name</Text>
-            <TextInput
-              style={styles.input}
-              value={lastName}
-              onChangeText={(text) => setLastName(text)}
-            />
-
-            <Text style={styles.label}>Address</Text>
-            <TextInput
-              style={styles.input}
-              value={address}
-              onChangeText={(text) => setAddress(text)}
-            />
-
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style={styles.input}
-              autoComplete="email"
-              autoCapitalize="none"
-              keyboardType="email-address"
-              value={email}
-              onChangeText={isValidEmail}
-            />
-            {!!emailError && <Text style={styles.errorText}>{emailError}</Text>}
-
-            <Text style={styles.label}>Mobile Number</Text>
-            <TextInput
-              style={styles.input}
-              keyboardType="phone-pad"
-              value={mobileNumber}
-              onChangeText={isValidPhoneNumber}
-            />
-            {!!MobileError && (
-              <Text style={styles.errorText}>{MobileError}</Text>
-            )}
-
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              secureTextEntry
-              value={password}
-              onChangeText={(text) => setPassword(text)}
-            />
-            {!!passwordError && (
-              <Text style={styles.errorText}>{passwordError}</Text>
-            )}
-
-            <Text style={styles.label}>Confirm Password</Text>
-            <TextInput
-              style={styles.input}
-              secureTextEntry
-              value={confirmPassword}
-              onChangeText={(text) => setConfirmPassword(text)}
-            />
-            {!!passwordError2 && (
-              <Text style={styles.errorText}>{passwordError2}</Text>
-            )}
+            {Object.keys(formData).map((key) => (
+              <React.Fragment key={key}>
+                <Text style={styles.label}>{key}</Text>
+                <TextInput
+                  style={styles.input}
+                  value={formData[key]}
+                  onChangeText={(text) => handleInputChange(key, text)}
+                  secureTextEntry={
+                    key === "password" || key === "confirmPassword"
+                  }
+                />
+                {!!formErrors[key] && (
+                  <Text style={styles.errorText}>{formErrors[key]}</Text>
+                )}
+              </React.Fragment>
+            ))}
           </View>
           {/* Checkbox for Agreeing to Terms */}
           <View style={styles.checkboxContainer}>
@@ -238,7 +192,7 @@ const SignUpScreen = () => {
           </View>
 
           <TouchableOpacity
-            style={styles.registerButton}
+            style={[styles.registerButton]}
             onPress={handleRegister}
           >
             <Text style={styles.buttonText}>Register</Text>
@@ -256,6 +210,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 25,
     alignItems: "center",
+  },
+  disabledButton: {
+    backgroundColor: colors.blue.slitedark,
   },
   safeView: {
     flex: 1,
