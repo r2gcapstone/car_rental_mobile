@@ -19,6 +19,7 @@ import Text from "../../components/ThemedText";
 //constants
 import { colors } from "../../constants/Colors";
 import { emailRegex, phoneNumberRegex } from "../../constants/RegexValidation";
+import { toSentenceCase } from "../../constants/SentenceCase";
 
 const SignUpScreen = () => {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
@@ -155,7 +156,7 @@ const SignUpScreen = () => {
           <View style={styles.inputContainer}>
             {Object.keys(formData).map((key) => (
               <React.Fragment key={key}>
-                <Text style={styles.label}>{key}</Text>
+                <Text style={styles.label}>{toSentenceCase(key)}</Text>
                 <TextInput
                   style={styles.input}
                   value={formData[key]}
