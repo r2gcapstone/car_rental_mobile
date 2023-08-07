@@ -4024,11 +4024,6 @@ dotenv-expand@~10.0.0:
   resolved "https://registry.yarnpkg.com/dotenv-expand/-/dotenv-expand-10.0.0.tgz#12605d00fb0af6d0a592e6558585784032e4ef37"
   integrity sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==
 
-dotenv@^16.3.1:
-  version "16.3.1"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.3.1.tgz#369034de7d7e5b120972693352a3bf112172cc3e"
-  integrity sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==
-
 dotenv@~16.0.3:
   version "16.0.3"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
@@ -4242,7 +4237,7 @@ expo-checkbox@^2.4.0:
   resolved "https://registry.yarnpkg.com/expo-checkbox/-/expo-checkbox-2.4.0.tgz#5d5bb82117f4d781eb1d4db0ff96e1f0a4a0547a"
   integrity sha512-ZEe79B73I+NDkLZQ2pR1E5rv9ey1oleNI/s2/Jdb9zKWztS0KVU2K+drFn2t/zyoSbR1U+CNwik2v7h6JxrXcA==
 
-expo-constants@~14.4.2:
+expo-constants@^14.4.2, expo-constants@~14.4.2:
   version "14.4.2"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-14.4.2.tgz#cac5e8b524069545739b8d8595ce96cc5be6578c"
   integrity sha512-nOB122DOAjk+KrJT69lFQAoYVQGQjFHSigCPVBzVdko9S1xGsfiOH9+X5dygTsZTIlVLpQJDdmZ7ONiv3i+26w==
