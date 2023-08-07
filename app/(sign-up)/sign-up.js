@@ -48,18 +48,24 @@ const SignUpScreen = () => {
   const [passwordError2, setPasswordError2] = useState("");
 
   const handleRegister = () => {
-    if (
-      !firstName ||
-      !lastName ||
-      !address ||
-      !email ||
-      !mobileNumber ||
-      !password ||
-      !confirmPassword
-    ) {
-      alert("All fields are required!");
+    const signUpForms = [
+      firstName,
+      lastName,
+      address,
+      email,
+      mobileNumber,
+      password,
+      confirmPassword,
+    ];
+
+    const isCheckEmpty = signUpForms.findIndex((find) => !find) > -1;
+
+    if (isCheckEmpty) {
+      alert("All field are required");
       return;
     }
+
+    //check if valid password
     if (password.length < 6) {
       setPasswordError("Weak password!");
       return;
@@ -67,6 +73,7 @@ const SignUpScreen = () => {
       setPasswordError("");
     }
 
+    //check if password matches
     if (password !== confirmPassword) {
       setPasswordError2("Password does not match!");
       return;
@@ -239,14 +246,21 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
   },
-  scroll: { flex: 1 },
+  scroll: {
+    flex: 1,
+  },
   checkBox: {
     borderRadius: 0,
     borderCurve: 0,
   },
-  inputContainer: { flex: 1, height: "auto" },
+  inputContainer: {
+    flex: 1,
+    height: "auto",
+  },
   input: { flex: 1 },
-  textContainer: { flex: 1 },
+  textContainer: {
+    flex: 1,
+  },
   titleContainer: {
     flexDirection: "row",
     marginBottom: 20,
@@ -295,7 +309,9 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
   },
-  checkboxLabel: { flex: 1 },
+  checkboxLabel: {
+    flex: 1,
+  },
   registerButton: {
     backgroundColor: colors.blue.slitedark,
     paddingVertical: 12,
