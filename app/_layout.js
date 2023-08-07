@@ -3,6 +3,7 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 
+//components
 import ThemeContext from "../context/ThemeContext";
 import DefaultTheme from "../constants/Theme";
 
@@ -42,7 +43,25 @@ function RootLayoutNav() {
     <ThemeContext.Provider value={DefaultTheme}>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="Login" options={{ headerShown: false }} />
+        <Stack.Screen name="login" options={{ headerShown: false }} />
+
+        {/* Signup */}
+        <Stack.Screen
+          name="(sign-up)/sign-up"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="(helper)/terms-and-conditions"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="(sign-up)/upload-avatar"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="(sign-up)/success-modal"
+          options={{ headerShown: false }}
+        />
       </Stack>
     </ThemeContext.Provider>
   );
