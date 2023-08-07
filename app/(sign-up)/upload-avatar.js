@@ -1,13 +1,8 @@
-import {
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Modal,
-  ActivityIndicator,
-} from "react-native";
+import { StyleSheet, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
+import { useRoute } from "@react-navigation/native";
 
 //components
 import View from "../../components/ThemedView";
@@ -17,14 +12,15 @@ import LoadingAnimation from "../../components/LoadingAnimation";
 //constants
 import { colors } from "../../constants/Colors";
 
-//context
-import { useSignUp } from "../../context/SignUpContext";
-
 //firebase
 import { signup } from "../../api/auth";
 
-export default function ProfileImage() {
+export default function UploadAvatar() {
   const [isLoading, setIsLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
+  const route = useRoute(); // Use the useRoute hook
+  const { formData } = route.params; // Retrieve the formData parameter
+
   const {
     firstName,
     lastName,
@@ -32,10 +28,8 @@ export default function ProfileImage() {
     email,
     mobileNumber,
     password,
-    imageUrl,
-    setImageUrl,
     agreeToTerms,
-  } = useSignUp();
+  } = formData;
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library

@@ -10,7 +10,6 @@ export const SignUpProvider = ({ children }) => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [imageUrl, setImageUrl] = useState(null);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   const signUpValues = useMemo(
@@ -29,8 +28,6 @@ export const SignUpProvider = ({ children }) => {
       setPassword,
       confirmPassword,
       setConfirmPassword,
-      imageUrl,
-      setImageUrl,
       agreeToTerms,
       setAgreeToTerms,
     }),
@@ -42,7 +39,6 @@ export const SignUpProvider = ({ children }) => {
       mobileNumber,
       password,
       confirmPassword,
-      imageUrl,
       agreeToTerms,
     ]
   );

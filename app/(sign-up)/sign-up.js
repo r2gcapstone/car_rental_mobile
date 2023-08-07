@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
+import { useNavigation } from "@react-navigation/native"; // Import the useNavigation hook
+
 //context
 import { useSignUp } from "../../context/SignUpContext";
 
@@ -22,6 +24,8 @@ import { colors } from "../../constants/Colors";
 import { emailRegex, phoneNumberRegex } from "../../constants/RegexValidation";
 
 const SignUpScreen = () => {
+  const navigation = useNavigation(); // Use the useNavigation hook
+
   const {
     firstName,
     setFirstName,
@@ -86,8 +90,19 @@ const SignUpScreen = () => {
       return;
     }
 
+    const formData = {
+      firstName: firstName,
+      lastName: lastName,
+      address: address,
+      email: email,
+      mobileNumber: mobileNumber,
+      password: password,
+      agreeToTerms: agreeToTerms,
+    };
+
     //Proceed to upload profile image screen when validation is all passed
-    router.push("/profile-image");
+    // router.push("/profile-image");
+    navigation.navigate("(sign-up)/upload-avatar", { formData }); // Use the useNavigation hook
   };
 
   const isValidEmail = (email) => {
