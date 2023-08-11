@@ -1,17 +1,14 @@
-import { Link } from "expo-router";
 import React, { useState } from "react";
-import {
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Pressable,
-  Image,
-} from "react-native";
+import { TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { login } from "../api/auth";
 
+// Components
 import View from "../components/ThemedView";
 import Text from "../components/ThemedText";
+import LoadingAnimation from "../components/LoadingAnimation";
+import ErrorMessage from "../components/ErrorMessage";
 
-//constants
+// Constants
 import { colors } from "../constants/Colors";
 import { emailRegex } from "../constants/RegexValidation";
 
@@ -20,50 +17,48 @@ const SignInScreen = () => {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleEmailChange = (text) => {
     setEmail(text);
-    // Validate email
-    if (text.trim() === "" || emailRegex.test(text)) {
-      setEmailError("");
-    } else {
-      setEmailError("Invalid email address!");
-    }
+    setEmailError(
+      text.trim() === "" || emailRegex.test(text)
+        ? ""
+        : "Invalid email address!"
+    );
   };
 
   const handlePasswordChange = (text) => {
     setPassword(text);
-    // Validate password
-    if (text.trim() === "") {
-      setPasswordError("Please enter your password.");
+    setPasswordError(text.trim() === "" ? "Please enter your password." : "");
+  };
+
+  const handleLogin = async () => {
+    setIsLoading(true);
+
+    const response = await login(email, password);
+    console.log("response:", response);
+
+    setIsLoading(false);
+
+    if (response.error === true) {
+      if (
+        response.status === "auth/user-not-found" ||
+        response.status === "auth/wrong-password"
+      ) {
+        alert(
+          "You have entered an invalid email or password, please try again!"
+        );
+        return;
+      }
+      alert(response.status);
     } else {
-      setPasswordError("");
+      // Navigate to the home screen
     }
-  };
-
-  const handleLogin = () => {
-    if (!emailRegex.test(email)) {
-      setEmailError("Please input a valid email address!");
-      return;
-    }
-
-    if (!password) {
-      setPasswordError("Please enter your password.");
-      return;
-    }
-
-    // Perform login logic here
-    // For example, make an API call to authenticate the user
-    // If successful, navigate to the main app screen
-  };
-
-  const handleRegister = () => {
-    console.log("Register btn Clicked!");
   };
 
   return (
     <View style={styles.container}>
-      {/* Logo and App Title */}
       <View style={styles.logoContainer}>
         <Image
           source={require("../assets/images/logo.png")}
@@ -73,56 +68,45 @@ const SignInScreen = () => {
       <Text style={styles.logoTitle}>R2G</Text>
       <Text style={styles.appSlogan}>Your Go-To Car Rental Mobile App</Text>
 
-      {/* Sign-In Fields */}
       <Text style={styles.label}>Email</Text>
       <TextInput
-        id="Email"
         style={styles.input}
-        // placeholder="Email"
-        autoComplete="email"
+        autoCompleteType="email"
         autoCapitalize="none"
         keyboardType="email-address"
         value={email}
         onChangeText={handleEmailChange}
       />
-      {!!emailError && <Text style={styles.errorText}>{emailError}</Text>}
+      <ErrorMessage error={emailError} />
 
       <Text style={styles.label}>Password</Text>
       <TextInput
-        id="Password"
         style={styles.input}
-        // placeholder="Password"
-        autoComplete="password"
+        autoCompleteType="password"
         secureTextEntry
         value={password}
         onChangeText={handlePasswordChange}
       />
-      {!!passwordError && <Text style={styles.errorText}>{passwordError}</Text>}
+      <ErrorMessage error={passwordError} />
 
       <TouchableOpacity style={styles.forgotPasswordButton}>
-        <Text style={styles.forgotPasswordButton}>Forgot your password?</Text>
+        <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.loginButton, { backgroundColor: colors.blue.slitedark }]}
         onPress={handleLogin}
+        disabled={isLoading}
       >
-        <Link href="/">
-          <Text style={styles.buttonText}>Login</Text>
-        </Link>
+        <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
-      {/* Register */}
       <View style={styles.registerContainer}>
         <Text>Don't have an account?</Text>
-        <Link href={"/sign-up"} asChild>
-          <TouchableOpacity
-            style={styles.registerButton}
-            onPress={handleRegister}
-          >
-            <Text style={styles.registerText}>Register here!</Text>
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity style={styles.registerButton}>
+          <Text style={styles.registerText}>Register here!</Text>
+        </TouchableOpacity>
       </View>
+      <LoadingAnimation isVisible={isLoading} />
     </View>
   );
 };
@@ -193,12 +177,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     paddingHorizontal: 10,
-  },
-
-  errorText: {
-    alignSelf: "flex-start",
-    color: "red",
-    marginBottom: 5,
   },
 });
 
