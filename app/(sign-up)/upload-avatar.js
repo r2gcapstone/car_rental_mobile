@@ -5,15 +5,15 @@ import { router } from "expo-router";
 import { useRoute } from "@react-navigation/native";
 
 //components
-import View from "../../components/ThemedView";
-import Text from "../../components/ThemedText";
-import LoadingAnimation from "../../components/LoadingAnimation";
+import View from "components/ThemedView";
+import Text from "components/ThemedText";
+import LoadingAnimation from "components/LoadingAnimation";
 
 //constants
-import { colors } from "../../constants/Colors";
+import { colors } from "constants/Colors";
 
 //firebase
-import { signup } from "../../api/auth";
+import { signup } from "api/auth";
 
 export default function UploadAvatar() {
   const [isLoading, setIsLoading] = useState(false);
@@ -75,7 +75,7 @@ export default function UploadAvatar() {
           <Image source={{ uri: imageUrl }} style={styles.selectedImage} />
         ) : (
           <Image
-            source={require("../../assets/images/profileIcon.png")}
+            source={require("assets/images/profileIcon.png")}
             style={styles.profileIcon}
           />
         )}

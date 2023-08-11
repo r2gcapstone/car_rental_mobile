@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
-import { login } from "../api/auth";
+import { login } from "api/auth";
 
 // Components
-import View from "../components/ThemedView";
-import Text from "../components/ThemedText";
-import LoadingAnimation from "../components/LoadingAnimation";
-import ErrorMessage from "../components/ErrorMessage";
+import View from "components/ThemedView";
+import Text from "components/ThemedText";
+import LoadingAnimation from "components/LoadingAnimation";
+import ErrorMessage from "components/ErrorMessage";
 
 // Constants
-import { colors } from "../constants/Colors";
-import { emailRegex } from "../constants/RegexValidation";
+import { colors } from "constants/Colors";
+import { emailRegex } from "constants/RegexValidation";
+import { router, Link } from "expo-router";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
@@ -53,17 +54,14 @@ const SignInScreen = () => {
       }
       alert(response.status);
     } else {
-      // Navigate to the home screen
+      router.push("/home/index");
     }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image
-          source={require("../assets/images/logo.png")}
-          style={styles.logo}
-        />
+        <Image source={require("assets/images/logo.png")} style={styles.logo} />
       </View>
       <Text style={styles.logoTitle}>R2G</Text>
       <Text style={styles.appSlogan}>Your Go-To Car Rental Mobile App</Text>
@@ -100,11 +98,14 @@ const SignInScreen = () => {
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
+      {/* Register */}
       <View style={styles.registerContainer}>
         <Text>Don't have an account?</Text>
-        <TouchableOpacity style={styles.registerButton}>
-          <Text style={styles.registerText}>Register here!</Text>
-        </TouchableOpacity>
+        <Link href={"/sign-up"} asChild>
+          <TouchableOpacity style={styles.registerButton}>
+            <Text style={styles.registerText}>Register here!</Text>
+          </TouchableOpacity>
+        </Link>
       </View>
       <LoadingAnimation isVisible={isLoading} />
     </View>
@@ -134,7 +135,6 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     height: "auto",
-    // marginTop: 20,
     marginBottom: 0,
   },
   logo: {

@@ -3,11 +3,11 @@ import React from "react";
 import { Link, router } from "expo-router";
 
 //components
-import View from "../../components/ThemedView";
-import Text from "../../components/ThemedText";
+import View from "components/ThemedView";
+import Text from "components/ThemedText";
 
 //constants
-import { colors } from "../../constants/Colors";
+import { colors } from "constants/Colors";
 
 export default function SuccessModal() {
   const handleNav = () => {
@@ -16,10 +16,7 @@ export default function SuccessModal() {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../../assets/images/logo.png")}
-        style={styles.logo}
-      />
+      <Image source={require("assets/images/logo.png")} style={styles.logo} />
       <Text style={styles.successText}>
         You have successful created an account.
       </Text>
