@@ -1,6 +1,11 @@
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { app, db } from "../services/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
+import { router } from "expo-router";
 
 const auth = getAuth(app);
 
@@ -38,12 +43,26 @@ export const signup = async (
     });
 
     return {
+      message: "Account successfully created!",
       error: false,
       status: 201,
-      message: "Account successfully created!",
     };
   } catch (error) {
-    console.log(error);
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+// Login function
+export const login = async (email, password) => {
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+
+    return {
+      message: "Login success!",
+      error: false,
+      status: 200,
+    };
+  } catch (error) {
     return { error: true, message: error.message, status: error.code };
   }
 };

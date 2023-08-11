@@ -7,19 +7,24 @@ import {
   Pressable,
   Image,
 } from "react-native";
+import { login } from "../api/auth";
 
+//components
 import View from "../components/ThemedView";
 import Text from "../components/ThemedText";
+import LoadingAnimation from "../components/LoadingAnimation";
 
 //constants
 import { colors } from "../constants/Colors";
 import { emailRegex } from "../constants/RegexValidation";
+import { async } from "@firebase/util";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -41,24 +46,26 @@ const SignInScreen = () => {
     }
   };
 
-  const handleLogin = () => {
-    if (!emailRegex.test(email)) {
-      setEmailError("Please input a valid email address!");
-      return;
+  const handleLogin = async () => {
+    setIsLoading(true); // Show loading modal
+
+    const response = await login(email, password);
+    console.log("response:", response);
+
+    if (response.error === true) {
+      setIsLoading(false);
+
+      if (response.status === "auth/user-not-found") {
+        alert(
+          "You have entered an invalid email or password, please try again!"
+        );
+        return;
+      }
+      alert(response.status);
+    } else {
+      setIsLoading(false);
+      // router.replace("/home");
     }
-
-    if (!password) {
-      setPasswordError("Please enter your password.");
-      return;
-    }
-
-    // Perform login logic here
-    // For example, make an API call to authenticate the user
-    // If successful, navigate to the main app screen
-  };
-
-  const handleRegister = () => {
-    console.log("Register btn Clicked!");
   };
 
   return (
@@ -115,10 +122,7 @@ const SignInScreen = () => {
       <View style={styles.registerContainer}>
         <Text>Don't have an account?</Text>
         <Link href={"/sign-up"} asChild>
-          <TouchableOpacity
-            style={styles.registerButton}
-            onPress={handleRegister}
-          >
+          <TouchableOpacity style={styles.registerButton}>
             <Text style={styles.registerText}>Register here!</Text>
           </TouchableOpacity>
         </Link>
