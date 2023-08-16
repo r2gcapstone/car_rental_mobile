@@ -63,11 +63,8 @@ function RootLayoutNav() {
           options={{ headerShown: false }}
         />
 
-        {/* home */}
-        <Stack.Screen
-          name="(tabs)/home/index"
-          options={{ headerShown: false }}
-        />
+        {/* tabs*/}
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
     </ThemeContext.Provider>
   );

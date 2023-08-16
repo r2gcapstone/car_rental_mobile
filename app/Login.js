@@ -54,7 +54,7 @@ const SignInScreen = () => {
       }
       alert(response.status);
     } else {
-      router.push("/home/index");
+      router.push("/home");
     }
   };
 
