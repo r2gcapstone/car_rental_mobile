@@ -11,6 +11,8 @@ import React from "react";
 import View from "components/ThemedView";
 import Text from "components/ThemedText";
 import Header from "components/home/Header";
+import LoadingAnimation from "components/LoadingAnimation";
+
 import { colors } from "constants/Colors";
 
 export default function Homepage() {

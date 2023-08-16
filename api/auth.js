@@ -2,6 +2,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { app, db } from "../services/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
@@ -59,6 +60,19 @@ export const login = async (email, password) => {
 
     return {
       message: "Login success!",
+      error: false,
+      status: 200,
+    };
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+export const logout = async () => {
+  try {
+    await signOut(auth);
+    return {
+      message: "Logout success!",
       error: false,
       status: 200,
     };

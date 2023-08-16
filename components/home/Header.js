@@ -2,8 +2,30 @@ import { Image, StyleSheet, View } from "react-native";
 import React from "react";
 
 import Text from "components/ThemedText";
+import { logout } from "api/auth";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { router } from "expo-router";
+import { useState } from "react";
+import { colors } from "../../constants/Colors";
+import LoadingAnimation from "components/LoadingAnimation";
 
 export default function Header() {
+  const [modal, setModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogout = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await logout();
+      if (response.status === 200) {
+        setIsLoading(false);
+        router.back("/index");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -15,11 +37,23 @@ export default function Header() {
           source={require("assets/images/bell.png")}
           style={styles.bellIcon}
         />
-        <Image
-          source={require("assets/images/logout.png")}
-          style={styles.logoutIcon}
-        />
+        <TouchableOpacity onPress={() => setModal((prevValue) => !prevValue)}>
+          <Image
+            source={require("assets/images/logout.png")}
+            style={styles.logoutIcon}
+          />
+        </TouchableOpacity>
       </View>
+      {modal ? (
+        <View style={styles.logoutModal}>
+          <TouchableOpacity onPress={handleLogout}>
+            <Text>Logout</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        ""
+      )}
+      <LoadingAnimation isVisible={isLoading} />
     </View>
   );
 }
@@ -38,8 +72,8 @@ const styles = StyleSheet.create({
     width: 28,
   },
   logoutIcon: {
-    height: 16,
-    width: 16,
+    height: 20,
+    width: 20,
   },
   logoContainer: {
     flexDirection: "row",
@@ -49,7 +83,7 @@ const styles = StyleSheet.create({
   logoutContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: 15,
   },
   logoText: {
     fontSize: 27,
@@ -57,5 +91,19 @@ const styles = StyleSheet.create({
   logo: {
     height: 52,
     width: 43,
+  },
+  logoutModal: {
+    padding: 8,
+    paddingHorizontal: 16,
+    fontSize: 15,
+    backgroundColor: colors.blue.slitedark,
+    borderRadius: 5,
+    position: "absolute",
+    top: 65,
+    right: 0,
+    shadowColor: "#000",
+    shadowRadius: 10,
+    shadowOffset: 0.8,
+    shadowOpacity: 0.2,
   },
 });
