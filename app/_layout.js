@@ -62,6 +62,9 @@ function RootLayoutNav() {
           name="(sign-up)/success-modal"
           options={{ headerShown: false }}
         />
+
+        {/* tabs*/}
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
     </ThemeContext.Provider>
   );

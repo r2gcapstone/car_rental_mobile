@@ -8,12 +8,12 @@ import {
 import React from "react";
 
 //components
-import View from "../../components/ThemedView";
-import Text from "../../components/ThemedText";
-import { BackButton } from "../../components/BackButton";
+import View from "components/ThemedView";
+import Text from "components/ThemedText";
+import { BackButton } from "components/BackButton";
 
 //constants
-import { colors } from "../../constants/Colors";
+import { colors } from "constants/Colors";
 
 export default function terms() {
   return (
@@ -22,7 +22,7 @@ export default function terms() {
         <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
           <View style={styles.logoContainer}>
             <Image
-              source={require("../../assets/images/logo.png")}
+              source={require("assets/images/logo.png")}
               style={styles.logo}
             />
             <Text style={styles.title}>

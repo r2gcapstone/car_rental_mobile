@@ -14,14 +14,14 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useNavigation } from "@react-navigation/native";
 
 //components
-import View from "../../components/ThemedView";
-import Text from "../../components/ThemedText";
-import KeyboardAvoidingContainer from "../../components/KeyboardAvoidingView";
+import View from "components/ThemedView";
+import Text from "components/ThemedText";
+import KeyboardAvoidingContainer from "components/KeyboardAvoidingView";
 
 //constants
-import { colors } from "../../constants/Colors";
-import { emailRegex, phoneNumberRegex } from "../../constants/RegexValidation";
-import { toSentenceCase } from "../../constants/SentenceCase";
+import { colors } from "constants/Colors";
+import { emailRegex, phoneNumberRegex } from "constants/RegexValidation";
+import { toSentenceCase } from "constants/SentenceCase";
 
 const SignUpScreen = () => {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
@@ -153,7 +153,7 @@ const SignUpScreen = () => {
               </View>
               <View style={styles.logoContainer}>
                 <Image
-                  source={require("../../assets/images/logo.png")}
+                  source={require("assets/images/logo.png")}
                   style={styles.logo}
                 />
               </View>

@@ -9,24 +9,25 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import Text from "../components/ThemedText";
-import { colors } from "../constants/Colors";
+import Text from "components/ThemedText";
+import { colors } from "constants/Colors";
 
 const LandingPage = () => {
   return (
     <ImageBackground
-      source={require("../assets/images/bg.png")}
+      source={require("assets/images/bg.png")}
       style={styles.backgroundImage}
     >
       <View style={styles.container}>
         <View style={styles.logoContainer}>
           <Image
-            source={require("../assets/images/logo.png")}
+            source={require("assets/images/logo.png")}
             style={styles.logo}
           />
         </View>
         <Text style={styles.slogan}>Find a rental vehicle in easy steps</Text>
         <Link href="/login" asChild>
+          {/* <Link href="/home" asChild> */}
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Start Here</Text>
           </TouchableOpacity>
