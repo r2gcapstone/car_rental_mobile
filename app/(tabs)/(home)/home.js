@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Image,
-  SafeAreaView,
-  ImageBackground,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Image, SafeAreaView, ScrollView } from "react-native";
 import React from "react";
 
 // Components
@@ -33,12 +27,11 @@ export default function Homepage() {
             </Text>
           </View>
           <View style={styles.row}>
-            <View style={styles.imgContainer}>
-              <ImageBackground
-                source={require("assets/images/homeImg1.png")}
-                style={styles.Img1}
-              />
-            </View>
+            <Image
+              source={require("assets/images/homeImg1.png")}
+              style={styles.Img1}
+            />
+
             <Text style={styles.titleText}>Track Your vehicle</Text>
             <Text style={styles.text}>
               Car renters and owners! Our mobile application offers a seamless
@@ -55,12 +48,11 @@ export default function Homepage() {
                 filter feature.
               </Text>
             </View>
-            <View style={styles.img2Container}>
-              <ImageBackground
-                source={require("assets/images/homeImg2.png")}
-                style={styles.Img2}
-              />
-            </View>
+
+            <Image
+              source={require("assets/images/homeImg2.png")}
+              style={styles.Img2}
+            />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -96,14 +88,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     gap: 23,
-    paddingHorizontal: 17,
+    padding: 17,
     borderRadius: 20,
     overflow: "hidden",
     backgroundColor: colors.blue.slitedark,
   },
-  // text: {
-  //   backgroundColor: "#000",
-  // },
   logoText: {
     fontSize: 25,
     marginTop: 5,
@@ -115,42 +104,28 @@ const styles = StyleSheet.create({
     left: 18,
     top: 10,
   },
-  imgContainer: {
-    width: "115%",
-    height: 104,
-    overflow: "hidden",
-    alignItems: "center",
-    justifyContent: "center",
-    top: -18,
-    marginBottom: -23,
-  },
-
   Img1: {
     flex: 1,
-    width: "100%",
-    resizeMode: "contain",
-    justifyContent: "center",
-  },
-  img2Container: {
-    width: "35%",
-    height: 158,
-    overflow: "hidden",
+    height: 104,
+    width: "115%",
+    top: -30,
+    marginBottom: -30,
+    resizeMode: "stretch",
   },
   Img2: {
-    flex: 1,
-    width: "100%",
-    resizeMode: "contain",
-    justifyContent: "center",
+    height: "145%",
+    width: "35%",
   },
   titleText: {
     fontSize: 16,
     fontWeight: "bold",
-
     alignSelf: "flex-start",
   },
   textContainer: {
+    paddingTop: -20,
     width: "65%",
     gap: 23,
+    alignItems: "center",
     backgroundColor: colors.blue.slitedark,
   },
 });
