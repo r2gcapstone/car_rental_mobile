@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "car-rental-mobile",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
@@ -16,7 +16,7 @@
     "@expo/vector-icons": "^13.0.0",
     "@firebase/auth": "^1.1.0",
     "@firebase/firestore": "^4.1.0",
-    "@react-native-community/datetimepicker": "^7.4.1",
+    "@react-native-community/datetimepicker": "7.2.0",
     "@react-navigation/native": "^6.1.7",
     "expo": "~49.0.3",
     "expo-checkbox": "^2.4.0",

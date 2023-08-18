@@ -124,10 +124,9 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   row: {
-    gap: 5,
+    gap: 8,
     flexDirection: "col",
     alignItems: "flex-start",
-    marginBottom: 20,
     backgroundColor: colors.blue.slitedark,
   },
   label: {

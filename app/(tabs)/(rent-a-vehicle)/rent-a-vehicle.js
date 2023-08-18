@@ -27,6 +27,7 @@ export default function RentAVehicle() {
             <View
               style={{ width: "100%", height: 1, backgroundColor: "#fff" }}
             ></View>
+            <Text style={styles.filterText}>Filter (Optional)</Text>
             <View style={styles.rowData}></View>
             <View style={styles.rowData}></View>
             <View style={styles.rowData}></View>
@@ -139,5 +140,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     paddingHorizontal: 10,
+  },
+  filterText: {
+    alignSelf: "flex-start",
+    fontSize: 14,
+    fontWeight: "bold",
   },
 });
