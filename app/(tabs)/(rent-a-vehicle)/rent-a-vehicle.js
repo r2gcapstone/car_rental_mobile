@@ -80,8 +80,9 @@ const styles = StyleSheet.create({
   },
   row: {
     flex: 1,
+    // alignItems: "flex-start",
     marginBottom: 15,
-    alignItems: "center",
+    // alignItems: "center",
     flexDirection: "column",
     gap: 23,
     padding: 17,
