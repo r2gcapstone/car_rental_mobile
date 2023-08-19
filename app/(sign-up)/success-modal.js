@@ -18,7 +18,7 @@ export default function SuccessModal() {
     <View style={styles.container}>
       <Image source={require("assets/images/logo.png")} style={styles.logo} />
       <Text style={styles.successText}>
-        You have successful created an account.
+        You have successfully created an account.
       </Text>
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.proceedButton} onPress={handleNav}>
