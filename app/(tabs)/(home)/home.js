@@ -1,4 +1,4 @@
-import { StyleSheet, Image, SafeAreaView, ScrollView } from "react-native";
+import { StyleSheet, Image, ScrollView } from "react-native";
 import React from "react";
 
 // Components
@@ -11,7 +11,6 @@ import { colors } from "constants/Colors";
 export default function Homepage() {
   return (
     <View style={styles.container}>
-      {/* <SafeAreaView style={styles.safeView}> */}
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Header />
         <View style={styles.row}>
@@ -53,7 +52,6 @@ export default function Homepage() {
           />
         </View>
       </ScrollView>
-      {/* </SafeAreaView> */}
     </View>
   );
 }
@@ -62,10 +60,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 25,
-  },
-  safeView: {
-    flex: 1,
-    width: "100%",
   },
   scroll: {
     flex: 1,
