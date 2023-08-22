@@ -19,48 +19,46 @@ import { colors } from "constants/Colors";
 export default function RentAVehicle() {
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.safeView}>
-        <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-          <Header />
-          <View style={styles.row}>
-            <RentDateAndTime />
-            <View
-              style={{ width: "100%", height: 1, backgroundColor: "#fff" }}
-            ></View>
-            <Text style={styles.filterText}>Filter (Optional)</Text>
-            <View style={styles.rowData}></View>
-            <View style={styles.rowData}></View>
-            <View style={styles.rowData}></View>
-            <View style={styles.rowData}></View>
-            <View
-              style={{ width: "100%", height: 1, backgroundColor: "#fff" }}
-            ></View>
-            <Text>
-              Note : The location of your device will be used to find vehicles
-              near you. (Required)
-            </Text>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Search</Text>
-            </TouchableOpacity>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+        <Header />
+        <View style={styles.row}>
+          <RentDateAndTime />
+          <View
+            style={{ width: "100%", height: 1, backgroundColor: "#fff" }}
+          ></View>
+          <Text style={styles.filterText}>Filter (Optional)</Text>
+          <View style={styles.rowData}></View>
+          <View style={styles.rowData}></View>
+          <View style={styles.rowData}></View>
+          <View style={styles.rowData}></View>
+          <View
+            style={{ width: "100%", height: 1, backgroundColor: "#fff" }}
+          ></View>
+          <Text>
+            Note : The location of your device will be used to find vehicles
+            near you. (Required)
+          </Text>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Search</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.row2}>
+          <View style={styles.col}>
+            <Image
+              style={styles.icon}
+              source={require("assets/icons/clipboard.png")}
+            />
+            <Text style={styles.btnText}>My Application for Renting</Text>
           </View>
-          <View style={styles.row2}>
-            <View style={styles.col}>
-              <Image
-                style={styles.icon}
-                source={require("assets/icons/clipboard.png")}
-              />
-              <Text style={styles.btnText}>My Application for Renting</Text>
-            </View>
-            <TouchableOpacity style={styles.viewContainer}>
-              <Text>View</Text>
-              <Image
-                style={styles.arrowIcon}
-                source={require("assets/icons/arrowWhite.png")}
-              ></Image>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+          <TouchableOpacity style={styles.viewContainer}>
+            <Text>View</Text>
+            <Image
+              style={styles.arrowIcon}
+              source={require("assets/icons/arrowWhite.png")}
+            ></Image>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -70,19 +68,13 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 25,
   },
-  safeView: {
-    flex: 1,
-    width: "100%",
-  },
   scroll: {
     flex: 1,
     height: "100%",
   },
   row: {
     flex: 1,
-    // alignItems: "flex-start",
     marginBottom: 15,
-    // alignItems: "center",
     flexDirection: "column",
     gap: 23,
     padding: 17,

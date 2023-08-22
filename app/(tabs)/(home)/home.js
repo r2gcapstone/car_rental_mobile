@@ -11,51 +11,49 @@ import { colors } from "constants/Colors";
 export default function Homepage() {
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.safeView}>
-        <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-          <Header />
-          <View style={styles.row}>
-            <Image
-              source={require("assets/images/logo.png")}
-              style={styles.logo}
-            />
-            <Text style={styles.logoText}>Welcome to R2G</Text>
+      {/* <SafeAreaView style={styles.safeView}> */}
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+        <Header />
+        <View style={styles.row}>
+          <Image
+            source={require("assets/images/logo.png")}
+            style={styles.logo}
+          />
+          <Text style={styles.logoText}>Welcome to R2G</Text>
+          <Text style={styles.text}>
+            Car renters and owners! Our mobile application offers a seamless and
+            secure way for individuals to rent and advertise their vehicles.{" "}
+          </Text>
+        </View>
+        <View style={styles.row}>
+          <Image
+            source={require("assets/images/homeImg1.png")}
+            style={styles.Img1}
+          />
+
+          <Text style={styles.titleText}>Track Your vehicle</Text>
+          <Text style={styles.text}>
+            Car renters and owners! Our mobile application offers a seamless and
+            secure way for individuals to rent and advertise their vehicles.{" "}
+          </Text>
+        </View>
+        <View style={styles.row3}>
+          <View style={styles.textContainer}>
+            <Text style={styles.titleText}>Vehicle Preference</Text>
             <Text style={styles.text}>
-              Car renters and owners! Our mobile application offers a seamless
-              and secure way for individuals to rent and advertise their
-              vehicles.{" "}
+              With R2G, car renters can easily find a wide range of vehicles
+              that match their preference and budget with the use of R2G filter
+              feature.
             </Text>
           </View>
-          <View style={styles.row}>
-            <Image
-              source={require("assets/images/homeImg1.png")}
-              style={styles.Img1}
-            />
 
-            <Text style={styles.titleText}>Track Your vehicle</Text>
-            <Text style={styles.text}>
-              Car renters and owners! Our mobile application offers a seamless
-              and secure way for individuals to rent and advertise their
-              vehicles.{" "}
-            </Text>
-          </View>
-          <View style={styles.row3}>
-            <View style={styles.textContainer}>
-              <Text style={styles.titleText}>Vehicle Preference</Text>
-              <Text style={styles.text}>
-                With R2G, car renters can easily find a wide range of vehicles
-                that match their preference and budget with the use of R2G
-                filter feature.
-              </Text>
-            </View>
-
-            <Image
-              source={require("assets/images/homeImg2.png")}
-              style={styles.Img2}
-            />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+          <Image
+            source={require("assets/images/homeImg2.png")}
+            style={styles.Img2}
+          />
+        </View>
+      </ScrollView>
+      {/* </SafeAreaView> */}
     </View>
   );
 }
