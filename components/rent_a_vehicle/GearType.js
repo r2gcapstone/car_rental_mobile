@@ -5,6 +5,7 @@ import { colors } from "../../constants/Colors";
 
 const GearShiftDropdown = () => {
   const options = [
+    { label: "Default (Select All Option)", value: "default" },
     { label: "Manual Transmission", value: "manual" },
     { label: "Automatic Transmission", value: "automatic" },
     { label: "Continuously Variable Transmission", value: "cvt" },

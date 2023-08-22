@@ -5,6 +5,7 @@ import { colors } from "../../constants/Colors";
 
 const VehicleDropdown = () => {
   const options = [
+    { label: "Default (Select All Option)", value: "default" },
     { label: "Compact Cars", value: "compact" },
     { label: "Mid-size Cars", value: "midSize" },
     { label: "Full-Size Cars", value: "fullSize" },
@@ -26,7 +27,6 @@ const VehicleDropdown = () => {
         <Picker.Item label="Select Type of Vehicle" value="" />
         {options.map((option) => (
           <Picker.Item
-            on
             key={option.value}
             label={option.label}
             value={option.value}

@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.dark2,
     paddingHorizontal: 8,
+    color: colors.textColor.dark2,
   },
   dateContainer: {
     justifyContent: "space-between",
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     borderRadius: 5,
-    backgroundColor: colors.white[0],
+    backgroundColor: colors.white[1],
   },
   icon: {
     width: 24,

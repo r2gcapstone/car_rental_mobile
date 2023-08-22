@@ -6,6 +6,8 @@ import View from "components/ThemedView";
 import Text from "components/ThemedText";
 import Header from "components/home/Header";
 import RentDateAndTime from "components/rent_a_vehicle/RentDateAndTime";
+import VehicleDropdown from "components/rent_a_vehicle/VehicleType";
+import GearShiftDropdown from "components/rent_a_vehicle/GearType";
 
 import { colors } from "constants/Colors";
 
@@ -20,8 +22,8 @@ export default function RentAVehicle() {
             style={{ width: "100%", height: 1, backgroundColor: "#fff" }}
           ></View>
           <Text style={styles.filterText}>Filter (Optional)</Text>
-          <View style={styles.rowData}></View>
-          <View style={styles.rowData}></View>
+          <VehicleDropdown />
+          <GearShiftDropdown />
           <View style={styles.rowData}></View>
           <View style={styles.rowData}></View>
           <View
