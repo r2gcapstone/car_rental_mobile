@@ -6,11 +6,7 @@ export default function ThemedView(props) {
   const theme = useContext(ThemeContext);
 
   const { style, ...otherProps } = props;
-  const viewStyle = [
-    { backgroundColor: theme.backgroundColor },
-    { paddingTop: StatusBar.currentHeight },
-    style,
-  ];
+  const viewStyle = [{ backgroundColor: theme.backgroundColor }, style];
 
   return <View style={viewStyle} {...otherProps} />;
 }
