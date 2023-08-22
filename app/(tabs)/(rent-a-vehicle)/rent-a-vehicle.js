@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Image,
-  SafeAreaView,
-  ImageBackground,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 
 // Components
