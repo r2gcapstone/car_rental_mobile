@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { colors } from "../../constants/Colors";
@@ -20,7 +20,7 @@ const GearShiftDropdown = ({ gearType, setGearType }) => {
       <Text style={styles.label}>Gear Shift :</Text>
       <View style={styles.pickerContainer}>
         <Picker
-          gearType={gearType}
+          selectedValue={gearType}
           onValueChange={(itemValue) => setGearType(itemValue)}
           style={styles.picker}
         >

@@ -34,21 +34,21 @@ export default function RentAVehicle() {
   const [priceRate, setPriceRate] = useState("default");
   const [location, setLocation] = useState("default");
 
-  useEffect(() => {
-    const search = {
-      dateTimeValues: dateTimeValues,
-      filter: {
-        vehicleType: vehicleType,
-        gearType: gearType,
-        fuelType: fuelType,
-        passengerNum: passengerNum,
-        baggageNum: baggageNum,
-        priceRate: priceRate,
-        location: location,
-      },
-    };
+  const search = {
+    dateTimeValues: dateTimeValues,
+    filter: {
+      vehicleType: vehicleType,
+      gearType: gearType,
+      fuelType: fuelType,
+      passengerNum: passengerNum,
+      baggageNum: baggageNum,
+      priceRate: priceRate,
+      location: location,
+    },
+  };
 
-    // console.log(search);
+  useEffect(() => {
+    console.log("search Object:", search);
   }, [
     dateTimeValues,
     vehicleType,
@@ -60,9 +60,9 @@ export default function RentAVehicle() {
   ]);
 
   const handleSearch = async () => {
-    const result = await searchAvailableCars();
+    const result = await searchAvailableCars(search);
 
-    console.log("Search Result:", result);
+    console.log(result);
   };
 
   return (
