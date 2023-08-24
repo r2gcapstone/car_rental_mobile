@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Image, TouchableOpacity, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -7,15 +7,7 @@ import Text from "components/ThemedText";
 
 import { colors } from "constants/Colors";
 
-const RentDateTimePicker = () => {
-  const initialDateTimeValues = {
-    startRentDate: new Date(),
-    startRentTime: new Date(),
-    endRentDate: new Date(),
-    endRentTime: new Date(),
-  };
-
-  const [dateTimeValues, setDateTimeValues] = useState(initialDateTimeValues);
+const RentDateTimePicker = ({ dateTimeValues, setDateTimeValues }) => {
   const [selectedMode, setSelectedMode] = useState(null);
   const [selectedField, setSelectedField] = useState(null);
 
@@ -130,7 +122,6 @@ const RentDateTimePicker = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -167,9 +158,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
-    padding: 10,
+    paddingHorizontal: 10,
     borderRadius: 5,
     backgroundColor: colors.white[1],
+    height: 35,
   },
   icon: {
     width: 24,
