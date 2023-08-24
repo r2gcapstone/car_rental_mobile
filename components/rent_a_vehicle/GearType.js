@@ -3,7 +3,9 @@ import { View, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { colors } from "../../constants/Colors";
 
-const GearShiftDropdown = () => {
+import Text from "components/ThemedText";
+
+const GearShiftDropdown = ({ gearType, setGearType }) => {
   const options = [
     { label: "Default (Select All Option)", value: "default" },
     { label: "Manual Transmission", value: "manual" },
@@ -13,24 +15,24 @@ const GearShiftDropdown = () => {
     { label: "Dual Clutch Transmission", value: "dualClutch" },
   ];
 
-  const [selectedValue, setSelectedValue] = useState("");
-
   return (
     <View style={styles.container}>
-      <Picker
-        selectedValue={selectedValue}
-        onValueChange={(itemValue) => setSelectedValue(itemValue)}
-        style={styles.picker}
-      >
-        <Picker.Item label="Select Gear Shift Type" value="" />
-        {options.map((option) => (
-          <Picker.Item
-            key={option.value}
-            label={option.label}
-            value={option.value}
-          />
-        ))}
-      </Picker>
+      <Text style={styles.label}>Gear Shift :</Text>
+      <View style={styles.pickerContainer}>
+        <Picker
+          gearType={gearType}
+          onValueChange={(itemValue) => setGearType(itemValue)}
+          style={styles.picker}
+        >
+          {options.map((option) => (
+            <Picker.Item
+              key={option.value}
+              label={option.label}
+              value={option.value}
+            />
+          ))}
+        </Picker>
+      </View>
     </View>
   );
 };
@@ -38,10 +40,20 @@ const GearShiftDropdown = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  label: {
+    marginBottom: 8,
+    fontSize: 14,
+    alignSelf: "flex-start",
+  },
+  pickerContainer: {
+    flex: 1,
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.white[1],
     borderRadius: 5,
+    height: 35,
   },
   picker: {
     width: "100%",
