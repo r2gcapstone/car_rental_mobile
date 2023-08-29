@@ -38,7 +38,7 @@ const SignInScreen = () => {
     setIsLoading(true);
 
     const response = await login(email, password);
-    console.log("response:", response);
+    // console.log("response:", response);
 
     setIsLoading(false);
 

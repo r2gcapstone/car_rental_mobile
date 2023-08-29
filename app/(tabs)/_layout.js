@@ -1,6 +1,5 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Tabs } from "expo-router";
-import { Pressable } from "react-native";
+import { Tabs, useSegments } from "expo-router";
 import { colors } from "constants/Colors";
 
 function TabBarIcon(props) {
@@ -8,6 +7,7 @@ function TabBarIcon(props) {
 }
 
 export default function TabLayout() {
+  const segments = useSegments();
   return (
     <Tabs
       screenOptions={{
@@ -21,7 +21,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="(home)/home"
+        name="home/index"
         options={{
           title: "Home",
           tabBarActiveTintColor: "#27374D",
@@ -30,7 +30,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="(rent-a-vehicle)/rent-a-vehicle"
+        name="rent-a-vehicle/index"
         options={{
           title: "Rent A Vehicle",
           tabBarActiveTintColor: "#27374D",
@@ -39,7 +39,22 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="(rent-my-vehicle)/rent-my-vehicle"
+        name="rent-a-vehicle/search-result"
+        options={{
+          href: null,
+          headerShown: false,
+          title: "Result",
+          tabBarStyle: {
+            display:
+              //conditionally hide the tab bar
+              segments[3] === "rent-a-vehicle/search-result" ? "none" : "flex",
+            height: 0,
+            marginVertical: -1,
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="rent-my-vehicle/index"
         options={{
           title: "Rent My Vehicle",
           tabBarActiveTintColor: "#27374D",
@@ -48,7 +63,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="(profile)/profile"
+        name="profile/index"
         options={{
           title: "My Profile",
           tabBarActiveTintColor: "#27374D",

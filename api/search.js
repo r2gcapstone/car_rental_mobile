@@ -4,7 +4,7 @@ import { db } from "../services/firebaseConfig";
 export const searchAvailableCars = async ({ filter }) => {
   try {
     const filterOptions = filter;
-    console.log("filter:", filterOptions);
+    // console.log("filter:", filterOptions);
 
     const carsRef = collection(db, "cars");
     let queryRef = query(carsRef);
