@@ -7,11 +7,10 @@ export const colors = {
   },
   white: {
     0: "#FFFFFF",
+    1: "#DDE6ED",
   },
-  red: {
-    0: "F00",
-  },
-  green: {
-    0: "#0DA800",
+  textColor: {
+    dark: "#000",
+    dark2: "#777777",
   },
 };

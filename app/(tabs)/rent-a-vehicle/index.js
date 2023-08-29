@@ -1,6 +1,10 @@
 import { StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 
+// Import the useNavigation hook
+import { useNavigation } from "@react-navigation/native";
+
+//api
 import { searchAvailableCars } from "api/search";
 
 // Components
@@ -11,6 +15,7 @@ import RentDateAndTime from "components/rent_a_vehicle/RentDateAndTime";
 import VehicleDropdown from "components/rent_a_vehicle/VehicleType";
 import GearShiftDropdown from "components/rent_a_vehicle/GearType";
 import FuelTypeDropdown from "components/rent_a_vehicle/FuelType";
+import ResultScreen from "./search-result";
 
 import { colors } from "constants/Colors";
 import PassengerCount from "components/rent_a_vehicle/PassengerCount";
@@ -33,6 +38,9 @@ export default function RentAVehicle() {
   const [baggageNum, setBaggageNum] = useState("default");
   const [priceRate, setPriceRate] = useState("default");
   const [location, setLocation] = useState("default");
+
+  // Use the useNavigation hook
+  const navigation = useNavigation();
 
   const search = {
     dateTimeValues: dateTimeValues,
@@ -62,7 +70,9 @@ export default function RentAVehicle() {
   const handleSearch = async () => {
     const result = await searchAvailableCars(search);
 
-    console.log(result);
+    // Proceed to upload profile image screen when validation is all passed
+    navigation.navigate("rent-a-vehicle/search-result", { result });
+    // console.log("result", result);
   };
 
   return (

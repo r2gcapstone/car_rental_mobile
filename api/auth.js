@@ -6,7 +6,6 @@ import {
 } from "firebase/auth";
 import { app, db } from "../services/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
-import { router } from "expo-router";
 
 const auth = getAuth(app);
 
