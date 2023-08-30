@@ -1,4 +1,10 @@
-import { StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 
 // Import the useNavigation hook
@@ -15,7 +21,7 @@ import RentDateAndTime from "components/rent_a_vehicle/RentDateAndTime";
 import VehicleDropdown from "components/rent_a_vehicle/VehicleType";
 import GearShiftDropdown from "components/rent_a_vehicle/GearType";
 import FuelTypeDropdown from "components/rent_a_vehicle/FuelType";
-import ResultScreen from "./search-result";
+import LoadingAnimation from "components/LoadingAnimation";
 
 import { colors } from "constants/Colors";
 import PassengerCount from "components/rent_a_vehicle/PassengerCount";
@@ -38,6 +44,7 @@ export default function RentAVehicle() {
   const [baggageNum, setBaggageNum] = useState("default");
   const [priceRate, setPriceRate] = useState("default");
   const [location, setLocation] = useState("default");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Use the useNavigation hook
   const navigation = useNavigation();
@@ -68,15 +75,22 @@ export default function RentAVehicle() {
   ]);
 
   const handleSearch = async () => {
+    setIsLoading(true); // Show loading modal
     const result = await searchAvailableCars(search);
 
-    // Proceed to upload profile image screen when validation is all passed
+    if (result.status === 204) {
+      setIsLoading(false);
+      alert("No Result found");
+      return;
+    }
+
+    setIsLoading(false);
     navigation.navigate("rent-a-vehicle/search-result", { result });
-    // console.log("result", result);
   };
 
   return (
     <View style={styles.container}>
+      <StatusBar hidden={true} />
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Header />
         <View style={styles.row1Container}>
@@ -148,6 +162,7 @@ export default function RentAVehicle() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <LoadingAnimation isVisible={isLoading} />
     </View>
   );
 }

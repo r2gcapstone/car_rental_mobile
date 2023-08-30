@@ -1,6 +1,8 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Tabs, useSegments } from "expo-router";
+import { Tabs, useSegments, router } from "expo-router";
+import { Image } from "react-native";
 import { colors } from "constants/Colors";
+import { TouchableOpacity, StyleSheet } from "react-native";
 
 function TabBarIcon(props) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
@@ -42,7 +44,20 @@ export default function TabLayout() {
         name="rent-a-vehicle/search-result"
         options={{
           href: null,
-          headerShown: false,
+          headerTintColor: "#fff",
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Image
+                style={styles.backBtn}
+                source={require("assets/icons/arrow.png")}
+              />
+            </TouchableOpacity>
+          ),
+          headerStyle: {
+            backgroundColor: colors.blue.dark,
+            borderBottomWidth: 1,
+            borderBottomColor: "#fff",
+          },
           title: "Result",
           tabBarStyle: {
             display:
@@ -74,3 +89,12 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  backBtn: {
+    marginLeft: 18,
+    height: 20,
+    width: 20,
+    transform: [{ rotate: "180deg" }],
+  },
+});

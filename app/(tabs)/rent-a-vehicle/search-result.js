@@ -21,6 +21,7 @@ import transmissionIcon from "assets/icons/transmission.png";
 import paymentIcon from "assets/icons/payment.png";
 import fuelIcon from "assets/icons/fuel.png";
 import locationIcon from "assets/icons/location.png";
+import pesoWhite from "assets/icons/pesoWhite.png";
 
 const iconAssets = {
   car: carIcon,
@@ -34,24 +35,20 @@ const iconAssets = {
   logo: logo,
 };
 
+import useSentenceCase from "hooks/useSentenceCase";
+
 export default function ResultScreen() {
+  const { toSentenceCase } = useSentenceCase();
   const route = useRoute();
   const { result } = route.params;
 
   const { searchResults } = result;
 
-  console.log("Search Results: ", searchResults);
+  // console.log("Search Results: ", searchResults);
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.btn} onPress={router.back}>
-            <Image style={styles.backIcon} source={iconAssets.arrow}></Image>
-          </TouchableOpacity>
-          <Text style={styles.headerText}>Result</Text>
-        </View>
-
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Available Vehicle’s For Rent</Text>
           <Image style={styles.logoIcon} source={iconAssets.logo}></Image>
@@ -72,16 +69,21 @@ export default function ResultScreen() {
             }) => (
               <View style={styles.rowContent} key={id}>
                 <View style={styles.leftContent}>
-                  <Text style={styles.carName}>{name}</Text>
+                  <Text style={styles.carName}>{toSentenceCase(name)}</Text>
                   <Text style={styles.contentText}>
                     owned by:{" "}
-                    <Text style={styles.ownerNameText}>{ownerName}</Text>
+                    <Text style={styles.ownerNameText}>
+                      {toSentenceCase(ownerName)}
+                    </Text>
                   </Text>
                   <Image
-                    style={styles.carImages}
+                    style={styles.carImage}
                     source={require("assets/images/homeImg2.png")}
                   ></Image>
-                  <Text style={styles.contentText}> P {priceRate} / day</Text>
+                  <Text style={styles.priceContainer}>
+                    <Image style={styles.pesoIcon} source={pesoWhite}></Image>
+                    <Text style={styles.priceText}> {priceRate} </Text>/ day
+                  </Text>
                   <TouchableOpacity>
                     <Text style={styles.proceedBtn}>Apply for Renting</Text>
                   </TouchableOpacity>
@@ -92,7 +94,9 @@ export default function ResultScreen() {
                       style={commonStyles.contentIcon}
                       source={iconAssets.car}
                     />
-                    <Text style={styles.contentText}>{type}</Text>
+                    <Text style={styles.contentText}>
+                      {toSentenceCase(type)}
+                    </Text>
                   </View>
                   <View style={commonStyles.contentContainer}>
                     <Image
@@ -113,7 +117,9 @@ export default function ResultScreen() {
                       style={commonStyles.contentIcon}
                       source={iconAssets.transmission}
                     />
-                    <Text style={styles.contentText}>{gearShift}</Text>
+                    <Text style={styles.contentText}>
+                      {toSentenceCase(gearShift)}
+                    </Text>
                   </View>
                   <View style={commonStyles.contentContainer}>
                     <Image
@@ -127,7 +133,9 @@ export default function ResultScreen() {
                       style={commonStyles.contentIcon}
                       source={iconAssets.fuel}
                     />
-                    <Text style={styles.contentText}>{fuelType}</Text>
+                    <Text style={styles.contentText}>
+                      {toSentenceCase(fuelType)}
+                    </Text>
                   </View>
                   <View style={commonStyles.contentContainer}>
                     <Image
@@ -157,7 +165,7 @@ const commonStyles = {
   contentContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 6,
   },
   contentIcon: {
     width: 18,
@@ -168,27 +176,15 @@ const commonStyles = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 25,
+    paddingHorizontal: 20,
     paddingTop: 20,
     backgroundColor: colors.blue.dark,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-    width: "100%",
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#fff",
   },
   backIcon: {
     transform: [{ rotate: "180deg" }],
     height: 20,
     width: 20,
     padding: 2,
-  },
-  headerText: {
-    fontSize: 21,
   },
   resultContainer: {
     flex: 1,
@@ -197,7 +193,7 @@ const styles = StyleSheet.create({
   },
   leftContent: {
     flex: 1.3,
-    gap: 2,
+    gap: 3,
   },
   rightContent: {
     flex: 1,
@@ -245,7 +241,7 @@ const styles = StyleSheet.create({
   },
   logoIcon: {
     width: 30,
-    height: 35,
+    height: 36,
   },
   ownerNameText: {
     fontWeight: "bold",
@@ -253,16 +249,31 @@ const styles = StyleSheet.create({
   proceedBtn: {
     width: "auto",
     textAlign: "center",
+    fontSize: 16,
+    fontWeight: "500",
     padding: 10,
     borderRadius: 10,
-    backgroundColor: colors.blue.dark,
+    backgroundColor: colors.red.primary,
   },
   carName: {
     fontSize: 18,
     fontWeight: "bold",
   },
-  carImages: {
-    width: 100,
+  carImage: {
+    width: "100%",
     height: 100,
+    borderRadius: 10,
+  },
+  priceContainer: {
+    fontSize: 12,
+    paddingVertical: 4,
+  },
+  priceText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  pesoIcon: {
+    width: 12,
+    height: 12,
   },
 });

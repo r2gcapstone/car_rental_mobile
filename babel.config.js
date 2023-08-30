@@ -13,6 +13,7 @@ module.exports = function (api) {
             components: "./components",
             constants: "./constants",
             context: "./context",
+            hooks: "./hooks",
             api: "./api",
           },
         },

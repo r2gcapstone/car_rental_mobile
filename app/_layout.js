@@ -43,7 +43,11 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <ThemeContext.Provider value={DefaultTheme}>
-      <Stack screenOptions={{ statusBarHidden: true }}>
+      <Stack
+        screenOptions={{
+          statusBarHidden: true,
+        }}
+      >
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
 
