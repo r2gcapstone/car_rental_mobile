@@ -15,7 +15,6 @@ import RentDateAndTime from "components/rent_a_vehicle/RentDateAndTime";
 import VehicleDropdown from "components/rent_a_vehicle/VehicleType";
 import GearShiftDropdown from "components/rent_a_vehicle/GearType";
 import FuelTypeDropdown from "components/rent_a_vehicle/FuelType";
-import ResultScreen from "./search-result";
 
 import { colors } from "constants/Colors";
 import PassengerCount from "components/rent_a_vehicle/PassengerCount";
@@ -71,7 +70,7 @@ export default function RentAVehicle() {
     const result = await searchAvailableCars(search);
 
     // Proceed to upload profile image screen when validation is all passed
-    navigation.navigate("rent-a-vehicle/search-result", { result });
+    // navigation.navigate("rent-a-vehicle/search-result", { result });
     // console.log("result", result);
   };
 
