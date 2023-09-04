@@ -1,6 +1,8 @@
 import { StyleSheet, Image, ScrollView } from "react-native";
 import React from "react";
 
+//layout
+import MainLayout from "layouts/MainLayout";
 // Components
 import View from "components/ThemedView";
 import Text from "components/ThemedText";
@@ -10,7 +12,7 @@ import { colors } from "constants/Colors";
 
 export default function Homepage() {
   return (
-    <View style={styles.container}>
+    <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Header />
         <View style={styles.row}>
@@ -52,7 +54,7 @@ export default function Homepage() {
           />
         </View>
       </ScrollView>
-    </View>
+    </MainLayout>
   );
 }
 
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    height: "100%",
+    width: "100%",
   },
   row: {
     marginBottom: 15,

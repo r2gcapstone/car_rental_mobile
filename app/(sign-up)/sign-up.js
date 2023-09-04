@@ -1,4 +1,4 @@
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 import React, { useState } from "react";
 import {
   TextInput,
@@ -9,17 +9,16 @@ import {
   SafeAreaView,
 } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-
+//layout
+import MainLayout from "layouts/MainLayout";
 // Import the useNavigation hook
 import { useNavigation } from "@react-navigation/native";
-
 //components
 import View from "components/ThemedView";
 import Text from "components/ThemedText";
 import KeyboardAvoidingContainer from "components/KeyboardAvoidingView";
-
 //constants
-import { colors } from "constants/Colors";
+import { colors } from "../../constants/Colors";
 import { emailRegex, phoneNumberRegex } from "constants/RegexValidation";
 import { toSentenceCase } from "constants/SentenceCase";
 
@@ -28,6 +27,7 @@ const SignUpScreen = () => {
   // Use the useNavigation hook
   const navigation = useNavigation();
 
+  //formData object for signup fields
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -132,102 +132,85 @@ const SignUpScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingContainer>
-      <View style={styles.container}>
-        <SafeAreaView style={styles.safeView}>
-          <ScrollView
-            style={styles.scroll}
-            showsVerticalScrollIndicator={false}
-          >
-            {/* Title and Logo */}
-            <View style={styles.titleContainer}>
-              <View style={styles.textContainer}>
-                <Text style={styles.title}>Create an Account</Text>
-                <Text style={styles.subtitle}>
-                  Create an account first before using{" "}
-                  <Text style={{ color: "#9DB2BF", fontWeight: "bold" }}>
-                    Rent A Car{" "}
-                  </Text>
-                  Service
-                </Text>
-              </View>
-              <View style={styles.logoContainer}>
-                <Image
-                  source={require("assets/images/logo.png")}
-                  style={styles.logo}
-                />
-              </View>
-            </View>
-            {/* Sign-Up Fields */}
-            <View style={styles.inputContainer}>
-              {Object.keys(formData).map((key) => (
-                <React.Fragment key={key}>
-                  <Text style={styles.label}>{toSentenceCase(key)}</Text>
-                  <TextInput
-                    style={styles.input}
-                    value={formData[key]}
-                    onChangeText={(text) => handleInputChange(key, text)}
-                    secureTextEntry={
-                      key === "password" || key === "confirmPassword"
-                    }
-                  />
-                  {!!formErrors[key] && (
-                    <Text style={styles.errorText}>{formErrors[key]}</Text>
-                  )}
-                </React.Fragment>
-              ))}
-            </View>
-            {/* Checkbox for Agreeing to Terms */}
-            <View style={styles.checkboxContainer}>
-              <BouncyCheckbox
-                size={25}
-                fillColor={colors.green[0]}
-                unfillColor="#FFFFFF"
-                style={styles.checkBox}
-                innerIconStyle={{ borderWidth: 0 }}
-                onPress={() => {
-                  setAgreeToTerms((prevValue) => !prevValue);
-                }}
-              />
-
-              <Text style={styles.checkboxLabel}>
-                Please confirm that you agree to our
-                <Link href={"/terms-and-conditions"}>
-                  <Text style={styles.termsBtn}> Terms & Conditions</Text>
-                </Link>
+    <MainLayout>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+        {/* Title and Logo */}
+        <View style={styles.titleContainer}>
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>Create an Account</Text>
+            <Text style={styles.subtitle}>
+              Create an account first before using{" "}
+              <Text style={{ color: "#9DB2BF", fontWeight: "bold" }}>
+                Rent A Car{" "}
               </Text>
-            </View>
+              Service
+            </Text>
+          </View>
+          <View style={styles.logoContainer}>
+            <Image
+              source={require("assets/images/logo.png")}
+              style={styles.logo}
+            />
+          </View>
+        </View>
+        {/* Sign-Up Fields */}
+        <View style={styles.inputContainer}>
+          {Object.keys(formData).map((key) => (
+            <React.Fragment key={key}>
+              <Text style={styles.label}>{toSentenceCase(key)}</Text>
+              <TextInput
+                style={styles.input}
+                value={formData[key]}
+                onChangeText={(text) => handleInputChange(key, text)}
+                secureTextEntry={
+                  key === "password" || key === "confirmPassword"
+                }
+              />
+              {!!formErrors[key] && (
+                <Text style={styles.errorText}>{formErrors[key]}</Text>
+              )}
+            </React.Fragment>
+          ))}
+        </View>
+        {/* Checkbox for Agreeing to Terms */}
+        <View style={styles.checkboxContainer}>
+          <BouncyCheckbox
+            size={25}
+            fillColor="#2DCB2A"
+            unfillColor="#FFFFFF"
+            style={styles.checkBox}
+            innerIconStyle={{ borderWidth: 0 }}
+            onPress={() => {
+              setAgreeToTerms((prevValue) => !prevValue);
+            }}
+          />
 
-            <TouchableOpacity
-              style={[styles.registerButton]}
-              onPress={handleRegister}
-            >
-              <Text style={styles.buttonText}>Register</Text>
-            </TouchableOpacity>
-          </ScrollView>
-        </SafeAreaView>
-      </View>
-    </KeyboardAvoidingContainer>
+          <Text style={styles.checkboxLabel}>
+            Please confirm that you agree to our
+            <Link href={"/terms-and-conditions"}>
+              <Text style={styles.termsBtn}> Terms & Conditions</Text>
+            </Link>
+          </Text>
+        </View>
+
+        <TouchableOpacity
+          style={[styles.registerButton]}
+          onPress={handleRegister}
+        >
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </MainLayout>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%",
-    justifyContent: "center",
-    paddingHorizontal: 25,
-    alignItems: "center",
-  },
   disabledButton: {
     backgroundColor: colors.blue.slitedark,
   },
-  safeView: {
-    flex: 1,
-    width: "100%",
-  },
   scroll: {
     flex: 1,
+    width: "100%",
   },
   checkBox: {
     borderRadius: 0,

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  StatusBar,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -18,6 +19,7 @@ const LandingPage = () => {
       source={require("assets/images/bg.png")}
       style={styles.backgroundImage}
     >
+      <StatusBar hidden={true} />
       <View style={styles.container}>
         <View style={styles.logoContainer}>
           <Image

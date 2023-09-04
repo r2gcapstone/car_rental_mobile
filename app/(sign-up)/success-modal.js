@@ -1,11 +1,12 @@
 import { StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 
+//layout
+import MainLayout from "layouts/MainLayout";
 //components
 import View from "components/ThemedView";
 import Text from "components/ThemedText";
-
 //constants
 import { colors } from "constants/Colors";
 
@@ -15,7 +16,7 @@ export default function SuccessModal() {
   };
 
   return (
-    <View style={styles.container}>
+    <MainLayout>
       <Image source={require("assets/images/logo.png")} style={styles.logo} />
       <Text style={styles.successText}>
         You have successfully created an account.
@@ -25,19 +26,11 @@ export default function SuccessModal() {
           <Text style={styles.proceedBtnText}>Login Here</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </MainLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignContent: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 25,
-    gap: 38,
-  },
   logo: { width: 182, height: 220 },
   proceedButton: {
     backgroundColor: colors.blue.slitedark,

@@ -1,12 +1,19 @@
 import React, { useState } from "react";
-import { TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
+import {
+  TextInput,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Image,
+} from "react-native";
 import { login } from "api/auth";
 
 // Components
-import View from "components/ThemedView";
+// import View from "components/ThemedView";
 import Text from "components/ThemedText";
 import LoadingAnimation from "components/LoadingAnimation";
 import ErrorMessage from "components/ErrorMessage";
+import MainLayout from "../layouts/MainLayout";
 
 // Constants
 import { colors } from "constants/Colors";
@@ -38,7 +45,7 @@ const SignInScreen = () => {
     setIsLoading(true);
 
     const response = await login(email, password);
-    console.log("response:", response);
+    // console.log("response:", response);
 
     setIsLoading(false);
 
@@ -59,7 +66,7 @@ const SignInScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <MainLayout>
       <View style={styles.logoContainer}>
         <Image source={require("assets/images/logo.png")} style={styles.logo} />
       </View>
@@ -108,17 +115,11 @@ const SignInScreen = () => {
         </Link>
       </View>
       <LoadingAnimation isVisible={isLoading} />
-    </View>
+    </MainLayout>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 25,
-  },
   logoTitle: {
     fontSize: 46,
     fontWeight: "bold",

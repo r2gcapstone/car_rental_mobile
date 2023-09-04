@@ -8,6 +8,7 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { colors } from "../../constants/Colors";
 import LoadingAnimation from "components/LoadingAnimation";
+import { StatusBar } from "react-native";
 
 export default function Header() {
   const [modal, setModal] = useState(false);
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     marginBottom: 32,
-    paddingTop: 20,
+    paddingTop: StatusBar.currentHeight,
   },
   bellIcon: {
     height: 28,

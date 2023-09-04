@@ -1,10 +1,17 @@
 import React from "react";
-import { View, Modal, ActivityIndicator, StyleSheet } from "react-native";
+import {
+  View,
+  Modal,
+  ActivityIndicator,
+  StyleSheet,
+  StatusBar,
+} from "react-native";
 import { colors } from "../constants/Colors";
 
 const LoadingAnimation = ({ isVisible }) => {
   return (
     <Modal transparent={true} visible={isVisible}>
+      <StatusBar hidden={true} />
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={colors.blue.slitedark} />
       </View>
