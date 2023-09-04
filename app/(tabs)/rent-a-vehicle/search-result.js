@@ -6,6 +6,9 @@ import {
   ScrollView,
   View,
 } from "react-native";
+//layout
+import MainLayout from "layouts/MainLayout";
+
 import { router } from "expo-router";
 import { useRoute } from "@react-navigation/native";
 import Text from "components/ThemedText";
@@ -47,7 +50,7 @@ export default function ResultScreen() {
   // console.log("Search Results: ", searchResults);
 
   return (
-    <View style={styles.container}>
+    <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Available Vehicle’s For Rent</Text>
@@ -157,7 +160,7 @@ export default function ResultScreen() {
           )}
         </View>
       </ScrollView>
-    </View>
+    </MainLayout>
   );
 }
 
@@ -174,11 +177,9 @@ const commonStyles = {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  scroll: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    backgroundColor: colors.blue.dark,
+    width: "100%",
   },
   backIcon: {
     transform: [{ rotate: "180deg" }],

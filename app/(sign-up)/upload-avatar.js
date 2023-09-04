@@ -4,14 +4,14 @@ import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import { useRoute } from "@react-navigation/native";
 
+//layout
+import MainLayout from "layouts/MainLayout";
 //components
 import View from "components/ThemedView";
 import Text from "components/ThemedText";
 import LoadingAnimation from "components/LoadingAnimation";
-
 //constants
 import { colors } from "constants/Colors";
-
 //firebase
 import { signup } from "api/auth";
 
@@ -69,7 +69,7 @@ export default function UploadAvatar() {
   };
 
   return (
-    <View style={styles.container}>
+    <MainLayout>
       <View style={styles.uploadContainer}>
         {imageUrl ? (
           <Image source={{ uri: imageUrl }} style={styles.selectedImage} />
@@ -83,7 +83,8 @@ export default function UploadAvatar() {
         <Text style={styles.uploadText}>Upload Profile Picture</Text>
 
         <TouchableOpacity style={styles.uploadBtnContainer} onPress={pickImage}>
-          <Text style={styles.uploadBtnText}>Upload Image +</Text>
+          <Text style={styles.uploadBtnText}>Upload Image</Text>
+          <Text style={styles.uploadBtnLogo}>+</Text>
         </TouchableOpacity>
       </View>
 
@@ -98,17 +99,11 @@ export default function UploadAvatar() {
       </View>
 
       <LoadingAnimation isVisible={isLoading} />
-    </View>
+    </MainLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%",
-    justifyContent: "space-between",
-    paddingHorizontal: 25,
-  },
   profileIcon: {
     width: 250,
     height: 250,
@@ -125,14 +120,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     marginBottom: 20,
+    width: "100%",
   },
   uploadBtnContainer: {
-    padding: 4,
+    flexDirection: "row",
+    paddingHorizontal: 25,
     backgroundColor: "#A6A6A6",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 100,
     marginTop: 20,
+  },
+  uploadBtnLogo: {
+    fontSize: 25,
   },
   uploadText: {
     marginTop: 20,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   proceedButton: {
     backgroundColor: colors.blue.slitedark,
     paddingVertical: 12,
-    borderRadius: 18,
+    borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
@@ -161,9 +161,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   proceedBtnText: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
-    paddingHorizontal: 10,
     color: "#fff",
   },
   skipBtnText: {
