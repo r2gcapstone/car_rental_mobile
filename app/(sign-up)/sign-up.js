@@ -1,4 +1,4 @@
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 import React, { useState } from "react";
 import {
   TextInput,
@@ -19,7 +19,7 @@ import Text from "components/ThemedText";
 import KeyboardAvoidingContainer from "components/KeyboardAvoidingView";
 
 //constants
-import { colors } from "constants/Colors";
+import { colors } from "../../constants/Colors";
 import { emailRegex, phoneNumberRegex } from "constants/RegexValidation";
 import { toSentenceCase } from "constants/SentenceCase";
 
@@ -28,6 +28,7 @@ const SignUpScreen = () => {
   // Use the useNavigation hook
   const navigation = useNavigation();
 
+  //formData object for signup fields
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -181,7 +182,7 @@ const SignUpScreen = () => {
             <View style={styles.checkboxContainer}>
               <BouncyCheckbox
                 size={25}
-                fillColor={colors.green[0]}
+                fillColor="#2DCB2A"
                 unfillColor="#FFFFFF"
                 style={styles.checkBox}
                 innerIconStyle={{ borderWidth: 0 }}
@@ -215,6 +216,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+    height: "100%",
     justifyContent: "center",
     paddingHorizontal: 25,
     alignItems: "center",
