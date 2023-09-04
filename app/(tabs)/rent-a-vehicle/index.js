@@ -22,6 +22,10 @@ import VehicleDropdown from "components/rent_a_vehicle/VehicleType";
 import GearShiftDropdown from "components/rent_a_vehicle/GearType";
 import FuelTypeDropdown from "components/rent_a_vehicle/FuelType";
 import LoadingAnimation from "components/LoadingAnimation";
+
+
+import { colors } from "constants/Colors";
+
 import PassengerCount from "components/rent_a_vehicle/PassengerCount";
 import BaggageNumber from "components/rent_a_vehicle/BaggageNumber";
 import PriceRate from "components/rent_a_vehicle/PriceRate";
@@ -78,6 +82,7 @@ export default function RentAVehicle() {
     setIsLoading(true); // Show loading modal
     const result = await searchAvailableCars(search);
 
+
     if (result.status === 204) {
       setIsLoading(false);
       alert("No Result found");
@@ -85,7 +90,7 @@ export default function RentAVehicle() {
     }
 
     setIsLoading(false);
-    navigation.navigate("rent-a-vehicle/search-result", { result });
+    navigation.navigate("rent-a-vehicle/search-result", { result })
   };
 
   return (
