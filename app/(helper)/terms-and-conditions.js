@@ -1,22 +1,20 @@
-import {
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-} from "react-native";
 import React from "react";
+import { StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
+import { router } from "expo-router";
 
 //components
 import View from "components/ThemedView";
 import Text from "components/ThemedText";
-import { BackButton } from "components/BackButton";
 
 import MainLayout from "layouts/MainLayout";
 //constants
 import { colors } from "constants/Colors";
 
 export default function terms() {
+  const BackButton = () => {
+    router.back("/sign-up");
+  };
+
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
