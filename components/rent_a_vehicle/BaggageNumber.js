@@ -5,19 +5,20 @@ import Text from "components/ThemedText";
 
 import { colors } from "constants/Colors";
 
-export default function BaggageNumber({ setBaggageNum }) {
+export default function BaggageNumber({ filter, setFilter }) {
   const handleOnchange = (value) => {
-    setBaggageNum(value);
+    setFilter(value);
   };
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Baggage count : </Text>
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="0"
           style={styles.input}
           keyboardType="numeric"
-          onChangeText={(value) => handleOnchange(value)}
+          onChangeText={(value) =>
+            handleOnchange({ ...filter, baggageNum: value })
+          }
         ></TextInput>
       </View>
     </View>

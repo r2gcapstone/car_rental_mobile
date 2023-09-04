@@ -5,9 +5,9 @@ import { colors } from "../../constants/Colors";
 
 import Text from "components/ThemedText";
 
-const GearShiftDropdown = ({ gearType, setGearType }) => {
+const GearShiftDropdown = ({ filter, setFilter }) => {
   const options = [
-    { label: "Default (Select All Option)", value: "default" },
+    { label: "Select Type of Vehicle", value: "" },
     { label: "Manual Transmission", value: "manual" },
     { label: "Automatic Transmission", value: "automatic" },
     { label: "Continuously Variable Transmission", value: "cvt" },
@@ -20,8 +20,10 @@ const GearShiftDropdown = ({ gearType, setGearType }) => {
       <Text style={styles.label}>Gear Shift :</Text>
       <View style={styles.pickerContainer}>
         <Picker
-          selectedValue={gearType}
-          onValueChange={(itemValue) => setGearType(itemValue)}
+          selectedValue={filter.gearType}
+          onValueChange={(itemValue) =>
+            setFilter({ ...filter, gearType: itemValue })
+          }
           style={styles.picker}
         >
           {options.map((option) => (
