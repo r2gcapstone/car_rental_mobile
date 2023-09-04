@@ -5,9 +5,9 @@ import { colors } from "../../constants/Colors";
 
 import Text from "components/ThemedText";
 
-const VehicleDropdown = ({ vehicleType, setVehicleType }) => {
+const VehicleDropdown = ({ filter, setFilter }) => {
   const options = [
-    { label: "Default (Select All Option)", value: "default" },
+    { label: "Select Type of Vehicle", value: "" },
     { label: "Compact Cars", value: "compact" },
     { label: "Mid-size Cars", value: "midSize" },
     { label: "Full-Size Cars", value: "fullSize" },
@@ -22,8 +22,10 @@ const VehicleDropdown = ({ vehicleType, setVehicleType }) => {
       <Text style={styles.label}>Type of Vehicle :</Text>
       <View style={styles.pickerContainer}>
         <Picker
-          selectedValue={vehicleType}
-          onValueChange={(itemValue) => setVehicleType(itemValue)}
+          selectedValue={filter.vehicleType} // Use filter.filter instead of filter
+          onValueChange={(itemValue) =>
+            setFilter({ ...filter, vehicleType: itemValue })
+          } // Update the filter object
           style={styles.picker}
         >
           {options.map((option) => (

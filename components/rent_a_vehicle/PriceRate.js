@@ -5,9 +5,9 @@ import Text from "components/ThemedText";
 
 import { colors } from "constants/Colors";
 
-export default function PriceRate({ setPriceRate }) {
+export default function PriceRate({ filter, setFilter }) {
   const handleOnchange = (value) => {
-    setPriceRate(value);
+    setFilter(value);
   };
   return (
     <View style={styles.container}>
@@ -21,10 +21,11 @@ export default function PriceRate({ setPriceRate }) {
         </View>
 
         <TextInput
-          placeholder="0"
           style={styles.input}
           keyboardType="numeric"
-          onChangeText={(value) => handleOnchange(value)}
+          onChangeText={(value) =>
+            handleOnchange({ ...filter, priceRate: value })
+          }
         ></TextInput>
       </View>
     </View>

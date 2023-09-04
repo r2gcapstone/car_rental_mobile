@@ -5,9 +5,9 @@ import { colors } from "constants/Colors";
 
 import Text from "components/ThemedText";
 
-const FuelTypeDropdown = ({ fuelType, setFuelType }) => {
+const FuelTypeDropdown = ({ filter, setFilter }) => {
   const options = [
-    { label: "Default (Select All Options)", value: "default" },
+    { label: "Select Type of Vehicle", value: "" },
     { label: "Gasoline", value: "gasoline" },
     { label: "Diesel", value: "diesel" },
     { label: "Biodiesel", value: "biodiesel" },
@@ -18,8 +18,10 @@ const FuelTypeDropdown = ({ fuelType, setFuelType }) => {
       <Text style={styles.label}>Select Fuel Type :</Text>
       <View style={styles.pickerContainer}>
         <Picker
-          selectedValue={fuelType}
-          onValueChange={(itemValue) => setFuelType(itemValue)}
+          selectedValue={filter.fuelType}
+          onValueChange={(itemValue) =>
+            setFilter({ ...filter, fuelType: itemValue })
+          }
           style={styles.picker}
         >
           {options.map((option) => (

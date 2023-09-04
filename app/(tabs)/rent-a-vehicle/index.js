@@ -37,42 +37,25 @@ const initialDateTimeValues = {
 
 export default function RentAVehicle() {
   const [dateTimeValues, setDateTimeValues] = useState(initialDateTimeValues);
-  const [vehicleType, setVehicleType] = useState("default");
-  const [gearType, setGearType] = useState("default");
-  const [fuelType, setFuelType] = useState("default");
-  const [passengerNum, setPassengerNum] = useState("default");
-  const [baggageNum, setBaggageNum] = useState("default");
-  const [priceRate, setPriceRate] = useState("default");
-  const [location, setLocation] = useState("default");
   const [isLoading, setIsLoading] = useState(false);
+
+  const [filter, setFilter] = useState({
+    vehicleType: "",
+    gearType: "",
+    fuelType: "",
+    passengerNum: "",
+    baggageNum: "",
+    priceRate: "",
+    location: "",
+  });
 
   // Use the useNavigation hook
   const navigation = useNavigation();
 
   const search = {
+    filter: { ...filter },
     dateTimeValues: dateTimeValues,
-    filter: {
-      vehicleType: vehicleType,
-      gearType: gearType,
-      fuelType: fuelType,
-      passengerNum: passengerNum,
-      baggageNum: baggageNum,
-      priceRate: priceRate,
-      location: location,
-    },
   };
-
-  useEffect(() => {
-    console.log("search Object:", search);
-  }, [
-    dateTimeValues,
-    vehicleType,
-    gearType,
-    fuelType,
-    passengerNum,
-    baggageNum,
-    priceRate,
-  ]);
 
   const handleSearch = async () => {
     setIsLoading(true); // Show loading modal
@@ -87,6 +70,10 @@ export default function RentAVehicle() {
     setIsLoading(false);
     navigation.navigate("rent-a-vehicle/search-result", { result });
   };
+
+  useEffect(() => {
+    console.log("search Object:", filter);
+  }, [filter]);
 
   return (
     <MainLayout>
@@ -109,22 +96,19 @@ export default function RentAVehicle() {
           <Text style={styles.filterText}>Filter ( Optional )</Text>
 
           <View style={styles.rowField}>
-            <VehicleDropdown
-              vehicleType={vehicleType}
-              setVehicleType={setVehicleType}
-            />
+            <VehicleDropdown filter={filter} setFilter={setFilter} />
           </View>
           <View style={styles.rowField}>
-            <GearShiftDropdown gearType={gearType} setGearType={setGearType} />
+            <GearShiftDropdown filter={filter} setFilter={setFilter} />
           </View>
 
           <View style={styles.rowField}>
-            <FuelTypeDropdown fuelType={fuelType} setFuelType={setFuelType} />
-            <PassengerCount setPassengerNum={setPassengerNum} />
+            <FuelTypeDropdown filter={filter} setFilter={setFilter} />
+            <PassengerCount filter={filter} setFilter={setFilter} />
           </View>
           <View style={styles.rowField}>
-            <BaggageNumber setBaggageNum={setBaggageNum} />
-            <PriceRate setPriceRate={setPriceRate} />
+            <BaggageNumber filter={filter} setFilter={setFilter} />
+            <PriceRate filter={filter} setFilter={setFilter} />
           </View>
           <View
             style={{
