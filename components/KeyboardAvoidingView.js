@@ -1,6 +1,8 @@
 import React from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
+import { colors } from "constants/Colors";
+
 const KeyboardAvoidingContainer = ({ children }) => {
   return (
     <KeyboardAvoidingView
@@ -16,6 +18,7 @@ const KeyboardAvoidingContainer = ({ children }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.blue.dark,
   },
 });
 

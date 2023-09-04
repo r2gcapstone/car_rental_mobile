@@ -7,12 +7,12 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 
+//layout
+import MainLayout from "layouts/MainLayout";
 // Import the useNavigation hook
 import { useNavigation } from "@react-navigation/native";
-
 //api
 import { searchAvailableCars } from "api/search";
-
 // Components
 import View from "components/ThemedView";
 import Text from "components/ThemedText";
@@ -22,11 +22,11 @@ import VehicleDropdown from "components/rent_a_vehicle/VehicleType";
 import GearShiftDropdown from "components/rent_a_vehicle/GearType";
 import FuelTypeDropdown from "components/rent_a_vehicle/FuelType";
 import LoadingAnimation from "components/LoadingAnimation";
-
-import { colors } from "constants/Colors";
 import PassengerCount from "components/rent_a_vehicle/PassengerCount";
 import BaggageNumber from "components/rent_a_vehicle/BaggageNumber";
 import PriceRate from "components/rent_a_vehicle/PriceRate";
+
+import { colors } from "constants/Colors";
 
 const initialDateTimeValues = {
   startRentDate: new Date(),
@@ -89,8 +89,7 @@ export default function RentAVehicle() {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar hidden={true} />
+    <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Header />
         <View style={styles.row1Container}>
@@ -163,18 +162,14 @@ export default function RentAVehicle() {
         </View>
       </ScrollView>
       <LoadingAnimation isVisible={isLoading} />
-    </View>
+    </MainLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 25,
-  },
   scroll: {
     flex: 1,
-    height: "100%",
+    width: "100%",
   },
   row1Container: {
     flex: 1,

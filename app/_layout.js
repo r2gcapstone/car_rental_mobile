@@ -3,11 +3,11 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 
-import { colors } from "../constants/Colors";
+import { colors } from "constants/Colors";
 
 //components
-import ThemeContext from "../context/ThemeContext";
-import DefaultTheme from "../constants/Theme";
+import ThemeContext from "context/ThemeContext";
+import DefaultTheme from "constants/Theme";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -45,7 +45,9 @@ function RootLayoutNav() {
     <ThemeContext.Provider value={DefaultTheme}>
       <Stack
         screenOptions={{
-          statusBarHidden: true,
+          statusBarStyle: "light",
+          statusBarColor: "transparent",
+          statusBarTranslucent: true,
         }}
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
