@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  StatusBar,
-} from "react-native";
+import { StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 
 //layout
@@ -184,8 +178,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   icon: {
-    width: 32,
-    height: 30,
+    width: 25,
+    height: 25,
   },
   arrowIcon: {
     width: 17,
@@ -202,7 +196,7 @@ const styles = StyleSheet.create({
   col: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 8,
     backgroundColor: colors.blue.slitedark,
   },
   button: {
