@@ -78,6 +78,34 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="rent-my-vehicle/register-vehicle"
+        options={{
+          href: null,
+          headerTintColor: "#fff",
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Image
+                style={styles.backBtn}
+                source={require("assets/icons/arrow.png")}
+              />
+            </TouchableOpacity>
+          ),
+          headerStyle: {
+            backgroundColor: colors.blue.dark,
+          },
+          title: "",
+          tabBarStyle: {
+            display:
+              //conditionally hide the tab bar
+              segments[3] === "rent-my-vehicle/register-vehicle"
+                ? "none"
+                : "flex",
+            height: 0,
+            marginVertical: -1,
+          },
+        }}
+      />
+      <Tabs.Screen
         name="profile/index"
         options={{
           title: "My Profile",

@@ -21,6 +21,7 @@ import subscription from "assets/icons/subScription.png";
 import arrow from "assets/icons/arrow.png";
 //image
 import image1 from "assets/images/image1.png";
+import { Link } from "expo-router";
 
 const options = [
   { label: "Application for Renting", icon: users },
@@ -45,11 +46,13 @@ export default function RentMyVehicle() {
             vehicle to be rented by other people with your preferable price
           </Text>
           <TouchableOpacity style={styles.proceedBtn}>
-            <Text style={styles.buttonText}>Register Vehicle</Text>
+            <Link href={"rent-my-vehicle/register-vehicle"}>
+              <Text style={styles.buttonText}>Register Vehicle</Text>
+            </Link>
           </TouchableOpacity>
         </View>
-        {options.map((option) => (
-          <View style={styles.row2}>
+        {options.map((option, index) => (
+          <View key={index} style={styles.row2}>
             <View style={styles.col}>
               <Image style={styles.icon} source={option.icon} />
               <Text style={styles.btnText}>{option.label}</Text>
@@ -131,6 +134,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 8,
     backgroundColor: colors.blue.dark,
+    alignItems: "center",
   },
   buttonText: {
     flex: 1,
