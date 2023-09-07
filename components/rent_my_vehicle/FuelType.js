@@ -1,41 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import { colors } from "constants/Colors";
+import Dropdown from "../button/Dropdown";
 
-import Text from "components/ThemedText";
+const options = [
+  {
+    label: "Gasoline",
+    value: "gasoline",
+    caption:
+      "It is a liquid fuel commonly used in internal combustion engines to power automobiles, motorcycles, and small machinery.",
+  },
+  {
+    label: "Diesel",
+    value: "diesel",
+    caption:
+      "Diesel fuel is another type of liquid fuel used in diesel engines, which are commonly found in trucks, buses, ships, and some cars.",
+  },
+  {
+    label: "Biodiesel",
+    value: "biodiesel",
+    caption:
+      "Biodiesel is a renewable and environmentally friendly alternative to conventional diesel fuel. It is derived from renewable sources such as vegetable oils, animal fats, or even recycled cooking oils.",
+  },
+];
 
-const FuelTypeDropdown = ({ filter, setFilter }) => {
-  const options = [
-    { label: "Select Type of Vehicle", value: "" },
-    { label: "Gasoline", value: "gasoline" },
-    { label: "Diesel", value: "diesel" },
-    { label: "Biodiesel", value: "biodiesel" },
-  ];
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Select Fuel Type :</Text>
-      <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={filter.fuelType}
-          onValueChange={(itemValue) =>
-            setFilter({ ...filter, fuelType: itemValue })
-          }
-          style={styles.picker}
-        >
-          {options.map((option) => (
-            <Picker.Item
-              key={option.value}
-              label={option.label}
-              value={option.value}
-            />
-          ))}
-        </Picker>
-      </View>
-    </View>
-  );
-};
+const FuelType = ({ formData, setFormData }) => (
+  <View style={styles.container}>
+    <Dropdown
+      placeholder="Select Type of Fuel"
+      label="Fuel Type :"
+      options={options}
+      value={formData.fuelType}
+      onChange={(selectedValue) =>
+        setFormData({ ...formData, fuelType: selectedValue })
+      }
+    />
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -46,20 +46,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     alignSelf: "flex-start",
   },
-  pickerContainer: {
-    flex: 1,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white[1],
-    borderRadius: 5,
-    height: 35,
-  },
-  picker: {
-    width: "100%",
-    borderRadius: 100,
-    color: colors.textColor.dark2,
-  },
 });
 
-export default FuelTypeDropdown;
+export default FuelType;

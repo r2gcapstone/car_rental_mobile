@@ -7,7 +7,7 @@ import Text from "components/ThemedText";
 
 const GearShiftDropdown = ({ filter, setFilter }) => {
   const options = [
-    { label: "Select Type of Vehicle", value: "" },
+    { label: "Select Type of Gear Shift", value: "" },
     { label: "Manual Transmission", value: "manual" },
     { label: "Automatic Transmission", value: "automatic" },
     { label: "Continuously Variable Transmission", value: "cvt" },
