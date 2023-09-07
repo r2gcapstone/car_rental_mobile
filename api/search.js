@@ -22,7 +22,7 @@ export const searchAvailableCars = async ({ filter }) => {
 
     // Apply filters based on the filterOptions object
     filters.forEach(({ key, field, parseToInt }) => {
-      if (filterOptions[key] !== "default") {
+      if (filterOptions[key] !== "") {
         const value = parseToInt ? +filterOptions[key] : filterOptions[key];
         queryRef = query(queryRef, where(field, "==", value));
       }
