@@ -108,6 +108,8 @@ export default function RegisterVehicle() {
 const styles = StyleSheet.create({
   scroll: {
     flex: 1,
+    marginTop: -21,
+    paddingTop: 10,
     width: "100%",
     height: "100%",
   },
