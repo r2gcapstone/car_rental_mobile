@@ -98,7 +98,7 @@ export default function RegisterVehicle() {
           contProps={{ marginTop: 25, marginBottom: 40 }}
           btnProps={{ fontSize: 18 }}
           btnText={"Proceed"}
-          link={"rent-my-vehicle/register-vehicle-jkhcjsa"}
+          link={"rent-my-vehicle/upload-screen"}
         />
       </ScrollView>
     </MainLayout>
@@ -108,8 +108,7 @@ export default function RegisterVehicle() {
 const styles = StyleSheet.create({
   scroll: {
     flex: 1,
-    marginTop: -26,
-    paddingTop: 14,
+    marginTop: 45,
     width: "100%",
     height: "100%",
   },
