@@ -8,7 +8,7 @@ import VehicleType from "components/rent_my_vehicle/VehicleType";
 import GearShiftDropdown from "components/rent_my_vehicle/GearType";
 import FuelType from "components/rent_my_vehicle/FuelType";
 import InputField from "components/InputField";
-import ProceedButton from "components/button/proceedButton";
+import ProceedBtn from "components/button/ProceedBtn";
 
 export default function RegisterVehicle() {
   const [formData, setFormData] = useState({
@@ -93,7 +93,7 @@ export default function RegisterVehicle() {
             required
           />
         </View>
-        <ProceedButton
+        <ProceedBtn
           disable={isFormDataEmpty(formData)}
           contProps={{ marginTop: 25, marginBottom: 40 }}
           btnProps={{ fontSize: 18 }}

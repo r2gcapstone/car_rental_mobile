@@ -12,7 +12,7 @@ import MainLayout from "layouts/MainLayout";
 import Header from "components/home/Header";
 import LoadingAnimation from "components/LoadingAnimation";
 import Text from "components/ThemedText";
-import ProceedButton from "components/button/proceedButton";
+import ProceedBtn from "components/button/ProceedBtn";
 //constants
 import { colors } from "constants/Colors";
 //icon
@@ -46,7 +46,7 @@ export default function RentMyVehicle() {
             In R2G, you have an option to use our platform to advertise your own
             vehicle to be rented by other people with your preferable price
           </Text>
-          <ProceedButton
+          <ProceedBtn
             contProps={{ backgroundColor: colors.blue.dark }}
             btnText={"Register Vehicle"}
             link={"rent-my-vehicle/register-vehicle"}

@@ -5,7 +5,7 @@ import { router } from "expo-router";
 //constants
 import { colors } from "constants/Colors";
 
-const ProceedButton = ({ contProps, btnProps, btnText, link, disable }) => {
+const ProceedBtn = ({ contProps, btnProps, btnText, link, disable }) => {
   const handleOnPress = () => {
     router.push(link);
   };
@@ -21,7 +21,7 @@ const ProceedButton = ({ contProps, btnProps, btnText, link, disable }) => {
   );
 };
 
-export default ProceedButton;
+export default ProceedBtn;
 
 const styles = StyleSheet.create({
   proceedBtn: {
