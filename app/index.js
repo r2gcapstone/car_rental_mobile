@@ -29,7 +29,7 @@ const LandingPage = () => {
         </View>
         <Text style={styles.slogan}>Find a rental vehicle in easy steps</Text>
         {/* <Link href="/login" asChild> */}
-        <Link href="/home" asChild>
+        <Link href="(tabs)/rent-my-vehicle/upload-screen" asChild>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Start Here</Text>
           </TouchableOpacity>

@@ -5,12 +5,11 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 //layout
 import MainLayout from "layouts/MainLayout";
 //components
 import Header from "components/home/Header";
-import LoadingAnimation from "components/LoadingAnimation";
 import Text from "components/ThemedText";
 import ProceedBtn from "components/button/ProceedBtn";
 //constants
@@ -22,7 +21,6 @@ import subscription from "assets/icons/subScription.png";
 import arrow from "assets/icons/arrow.png";
 //image
 import image1 from "assets/images/image1.png";
-import { Link } from "expo-router";
 
 const options = [
   { label: "Application for Renting", icon: users },
@@ -31,8 +29,6 @@ const options = [
 ];
 
 export default function RentMyVehicle() {
-  const [isLoading, setIsLoading] = useState(false);
-
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -65,7 +61,6 @@ export default function RentMyVehicle() {
           </View>
         ))}
       </ScrollView>
-      <LoadingAnimation isVisible={isLoading} />
     </MainLayout>
   );
 }
