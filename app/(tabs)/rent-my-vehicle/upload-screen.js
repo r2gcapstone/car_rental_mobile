@@ -4,8 +4,11 @@ import Text from "components/ThemedText";
 
 //layout
 import MainLayout from "layouts/MainLayout";
-
 import UploadImage from "components/rent_my_vehicle/UploadImage";
+import ProceedBtn from "../../../components/button/ProceedBtn";
+
+//constants
+import { colors } from "constants/Colors";
 
 const UploadScreen = () => {
   const [imageUrls, setImageUrls] = useState({
@@ -67,6 +70,14 @@ const UploadScreen = () => {
             setImageUrls={setImageUrls}
           />
         </View>
+        <ProceedBtn
+          contProps={{
+            marginVertical: 20,
+            backgroundColor: colors.blue.slitedark,
+          }}
+          btnText={"Proceed"}
+          link={"rent-my-vehicle/pick-up-location"}
+        />
       </ScrollView>
     </MainLayout>
   );
