@@ -5,9 +5,13 @@ import { router } from "expo-router";
 //constants
 import { colors } from "constants/Colors";
 
-const ProceedBtn = ({ contProps, btnProps, btnText, url, disable }) => {
+const ProceedBtn = ({ contProps, btnProps, btnText, url, disable, data }) => {
   const handleOnPress = () => {
-    router.push(url);
+    if (data) {
+      router.push({ pathname: url, params: data });
+    } else {
+      router.push(url);
+    }
   };
 
   return (

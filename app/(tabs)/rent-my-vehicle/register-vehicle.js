@@ -35,10 +35,6 @@ export default function RegisterVehicle() {
     return false;
   };
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -94,6 +90,7 @@ export default function RegisterVehicle() {
           />
         </View>
         <ProceedBtn
+          data={formData}
           disable={isFormDataEmpty(formData)}
           contProps={{ marginTop: 25, marginBottom: 40 }}
           btnProps={{ fontSize: 18 }}
