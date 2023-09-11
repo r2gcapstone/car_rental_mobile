@@ -77,7 +77,7 @@ const UploadScreen = () => {
             backgroundColor: colors.blue.slitedark,
           }}
           btnText={"Proceed"}
-          link={"rent-my-vehicle/pick-up-location"}
+          url={"rent-my-vehicle/pick-up-location"}
         />
       </ScrollView>
     </MainLayout>
