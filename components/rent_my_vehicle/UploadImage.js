@@ -4,7 +4,7 @@ import * as ImagePicker from "expo-image-picker";
 
 import Text from "components/ThemedText";
 
-const UploadImage = ({ caption, name, imageUrls, setImageUrls }) => {
+const UploadImage = ({ caption, name, imageUrl, setImageUrl }) => {
   const pickImage = async (name) => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -15,8 +15,8 @@ const UploadImage = ({ caption, name, imageUrls, setImageUrls }) => {
     });
 
     if (!result.canceled) {
-      setImageUrls((prevImageUrls) => ({
-        ...prevImageUrls,
+      setImageUrl((prevImageUrl) => ({
+        ...prevImageUrl,
         [name]: result.assets[0].uri,
       }));
     }
@@ -25,13 +25,13 @@ const UploadImage = ({ caption, name, imageUrls, setImageUrls }) => {
   return (
     <View>
       <View style={styles.uploadContainer}>
-        {imageUrls[name] ? (
+        {imageUrl[name] ? (
           <TouchableOpacity
             style={styles.imageButton}
             onPress={() => pickImage(name)}
           >
             <Image
-              source={{ uri: imageUrls[name] }}
+              source={{ uri: imageUrl[name] }}
               style={styles.selectedImage}
             />
           </TouchableOpacity>

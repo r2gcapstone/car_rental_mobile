@@ -5,24 +5,24 @@ import Text from "components/ThemedText";
 //layout
 import MainLayout from "layouts/MainLayout";
 import UploadImage from "components/rent_my_vehicle/UploadImage";
-import ProceedBtn from "../../../components/button/ProceedBtn";
+import ProceedBtn from "components/button/ProceedBtn";
 
 //constants
 import { colors } from "constants/Colors";
 
 const UploadScreen = () => {
-  const [imageUrls, setImageUrls] = useState({
-    front: null,
-    rear: null,
-    sideRight: null,
-    sideLeft: null,
-    interior1: null,
-    interior2: null,
+  const [imageUrl, setImageUrl] = useState({
+    front: "",
+    rear: "",
+    sideRight: "",
+    sideLeft: "",
+    interior1: "",
+    interior2: "",
   });
 
-  useEffect(() => {
-    console.log(imageUrls);
-  }, [imageUrls]);
+  const isImageUrlEmpty = (imageUrl) =>
+    Object.values(imageUrl).every((value) => value === "");
+
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -36,41 +36,42 @@ const UploadScreen = () => {
           <UploadImage
             caption="Front View of the Vehicle"
             name="front"
-            imageUrls={imageUrls}
-            setImageUrls={setImageUrls}
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
           />
           <UploadImage
             caption="Side View (Left)"
             name="sideLeft"
-            imageUrls={imageUrls}
-            setImageUrls={setImageUrls}
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
           />
           <UploadImage
             caption="Side View (Right)"
             name="sideRight"
-            imageUrls={imageUrls}
-            setImageUrls={setImageUrls}
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
           />
           <UploadImage
             caption="Rear View of the Vehicle"
             name="rear"
-            imageUrls={imageUrls}
-            setImageUrls={setImageUrls}
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
           />
           <UploadImage
             caption="Inside of the Vehicle 2"
             name="interior1"
-            imageUrls={imageUrls}
-            setImageUrls={setImageUrls}
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
           />
           <UploadImage
             caption="Inside of the Vehicle 2"
             name="interior2"
-            imageUrls={imageUrls}
-            setImageUrls={setImageUrls}
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
           />
         </View>
         <ProceedBtn
+          disable={isImageUrlEmpty(imageUrl)}
           contProps={{
             marginVertical: 20,
             backgroundColor: colors.blue.slitedark,
