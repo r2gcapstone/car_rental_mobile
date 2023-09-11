@@ -6,11 +6,16 @@ import Text from "components/ThemedText";
 import MainLayout from "layouts/MainLayout";
 import UploadImage from "components/rent_my_vehicle/UploadImage";
 import ProceedBtn from "components/button/ProceedBtn";
+import { useRoute } from "@react-navigation/native";
 
 //constants
 import { colors } from "constants/Colors";
 
 const UploadScreen = () => {
+  const route = useRoute();
+  //vehicleDetails data
+  const data = route.params;
+
   const [imageUrl, setImageUrl] = useState({
     front: "",
     rear: "",
@@ -19,6 +24,10 @@ const UploadScreen = () => {
     interior1: "",
     interior2: "",
   });
+
+  const newObject = { vehicleDetail: data, vehicleImage: imageUrl };
+
+  console.log(JSON.stringify(newObject, null, 2));
 
   const isImageUrlEmpty = (imageUrl) =>
     Object.values(imageUrl).every((value) => value === "");
@@ -71,6 +80,7 @@ const UploadScreen = () => {
           />
         </View>
         <ProceedBtn
+          data={newObject}
           disable={isImageUrlEmpty(imageUrl)}
           contProps={{
             marginVertical: 20,
