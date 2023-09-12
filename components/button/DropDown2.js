@@ -2,10 +2,18 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { colors } from "constants/Colors";
-
 import Text from "components/ThemedText";
 
 const DropDown2 = ({ data, setData, options, label, name, id, setId }) => {
+  // Define a function to update the id state based on the selected option
+  const updateIdState = (selectedOption) => {
+    if (selectedOption) {
+      const updatedId = { ...id };
+      updatedId[`${name}Id`] = selectedOption[`${name}_id`];
+      setId(updatedId);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
@@ -23,18 +31,7 @@ const DropDown2 = ({ data, setData, options, label, name, id, setId }) => {
               );
 
               // Update the id state with the selected option's ID
-              if (selectedOption && name === "region") {
-                setId({ ...id, regionId: selectedOption[name + "_id"] });
-              }
-              if (selectedOption && name === "province") {
-                setId({ ...id, provinceId: selectedOption[name + "_id"] });
-              }
-              if (selectedOption && name === "municipality") {
-                setId({ ...id, municipalityId: selectedOption[name + "_id"] });
-              }
-              if (selectedOption && name === "barangay") {
-                setId({ ...id, barangayId: selectedOption[name + "_id"] });
-              }
+              updateIdState(selectedOption);
             }}
             style={styles.picker}
           >
