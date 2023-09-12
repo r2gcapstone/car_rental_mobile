@@ -52,9 +52,10 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: colors.white[1],
     alignItems: "center",
-    paddingHorizontal: 10,
+    paddingHorizontal: 14,
     borderRadius: 8,
     color: colors.textColor.dark,
+    fontSize: 14,
   },
   label: {
     color: "#fff",

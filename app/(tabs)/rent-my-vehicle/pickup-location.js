@@ -24,7 +24,7 @@ const PickupLocation = () => {
   });
 
   const [id, setId] = useState({
-    regionId: 1,
+    regionId: null,
     provinceId: null,
     municipalityId: null,
     barangayId: null,
@@ -43,6 +43,7 @@ const PickupLocation = () => {
     );
   };
 
+  //filter functions
   const filteredProvinceData = provinceData.filter(
     (item) => item.region_id === id.regionId
   );
@@ -54,6 +55,47 @@ const PickupLocation = () => {
   const filteredBarangayData = barangayData.filter(
     (item) => item.municipality_id === id.municipalityId
   );
+
+  // Define a function to reset dependent fields
+  const resetDependentFields = (field) => {
+    const newAddress = { ...address };
+    const newId = { ...id };
+
+    if (field === "region") {
+      newAddress.province = "";
+      newAddress.municipality = "";
+      newAddress.barangay = "";
+      newId.provinceId = null;
+      newId.municipalityId = null;
+      newId.barangayId = null;
+    } else if (field === "province") {
+      newAddress.municipality = "";
+      newAddress.barangay = "";
+      newId.municipalityId = null;
+      newId.barangayId = null;
+    } else if (field === "municipality") {
+      newAddress.barangay = "";
+      newId.barangayId = null;
+    }
+
+    setAddress(newAddress);
+    setId(newId);
+  };
+
+  // Reset the fields when the region field changes
+  useEffect(() => {
+    resetDependentFields("region");
+  }, [address.region]);
+
+  // Reset the fields when the province field changes
+  useEffect(() => {
+    resetDependentFields("province");
+  }, [address.province]);
+
+  // Reset the fields when the municipality field changes
+  useEffect(() => {
+    resetDependentFields("municipality");
+  }, [address.municipality]);
 
   useEffect(() => {
     console.log(JSON.stringify(address, null, 2));
