@@ -3,10 +3,18 @@ import { StyleSheet, Text, View } from "react-native";
 import { colors } from "constants/Colors";
 import { TextInput } from "react-native-gesture-handler";
 
-const InputField = ({ type, onChangeText, label, keyboardType }) => {
+const InputField = ({
+  type,
+  onChangeText,
+  label,
+  keyboardType,
+  placeholder,
+}) => {
   const [error, setError] = useState("");
   const validateInput = (text) => {
-    if (type === "text" && text.length < 3) {
+    if (placeholder === "Optional") {
+      setError("");
+    } else if (type === "text" && text.length < 3) {
       setError("Text must be at least 3 characters.");
     } else if (type === "number" && !/^\d+$/.test(text)) {
       setError("Please enter a valid number.");
@@ -24,6 +32,7 @@ const InputField = ({ type, onChangeText, label, keyboardType }) => {
         onChangeText={validateInput}
         keyboardType={keyboardType}
         onBlur={() => validateInput}
+        placeholder={placeholder}
       />
       {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
@@ -45,7 +54,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     borderRadius: 8,
-    color: colors.textColor.dark2,
+    color: colors.textColor.dark,
   },
   label: {
     color: "#fff",

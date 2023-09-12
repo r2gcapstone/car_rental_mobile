@@ -87,7 +87,7 @@ const UploadScreen = () => {
             backgroundColor: colors.blue.slitedark,
           }}
           btnText={"Proceed"}
-          url={"rent-my-vehicle/pick-up-location"}
+          path={"rent-my-vehicle/pickup-location"}
         />
       </ScrollView>
     </MainLayout>
@@ -99,7 +99,7 @@ export default UploadScreen;
 const styles = StyleSheet.create({
   scroll: {
     flex: 1,
-    marginTop: 45,
+    marginTop: 55,
     width: "100%",
     height: "100%",
   },
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomColor: "#fff",
     borderBottomWidth: 1,
-    paddingBottom: 10,
+    paddingBottom: 6,
   },
   imageContainer: {
     flex: 1,
