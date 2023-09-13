@@ -8,7 +8,7 @@ import { colors } from "constants/Colors";
 
 import { useRoute } from "@react-navigation/native";
 
-const DropoffLocation = () => {
+const PriceRate = () => {
   const [priceRate, setPriceRate] = useState("");
   const route = useRoute();
   //prev data
@@ -64,7 +64,7 @@ const DropoffLocation = () => {
   );
 };
 
-export default DropoffLocation;
+export default PriceRate;
 
 const styles = StyleSheet.create({
   container: {
