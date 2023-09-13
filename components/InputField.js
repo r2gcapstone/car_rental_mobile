@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { colors } from "constants/Colors";
 import { TextInput } from "react-native-gesture-handler";
 
@@ -10,6 +10,7 @@ const InputField = ({
   keyboardType,
   placeholder,
   textError,
+  isIcon,
 }) => {
   const [error, setError] = useState("");
   const validateInput = (text) => {
@@ -28,13 +29,24 @@ const InputField = ({
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label || "Label :"}</Text>
-      <TextInput
-        style={styles.textField}
-        onChangeText={validateInput}
-        keyboardType={keyboardType}
-        onBlur={() => validateInput}
-        placeholder={placeholder}
-      />
+      <View style={styles.textFieldContainer}>
+        {isIcon && (
+          <View style={styles.iconContainer}>
+            <Image
+              style={styles.icon}
+              source={require("../assets/icons/Peso.png")}
+            ></Image>
+          </View>
+        )}
+
+        <TextInput
+          style={styles.input}
+          onChangeText={validateInput}
+          keyboardType={keyboardType}
+          onBlur={() => validateInput}
+          placeholder={placeholder}
+        />
+      </View>
       {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
@@ -46,15 +58,20 @@ const styles = StyleSheet.create({
   container: {
     height: "auto",
     gap: 8,
-  },
-  textField: {
-    flex: 1,
-    height: 40,
     width: "100%",
-    backgroundColor: colors.white[1],
+  },
+  textFieldContainer: {
+    flexDirection: "row",
     alignItems: "center",
+    width: "100%",
+    height: 40,
     paddingHorizontal: 14,
     borderRadius: 8,
+    backgroundColor: colors.white[1],
+    gap: 10,
+  },
+  input: {
+    width: "100%",
     color: colors.textColor.dark,
     fontSize: 16,
   },
@@ -65,5 +82,18 @@ const styles = StyleSheet.create({
   errorText: {
     color: "red",
     fontSize: 12,
+  },
+  iconContainer: {
+    padding: 4,
+    paddingRight: 15,
+    height: "100%",
+    borderRightWidth: 1,
+    borderColor: "#000",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  icon: {
+    height: 17,
+    width: 15,
   },
 });
