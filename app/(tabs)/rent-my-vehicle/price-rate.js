@@ -26,10 +26,6 @@ const DropoffLocation = () => {
 
   const newObject = { ...data, priceRate: priceRate };
 
-  useEffect(() => {
-    console.log(JSON.stringify(newObject, null, 2));
-  }, [priceRate]);
-
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>

@@ -115,10 +115,6 @@ const DropoffLocation = () => {
 
   const newObject = { ...data, dropoffLocation: address };
 
-  useEffect(() => {
-    console.log(JSON.stringify(newObject, null, 2));
-  }, [address]);
-
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>

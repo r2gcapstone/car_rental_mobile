@@ -27,8 +27,6 @@ const UploadScreen = () => {
 
   const newObject = { vehicleDetails: data, imageUrls: imageUrl };
 
-  console.log(JSON.stringify(newObject, null, 2));
-
   const isImageUrlEmpty = (imageUrl) =>
     Object.values(imageUrl).some((value) => value === "");
 
