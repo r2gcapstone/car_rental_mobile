@@ -45,8 +45,7 @@ const DropoffLocation = () => {
 
   const route = useRoute();
   //vehicleDetails data
-  // const data = JSON.parse(route.params?.data);
-  const data = route.params?.data;
+  const data = JSON.parse(route.params?.data);
 
   const handleOnChangeText = (name, value) => {
     setAddress((prevAddress) => ({
@@ -115,6 +114,10 @@ const DropoffLocation = () => {
   }, [address.municipality]);
 
   const newObject = { ...data, dropoffLocation: address };
+
+  useEffect(() => {
+    console.log(JSON.stringify(newObject, null, 2));
+  }, [address]);
 
   return (
     <MainLayout>
@@ -201,7 +204,7 @@ const DropoffLocation = () => {
         </View>
 
         <ProceedBtn
-          // data={newObject}
+          data={newObject}
           disable={isAddressEmpty()}
           contProps={{
             marginVertical: 30,

@@ -112,6 +112,33 @@ export default function RentMyVehicleStack() {
           },
         }}
       />
+      <Stack.Screen
+        name="price-rate"
+        options={{
+          href: null,
+          headerTintColor: "#fff",
+          headerTransparent: true,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Image
+                style={styles.backBtn}
+                source={require("assets/icons/arrow.png")}
+              />
+            </TouchableOpacity>
+          ),
+          headerStyle: {
+            backgroundColor: colors.blue.dark,
+          },
+          title: "",
+          tabBarStyle: {
+            display:
+              //conditionally hide the tab bar
+              segments[3] === "rent-my-vehicle/price-rate" ? "none" : "flex",
+            height: 0,
+            marginVertical: -1,
+          },
+        }}
+      />
     </Stack>
   );
 }

@@ -83,7 +83,8 @@ export default function TabLayout() {
               currentRoute === "(tabs)/rent-my-vehicle/register-vehicle" ||
               currentRoute === "(tabs)/rent-my-vehicle/upload-screen" ||
               currentRoute === "(tabs)/rent-my-vehicle/pickup-location" ||
-              currentRoute === "(tabs)/rent-my-vehicle/dropoff-location"
+              currentRoute === "(tabs)/rent-my-vehicle/dropoff-location" ||
+              currentRoute === "(tabs)/rent-my-vehicle/price-rate"
                 ? "none"
                 : "flex",
             backgroundColor: colors.blue.slitedark,
