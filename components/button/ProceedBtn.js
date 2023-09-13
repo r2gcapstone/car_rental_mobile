@@ -8,7 +8,7 @@ import { colors } from "constants/Colors";
 const ProceedBtn = ({ contProps, btnProps, btnText, path, disable, data }) => {
   const handleOnPress = () => {
     if (data) {
-      router.push({ pathname: path, params: data });
+      router.push({ pathname: path, params: { data: JSON.stringify(data) } });
     } else {
       router.push(path);
     }

@@ -11,24 +11,41 @@ import regionData from "json/region.json";
 import municipalityData from "json/municipality.json";
 import barangayData from "json/barangay.json";
 
-const PickupLocation = () => {
-  const [address, setAddress] = useState({
-    country: "Philippines",
-    region: "",
-    province: "",
-    municipality: "",
-    barangay: "",
-    streetName: "optional",
-    houseNumber: "optional",
-    zipCode: "",
-  });
+import { useRoute } from "@react-navigation/native";
 
+const PickupLocation = () => {
   const [id, setId] = useState({
     regionId: null,
     provinceId: null,
     municipalityId: null,
     barangayId: null,
   });
+  const [address, setAddress] = useState({
+    country: "Philippines",
+    region: {
+      name: "",
+      id: null,
+    },
+    province: {
+      name: "",
+      id: null,
+    },
+    municipality: {
+      name: "",
+      id: null,
+    },
+    barangay: {
+      name: "",
+      id: null,
+    },
+    streetName: "",
+    houseNumber: "",
+    zipCode: "",
+  });
+
+  const route = useRoute();
+  //vehicleDetails data
+  const data = JSON.parse(route.params?.data);
 
   const handleOnChangeText = (name, value) => {
     setAddress((prevAddress) => ({
@@ -38,9 +55,8 @@ const PickupLocation = () => {
   };
 
   const isAddressEmpty = () => {
-    return Object.values(address).some(
-      (value) => value !== "optional" && value === ""
-    );
+    const { streetName, houseNumber, ...rest } = address;
+    return Object.values(rest).some((value) => value === "");
   };
 
   //filter functions
@@ -97,10 +113,7 @@ const PickupLocation = () => {
     resetDependentFields("municipality");
   }, [address.municipality]);
 
-  useEffect(() => {
-    console.log(JSON.stringify(address, null, 2));
-    console.log(JSON.stringify(id, null, 2));
-  }, [address]);
+  const newObject = { ...data, pickupLocation: address };
 
   return (
     <MainLayout>
@@ -178,6 +191,7 @@ const PickupLocation = () => {
           />
           <InputField
             label={"Zip Code :"}
+            textError="Please enter a valid zip code"
             keyboardType="number-pad"
             type="number"
             name="zipCode"
@@ -186,6 +200,7 @@ const PickupLocation = () => {
         </View>
 
         <ProceedBtn
+          data={newObject}
           disable={isAddressEmpty()}
           contProps={{
             marginVertical: 30,
@@ -229,18 +244,19 @@ const styles = StyleSheet.create({
   countryLabel: {
     flex: 1,
     gap: 8,
+    fontSize: 16,
   },
   countryField: {
     flex: 1,
     height: 40,
     width: "100%",
     backgroundColor: colors.white[2],
-    paddingHorizontal: 10,
+    paddingHorizontal: 14,
     borderRadius: 8,
     justifyContent: "center",
   },
   label: {
     color: "#fff",
-    fontSize: 14,
+    fontSize: 16,
   },
 });

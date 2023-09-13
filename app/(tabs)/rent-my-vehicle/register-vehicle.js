@@ -95,7 +95,7 @@ export default function RegisterVehicle() {
           contProps={{ marginTop: 25, marginBottom: 40 }}
           btnProps={{ fontSize: 18 }}
           btnText={"Proceed"}
-          url={"rent-my-vehicle/upload-screen"}
+          path={"rent-my-vehicle/upload-screen"}
         />
       </ScrollView>
     </MainLayout>

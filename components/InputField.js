@@ -9,15 +9,16 @@ const InputField = ({
   label,
   keyboardType,
   placeholder,
+  textError,
 }) => {
   const [error, setError] = useState("");
   const validateInput = (text) => {
     if (placeholder === "Optional") {
       setError("");
     } else if (type === "text" && text.length < 3) {
-      setError("Text must be at least 3 characters.");
+      setError(textError || "Text must be at least 3 characters.");
     } else if (type === "number" && !/^\d+$/.test(text)) {
-      setError("Please enter a valid number.");
+      setError(textError || "Please enter a valid number.");
     } else {
       setError("");
     }
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     borderRadius: 8,
     color: colors.textColor.dark,
-    fontSize: 14,
+    fontSize: 16,
   },
   label: {
     color: "#fff",

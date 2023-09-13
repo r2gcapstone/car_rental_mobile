@@ -14,7 +14,7 @@ import { colors } from "constants/Colors";
 const UploadScreen = () => {
   const route = useRoute();
   //vehicleDetails data
-  const data = route.params;
+  const data = JSON.parse(route.params?.data);
 
   const [imageUrl, setImageUrl] = useState({
     front: "",
@@ -25,12 +25,12 @@ const UploadScreen = () => {
     interior2: "",
   });
 
-  const newObject = { vehicleDetail: data, vehicleImage: imageUrl };
+  const newObject = { vehicleDetails: data, imageUrls: imageUrl };
 
   console.log(JSON.stringify(newObject, null, 2));
 
   const isImageUrlEmpty = (imageUrl) =>
-    Object.values(imageUrl).every((value) => value === "");
+    Object.values(imageUrl).some((value) => value === "");
 
   return (
     <MainLayout>
