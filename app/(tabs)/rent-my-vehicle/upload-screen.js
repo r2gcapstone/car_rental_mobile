@@ -14,7 +14,7 @@ import { colors } from "constants/Colors";
 const UploadScreen = () => {
   const route = useRoute();
   //vehicleDetails data
-  const data = route.params;
+  const data = JSON.parse(route.params?.data);
 
   const [imageUrl, setImageUrl] = useState({
     front: "",
@@ -25,12 +25,12 @@ const UploadScreen = () => {
     interior2: "",
   });
 
-  const newObject = { vehicleDetail: data, vehicleImage: imageUrl };
+  const newObject = { vehicleDetails: data, imageUrls: imageUrl };
 
   console.log(JSON.stringify(newObject, null, 2));
 
   const isImageUrlEmpty = (imageUrl) =>
-    Object.values(imageUrl).every((value) => value === "");
+    Object.values(imageUrl).some((value) => value === "");
 
   return (
     <MainLayout>
@@ -87,7 +87,7 @@ const UploadScreen = () => {
             backgroundColor: colors.blue.slitedark,
           }}
           btnText={"Proceed"}
-          url={"rent-my-vehicle/pick-up-location"}
+          path={"rent-my-vehicle/pickup-location"}
         />
       </ScrollView>
     </MainLayout>
@@ -99,7 +99,7 @@ export default UploadScreen;
 const styles = StyleSheet.create({
   scroll: {
     flex: 1,
-    marginTop: 45,
+    marginTop: 55,
     width: "100%",
     height: "100%",
   },
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomColor: "#fff",
     borderBottomWidth: 1,
-    paddingBottom: 10,
+    paddingBottom: 6,
   },
   imageContainer: {
     flex: 1,

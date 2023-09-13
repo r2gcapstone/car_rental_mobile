@@ -45,7 +45,7 @@ export default function RentMyVehicle() {
           <ProceedBtn
             contProps={{ backgroundColor: colors.blue.dark }}
             btnText={"Register Vehicle"}
-            url={"rent-my-vehicle/register-vehicle"}
+            path={"rent-my-vehicle/register-vehicle"}
           />
         </View>
         {options.map((option, index) => (

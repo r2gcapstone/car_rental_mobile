@@ -54,6 +54,35 @@ export default function RentMyVehicleStack() {
           },
         }}
       />
+      <Stack.Screen
+        name="pickup-location"
+        options={{
+          href: null,
+          headerTintColor: "#fff",
+          headerTransparent: true,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Image
+                style={styles.backBtn}
+                source={require("assets/icons/arrow.png")}
+              />
+            </TouchableOpacity>
+          ),
+          headerStyle: {
+            backgroundColor: colors.blue.dark,
+          },
+          title: "",
+          tabBarStyle: {
+            display:
+              //conditionally hide the tab bar
+              segments[3] === "rent-my-vehicle/pickup-location"
+                ? "none"
+                : "flex",
+            height: 0,
+            marginVertical: -1,
+          },
+        }}
+      />
     </Stack>
   );
 }
@@ -65,5 +94,6 @@ const styles = StyleSheet.create({
     width: 20,
     padding: 4,
     transform: [{ rotate: "180deg" }],
+    marginBottom: 20,
   },
 });

@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     borderColor: colors.borderColor,
   },
   selectedOption: {
-    color: colors.textColor.dark2,
+    color: colors.textColor.dark,
     paddingHorizontal: 10,
     fontSize: 16,
   },

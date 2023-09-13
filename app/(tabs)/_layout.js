@@ -81,7 +81,8 @@ export default function TabLayout() {
             display:
               //conditionally hide the tab bar
               currentRoute === "(tabs)/rent-my-vehicle/register-vehicle" ||
-              currentRoute === "(tabs)/rent-my-vehicle/upload-screen"
+              currentRoute === "(tabs)/rent-my-vehicle/upload-screen" ||
+              currentRoute === "(tabs)/rent-my-vehicle/pickup-location"
                 ? "none"
                 : "flex",
             backgroundColor: colors.blue.slitedark,
