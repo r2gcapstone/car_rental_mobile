@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    flex: 1,
     color: "#fff",
     textAlign: "center",
     fontSize: 16,

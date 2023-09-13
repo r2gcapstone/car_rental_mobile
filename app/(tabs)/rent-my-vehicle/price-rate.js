@@ -28,7 +28,7 @@ const DropoffLocation = () => {
 
   return (
     <MainLayout>
-      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+      <View style={styles.container}>
         <View style={styles.headerContainer}>
           <Text style={styles.header}>Price Rate for Rental</Text>
         </View>
@@ -59,7 +59,7 @@ const DropoffLocation = () => {
           btnText={"Proceed"}
           path={"rent-my-vehicle/outside-of-origin"}
         />
-      </ScrollView>
+      </View>
     </MainLayout>
   );
 };
@@ -67,7 +67,7 @@ const DropoffLocation = () => {
 export default DropoffLocation;
 
 const styles = StyleSheet.create({
-  scroll: {
+  container: {
     flex: 1,
     marginTop: 55,
     width: "100%",
@@ -90,6 +90,5 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
     marginTop: 20,
-    gap: 20,
   },
 });

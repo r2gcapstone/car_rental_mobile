@@ -58,12 +58,12 @@ const styles = StyleSheet.create({
   container: {
     height: "auto",
     gap: 8,
+    width: "100%",
   },
   textFieldContainer: {
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
-    flex: 1,
     height: 40,
     paddingHorizontal: 14,
     borderRadius: 8,
