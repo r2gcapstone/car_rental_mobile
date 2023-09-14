@@ -168,8 +168,8 @@ export default function RentMyVehicleStack() {
           },
         }}
       />
-      {/* <Stack.Screen
-        name="payment"
+      <Stack.Screen
+        name="payment-option"
         options={{
           href: null,
           headerTintColor: "#fff",
@@ -189,7 +189,9 @@ export default function RentMyVehicleStack() {
           tabBarStyle: {
             display:
               //conditionally hide the tab bar
-              segments[3] === "rent-my-vehicle/payment" ? "none" : "flex",
+              segments[3] === "rent-my-vehicle/payment-option"
+                ? "none"
+                : "flex",
             height: 0,
             marginVertical: -1,
           },
@@ -222,7 +224,7 @@ export default function RentMyVehicleStack() {
           },
         }}
       />
-      <Stack.Screen
+      {/*  <Stack.Screen
         name="outside-of-origin"
         options={{
           href: null,
