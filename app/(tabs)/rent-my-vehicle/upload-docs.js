@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import Text from "components/ThemedText";
 import MainLayout from "layouts/MainLayout";
-import ProceedBtn from "components/button/ProceedBtn";
 import { colors } from "constants/Colors";
-
 import { useRoute } from "@react-navigation/native";
 import UploadImageBtn from "components/button/UploadImageBtn";
+import { RegisterCar } from "api/cars";
+import { useLoadingAnimation } from "hooks/useLoadingAnimation";
+import { router } from "expo-router";
 
 const UploadDocs = () => {
+  const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
+
   const [document, setDocument] = useState({
     governmentId: "",
     BirthCert: "",
@@ -27,8 +30,24 @@ const UploadDocs = () => {
     return false;
   };
 
-  const newObject = { ...data, document: document };
-  console.log(JSON.stringify(newObject, null, 2));
+  const registerVehicle = { ...data, document: document };
+  console.log(JSON.stringify(registerVehicle, null, 2));
+
+  const handleOnPress = async () => {
+    showLoading();
+    try {
+      const result = await RegisterCar({ data: { ...registerVehicle } });
+      console.log(result);
+      if (!result.error) {
+        hideLoading();
+        router.push("rent-my-vehicle/success-screen");
+        return;
+      }
+    } catch (error) {
+      hideLoading();
+      console.log(error);
+    }
+  };
 
   return (
     <MainLayout>
@@ -62,17 +81,13 @@ const UploadDocs = () => {
           />
         </View>
       </ScrollView>
-      <ProceedBtn
-        data={newObject}
-        disable={isFieldEmpty(document)}
-        contProps={{
-          marginBottom: 30,
-          marginTop: 10,
-          backgroundColor: colors.blue.slitedark,
-        }}
-        btnText={"Proceed"}
-        path={"rent-my-vehicle/success-screen"}
-      />
+      <TouchableOpacity
+        style={[styles.proceedBtn, isFieldEmpty(document) && { opacity: 0.5 }]}
+        onPress={handleOnPress}
+      >
+        <Text style={styles.buttonText}>Proceed</Text>
+      </TouchableOpacity>
+      <LoadingComponent />
     </MainLayout>
   );
 };
@@ -119,5 +134,20 @@ const styles = StyleSheet.create({
   optionContainer: {
     gap: 8,
     flexDirection: "row",
+  },
+  proceedBtn: {
+    width: "100%",
+    paddingVertical: 12,
+    borderRadius: 8,
+    backgroundColor: colors.blue.slitedark,
+    alignItems: "center",
+    marginVertical: 30,
+  },
+  buttonText: {
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+    paddingHorizontal: 10,
   },
 });
