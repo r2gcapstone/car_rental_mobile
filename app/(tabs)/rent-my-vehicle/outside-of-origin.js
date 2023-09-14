@@ -64,6 +64,7 @@ const OutsideOfOrigin = () => {
               ) {
                 return (
                   <InputField
+                    placeholder="e.g : 100"
                     key={index}
                     keyboardType="number-pad"
                     label="Origin Location to "
