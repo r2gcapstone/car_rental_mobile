@@ -81,18 +81,18 @@ const OutsideOfOrigin = () => {
               return null;
             })}
         </View>
-
-        <ProceedBtn
-          data={newObject}
-          disable={isFieldEmpty(outsideRate)}
-          contProps={{
-            marginVertical: 30,
-            backgroundColor: colors.blue.slitedark,
-          }}
-          btnText={"Proceed"}
-          path={"rent-my-vehicle/payment-option"}
-        />
       </ScrollView>
+      <ProceedBtn
+        data={newObject}
+        disable={isFieldEmpty(outsideRate)}
+        contProps={{
+          marginBottom: 30,
+          marginTop: 10,
+          backgroundColor: colors.blue.slitedark,
+        }}
+        btnText={"Proceed"}
+        path={"rent-my-vehicle/payment-option"}
+      />
     </MainLayout>
   );
 };
