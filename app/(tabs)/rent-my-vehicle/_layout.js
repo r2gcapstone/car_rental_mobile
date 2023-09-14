@@ -197,7 +197,7 @@ export default function RentMyVehicleStack() {
           },
         }}
       />
-      {/*  <Stack.Screen
+      <Stack.Screen
         name="upload-docs"
         options={{
           href: null,
@@ -224,7 +224,7 @@ export default function RentMyVehicleStack() {
           },
         }}
       />
-      <Stack.Screen
+      {/*  <Stack.Screen
         name="outside-of-origin"
         options={{
           href: null,

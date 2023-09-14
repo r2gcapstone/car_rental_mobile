@@ -90,7 +90,7 @@ const OutsideOfOrigin = () => {
             backgroundColor: colors.blue.slitedark,
           }}
           btnText={"Proceed"}
-          path={"rent-my-vehicle/payment"}
+          path={"rent-my-vehicle/payment-option"}
         />
       </ScrollView>
     </MainLayout>
