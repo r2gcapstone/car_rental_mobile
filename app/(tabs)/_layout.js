@@ -84,7 +84,11 @@ export default function TabLayout() {
               currentRoute === "(tabs)/rent-my-vehicle/upload-screen" ||
               currentRoute === "(tabs)/rent-my-vehicle/pickup-location" ||
               currentRoute === "(tabs)/rent-my-vehicle/dropoff-location" ||
-              currentRoute === "(tabs)/rent-my-vehicle/price-rate"
+              currentRoute === "(tabs)/rent-my-vehicle/price-rate" ||
+              currentRoute === "(tabs)/rent-my-vehicle/outside-of-origin" ||
+              currentRoute === "(tabs)/rent-my-vehicle/payment" ||
+              currentRoute === "(tabs)/rent-my-vehicle/upload-docs" ||
+              currentRoute === "(tabs)/rent-my-vehicle/success-screen"
                 ? "none"
                 : "flex",
             backgroundColor: colors.blue.slitedark,

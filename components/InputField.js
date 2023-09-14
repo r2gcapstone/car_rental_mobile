@@ -7,6 +7,7 @@ const InputField = ({
   type,
   onChangeText,
   label,
+  labelTarget,
   keyboardType,
   placeholder,
   textError,
@@ -28,7 +29,10 @@ const InputField = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label || "Label :"}</Text>
+      <Text style={styles.label}>
+        {label || "Label :"}
+        <Text style={styles.labelTarget}>{labelTarget}</Text>
+      </Text>
       <View style={styles.textFieldContainer}>
         {isIcon && (
           <View style={styles.iconContainer}>
@@ -78,6 +82,9 @@ const styles = StyleSheet.create({
   label: {
     color: "#fff",
     fontSize: 14,
+  },
+  labelTarget: {
+    fontWeight: "bold",
   },
   errorText: {
     color: "red",
