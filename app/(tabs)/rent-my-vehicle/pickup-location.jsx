@@ -6,10 +6,10 @@ import InputField from "components/InputField";
 import Dropdown2 from "components/button/DropDown2";
 import ProceedBtn from "components/button/ProceedBtn";
 import { colors } from "constants/Colors";
-import provinceData from "json/province.json";
-import regionData from "json/region.json";
-import municipalityData from "json/municipality.json";
-import barangayData from "json/barangay.json";
+import provinceData from "../../../json/province.json";
+import regionData from "../../../json/region.json";
+import municipalityData from "../../../json/municipality.json";
+import barangayData from "../../../json/barangay.json";
 
 import { useRoute } from "@react-navigation/native";
 
