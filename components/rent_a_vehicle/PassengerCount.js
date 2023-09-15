@@ -17,7 +17,7 @@ export default function PassengerCount({ filter, setFilter }) {
           style={styles.input}
           keyboardType="numeric"
           onChangeText={(value) =>
-            handleOnchange({ ...filter, passengerNum: value })
+            handleOnchange({ ...filter, passengerCount: value })
           }
         ></TextInput>
       </View>

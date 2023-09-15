@@ -17,7 +17,7 @@ export default function BaggageNumber({ filter, setFilter }) {
           style={styles.input}
           keyboardType="numeric"
           onChangeText={(value) =>
-            handleOnchange({ ...filter, baggageNum: value })
+            handleOnchange({ ...filter, luggageCount: value })
           }
         ></TextInput>
       </View>
