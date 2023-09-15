@@ -9,13 +9,13 @@ import { colors } from "constants/Colors";
 import { useRoute } from "@react-navigation/native";
 
 const PriceRate = () => {
-  const [priceRate, setPriceRate] = useState("");
+  const [priceRate, setPriceRate] = useState(null);
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
 
   const handleOnChangeText = (value) => {
-    setPriceRate(value);
+    setPriceRate(+value);
   };
 
   const isFieldEmpty = (priceRate) => {
