@@ -27,7 +27,7 @@ export const searchAvailableCars = async ({ filter }) => {
       { key: "gearType", field: "gearType" },
       { key: "fuelType", field: "fuelType" },
       { key: "passengerCount", field: "passengerCount", parseToInt: true },
-      { key: "lugggageCount", field: "luggageCount", parseToInt: true },
+      { key: "luggageCount", field: "luggageCount", parseToInt: true },
       { key: "priceRate", field: "priceRate", parseToInt: true },
     ];
 
