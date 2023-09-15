@@ -1,17 +1,10 @@
 import React from "react";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  View,
-} from "react-native";
+import { StyleSheet, Image, ScrollView, View } from "react-native";
 //layout
 import MainLayout from "layouts/MainLayout";
 
 import { useRoute } from "@react-navigation/native";
 import Text from "components/ThemedText";
-import { colors } from "constants/Colors";
 
 import ResultItem from "components/rent_a_vehicle/ResultItem";
 
@@ -30,7 +23,6 @@ const ResultScreen = () => {
           <Text style={styles.title}>Available Vehicles For Rent</Text>
           <Image style={styles.logoIcon} source={logo} />
         </View>
-
         <View style={styles.resultContainer}>
           {searchResults.map((resultItem) => (
             <ResultItem key={resultItem.id} resultItem={resultItem} />
