@@ -8,7 +8,6 @@ import {
   doc,
 } from "firebase/firestore";
 import { db } from "../services/firebaseConfig";
-import { getAuth } from "@firebase/auth";
 
 // Define the searchAvailableCars function
 export const searchAvailableCars = async ({ filter }) => {
@@ -18,15 +17,17 @@ export const searchAvailableCars = async ({ filter }) => {
 
     // Get a reference to the 'cars' collection
     const carsRef = collection(db, "cars");
-    let queryRef = query(carsRef);
+    // Initialize queryRef with carsRef
+
+    let queryRef = carsRef;
 
     // Define the filters and their corresponding fields in the database
     const filters = [
       { key: "vehicleType", field: "vehicleType" },
       { key: "gearType", field: "gearType" },
       { key: "fuelType", field: "fuelType" },
-      { key: "passengerNum", field: "passengerCount", parseToInt: true },
-      { key: "baggageNum", field: "luggageCount", parseToInt: true },
+      { key: "passengerCount", field: "passengerCount", parseToInt: true },
+      { key: "lugggageCount", field: "luggageCount", parseToInt: true },
       { key: "priceRate", field: "priceRate", parseToInt: true },
     ];
 
@@ -34,18 +35,18 @@ export const searchAvailableCars = async ({ filter }) => {
     filters.forEach(({ key, field, parseToInt }) => {
       if (filterOptions[key] !== "") {
         const value = parseToInt ? +filterOptions[key] : filterOptions[key];
-        queryRef = query(queryRef, where(field, "==", value));
+
+        // Use dot notation to specify fields within vehicleDetails
+        queryRef = query(
+          queryRef,
+          where(`vehicleDetails.${field}`, "==", value)
+        );
       }
     });
 
     // Execute the query
     const querySnapshot = await getDocs(queryRef);
 
-    if (!Array.isArray(querySnapshot.docs)) {
-      console.error("Error: querySnapshot.docs is not an array");
-      return;
-    }
-    // For each document in the querySnapshot, get the owner's name and add it to the car data
     // For each document in the querySnapshot, get the owner's name and add it to the car data
     const availableCarsPromises = querySnapshot.docs.map(async (carDoc) => {
       const carData = carDoc.data();
@@ -78,7 +79,6 @@ export const searchAvailableCars = async ({ filter }) => {
     }
 
     // Return the available cars
-    console.log(JSON.stringify(availableCars, null, 2));
     return { searchResults: availableCars };
   } catch (error) {
     // If an error occurred, log it and return an error message
