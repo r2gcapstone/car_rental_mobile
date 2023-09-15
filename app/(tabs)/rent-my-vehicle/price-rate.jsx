@@ -15,7 +15,7 @@ const PriceRate = () => {
   const data = JSON.parse(route.params?.data);
 
   const handleOnChangeText = (value) => {
-    setPriceRate(value);
+    setPriceRate(+value);
   };
 
   const isFieldEmpty = (priceRate) => {

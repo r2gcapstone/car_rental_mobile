@@ -23,6 +23,10 @@ export default function RegisterVehicle() {
   });
 
   const handleOnhangeText = (name, value) => {
+    if (name == "passengerCount" || name == "luggageCount") {
+      setFormData({ ...formData, [name]: +value });
+      return;
+    }
     setFormData({ ...formData, [name]: value });
   };
 
