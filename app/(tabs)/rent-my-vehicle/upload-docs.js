@@ -11,12 +11,13 @@ import { router } from "expo-router";
 
 const UploadDocs = () => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
-
   const [document, setDocument] = useState({
     governmentId: "",
     BirthCert: "",
     CertificateOfReg: "",
   });
+  const currentDate = new Date();
+
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
@@ -30,7 +31,11 @@ const UploadDocs = () => {
     return false;
   };
 
-  const registerVehicle = { ...data, document: document };
+  const registerVehicle = {
+    ...data,
+    document: document,
+    dateCreated: currentDate,
+  };
   console.log(JSON.stringify(registerVehicle, null, 2));
 
   const handleOnPress = async () => {
