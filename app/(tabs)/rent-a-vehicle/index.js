@@ -37,8 +37,8 @@ export default function RentAVehicle() {
     vehicleType: "",
     gearType: "",
     fuelType: "",
-    passengerNum: "",
-    baggageNum: "",
+    passengerCount: "",
+    lugggageCount: "",
     priceRate: "",
     location: "",
   });
@@ -66,7 +66,7 @@ export default function RentAVehicle() {
   };
 
   useEffect(() => {
-    console.log("search Object:", filter);
+    console.log("filter:", JSON.stringify(filter, null, 2));
   }, [filter]);
 
   return (
