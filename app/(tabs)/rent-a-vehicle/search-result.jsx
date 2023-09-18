@@ -13,8 +13,10 @@ import logo from "assets/icons/logo.png";
 
 const ResultScreen = () => {
   const route = useRoute();
-  const { result } = route.params;
-  const { searchResults } = result;
+
+  //prev data
+  const data = JSON.parse(route.params?.data);
+  const { searchResults } = data;
 
   return (
     <MainLayout>
@@ -39,6 +41,7 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     width: "100%",
+    marginTop: -23,
   },
   titleContainer: {
     flexDirection: "row",
@@ -47,6 +50,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#fff",
     borderBottomWidth: 1,
     marginBottom: 10,
+
     justifyContent: "space-between",
   },
   title: {

@@ -1,10 +1,9 @@
 import { StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
+import { router } from "expo-router";
 
 //layout
 import MainLayout from "layouts/MainLayout";
-// Import the useNavigation hook
-import { useNavigation } from "@react-navigation/native";
 //api
 import { searchAvailableCars } from "api/search";
 // Components
@@ -43,9 +42,6 @@ export default function RentAVehicle() {
     location: "",
   });
 
-  // Use the useNavigation hook
-  const navigation = useNavigation();
-
   const search = {
     filter: { ...filter },
     dateTimeValues: dateTimeValues,
@@ -62,7 +58,10 @@ export default function RentAVehicle() {
     }
 
     setIsLoading(false);
-    navigation.navigate("rent-a-vehicle/search-result", { result });
+    router.push({
+      pathname: "rent-a-vehicle/search-result",
+      params: { data: JSON.stringify(result) },
+    });
   };
 
   useEffect(() => {
