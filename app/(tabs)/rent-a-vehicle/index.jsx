@@ -38,7 +38,7 @@ export default function RentAVehicle() {
     gearType: "",
     fuelType: "",
     passengerCount: "",
-    lugggageCount: "",
+    luggageCount: "",
     priceRate: "",
     location: "",
   });
