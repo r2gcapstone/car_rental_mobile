@@ -1,170 +1,70 @@
-import { Stack, router, useSegments } from "expo-router";
+import { Stack, router } from "expo-router";
 import { Image, TouchableOpacity, StyleSheet } from "react-native";
 import { colors } from "constants/Colors";
 
 export default function RentMyVehicleStack() {
-  const segments = useSegments();
+  const headerProp = {
+    href: null,
+    headerTintColor: "#fff",
+    headerTransparent: true,
+    headerLeft: () => (
+      <TouchableOpacity onPress={() => router.back()}>
+        <Image
+          style={styles.backBtn}
+          source={require("assets/icons/arrow.png")}
+        />
+      </TouchableOpacity>
+    ),
+    headerStyle: {
+      backgroundColor: colors.blue.dark,
+    },
+    title: "",
+  };
+
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="register-vehicle"
-        options={{
-          href: null,
-          headerTintColor: "#fff",
-          headerTransparent: true,
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <Image
-                style={styles.backBtn}
-                source={require("assets/icons/arrow.png")}
-              />
-            </TouchableOpacity>
-          ),
-          headerStyle: {
-            backgroundColor: colors.blue.dark,
-          },
-          title: "",
-        }}
-      />
+      <Stack.Screen name="register-vehicle" options={{ ...headerProp }} />
       <Stack.Screen
         name="upload-screen"
         options={{
-          href: null,
-          headerTintColor: "#fff",
-          headerTransparent: true,
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <Image
-                style={styles.backBtn}
-                source={require("assets/icons/arrow.png")}
-              />
-            </TouchableOpacity>
-          ),
-          headerStyle: {
-            backgroundColor: colors.blue.dark,
-          },
-          title: "",
+          ...headerProp,
         }}
       />
       <Stack.Screen
         name="pickup-location"
         options={{
-          href: null,
-          headerTintColor: "#fff",
-          headerTransparent: true,
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <Image
-                style={styles.backBtn}
-                source={require("assets/icons/arrow.png")}
-              />
-            </TouchableOpacity>
-          ),
-          headerStyle: {
-            backgroundColor: colors.blue.dark,
-          },
-          title: "",
+          ...headerProp,
         }}
       />
       <Stack.Screen
         name="dropoff-location"
         options={{
-          href: null,
-          headerTintColor: "#fff",
-          headerTransparent: true,
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <Image
-                style={styles.backBtn}
-                source={require("assets/icons/arrow.png")}
-              />
-            </TouchableOpacity>
-          ),
-          headerStyle: {
-            backgroundColor: colors.blue.dark,
-          },
-          title: "",
+          ...headerProp,
         }}
       />
       <Stack.Screen
         name="price-rate"
         options={{
-          href: null,
-          headerTintColor: "#fff",
-          headerTransparent: true,
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <Image
-                style={styles.backBtn}
-                source={require("assets/icons/arrow.png")}
-              />
-            </TouchableOpacity>
-          ),
-          headerStyle: {
-            backgroundColor: colors.blue.dark,
-          },
-          title: "",
+          ...headerProp,
         }}
       />
       <Stack.Screen
         name="outside-of-origin"
         options={{
-          href: null,
-          headerTintColor: "#fff",
-          headerTransparent: true,
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <Image
-                style={styles.backBtn}
-                source={require("assets/icons/arrow.png")}
-              />
-            </TouchableOpacity>
-          ),
-          headerStyle: {
-            backgroundColor: colors.blue.dark,
-          },
-          title: "",
+          ...headerProp,
         }}
       />
       <Stack.Screen
         name="payment-option"
         options={{
-          href: null,
-          headerTintColor: "#fff",
-          headerTransparent: true,
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <Image
-                style={styles.backBtn}
-                source={require("assets/icons/arrow.png")}
-              />
-            </TouchableOpacity>
-          ),
-          headerStyle: {
-            backgroundColor: colors.blue.dark,
-          },
-          title: "",
+          ...headerProp,
         }}
       />
       <Stack.Screen
         name="upload-docs"
         options={{
-          href: null,
-          headerTintColor: "#fff",
-          headerTransparent: true,
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <Image
-                style={styles.backBtn}
-                source={require("assets/icons/arrow.png")}
-              />
-            </TouchableOpacity>
-          ),
-          headerStyle: {
-            backgroundColor: colors.blue.dark,
-          },
-          title: "",
+          ...headerProp,
         }}
       />
       <Stack.Screen
