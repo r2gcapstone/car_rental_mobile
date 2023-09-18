@@ -34,39 +34,22 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="rent-a-vehicle/index"
+        name="rent-a-vehicle"
         options={{
           title: "Rent A Vehicle",
           tabBarActiveTintColor: "#27374D",
           tabBarIcon: ({ color }) => <TabBarIcon name="car" color={color} />,
           headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="rent-a-vehicle/search-result"
-        options={{
-          href: null,
-          headerTintColor: "#fff",
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <Image
-                style={styles.backBtn}
-                source={require("assets/icons/arrow.png")}
-              />
-            </TouchableOpacity>
-          ),
-          headerStyle: {
-            backgroundColor: colors.blue.dark,
-            borderBottomWidth: 1,
-            borderBottomColor: "#fff",
-          },
-          title: "Result",
           tabBarStyle: {
             display:
               //conditionally hide the tab bar
-              segments[3] === "rent-a-vehicle/search-result" ? "none" : "flex",
-            height: 0,
-            marginVertical: -1,
+              currentRoute === "(tabs)/rent-a-vehicle/search-result"
+                ? "none"
+                : "flex",
+            backgroundColor: colors.blue.slitedark,
+            borderColor: colors.blue.slitedark,
+            paddingBottom: 5,
+            height: 55,
           },
         }}
       />
