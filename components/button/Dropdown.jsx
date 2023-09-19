@@ -8,6 +8,7 @@ import arrowIcon from "assets/icons/arrowBlack.png";
 const Dropdown = ({
   label,
   options,
+  optionStyle,
   value,
   placeholder,
   onChange,
@@ -36,25 +37,33 @@ const Dropdown = ({
         <Image style={styles.icon} source={arrowIcon}></Image>
       </TouchableOpacity>
       {open && (
-        <View style={styles.optionsContainer}>
+        <View
+          style={[
+            optionStyle
+              ? optionStyle
+              : { backgroundColor: colors.blue.slitedark },
+            styles.optionsContainer,
+          ]}
+        >
           {options.map((option, index) => (
-            <TouchableOpacity
-              key={option.value}
+            <View
               style={[
                 styles.option,
                 index === options.length - 1 && styles.lastOption,
               ]}
-              onPress={() => selectOption(option.value)}
+              key={option.value}
             >
-              <Text style={[styles.optionLabel, labelStyle]}>
-                {option.label}
-              </Text>
-              {option.caption ? (
-                <Text style={styles.optionCaption}>{option.caption}</Text>
-              ) : (
-                ""
-              )}
-            </TouchableOpacity>
+              <TouchableOpacity onPress={() => selectOption(option.value)}>
+                <Text style={[styles.optionLabel, labelStyle]}>
+                  {option.label}
+                </Text>
+                {option.caption ? (
+                  <Text style={styles.optionCaption}>{option.caption}</Text>
+                ) : (
+                  ""
+                )}
+              </TouchableOpacity>
+            </View>
           ))}
         </View>
       )}
@@ -83,7 +92,7 @@ const styles = StyleSheet.create({
     borderColor: colors.borderColor,
   },
   selectedOption: {
-    color: colors.textColor.dark,
+    color: colors.textColor.dark2,
     paddingHorizontal: 10,
     fontSize: 16,
   },
@@ -92,16 +101,17 @@ const styles = StyleSheet.create({
     height: "auto",
     left: 0,
     right: 0,
-    backgroundColor: colors.blue.slitedark,
     marginHorizontal: 6,
     borderRadius: 4,
     overflow: "hidden",
   },
   option: {
-    paddingVertical: 8,
+    paddingVertical: 10,
     paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#fff",
+    width: "100%",
+    alignItems: "center",
   },
   lastOption: {
     borderBottomWidth: 0,
@@ -116,9 +126,10 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   icon: {
-    width: 20,
-    height: 20,
+    width: 16,
+    height: 16,
     marginRight: 10,
+    opacity: 0.8,
   },
 });
 

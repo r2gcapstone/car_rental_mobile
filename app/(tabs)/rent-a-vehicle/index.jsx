@@ -1,5 +1,11 @@
-import { StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
-import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useState } from "react";
 import { router } from "expo-router";
 
 //layout
@@ -7,7 +13,6 @@ import MainLayout from "layouts/MainLayout";
 //api
 import { searchAvailableCars } from "api/search";
 // Components
-import View from "components/ThemedView";
 import Text from "components/ThemedText";
 import Header from "components/home/Header";
 import RentDateAndTime from "components/rent_a_vehicle/RentDateAndTime";
@@ -15,9 +20,7 @@ import VehicleDropdown from "components/rent_a_vehicle/VehicleType";
 import GearShiftDropdown from "components/rent_a_vehicle/GearType";
 import FuelTypeDropdown from "components/rent_a_vehicle/FuelType";
 import LoadingAnimation from "components/LoadingAnimation";
-import PassengerCount from "components/rent_a_vehicle/PassengerCount";
-import BaggageNumber from "components/rent_a_vehicle/BaggageNumber";
-import PriceRate from "components/rent_a_vehicle/PriceRate";
+import InputField from "components/InputField";
 
 import { colors } from "constants/Colors";
 
@@ -42,14 +45,13 @@ export default function RentAVehicle() {
     location: "",
   });
 
-  const search = {
-    filter: { ...filter },
-    dateTimeValues: dateTimeValues,
+  const handleOnhangeText = (name, value) => {
+    setFilter({ ...filter, [name]: value });
   };
 
   const handleSearch = async () => {
     setIsLoading(true); // Show loading modal
-    const result = await searchAvailableCars(search);
+    const result = await searchAvailableCars(filter);
 
     if (result.status === 204) {
       setIsLoading(false);
@@ -58,25 +60,25 @@ export default function RentAVehicle() {
     }
 
     setIsLoading(false);
+
+    const data = { result, dateTime: dateTimeValues };
     router.push({
       pathname: "rent-a-vehicle/search-result",
-      params: { data: JSON.stringify(result) },
+      params: { data: JSON.stringify(data) },
     });
   };
-
-  useEffect(() => {
-    console.log("filter:", JSON.stringify(filter, null, 2));
-  }, [filter]);
 
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Header />
+        {/* 1st row */}
         <View style={styles.row1Container}>
           <RentDateAndTime
             dateTimeValues={dateTimeValues}
             setDateTimeValues={setDateTimeValues}
           />
+          {/* //line */}
           <View
             style={{
               width: "100%",
@@ -85,24 +87,65 @@ export default function RentAVehicle() {
               marginTop: -6,
             }}
           ></View>
-
           <Text style={styles.filterText}>Filter ( Optional )</Text>
+          {/* VehicleType Dropdown */}
+          <VehicleDropdown formData={filter} setFormData={setFilter} />
+          {/* GearType Dropdown */}
+          <GearShiftDropdown formData={filter} setFormData={setFilter} />
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              width: "100%",
+              gap: 10,
+              justifyContent: "space-between",
+            }}
+          >
+            {/* FuelType Dropdown */}
+            <FuelTypeDropdown formData={filter} setFormData={setFilter} />
+            {/* PassengerCount Field */}
+            <InputField
+              label={"Passengers :"}
+              keyboardType="number-pad"
+              type="number"
+              name="passengerCount"
+              onChangeText={(value) =>
+                handleOnhangeText("passengerCount", value)
+              }
+              isTextError={false}
+              required
+            />
+          </View>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              width: "100%",
+              gap: 10,
+              justifyContent: "space-between",
+            }}
+          >
+            {/* LuggageCount Field */}
+            <InputField
+              label={"Number of Luggage :"}
+              keyboardType="number-pad"
+              type="number"
+              name="luggageCount"
+              onChangeText={(value) => handleOnhangeText("luggageCount", value)}
+              required
+            />
+            {/*PriteRate Field */}
+            <InputField
+              label={"Price Rate (per day) :"}
+              keyboardType="number-pad"
+              type="number"
+              name="PriceRate"
+              onChangeText={(value) => handleOnhangeText("priceRate", value)}
+              required
+            />
+          </View>
 
-          <View style={styles.rowField}>
-            <VehicleDropdown filter={filter} setFilter={setFilter} />
-          </View>
-          <View style={styles.rowField}>
-            <GearShiftDropdown filter={filter} setFilter={setFilter} />
-          </View>
-
-          <View style={styles.rowField}>
-            <FuelTypeDropdown filter={filter} setFilter={setFilter} />
-            <PassengerCount filter={filter} setFilter={setFilter} />
-          </View>
-          <View style={styles.rowField}>
-            <BaggageNumber filter={filter} setFilter={setFilter} />
-            <PriceRate filter={filter} setFilter={setFilter} />
-          </View>
+          {/* //line */}
           <View
             style={{
               width: "100%",
@@ -121,6 +164,7 @@ export default function RentAVehicle() {
             <Text style={styles.buttonText}>Search</Text>
           </TouchableOpacity>
         </View>
+        {/* 2nd row */}
         <View style={styles.row2Container}>
           <View style={styles.col}>
             <Image
@@ -166,14 +210,13 @@ const styles = StyleSheet.create({
     padding: 17,
     borderRadius: 10,
     overflow: "hidden",
-    backgroundColor: colors.blue.slitedark,
     flexDirection: "row",
+    backgroundColor: colors.blue.slitedark,
   },
   rowField: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: colors.blue.slitedark,
     gap: 10,
   },
   icon: {
@@ -196,7 +239,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    backgroundColor: colors.blue.slitedark,
   },
   button: {
     width: "100%",
