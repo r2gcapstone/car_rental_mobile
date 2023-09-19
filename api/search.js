@@ -10,7 +10,7 @@ import {
 import { db } from "../services/firebaseConfig";
 
 // Define the searchAvailableCars function
-export const searchAvailableCars = async ({ filter }) => {
+export const searchAvailableCars = async ({ ...filter }) => {
   try {
     // Store the filter options
     const filterOptions = filter;

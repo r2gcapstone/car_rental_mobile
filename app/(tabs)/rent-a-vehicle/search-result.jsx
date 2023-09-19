@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Image, ScrollView, View } from "react-native";
 //layout
 import MainLayout from "layouts/MainLayout";
@@ -15,8 +15,13 @@ const ResultScreen = () => {
   const route = useRoute();
 
   //prev data
-  const data = JSON.parse(route.params?.data);
-  const { searchResults } = data;
+  const { result, dateTime } = JSON.parse(route.params?.data);
+  const { searchResults } = result;
+
+  useEffect(() => {
+    console.log("filter:", JSON.stringify(result, null, 2));
+    console.log("DateTime:", JSON.stringify(dateTime, null, 2));
+  }, [result, dateTime]);
 
   return (
     <MainLayout>
