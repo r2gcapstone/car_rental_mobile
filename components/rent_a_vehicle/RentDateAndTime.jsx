@@ -159,9 +159,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     paddingHorizontal: 10,
-    borderRadius: 5,
+    borderRadius: 10,
     backgroundColor: colors.white[1],
-    height: 35,
+    height: 40,
   },
   icon: {
     width: 24,
