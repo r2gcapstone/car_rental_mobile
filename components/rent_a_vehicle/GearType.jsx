@@ -1,66 +1,38 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import { colors } from "../../constants/Colors";
+import Dropdown from "../button/Dropdown";
+import { colors } from "constants/Colors";
 
-import Text from "components/ThemedText";
+const options = [
+  { label: "Select Type of Gear Shift", value: "" },
+  { label: "Manual Transmission", value: "manual" },
+  { label: "Automatic Transmission", value: "automatic" },
+  { label: "Continuously Variable Transmission", value: "cvt" },
+  { label: "Semi-Automatic Transmission", value: "semiAuto" },
+  { label: "Dual Clutch Transmission", value: "dualClutch" },
+];
 
-const GearShiftDropdown = ({ filter, setFilter }) => {
-  const options = [
-    { label: "Select Type of Gear Shift", value: "" },
-    { label: "Manual Transmission", value: "manual" },
-    { label: "Automatic Transmission", value: "automatic" },
-    { label: "Continuously Variable Transmission", value: "cvt" },
-    { label: "Semi-Automatic Transmission", value: "semiAuto" },
-    { label: "Dual Clutch Transmission", value: "dualClutch" },
-  ];
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Gear Shift :</Text>
-      <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={filter.gearType}
-          onValueChange={(itemValue) =>
-            setFilter({ ...filter, gearType: itemValue })
-          }
-          style={styles.picker}
-        >
-          {options.map((option) => (
-            <Picker.Item
-              key={option.value}
-              label={option.label}
-              value={option.value}
-            />
-          ))}
-        </Picker>
-      </View>
-    </View>
-  );
-};
+const GearShiftDropdown = ({ formData, setFormData }) => (
+  <View style={styles.container}>
+    <Dropdown
+      placeholder="Select Gear Type"
+      label="Gear Shift :"
+      options={options}
+      optionStyle={{
+        backgroundColor: colors.blue.dark,
+        textAlign: "center",
+      }}
+      value={formData.gearType}
+      onChange={(selectedValue) =>
+        setFormData({ ...formData, gearType: selectedValue })
+      }
+    />
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  label: {
-    marginBottom: 8,
-    fontSize: 14,
-    alignSelf: "flex-start",
-  },
-  pickerContainer: {
-    flex: 1,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.white[1],
-    borderRadius: 5,
-    height: 35,
-  },
-  picker: {
-    width: "100%",
-    borderRadius: 100,
-    color: colors.textColor.dark2,
   },
 });
 

@@ -11,6 +11,7 @@ const InputField = ({
   keyboardType,
   placeholder,
   textError,
+  isTextError,
   isIcon,
 }) => {
   const [error, setError] = useState("");
@@ -47,11 +48,10 @@ const InputField = ({
           style={styles.input}
           onChangeText={validateInput}
           keyboardType={keyboardType}
-          onBlur={() => validateInput}
           placeholder={placeholder}
         />
       </View>
-      {error && <Text style={styles.errorText}>{error}</Text>}
+      {isTextError && error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 };
@@ -60,9 +60,9 @@ export default InputField;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     height: "auto",
     gap: 8,
-    width: "100%",
   },
   textFieldContainer: {
     flexDirection: "row",
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "100%",
-    color: colors.textColor.dark,
+    color: colors.textColor.dark2,
     fontSize: 16,
   },
   label: {

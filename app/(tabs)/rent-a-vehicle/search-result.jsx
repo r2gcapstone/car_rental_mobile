@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Image, ScrollView, View } from "react-native";
 //layout
 import MainLayout from "layouts/MainLayout";
@@ -13,8 +13,15 @@ import logo from "assets/icons/logo.png";
 
 const ResultScreen = () => {
   const route = useRoute();
-  const { result } = route.params;
+
+  //prev data
+  const { result, dateTime } = JSON.parse(route.params?.data);
   const { searchResults } = result;
+
+  useEffect(() => {
+    console.log("filter:", JSON.stringify(result, null, 2));
+    console.log("DateTime:", JSON.stringify(dateTime, null, 2));
+  }, [result, dateTime]);
 
   return (
     <MainLayout>
@@ -39,6 +46,7 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     width: "100%",
+    marginTop: -23,
   },
   titleContainer: {
     flexDirection: "row",
@@ -47,6 +55,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#fff",
     borderBottomWidth: 1,
     marginBottom: 10,
+
     justifyContent: "space-between",
   },
   title: {
