@@ -20,6 +20,15 @@ export const signup = async (
   imageUrl,
   agreeToTerms
 ) => {
+  let dateCreated = new Date();
+  const deactivatedAt = "";
+  const formattedDate = dateCreated.toLocaleDateString("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "numeric",
+  });
+  dateCreated = formattedDate;
+
   try {
     // Signup using createUserWithEmailAndPassword function of firebase
     await createUserWithEmailAndPassword(auth, email, password);
@@ -40,6 +49,9 @@ export const signup = async (
       mobileNumber,
       imageUrl,
       agreeToTerms,
+      dateCreated,
+      deactivatedAt,
+      password,
     });
 
     return {
