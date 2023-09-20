@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Image,
   ScrollView,
-  SafeAreaView,
 } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 //layout
@@ -16,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 //components
 import View from "components/ThemedView";
 import Text from "components/ThemedText";
-import KeyboardAvoidingContainer from "components/KeyboardAvoidingView";
+
 //constants
 import { colors } from "../../constants/Colors";
 import { emailRegex, phoneNumberRegex } from "constants/RegexValidation";
@@ -34,6 +33,8 @@ const SignUpScreen = () => {
     address: "",
     email: "",
     mobileNumber: "",
+    // dateCreated: "",
+    // deactivatedAt: "",
     password: "",
     confirmPassword: "",
   });
@@ -159,6 +160,11 @@ const SignUpScreen = () => {
             <React.Fragment key={key}>
               <Text style={styles.label}>{toSentenceCase(key)}</Text>
               <TextInput
+                placeholder={
+                  key === "address"
+                    ? "St# / House# / Province / Zip Code / Region "
+                    : ""
+                }
                 style={styles.input}
                 value={formData[key]}
                 onChangeText={(text) => handleInputChange(key, text)}
