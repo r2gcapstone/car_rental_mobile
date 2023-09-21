@@ -14,6 +14,7 @@ module.exports = function (api) {
             components: "./components",
             constants: "./constants",
             context: "./context",
+            utils: "./utils",
             hooks: "./hooks",
             api: "./api",
             json: "./json",

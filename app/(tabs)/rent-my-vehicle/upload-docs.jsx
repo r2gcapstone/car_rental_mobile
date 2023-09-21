@@ -8,6 +8,7 @@ import UploadImageBtn from "components/button/UploadImageBtn";
 import { RegisterCar } from "api/cars";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { router } from "expo-router";
+import formatdate from "../../../utils/formatDate";
 
 const UploadDocs = () => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
@@ -17,11 +18,15 @@ const UploadDocs = () => {
     CertificateOfReg: "",
   });
   const currentDate = new Date();
-
   const route = useRoute();
+
   //prev data
   const data = JSON.parse(route.params?.data);
 
+  //format date
+  const formattedDate = formatdate(currentDate);
+
+  //check fields if empty
   const isFieldEmpty = (document) => {
     for (const key in document) {
       if (document[key] === "") {
@@ -31,12 +36,12 @@ const UploadDocs = () => {
     return false;
   };
 
+  //create new object
   const registerVehicle = {
     ...data,
     document: document,
-    dateCreated: currentDate,
+    dateCreated: formattedDate,
   };
-  console.log(JSON.stringify(registerVehicle, null, 2));
 
   const handleOnPress = async () => {
     showLoading();
@@ -88,6 +93,7 @@ const UploadDocs = () => {
       </ScrollView>
       <TouchableOpacity
         style={[styles.proceedBtn, isFieldEmpty(document) && { opacity: 0.5 }]}
+        // disabled={isFieldEmpty(document)}
         onPress={handleOnPress}
       >
         <Text style={styles.buttonText}>Proceed</Text>
