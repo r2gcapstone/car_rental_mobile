@@ -3,11 +3,46 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { auth, db, storage } from "../services/firebaseConfig";
+import { auth, db } from "../services/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
-import { ref, getDownloadURL, uploadString } from "firebase/storage";
-import * as FileSystem from "expo-file-system";
+//utils
+import resizeImage from "../utils/reziseImage";
+import uploadImage from "../utils/uploadImage";
 
+// async function uploadImageAsync(uri) {
+//   let blob;
+
+//   try {
+//     blob = await new Promise((resolve, reject) => {
+//       const xhr = new XMLHttpRequest();
+//       xhr.onload = function () {
+//         resolve(xhr.response);
+//       };
+//       xhr.onerror = function (e) {
+//         console.log(e);
+//         reject(new TypeError("Network request failed"));
+//       };
+//       xhr.responseType = "blob";
+//       xhr.open("GET", uri, true);
+//       xhr.send(null);
+//     });
+
+//     const metaData = {
+//       type: "image/jpeg",
+//     };
+
+//     const fileRef = ref(getStorage(app), `userProfile/${uuid.v4()}.jpeg`);
+//     await uploadBytes(fileRef, blob, metaData);
+
+//     // We're done with the blob, close and release it
+//     blob.close();
+
+//     return await getDownloadURL(fileRef);
+//   } catch (error) {
+//     console.error("Error uploading image: ", error);
+//     throw error;
+//   }
+// }
 // Signup function
 export const signup = async (
   firstName,
@@ -35,67 +70,28 @@ export const signup = async (
     // Get the user object after signup
     const user = auth.currentUser;
 
-    // Create a storage reference from our storage service
-    const storageRef = ref(storage, `userAvatar/${user.uid}_img.jpeg`);
+    //compress image
+    const resizedImageUrl = await resizeImage(imageUrl, 640);
 
-    // Read the file into memory
-    let fileData;
-    try {
-      fileData = await FileSystem.readAsStringAsync(imageUrl, {
-        encoding: FileSystem.EncodingType.Base64,
-      });
-    } catch (error) {
-      console.error("Error reading file: ", error);
-    }
+    // This line waits for uploadImageAsync to finish
+    const downloadURL = await uploadImage(resizedImageUrl);
 
-    const metadata = {
-      contentType: "image/jpeg",
-    };
+    // Store additional user information in the database
+    // Targeting a specific document using user UID
+    const userDocRef = doc(db, "users", user.uid);
 
-    // Upload the file to Firebase Storage
-    const uploadTask = uploadString(storageRef, fileData, "raw", metadata);
-
-    // Wait for the upload to complete
-    await new Promise((resolve, reject) => {
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          // You can add code here to handle the progress of the upload
-        },
-        (error) => {
-          // Handle unsuccessful uploads, you may want to reject the promise here
-          console.error("Upload failed:", error);
-          reject(error);
-        },
-        async () => {
-          // Handle successful uploads on complete
-          console.log("Uploaded a base64 string!");
-
-          // Get the download URL
-          const downloadURL = await getDownloadURL(storageRef);
-          console.log("File available at", downloadURL);
-
-          // Store additional user information in the database
-          // Targeting a specific document using user UID
-          const userDocRef = doc(db, "users", user.uid);
-
-          // Set the data in the document
-          await setDoc(userDocRef, {
-            firstName,
-            lastName,
-            address,
-            email,
-            mobileNumber,
-            imageUrl: downloadURL,
-            agreeToTerms,
-            dateCreated,
-            deactivatedAt,
-            password,
-          });
-
-          resolve();
-        }
-      );
+    // Set the data in the document
+    await setDoc(userDocRef, {
+      firstName,
+      lastName,
+      address,
+      email,
+      mobileNumber,
+      imageUrl: downloadURL,
+      agreeToTerms,
+      dateCreated,
+      deactivatedAt,
+      password,
     });
 
     return {
@@ -104,6 +100,7 @@ export const signup = async (
       status: 201,
     };
   } catch (error) {
+    console.log(error);
     return { error: true, message: error.message, status: error.code };
   }
 };
