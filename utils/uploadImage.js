@@ -1,7 +1,7 @@
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import uuid from "uuid";
 
-const uploadImage = async (uri) => {
+const uploadImage = async (uri, pathName) => {
   let blob;
 
   try {
@@ -23,7 +23,7 @@ const uploadImage = async (uri) => {
       type: "image/jpeg",
     };
 
-    const fileRef = ref(getStorage(), `userProfile/${uuid.v4()}.jpeg`);
+    const fileRef = ref(getStorage(), `${pathName}/${uuid.v4()}.jpeg`);
     await uploadBytes(fileRef, blob, metaData);
 
     // We're done with the blob, close and release it

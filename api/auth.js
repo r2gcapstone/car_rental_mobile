@@ -6,43 +6,9 @@ import {
 import { auth, db } from "../services/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 //utils
-import resizeImage from "../utils/reziseImage";
+import resizeImage from "../utils/resizeImage";
 import uploadImage from "../utils/uploadImage";
 
-// async function uploadImageAsync(uri) {
-//   let blob;
-
-//   try {
-//     blob = await new Promise((resolve, reject) => {
-//       const xhr = new XMLHttpRequest();
-//       xhr.onload = function () {
-//         resolve(xhr.response);
-//       };
-//       xhr.onerror = function (e) {
-//         console.log(e);
-//         reject(new TypeError("Network request failed"));
-//       };
-//       xhr.responseType = "blob";
-//       xhr.open("GET", uri, true);
-//       xhr.send(null);
-//     });
-
-//     const metaData = {
-//       type: "image/jpeg",
-//     };
-
-//     const fileRef = ref(getStorage(app), `userProfile/${uuid.v4()}.jpeg`);
-//     await uploadBytes(fileRef, blob, metaData);
-
-//     // We're done with the blob, close and release it
-//     blob.close();
-
-//     return await getDownloadURL(fileRef);
-//   } catch (error) {
-//     console.error("Error uploading image: ", error);
-//     throw error;
-//   }
-// }
 // Signup function
 export const signup = async (
   firstName,
@@ -74,7 +40,8 @@ export const signup = async (
     const resizedImageUrl = await resizeImage(imageUrl, 640);
 
     // This line waits for uploadImageAsync to finish
-    const downloadURL = await uploadImage(resizedImageUrl);
+    // Arguments: resizedImageUrl (string - uri data),  storageName (string)
+    const downloadURL = await uploadImage(resizedImageUrl, "userProfile");
 
     // Store additional user information in the database
     // Targeting a specific document using user UID
