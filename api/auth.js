@@ -1,13 +1,12 @@
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { app, db } from "../services/firebaseConfig";
+import { auth, db, storage } from "../services/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
-
-const auth = getAuth(app);
+import { ref, getDownloadURL, uploadString } from "firebase/storage";
+import * as FileSystem from "expo-file-system";
 
 // Signup function
 export const signup = async (
@@ -36,22 +35,67 @@ export const signup = async (
     // Get the user object after signup
     const user = auth.currentUser;
 
-    // Store additional user information in the database
-    // Targeting a specific document using user UID
-    const userDocRef = doc(db, "users", user.uid);
+    // Create a storage reference from our storage service
+    const storageRef = ref(storage, `userAvatar/${user.uid}_img.jpeg`);
 
-    // Set the data in the document
-    await setDoc(userDocRef, {
-      firstName,
-      lastName,
-      address,
-      email,
-      mobileNumber,
-      imageUrl,
-      agreeToTerms,
-      dateCreated,
-      deactivatedAt,
-      password,
+    // Read the file into memory
+    let fileData;
+    try {
+      fileData = await FileSystem.readAsStringAsync(imageUrl, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+    } catch (error) {
+      console.error("Error reading file: ", error);
+    }
+
+    const metadata = {
+      contentType: "image/jpeg",
+    };
+
+    // Upload the file to Firebase Storage
+    const uploadTask = uploadString(storageRef, fileData, "raw", metadata);
+
+    // Wait for the upload to complete
+    await new Promise((resolve, reject) => {
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // You can add code here to handle the progress of the upload
+        },
+        (error) => {
+          // Handle unsuccessful uploads, you may want to reject the promise here
+          console.error("Upload failed:", error);
+          reject(error);
+        },
+        async () => {
+          // Handle successful uploads on complete
+          console.log("Uploaded a base64 string!");
+
+          // Get the download URL
+          const downloadURL = await getDownloadURL(storageRef);
+          console.log("File available at", downloadURL);
+
+          // Store additional user information in the database
+          // Targeting a specific document using user UID
+          const userDocRef = doc(db, "users", user.uid);
+
+          // Set the data in the document
+          await setDoc(userDocRef, {
+            firstName,
+            lastName,
+            address,
+            email,
+            mobileNumber,
+            imageUrl: downloadURL,
+            agreeToTerms,
+            dateCreated,
+            deactivatedAt,
+            password,
+          });
+
+          resolve();
+        }
+      );
     });
 
     return {
