@@ -5,27 +5,29 @@ import MainLayout from "layouts/MainLayout";
 
 import { useRoute } from "@react-navigation/native";
 import Text from "components/ThemedText";
-
 import ResultItem from "components/rent_a_vehicle/ResultItem";
-
+import ChangeLocation from "components/rent_a_vehicle/ChangeLocation";
 //Icon
 import logo from "assets/icons/logo.png";
 
+import { useUserContext } from "context/UserContext";
+
 const ResultScreen = () => {
   const route = useRoute();
+  const user = useUserContext().user;
 
   //prev data
   const { result, dateTime } = JSON.parse(route.params?.data);
   const { searchResults } = result;
 
   useEffect(() => {
-    console.log("filter:", JSON.stringify(result, null, 2));
-    console.log("DateTime:", JSON.stringify(dateTime, null, 2));
-  }, [result, dateTime]);
+    console.log("result:", JSON.stringify(searchResults, null, 2));
+  }, [result]);
 
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+        <ChangeLocation address={user.address} />
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Available Vehicles For Rent</Text>
           <Image style={styles.logoIcon} source={logo} />
@@ -55,7 +57,6 @@ const styles = StyleSheet.create({
     borderBottomColor: "#fff",
     borderBottomWidth: 1,
     marginBottom: 10,
-
     justifyContent: "space-between",
   },
   title: {

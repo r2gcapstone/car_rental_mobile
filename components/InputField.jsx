@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     width: "100%",
     color: colors.textColor.dark2,
     fontSize: 16,
+    overflow: "scroll",
   },
   label: {
     color: "#fff",
