@@ -14,11 +14,12 @@ import Text from "components/ThemedText";
 import LoadingAnimation from "components/LoadingAnimation";
 import ErrorMessage from "components/ErrorMessage";
 import MainLayout from "../layouts/MainLayout";
-
 // Constants
 import { colors } from "constants/Colors";
 import { emailRegex } from "constants/RegexValidation";
 import { router, Link } from "expo-router";
+//hook
+import { useUserContext } from "../context/UserContext";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
@@ -26,6 +27,7 @@ const SignInScreen = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { user, setUser } = useUserContext();
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -45,7 +47,18 @@ const SignInScreen = () => {
     setIsLoading(true);
 
     const response = await login(email, password);
-    // console.log("response:", response);
+
+    if (response.userData) {
+      setUser((prevUser) => ({
+        ...prevUser, // Copy the previous user data
+        firstName: response.userData.firstName, // Update firstName
+        lastName: response.userData.lastName, // Update lastName
+        address: response.userData.address, // Update address
+        email: response.userData.email, // Update email
+        imageUrl: response.userData.imageUrl, // Update imageUrl
+        mobileNumber: response.userData.mobileNumber, // Update mobileNumber
+      }));
+    }
 
     setIsLoading(false);
 
