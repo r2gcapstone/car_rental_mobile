@@ -1,13 +1,15 @@
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { app, db } from "../services/firebaseConfig";
+import { auth, db } from "../services/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
+//utils
+import resizeImage from "../utils/resizeImage";
+import uploadImage from "../utils/uploadImage";
 
-const auth = getAuth(app);
+import getUserDataFromDatabase from "../utils/getUserData";
 
 // Signup function
 export const signup = async (
@@ -20,12 +22,28 @@ export const signup = async (
   imageUrl,
   agreeToTerms
 ) => {
+  let dateCreated = new Date();
+  const deactivatedAt = "";
+  const formattedDate = dateCreated.toLocaleDateString("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "numeric",
+  });
+  dateCreated = formattedDate;
+
   try {
     // Signup using createUserWithEmailAndPassword function of firebase
     await createUserWithEmailAndPassword(auth, email, password);
 
     // Get the user object after signup
     const user = auth.currentUser;
+
+    //compress image
+    const resizedImageUrl = await resizeImage(imageUrl, 640);
+
+    // This line waits for uploadImageAsync to finish
+    // Arguments: resizedImageUrl (string - uri data),  storageName (string)
+    const downloadURL = await uploadImage(resizedImageUrl, "userProfile");
 
     // Store additional user information in the database
     // Targeting a specific document using user UID
@@ -38,8 +56,11 @@ export const signup = async (
       address,
       email,
       mobileNumber,
-      imageUrl,
+      imageUrl: downloadURL,
       agreeToTerms,
+      dateCreated,
+      deactivatedAt,
+      password,
     });
 
     return {
@@ -48,6 +69,7 @@ export const signup = async (
       status: 201,
     };
   } catch (error) {
+    console.log(error);
     return { error: true, message: error.message, status: error.code };
   }
 };
@@ -57,10 +79,26 @@ export const login = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
 
+    // Get the user object after signup
+    const user = auth.currentUser;
+
+    const ownerData = await getUserDataFromDatabase(user.uid);
+
+    //filter user data for context
+    const userData = {
+      firstName: ownerData.firstName,
+      lastName: ownerData.lastName,
+      address: ownerData.address,
+      email: ownerData.email,
+      imageUrl: ownerData.imageUrl,
+      mobileNumber: ownerData.mobileNumber,
+    };
+
     return {
       message: "Login success!",
       error: false,
       status: 200,
+      userData: userData,
     };
   } catch (error) {
     return { error: true, message: error.message, status: error.code };

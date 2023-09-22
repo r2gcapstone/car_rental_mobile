@@ -21,7 +21,7 @@ export default function Header() {
       const response = await logout();
       if (response.status === 200) {
         setIsLoading(false);
-        router.back("/index");
+        router.replace("/login");
       }
     } catch (error) {
       console.error(error);
