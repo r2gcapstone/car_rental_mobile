@@ -1,13 +1,13 @@
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { app, db } from "../services/firebaseConfig";
+import { auth, db } from "../services/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
-
-const auth = getAuth(app);
+//utils
+import resizeImage from "../utils/resizeImage";
+import uploadImage from "../utils/uploadImage";
 
 // Signup function
 export const signup = async (
@@ -36,6 +36,13 @@ export const signup = async (
     // Get the user object after signup
     const user = auth.currentUser;
 
+    //compress image
+    const resizedImageUrl = await resizeImage(imageUrl, 640);
+
+    // This line waits for uploadImageAsync to finish
+    // Arguments: resizedImageUrl (string - uri data),  storageName (string)
+    const downloadURL = await uploadImage(resizedImageUrl, "userProfile");
+
     // Store additional user information in the database
     // Targeting a specific document using user UID
     const userDocRef = doc(db, "users", user.uid);
@@ -47,7 +54,7 @@ export const signup = async (
       address,
       email,
       mobileNumber,
-      imageUrl,
+      imageUrl: downloadURL,
       agreeToTerms,
       dateCreated,
       deactivatedAt,
@@ -60,6 +67,7 @@ export const signup = async (
       status: 201,
     };
   } catch (error) {
+    console.log(error);
     return { error: true, message: error.message, status: error.code };
   }
 };
