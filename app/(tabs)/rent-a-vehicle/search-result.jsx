@@ -10,8 +10,11 @@ import ChangeLocation from "components/rent_a_vehicle/ChangeLocation";
 //Icon
 import logo from "assets/icons/logo.png";
 
+import { useUserContext } from "context/UserContext";
+
 const ResultScreen = () => {
   const route = useRoute();
+  const user = useUserContext().user;
 
   //prev data
   const { result, dateTime } = JSON.parse(route.params?.data);
@@ -24,7 +27,7 @@ const ResultScreen = () => {
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <ChangeLocation address={searchResults.ownerAddress} />
+        <ChangeLocation address={user.address} />
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Available Vehicles For Rent</Text>
           <Image style={styles.logoIcon} source={logo} />
@@ -54,7 +57,6 @@ const styles = StyleSheet.create({
     borderBottomColor: "#fff",
     borderBottomWidth: 1,
     marginBottom: 10,
-
     justifyContent: "space-between",
   },
   title: {

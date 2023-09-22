@@ -58,7 +58,7 @@ export const searchAvailableCars = async ({ ...filter }) => {
       const ownerData = ownerDoc.data();
 
       // Add the owner's name to the car data
-      carData.ownerName = ownerData.firstName;
+      carData.ownerName = ownerData.firstName || "Owner";
 
       // Return the car data
       return {
