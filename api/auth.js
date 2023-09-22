@@ -9,6 +9,8 @@ import { doc, setDoc } from "firebase/firestore";
 import resizeImage from "../utils/resizeImage";
 import uploadImage from "../utils/uploadImage";
 
+import getUserDataFromDatabase from "../utils/getUserData";
+
 // Signup function
 export const signup = async (
   firstName,
@@ -77,10 +79,26 @@ export const login = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
 
+    // Get the user object after signup
+    const user = auth.currentUser;
+
+    const ownerData = await getUserDataFromDatabase(user.uid);
+
+    //filter user data for context
+    const userData = {
+      firstName: ownerData.firstName,
+      lastName: ownerData.lastName,
+      address: ownerData.address,
+      email: ownerData.email,
+      imageUrl: ownerData.imageUrl,
+      mobileNumber: ownerData.mobileNumber,
+    };
+
     return {
       message: "Login success!",
       error: false,
       status: 200,
+      userData: userData,
     };
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
