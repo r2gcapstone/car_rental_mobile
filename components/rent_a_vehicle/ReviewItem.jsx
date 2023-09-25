@@ -4,13 +4,12 @@ import useSentenceCase from "hooks/useSentenceCase";
 import star from "assets/icons/star.png";
 
 const Reviews = ({
-  key,
   reviewItem: { name, comment, imageUrl, dateCreated, rating },
 }) => {
   const { toSentenceCase } = useSentenceCase();
 
   return (
-    <View key={key} style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.col1}>
         {imageUrl && <Image style={styles.avatar} source={{ uri: imageUrl }} />}
         <View style={styles.content}>

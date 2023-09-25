@@ -65,8 +65,22 @@ const VehicleReviews = () => {
 
           <View style={styles.ratingContainer}>
             <Text style={styles.label}>General Rating Average: </Text>
-            <Image style={styles.icon} source={star} />
-            <Text style={styles.textRating}>{average}</Text>
+            <Text style={styles.textRating}>
+              {average
+                ? average
+                : ((<Image style={styles.icon} source={star} />),
+                  (
+                    <Text
+                      style={{
+                        color: "#C60909",
+                        fontWeight: "bold",
+                        fontSize: 14,
+                      }}
+                    >
+                      Rating & review unavailable
+                    </Text>
+                  ))}
+            </Text>
           </View>
         </View>
         <View style={styles.reviewContainer}>

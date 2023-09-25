@@ -1,7 +1,8 @@
-import React from "react";
-import { StyleSheet, ScrollView, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet, ScrollView, View, TouchableOpacity } from "react-native";
 //layout
 import MainLayout from "layouts/MainLayout";
+import { colors } from "constants/Colors";
 
 import { useRoute } from "@react-navigation/native";
 import Text from "components/ThemedText";
@@ -11,12 +12,18 @@ import star from "assets/icons/star.png";
 
 import useSentenceCase from "hooks/useSentenceCase";
 import ImagePreviewer from "components/ImagePreview";
+import ConfirmDestinationModal from "components/rent_a_vehicle/modal/ConfirmDestinationModal";
 
 const SelecedVehicle = () => {
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
   const { toSentenceCase } = useSentenceCase();
+  const [modal, setModal] = useState(false);
+  const [destination, setDestination] = useState({
+    municipality: "",
+    rate: null,
+  });
 
   const {
     vehicleDetails: {
@@ -28,6 +35,7 @@ const SelecedVehicle = () => {
       luggageCount,
       plateNumber,
     },
+    outsideRate,
     imageUrls,
     ownerName,
   } = data;
@@ -41,6 +49,10 @@ const SelecedVehicle = () => {
     { key: 6, label: "Baggage(s) :", value: luggageCount },
     { key: 7, label: "Plate Number :", value: plateNumber },
   ];
+
+  const handleOnPress = () => {
+    setModal((prev) => !prev);
+  };
 
   return (
     <MainLayout>
@@ -76,14 +88,18 @@ const SelecedVehicle = () => {
           btnText={"Vehicle Ratings & Reviews"}
           path={"rent-a-vehicle/vehicle-reviews"}
         />
-        <ProceedBtn
-          data={data}
-          contProps={{}}
-          btnProps={{ fontSize: 18 }}
-          btnText={"Proceed"}
-          path={"rent-a-vehicle/destination-confirmation"}
-        />
+        <TouchableOpacity style={styles.proceedBtn} onPress={handleOnPress}>
+          <Text style={styles.buttonText}>Proceed</Text>
+        </TouchableOpacity>
       </ScrollView>
+      {modal && (
+        <ConfirmDestinationModal
+          data={data}
+          option={outsideRate}
+          onClose={handleOnPress}
+          prop={{ destination, setDestination }}
+        />
+      )}
     </MainLayout>
   );
 };
@@ -141,5 +157,21 @@ const styles = StyleSheet.create({
   },
   dataContainer: {
     width: "30%",
+  },
+  proceedBtn: {
+    width: "100%",
+    paddingVertical: 12,
+    borderRadius: 8,
+    backgroundColor: colors.blue.slitedark,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  buttonText: {
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+    paddingHorizontal: 10,
   },
 });
