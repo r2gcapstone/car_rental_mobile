@@ -14,10 +14,8 @@ import ImagePreviewer from "components/ImagePreview";
 
 const SelecedVehicle = () => {
   const route = useRoute();
-
   //prev data
   const data = JSON.parse(route.params?.data);
-
   const { toSentenceCase } = useSentenceCase();
 
   const {
@@ -76,14 +74,14 @@ const SelecedVehicle = () => {
           contProps={{ marginBottom: 10, opacity: 0.8 }}
           btnProps={{ fontSize: 14, fontWeight: "normal" }}
           btnText={"Vehicle Ratings & Reviews"}
-          path={"rent-a-vehicle/destination-confirmation"}
+          path={"rent-a-vehicle/vehicle-reviews"}
         />
         <ProceedBtn
           data={data}
           contProps={{}}
           btnProps={{ fontSize: 18 }}
           btnText={"Proceed"}
-          path={"rent-a-vehicle/selected-vehicle"}
+          path={"rent-a-vehicle/destination-confirmation"}
         />
       </ScrollView>
     </MainLayout>

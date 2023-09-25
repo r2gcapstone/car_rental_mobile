@@ -17,16 +17,23 @@ export default function RentAVehicleStack() {
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen
         name="search-result"
-        options={({ navigation }) => ({
+        options={() => ({
           ...headerProp,
           headerLeft: () => <CustomBackButton customText="Result" />,
         })}
       />
       <Stack.Screen
         name="selected-vehicle"
-        options={({ navigation }) => ({
+        options={() => ({
           ...headerProp,
           headerLeft: () => <CustomBackButton customText="Vehicle" />,
+        })}
+      />
+      <Stack.Screen
+        name="vehicle-reviews"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => <CustomBackButton customText="Reviews" />,
         })}
       />
     </Stack>
