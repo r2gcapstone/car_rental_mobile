@@ -1,11 +1,10 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
-
+import { View, StyleSheet, Image } from "react-native";
 import Text from "components/ThemedText";
-
 import useSentenceCase from "hooks/useSentenceCase";
-
 import { colors } from "constants/Colors";
+
+import ProceedBtn from "../button/ProceedBtn";
 
 //Icons
 import arrow from "assets/icons/arrow.png";
@@ -58,9 +57,17 @@ const ResultItem = ({ resultItem }) => {
           <Image style={styles.pesoIcon} source={pesoWhite} />
           <Text style={styles.priceText}> {priceRate} </Text>/ day
         </Text>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <Text style={styles.proceedBtn}>Apply for Renting</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <ProceedBtn
+          data={resultItem}
+          // disable={isFormDataEmpty(formData)}
+          contProps={{ backgroundColor: colors.red.primary }}
+          btnProps={{ fontSize: 12 }}
+          btnText={"Apply for Renting"}
+          path={"rent-a-vehicle/selected-vehicle"}
+        />
       </View>
 
       {/* Right Content */}

@@ -47,7 +47,6 @@ const UploadDocs = () => {
     showLoading();
     try {
       const result = await RegisterCar({ data: { ...registerVehicle } });
-      console.log(result);
       if (!result.error) {
         hideLoading();
         router.push("rent-my-vehicle/success-screen");
@@ -93,6 +92,7 @@ const UploadDocs = () => {
       </ScrollView>
       <TouchableOpacity
         style={[styles.proceedBtn, isFieldEmpty(document) && { opacity: 0.5 }]}
+        //
         // disabled={isFieldEmpty(document)}
         onPress={handleOnPress}
       >
