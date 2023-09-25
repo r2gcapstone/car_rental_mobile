@@ -1,5 +1,12 @@
 import { db, app } from "../services/firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  query,
+  where,
+  addDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { getAuth } from "@firebase/auth";
 //utils
 import resizeImage from "../utils/resizeImage";
@@ -7,7 +14,6 @@ import uploadImage from "../utils/uploadImage";
 
 const auth = getAuth(app);
 
-// Function to register a car
 export const RegisterCar = async ({ data }) => {
   try {
     const user = auth.currentUser;
@@ -70,13 +76,40 @@ export const RegisterCar = async ({ data }) => {
 
     const carData = { ...dataCopy, userId, rented: false };
 
-    await addDoc(carsCollection, carData);
+    // Add a new document with an auto-generated id
+    const docRef = await addDoc(carsCollection, carData);
+
+    // Get the auto-generated id
+    const carId = docRef.id;
+
+    // Update the document to include the carId
+    await updateDoc(docRef, { carId });
 
     return {
       message: "Vehicle successfully registered!",
       error: false,
       status: 201,
     };
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+export const getReviews = async (carId) => {
+  try {
+    // Get a reference to the 'reviews' collection
+    const reviewsRef = collection(db, "reviews");
+    // Initialize queryRef with reviewsRef
+    let queryRef = reviewsRef;
+
+    // Add a where clause to get reviews of the specific car
+    queryRef = query(queryRef, where("carId", "==", carId));
+
+    // Get the reviews
+    const querySnapshot = await getDocs(queryRef);
+    const reviews = querySnapshot.docs.map((doc) => doc.data());
+
+    return reviews;
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
   }

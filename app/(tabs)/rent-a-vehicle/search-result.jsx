@@ -20,10 +20,6 @@ const ResultScreen = () => {
   const { result, dateTime } = JSON.parse(route.params?.data);
   const { searchResults } = result;
 
-  useEffect(() => {
-    console.log("result:", JSON.stringify(searchResults, null, 2));
-  }, [result]);
-
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
