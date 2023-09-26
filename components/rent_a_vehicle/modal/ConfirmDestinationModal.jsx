@@ -14,20 +14,17 @@ const ConfirmDestinationModal = ({
 }) => {
   const handleOnChange = (e) => {
     if (e == "") {
-      setDestination({ municipality: "", rate: null });
+      setDestination({ municipality: "", rate: "" });
       return;
     }
 
     const result = Object.entries(option).find(([key]) => key === e);
-    setDestination({ municipality: result[0], rate: +result[1] });
+    setDestination({ municipality: result[0], rate: result[1] });
   };
 
-  let newObject = {};
-  if (destination.municipality !== "") {
-    newObject = { ...data, destination };
-  } else {
-    newObject = { ...data };
-  }
+  const newObject = { ...data, destination };
+
+  console.log(JSON.stringify(newObject, null, 2));
 
   return (
     <Modal style={styles.modal} animationType="fade" transparent={true}>
@@ -69,7 +66,7 @@ const ConfirmDestinationModal = ({
             }}
             btnProps={{ fontSize: 16, fontWeight: "bold" }}
             btnText={"Proceed"}
-            path={"rent-a-vehicle/booking-payment-info"}
+            path={"rent-a-vehicle/renting-info"}
           />
         </View>
       </TouchableOpacity>

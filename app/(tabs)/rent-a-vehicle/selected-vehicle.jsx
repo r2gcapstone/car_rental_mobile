@@ -22,7 +22,7 @@ const SelecedVehicle = () => {
   const [modal, setModal] = useState(false);
   const [destination, setDestination] = useState({
     municipality: "",
-    rate: null,
+    rate: "",
   });
 
   const {

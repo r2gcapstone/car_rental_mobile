@@ -18,7 +18,7 @@ import fuelIcon from "assets/icons/fuel.png";
 import locationIcon from "assets/icons/location.png";
 import pesoWhite from "assets/icons/pesoWhite.png";
 
-const ResultItem = ({ resultItem }) => {
+const ResultItem = ({ resultItem, dateTime }) => {
   const iconAssets = {
     car: carIcon,
     user: userIcon,
@@ -41,6 +41,8 @@ const ResultItem = ({ resultItem }) => {
     priceRate,
   } = resultItem;
 
+  const newObject = { ...resultItem, dateTime };
+
   return (
     <View style={styles.rowContent} key={id}>
       {/* Left Content */}
@@ -57,12 +59,8 @@ const ResultItem = ({ resultItem }) => {
           <Image style={styles.pesoIcon} source={pesoWhite} />
           <Text style={styles.priceText}> {priceRate} </Text>/ day
         </Text>
-        {/* <TouchableOpacity>
-          <Text style={styles.proceedBtn}>Apply for Renting</Text>
-        </TouchableOpacity> */}
         <ProceedBtn
-          data={resultItem}
-          // disable={isFormDataEmpty(formData)}
+          data={newObject}
           contProps={{ backgroundColor: colors.red.primary }}
           btnProps={{ fontSize: 12 }}
           btnText={"Apply for Renting"}
