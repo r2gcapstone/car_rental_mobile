@@ -4,7 +4,7 @@ export const colors = {
     dark: "#27374D",
     slitedark: "#526D82",
     lightblue: "#DDE6ED",
-    strongblue: "#0029FF"
+    strongblue: "#0029FF",
   },
   red: {
     primary: "#F00",
