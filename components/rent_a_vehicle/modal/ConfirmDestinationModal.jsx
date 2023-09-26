@@ -24,8 +24,6 @@ const ConfirmDestinationModal = ({
 
   const newObject = { ...data, destination };
 
-  console.log(JSON.stringify(newObject, null, 2));
-
   return (
     <Modal style={styles.modal} animationType="fade" transparent={true}>
       <TouchableOpacity
