@@ -30,7 +30,11 @@ const ResultScreen = () => {
         </View>
         <View style={styles.resultContainer}>
           {searchResults.map((resultItem) => (
-            <ResultItem key={resultItem.id} resultItem={resultItem} />
+            <ResultItem
+              key={resultItem.id}
+              resultItem={resultItem}
+              dateTime={dateTime}
+            />
           ))}
         </View>
       </ScrollView>

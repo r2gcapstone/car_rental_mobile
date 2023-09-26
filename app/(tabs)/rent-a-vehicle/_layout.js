@@ -36,6 +36,13 @@ export default function RentAVehicleStack() {
           headerLeft: () => <CustomBackButton customText="Reviews" />,
         })}
       />
+      <Stack.Screen
+        name="renting-info"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => <CustomBackButton customText="" />,
+        })}
+      />
     </Stack>
   );
 }
