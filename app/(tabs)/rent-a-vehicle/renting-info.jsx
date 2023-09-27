@@ -27,6 +27,8 @@ const RentingInfo = () => {
     priceRate,
     dateTime: { startRentDate, startRentTime, endRentDate, endRentTime },
     destination,
+    carId,
+    userId,
   } = data;
 
   const p = { ...pickupLocation };
@@ -86,7 +88,6 @@ const RentingInfo = () => {
   ];
 
   const newObject = {
-    ...data,
     rentInformation: {
       totalPayment: total,
       dateTime: { startDate, startTime, endDate, endTime },
@@ -95,10 +96,11 @@ const RentingInfo = () => {
       paymentMethod: paymentOption,
       pickupLocation,
       dropoffLocation,
+      destination,
+      ownerId: userId,
+      carId,
     },
   };
-
-  console.log(JSON.stringify(newObject.rentInformation, null, 2));
 
   return (
     <MainLayout>
