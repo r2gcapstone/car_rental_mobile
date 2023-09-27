@@ -21,7 +21,17 @@ expo cli - (installed using npx create-expo-app@latest --template tabs@49)
 ## Installation
 
 ```
+git clone https://github.com/r2gcapstone/car_rental_mobile.git
+```
+
+```
 yarn install
+```
+
+## How to FIX (dependencies issue)
+
+```
+npx expo install --fix
 ```
 
 ## How to RUN
