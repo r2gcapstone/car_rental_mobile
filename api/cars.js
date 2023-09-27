@@ -11,6 +11,7 @@ import { getAuth } from "@firebase/auth";
 //utils
 import resizeImage from "../utils/resizeImage";
 import uploadImage from "../utils/uploadImage";
+import formatDate from "../utils/formatDate";
 
 const auth = getAuth(app);
 
@@ -115,22 +116,32 @@ export const getReviews = async (carId) => {
   }
 };
 
-// // Function to rent a car
-// export const RentCar = async ({ carId }) => {
-//   try {
-// const user = auth.currentUser;
-// const userId = user.uid;
-//     const rentalsCollection = collection(db, "rentals");
-//     const rentalData = { userId, carId };
-//     const result = await addDoc(rentalsCollection, rentalData);
+// Function to rent a car
+export const RentCar = async (data) => {
+  let date = new Date();
+  const dateCreated = formatDate(date);
 
-// return {
-//   message: "Account successfully created!",
-//   error: false,
-//   status: 201,
-// };
-//   } catch (error) {
-//     console.error("Error renting car:", error);
-//     return { error: true, message: error.message, status: error.code };
-//   }
-// };
+  try {
+    const user = auth.currentUser;
+    const userId = user.uid;
+    const rentalsCollection = collection(db, "rentals");
+    const rentalData = {
+      ...data.rentInformation,
+      status: "pending",
+      userId,
+      dateCreated,
+    };
+    const result = await addDoc(rentalsCollection, rentalData);
+
+    console.log(result);
+
+    return {
+      message: "Rent request successfully created!",
+      error: false,
+      status: 201,
+    };
+  } catch (error) {
+    console.error("Error renting car:", error);
+    return { error: true, message: error.message, status: error.code };
+  }
+};

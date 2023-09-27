@@ -43,6 +43,8 @@ export default function RentAVehicleStack() {
           headerLeft: () => <CustomBackButton customText="" />,
         })}
       />
+      <Stack.Screen name="rules-regulation" options={{ headerShown: false }} />
+      <Stack.Screen name="success-screen" options={{ headerShown: false }} />
     </Stack>
   );
 }
