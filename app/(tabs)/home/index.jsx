@@ -1,10 +1,9 @@
-import { StyleSheet, Image, ScrollView } from "react-native";
+import { StyleSheet, Image, ScrollView, View } from "react-native";
 import React from "react";
 
 //layout
 import MainLayout from "layouts/MainLayout";
 // Components
-import View from "components/ThemedView";
 import Text from "components/ThemedText";
 import Header from "components/home/Header";
 
@@ -16,11 +15,14 @@ export default function Homepage() {
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Header />
         <View style={styles.row}>
-          <Image
-            source={require("assets/images/logo.png")}
-            style={styles.logo}
-          />
-          <Text style={styles.logoText}>Welcome to R2G</Text>
+          <View style={styles.introContaner}>
+            <Image
+              source={require("assets/images/logo.png")}
+              style={styles.logo}
+            />
+            <Text style={styles.logoText}>Welcome to R2G</Text>
+          </View>
+
           <Text style={styles.text}>
             Car renters and owners! Our mobile application offers a seamless and
             secure way for individuals to rent and advertise their vehicles.{" "}
@@ -71,14 +73,22 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     alignItems: "center",
     flexDirection: "column",
-    gap: 23,
+    gap: 10,
     padding: 17,
     borderRadius: 20,
     overflow: "hidden",
     backgroundColor: colors.blue.slitedark,
   },
+  introContaner: {
+    flex: 1,
+    flexDirection: "row",
+    width: "100%",
+    gap: 8,
+    alignItems: "center",
+  },
   row3: {
     marginBottom: 15,
+    justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
     gap: 23,
@@ -94,9 +104,6 @@ const styles = StyleSheet.create({
   logo: {
     height: 52,
     width: 43,
-    position: "absolute",
-    left: 18,
-    top: 10,
   },
   Img1: {
     flex: 1,
@@ -108,7 +115,7 @@ const styles = StyleSheet.create({
   },
   Img2: {
     height: "145%",
-    width: "35%",
+    width: "40%",
   },
   titleText: {
     fontSize: 16,
@@ -116,10 +123,12 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   textContainer: {
-    paddingTop: -20,
-    width: "65%",
+    width: "60%",
     gap: 23,
     alignItems: "center",
     backgroundColor: colors.blue.slitedark,
+  },
+  text: {
+    textAlign: "left",
   },
 });
