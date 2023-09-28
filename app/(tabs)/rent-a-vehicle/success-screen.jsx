@@ -10,7 +10,7 @@ export default function SuccessScreen() {
   return (
     <MainLayout>
       <Message
-        path="rent-a-vehicle/renting-application"
+        path="/rent-a-vehicle"
         message="You have successfully applied for booking"
         subMessage={() => (
           <Text style={styles.caption}>

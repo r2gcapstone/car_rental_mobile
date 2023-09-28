@@ -29,6 +29,8 @@ const RentingInfo = () => {
     destination,
     carId,
     userId,
+    imageUrls,
+    vehicleDetails,
   } = data;
 
   const p = { ...pickupLocation };
@@ -92,6 +94,7 @@ const RentingInfo = () => {
       totalPayment: total,
       dateTime: { startDate, startTime, endDate, endTime },
       rentDuration: rentDuration,
+      imageUrl: imageUrls.front,
       priceRate,
       paymentMethod: paymentOption,
       pickupLocation,
@@ -99,6 +102,7 @@ const RentingInfo = () => {
       destination,
       ownerId: userId,
       carId,
+      vehicleDetails,
     },
   };
 

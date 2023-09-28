@@ -9,6 +9,7 @@ import { router } from "expo-router";
 
 const RulesRegulationModal = ({ onClose, data }) => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
+
   const handleOnClick = async () => {
     try {
       showLoading();
@@ -18,7 +19,7 @@ const RulesRegulationModal = ({ onClose, data }) => {
         hideLoading();
         return;
       }
-      router.replace("(tabs)/rent-a-vehicle/success-screen");
+      router.push("rent-a-vehicle/success-screen");
       hideLoading();
     } catch (error) {
       hideLoading();

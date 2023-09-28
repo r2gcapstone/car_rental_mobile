@@ -173,7 +173,12 @@ export default function RentAVehicle() {
             />
             <Text style={styles.btnText}>My Application for Renting</Text>
           </View>
-          <TouchableOpacity style={styles.viewContainer}>
+          <TouchableOpacity
+            onPress={() =>
+              router.push("(tabs)/rent-a-vehicle/renting-application")
+            }
+            style={styles.viewContainer}
+          >
             <Text>View</Text>
             <Image
               style={styles.arrowIcon}
