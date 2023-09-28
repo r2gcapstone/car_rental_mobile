@@ -153,20 +153,19 @@ const RentingInfo = () => {
             </View>
           </View>
         </View>
+        <ProceedBtn
+          data={newObject}
+          contProps={{
+            backgroundColor: colors.blue.slitedark,
+            marginBottom: 20,
+            marginTop: 20,
+            bottom: 0,
+          }}
+          btnProps={{ fontSize: 16, fontWeight: "bold" }}
+          btnText={"Proceed"}
+          path={"rent-a-vehicle/rules-regulation"}
+        />
       </ScrollView>
-      <ProceedBtn
-        data={newObject}
-        contProps={{
-          position: "absolute",
-          backgroundColor: colors.blue.slitedark,
-          marginBottom: 20,
-          marginTop: 10,
-          bottom: 0,
-        }}
-        btnProps={{ fontSize: 16, fontWeight: "bold" }}
-        btnText={"Proceed"}
-        path={"rent-a-vehicle/rules-regulation"}
-      />
     </MainLayout>
   );
 };

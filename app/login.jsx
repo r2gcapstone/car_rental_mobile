@@ -5,6 +5,7 @@ import {
   View,
   StyleSheet,
   Image,
+  ScrollView,
 } from "react-native";
 import { login } from "api/auth";
 
@@ -80,59 +81,79 @@ const SignInScreen = () => {
 
   return (
     <MainLayout>
-      <View style={styles.logoContainer}>
-        <Image source={require("assets/images/logo.png")} style={styles.logo} />
-      </View>
-      <Text style={styles.logoTitle}>R2G</Text>
-      <Text style={styles.appSlogan}>Your Go-To Car Rental Mobile App</Text>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <View style={styles.logoContainer}>
+            <Image
+              source={require("assets/images/logo.png")}
+              style={styles.logo}
+            />
+          </View>
+          <Text style={styles.logoTitle}>R2G</Text>
+          <Text style={styles.appSlogan}>Your Go-To Car Rental Mobile App</Text>
 
-      <Text style={styles.label}>Email</Text>
-      <TextInput
-        style={styles.input}
-        autoCompleteType="email"
-        autoCapitalize="none"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={handleEmailChange}
-      />
-      <ErrorMessage error={emailError} />
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            autoCompleteType="email"
+            autoCapitalize="none"
+            keyboardType="email-address"
+            value={email}
+            onChangeText={handleEmailChange}
+          />
+          <ErrorMessage error={emailError} />
 
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        style={styles.input}
-        autoCompleteType="password"
-        secureTextEntry
-        value={password}
-        onChangeText={handlePasswordChange}
-      />
-      <ErrorMessage error={passwordError} />
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
+            autoCompleteType="password"
+            secureTextEntry
+            value={password}
+            onChangeText={handlePasswordChange}
+          />
+          <ErrorMessage error={passwordError} />
 
-      <TouchableOpacity style={styles.forgotPasswordButton}>
-        <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.loginButton, { backgroundColor: colors.blue.slitedark }]}
-        onPress={handleLogin}
-        disabled={isLoading}
-      >
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-
-      {/* Register */}
-      <View style={styles.registerContainer}>
-        <Text>Don't have an account?</Text>
-        <Link href={"/sign-up"} asChild>
-          <TouchableOpacity style={styles.registerButton}>
-            <Text style={styles.registerText}>Register here!</Text>
+          <TouchableOpacity style={styles.forgotPasswordButton}>
+            <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
           </TouchableOpacity>
-        </Link>
-      </View>
-      <LoadingAnimation isVisible={isLoading} />
+          <TouchableOpacity
+            style={[
+              styles.loginButton,
+              { backgroundColor: colors.blue.slitedark },
+            ]}
+            onPress={handleLogin}
+            disabled={isLoading}
+          >
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+
+          {/* Register */}
+          <View style={styles.registerContainer}>
+            <Text>Don't have an account?</Text>
+            <Link href={"/sign-up"} asChild>
+              <TouchableOpacity style={styles.registerButton}>
+                <Text style={styles.registerText}>Register here!</Text>
+              </TouchableOpacity>
+            </Link>
+          </View>
+          <LoadingAnimation isVisible={isLoading} />
+        </View>
+      </ScrollView>
     </MainLayout>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+  scroll: {
+    flex: 1,
+    width: "100%",
+  },
   logoTitle: {
     fontSize: 46,
     fontWeight: "bold",

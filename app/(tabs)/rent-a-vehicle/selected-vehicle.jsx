@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
+    marginBottom: 20,
   },
   buttonText: {
     color: "#fff",
