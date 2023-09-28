@@ -6,6 +6,8 @@ import {
   where,
   addDoc,
   updateDoc,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 import { getAuth } from "@firebase/auth";
 //utils
@@ -14,7 +16,8 @@ import uploadImage from "../utils/uploadImage";
 import formatDate from "../utils/formatDate";
 
 const auth = getAuth(app);
-
+//POST
+//register car function
 export const RegisterCar = async ({ data }) => {
   try {
     const user = auth.currentUser;
@@ -96,6 +99,8 @@ export const RegisterCar = async ({ data }) => {
   }
 };
 
+//GET
+//get review function
 export const getReviews = async (carId) => {
   try {
     // Get a reference to the 'reviews' collection
@@ -116,7 +121,6 @@ export const getReviews = async (carId) => {
   }
 };
 
-// Function to rent a car
 export const RentCar = async (data) => {
   let date = new Date();
   const dateCreated = formatDate(date);
@@ -124,24 +128,72 @@ export const RentCar = async (data) => {
   try {
     const user = auth.currentUser;
     const userId = user.uid;
+    const ownerId = data.rentInformation.ownerId;
+    // Get a reference to the 'rentals' collection
     const rentalsCollection = collection(db, "rentals");
-    const rentalData = {
-      ...data.rentInformation,
-      status: "pending",
-      userId,
-      dateCreated,
-    };
-    const result = await addDoc(rentalsCollection, rentalData);
+    // Get a reference to the 'users' collection
+    const usersCollection = collection(db, "users");
 
-    console.log(result);
+    // Fetch the user document using the ownerId
+    const userDoc = doc(usersCollection, ownerId);
+    const userSnapshot = await getDoc(userDoc);
 
-    return {
-      message: "Rent request successfully created!",
-      error: false,
-      status: 201,
-    };
+    // Check if the user document exists
+    if (userSnapshot.exists()) {
+      const userData = userSnapshot.data();
+      const ownerName = userData.firstName;
+
+      const rentalData = {
+        ...data.rentInformation,
+        status: "pending",
+        userId,
+        ownerName,
+        dateCreated,
+      };
+      const result = await addDoc(rentalsCollection, rentalData);
+
+      console.log(result);
+
+      return {
+        message: "Rent request successfully created!",
+        error: false,
+        status: 201,
+      };
+    } else {
+      throw new Error("User not found");
+    }
   } catch (error) {
-    console.error("Error renting car:", error);
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+export const getRentingDocs = async () => {
+  try {
+    const user = auth.currentUser;
+    const userId = user.uid;
+    // Get a reference to the 'rentals' collection
+    const rentalsRef = collection(db, "rentals");
+
+    // Create a query against the collection
+    const q = query(rentalsRef, where("userId", "==", userId));
+
+    // Execute the query
+    const querySnapshot = await getDocs(q);
+
+    // If no rentals were found, return a message indicating this
+    if (querySnapshot.empty) {
+      return {
+        error: false,
+        message: "No rental records found!",
+        status: 204,
+      };
+    }
+
+    // You can use the docs property of the querySnapshot object to get all the documents in the result
+    const docs = querySnapshot.docs.map((doc) => doc.data());
+
+    return docs;
+  } catch (error) {
     return { error: true, message: error.message, status: error.code };
   }
 };

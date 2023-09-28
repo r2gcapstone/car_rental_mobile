@@ -19,32 +19,43 @@ export default function RentAVehicleStack() {
         name="search-result"
         options={() => ({
           ...headerProp,
-          headerLeft: () => <CustomBackButton customText="Result" />,
+          headerLeft: () => (
+            <CustomBackButton router={router} customText="Result" />
+          ),
         })}
       />
       <Stack.Screen
         name="selected-vehicle"
         options={() => ({
           ...headerProp,
-          headerLeft: () => <CustomBackButton customText="Vehicle" />,
+          headerLeft: () => (
+            <CustomBackButton router={router} customText="Vehicle" />
+          ),
         })}
       />
       <Stack.Screen
         name="vehicle-reviews"
         options={() => ({
           ...headerProp,
-          headerLeft: () => <CustomBackButton customText="Reviews" />,
+          headerLeft: () => (
+            <CustomBackButton router={router} customText="Reviews" />
+          ),
         })}
       />
       <Stack.Screen
         name="renting-info"
         options={() => ({
           ...headerProp,
-          headerLeft: () => <CustomBackButton customText="" />,
+          headerLeft: () => <CustomBackButton router={router} customText="" />,
         })}
       />
       <Stack.Screen name="rules-regulation" options={{ headerShown: false }} />
+
       <Stack.Screen name="success-screen" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="renting-application"
+        options={{ headerShown: false }}
+      />
     </Stack>
   );
 }
@@ -58,13 +69,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const CustomBackButton = ({ customText }) => (
+const CustomBackButton = ({ customText, router }) => (
   <TouchableOpacity
     style={{
       flexDirection: "row",
       alignItems: "center",
-      marginTop: 40,
-      marginBottom: 12,
       gap: 8,
     }}
     onPress={() => router.back()}

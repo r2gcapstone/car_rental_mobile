@@ -80,11 +80,9 @@ export default function RentMyVehicleStack() {
 
 const styles = StyleSheet.create({
   backBtn: {
-    marginTop: 40,
     height: 20,
     width: 20,
     padding: 4,
     transform: [{ rotate: "180deg" }],
-    marginBottom: 20,
   },
 });

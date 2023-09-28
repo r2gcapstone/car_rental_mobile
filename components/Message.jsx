@@ -10,7 +10,7 @@ import { colors } from "constants/Colors";
 
 const Message = ({ path, message, subMessage, btnText }) => {
   const handleNav = () => {
-    router.push(path);
+    router.replace(path);
   };
   return (
     <View style={styles.container}>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     width: "90%",
     gap: 20,
   },
-  logo: { width: 182, height: 220 },
+  logo: { width: 144, height: 174 },
   proceedButton: {
     backgroundColor: colors.blue.slitedark,
     paddingVertical: 12,
