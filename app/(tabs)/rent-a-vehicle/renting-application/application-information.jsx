@@ -4,6 +4,8 @@ import { useRoute } from "@react-navigation/native";
 import useSentenceCase from "hooks/useSentenceCase";
 import Text from "components/ThemedText";
 import { colors } from "constants/Colors";
+//icon
+import peso from "assets/icons/pesoWhite.png";
 //layout
 import MainLayout from "layouts/MainLayout";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -80,14 +82,14 @@ const ApplicationInformation = () => {
     {
       id: 3,
       label: "declined",
-      value: "Turn Off Location",
+      value: "Delete Booking",
       bgColor: colors.red.primary,
     },
     {
       id: 4,
       label: "finished",
       value: "Delete Booking",
-      bgColor: colors.white[1],
+      bgColor: colors.red.primary,
       textColor: colors.textColor.dark,
     },
   ];
@@ -97,9 +99,9 @@ const ApplicationInformation = () => {
     if (value === "approved") {
       color = colors.green.primary;
     } else if (value === "pending") {
-      color = colors.blue.strongblue;
+      color = "#06F";
     } else if (value === "declined") {
-      color = colors.green.primary;
+      color = colors.red.primary;
     } else {
       color = colors.white[0];
     }
@@ -125,6 +127,7 @@ const ApplicationInformation = () => {
               status == option.label && (
                 <TouchableOpacity
                   onPress={() => handleOnPress(status)}
+                  key={option.id}
                   style={[styles.btn, { backgroundColor: option.bgColor }]}
                 >
                   <Text style={styles.btnText}>{option.value}</Text>
@@ -139,26 +142,34 @@ const ApplicationInformation = () => {
                 <View key={item.id} style={styles.row}>
                   <Text style={styles.label}>{item.label}</Text>
                   {item.label === "Booking Status :" ? (
-                    <Text
-                      style={[
-                        styles.value,
-                        {
-                          color: textColor(status),
-                          fontWeight: "bold",
-                        },
-                      ]}
-                    >
-                      {item.value}
-                    </Text>
+                    <View style={styles.valueContainer}>
+                      <Text
+                        style={[
+                          styles.value,
+                          {
+                            color: textColor(status),
+                            fontWeight: "bold",
+                          },
+                        ]}
+                      >
+                        {item.value}
+                      </Text>
+                    </View>
                   ) : (
-                    <Text style={styles.value}>{item.value}</Text>
+                    <View style={styles.valueContainer}>
+                      {[10, 12].includes(item.id) && (
+                        <Image style={styles.icon} source={peso} />
+                      )}
+                      <Text style={styles.value}>{item.value}</Text>
+                    </View>
                   )}
                 </View>
               )
           )}
           <View style={[styles.row, styles.totalContent]}>
             <Text style={styles.totalLabel}>Total Amount :</Text>
-            <View style={styles.value}>
+            <View style={styles.valueContainer}>
+              <Image style={styles.icon} source={peso} />
               <Text style={styles.totalValue}>{totalPayment}</Text>
             </View>
           </View>
@@ -224,7 +235,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   value: {
-    width: "35%",
+    width: "100%",
   },
   totalContent: {
     marginTop: 10,
@@ -237,5 +248,15 @@ const styles = StyleSheet.create({
   totalLabel: {
     fontWeight: "bold",
     fontSize: 16,
+  },
+  valueContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "35%",
+  },
+  icon: {
+    width: 10,
+    height: 12,
+    marginRight: 6,
   },
 });

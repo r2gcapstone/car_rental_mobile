@@ -45,16 +45,19 @@ const RentingItem = () => {
       id: 1,
       label: "pending",
       bgColor: colors.blue.strongblue,
+      textColor: "#fff",
     },
     {
       id: 2,
       label: "approved",
       bgColor: colors.green.primary,
+      textColor: "#fff",
     },
     {
       id: 3,
       label: "declined",
       bgColor: colors.red.primary,
+      textColor: "#fff",
     },
     {
       id: 4,
@@ -120,7 +123,12 @@ const RentingItem = () => {
                           { backgroundColor: option.bgColor },
                         ]}
                       >
-                        <Text style={styles.statusText}>
+                        <Text
+                          style={[
+                            styles.statusText,
+                            { color: option.textColor },
+                          ]}
+                        >
                           {toSentenceCase(option.label)}
                         </Text>
                       </View>
