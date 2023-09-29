@@ -6,6 +6,7 @@ import { colors } from "constants/Colors";
 import useSentenceCase from "hooks/useSentenceCase";
 import Text from "components/ThemedText";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { router } from "expo-router";
 
 const RentingItem = () => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
@@ -23,6 +24,17 @@ const RentingItem = () => {
     } catch (error) {
       hideLoading();
       console.log(error);
+    }
+  };
+
+  const handleOnPress = (index) => {
+    if (data[index]) {
+      router.push({
+        pathname: "rent-a-vehicle/renting-application/application-information",
+        params: { data: JSON.stringify(data[index]) },
+      });
+    } else {
+      router.push("rent-a-vehicle/renting-application/application-information");
     }
   };
 
@@ -50,6 +62,7 @@ const RentingItem = () => {
                 styles.container,
                 index === data.length - 1 && styles.lastItem,
               ]}
+              onPress={() => handleOnPress(index)}
             >
               <View style={styles.row}>
                 <Image style={styles.img} source={{ uri: imageUrl }} />
