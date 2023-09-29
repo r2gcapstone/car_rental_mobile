@@ -23,7 +23,9 @@ const RentingItem = () => {
       hideLoading();
     } catch (error) {
       hideLoading();
-      console.log(error);
+      alert(
+        "There has been an error fetching renting details, please try again later."
+      );
     }
   };
 

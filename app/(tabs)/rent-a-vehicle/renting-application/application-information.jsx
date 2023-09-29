@@ -15,7 +15,6 @@ const ApplicationInformation = () => {
   const { toSentenceCase } = useSentenceCase();
   const newObject = { ...data };
 
-  console.log(JSON.stringify(newObject, null, 2));
   const {
     vehicleDetails: { vehicleName },
     imageUrl,
