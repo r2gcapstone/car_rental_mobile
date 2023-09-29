@@ -38,6 +38,30 @@ const RentingItem = () => {
     }
   };
 
+  const options = [
+    {
+      id: 1,
+      label: "pending",
+      bgColor: colors.blue.strongblue,
+    },
+    {
+      id: 2,
+      label: "approved",
+      bgColor: colors.green.primary,
+    },
+    {
+      id: 3,
+      label: "declined",
+      bgColor: colors.red.primary,
+    },
+    {
+      id: 4,
+      label: "finished",
+      bgColor: colors.white[1],
+      textColor: colors.textColor.dark,
+    },
+  ];
+
   useEffect(() => {
     getRentingDetails();
   }, []);
@@ -84,11 +108,22 @@ const RentingItem = () => {
               </View>
               <View style={styles.row2}>
                 <Text style={styles.text}>Booking status</Text>
-                <View style={styles.status}>
-                  <Text style={styles.statusText}>
-                    {toSentenceCase(status)}
-                  </Text>
-                </View>
+                {options.map(
+                  (option) =>
+                    status == option.label && (
+                      <View
+                        key={option.id}
+                        style={[
+                          styles.status,
+                          { backgroundColor: option.bgColor },
+                        ]}
+                      >
+                        <Text style={styles.statusText}>
+                          {toSentenceCase(option.label)}
+                        </Text>
+                      </View>
+                    )
+                )}
               </View>
             </TouchableOpacity>
           )
@@ -125,6 +160,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     alignItems: "flex-start",
     height: "auto",
+    alignItems: "center",
   },
   lastItem: {
     borderBottomWidth: 0,
@@ -157,7 +193,6 @@ const styles = StyleSheet.create({
     color: colors.white[1],
   },
   status: {
-    backgroundColor: colors.blue.strongblue,
     borderRadius: 10,
     width: "auto",
   },

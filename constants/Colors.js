@@ -15,7 +15,7 @@ export const colors = {
     2: "#6A6A6A",
   },
   green: {
-    0: "#24D12",
+    primary: "#1C8A00",
   },
   textColor: {
     dark: "#000",

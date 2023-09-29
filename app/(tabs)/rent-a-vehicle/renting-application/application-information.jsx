@@ -63,6 +63,50 @@ const ApplicationInformation = () => {
     },
   ];
 
+  const handleOnPress = () => {};
+
+  const options = [
+    {
+      id: 1,
+      label: "pending",
+      value: "Cancel Application",
+      bgColor: colors.red.primary,
+    },
+    {
+      id: 2,
+      label: "approved",
+      value: "Turn On Location",
+      bgColor: colors.green.primary,
+    },
+    {
+      id: 3,
+      label: "declined",
+      value: "Turn Off Location",
+      bgColor: colors.red.primary,
+    },
+    {
+      id: 4,
+      label: "finished",
+      value: "Delete Booking",
+      bgColor: colors.white[1],
+      textColor: colors.textColor.dark,
+    },
+  ];
+
+  const textColor = (value) => {
+    let color = "";
+    if (value === "approved") {
+      color = colors.green.primary;
+    } else if (value === "pending") {
+      color = colors.blue.strongblue;
+    } else if (value === "declined") {
+      color = colors.green.primary;
+    } else {
+      color = colors.white[0];
+    }
+    return color;
+  };
+
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -77,9 +121,17 @@ const ApplicationInformation = () => {
               <Text style={styles.value}>{toSentenceCase(ownerName)}</Text>
             </Text>
           </View>
-          <TouchableOpacity style={styles.btn}>
-            <Text style={styles.btnText}>Cancel Application</Text>
-          </TouchableOpacity>
+          {options.map(
+            (option) =>
+              status == option.label && (
+                <TouchableOpacity
+                  onPress={() => handleOnPress(status)}
+                  style={[styles.btn, { backgroundColor: option.bgColor }]}
+                >
+                  <Text style={styles.btnText}>{option.value}</Text>
+                </TouchableOpacity>
+              )
+          )}
         </View>
         <View style={styles.rentingInfo}>
           {dataArray.map(
@@ -87,7 +139,21 @@ const ApplicationInformation = () => {
               item.value && (
                 <View key={item.id} style={styles.row}>
                   <Text style={styles.label}>{item.label}</Text>
-                  <Text style={styles.value}>{item.value}</Text>
+                  {item.label === "Booking Status :" ? (
+                    <Text
+                      style={[
+                        styles.value,
+                        {
+                          color: textColor(status),
+                          fontWeight: "bold",
+                        },
+                      ]}
+                    >
+                      {item.value}
+                    </Text>
+                  ) : (
+                    <Text style={styles.value}>{item.value}</Text>
+                  )}
                 </View>
               )
           )}
@@ -145,7 +211,6 @@ const styles = StyleSheet.create({
   btn: {
     padding: 8,
     paddingHorizontal: 10,
-    backgroundColor: colors.red.primary,
     borderRadius: 10,
   },
   rentingInfo: {
@@ -153,6 +218,7 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 4,
     marginTop: 10,
+    marginBottom: 20,
   },
   row: {
     flexDirection: "row",
