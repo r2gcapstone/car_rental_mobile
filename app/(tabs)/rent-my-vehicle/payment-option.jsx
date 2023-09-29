@@ -21,7 +21,6 @@ const PaymentOption = () => {
   };
 
   const newObject = { ...data, paymentOption: PaymentOption };
-  console.log(JSON.stringify(newObject, null, 2));
 
   return (
     <MainLayout>

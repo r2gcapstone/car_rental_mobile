@@ -20,7 +20,7 @@ export default RentingApplication;
 const styles = StyleSheet.create({
   scroll: {
     flex: 1,
-    width: "110%",
+    width: "100%",
     marginTop: -23,
   },
 });

@@ -23,7 +23,9 @@ const RulesRegulationModal = ({ onClose, data }) => {
       hideLoading();
     } catch (error) {
       hideLoading();
-      console.log(error);
+      alert(
+        "There has been an error renting a vehicle, please try again later."
+      );
     }
   };
 

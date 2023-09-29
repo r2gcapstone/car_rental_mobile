@@ -23,6 +23,15 @@ export default function RentAVehicleStack() {
           ),
         }}
       />
+      <Stack.Screen
+        name="application-information"
+        options={{
+          ...headerProp,
+          headerLeft: () => (
+            <CustomBackButton customText="Applications Information" />
+          ),
+        }}
+      />
     </Stack>
   );
 }
