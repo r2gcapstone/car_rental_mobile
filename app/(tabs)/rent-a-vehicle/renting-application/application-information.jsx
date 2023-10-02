@@ -1,14 +1,16 @@
 import { StyleSheet, View, ScrollView, Image } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useRoute } from "@react-navigation/native";
+import { colors } from "constants/Colors";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import useSentenceCase from "hooks/useSentenceCase";
 import Text from "components/ThemedText";
-import { colors } from "constants/Colors";
+import ConfirmationModal from "components/modal/ConfirmationModal";
+
 //icon
 import peso from "assets/icons/pesoWhite.png";
 //layout
 import MainLayout from "layouts/MainLayout";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ApplicationInformation = () => {
   const route = useRoute();
@@ -16,6 +18,11 @@ const ApplicationInformation = () => {
   const data = JSON.parse(route.params?.data);
   const { toSentenceCase } = useSentenceCase();
   const newObject = { ...data };
+  const [modal, setModal] = useState(false);
+
+  const onClose = () => {
+    setModal((prev) => !prev);
+  };
 
   const {
     vehicleDetails: { vehicleName },
@@ -64,7 +71,13 @@ const ApplicationInformation = () => {
     },
   ];
 
-  const handleOnPress = () => {};
+  const handleOnPress = () => {
+    onClose();
+  };
+
+  const handleOkayBtn = () => {
+    //handle GPS location
+  };
 
   const options = [
     {
@@ -175,6 +188,20 @@ const ApplicationInformation = () => {
           </View>
         </View>
       </ScrollView>
+      {modal && (
+        <ConfirmationModal
+          caption="This will use the location of your device as GPS Tracker for the vehicle"
+          onClose={onClose}
+          btn1Text="Okay"
+          btn2Text="No"
+          btn1Props={{
+            backgroundColor: colors.green.primary,
+            borderColor: "#fff",
+            borderWidth: 1,
+          }}
+          handleOkayBtn={handleOkayBtn}
+        />
+      )}
     </MainLayout>
   );
 };
@@ -222,6 +249,8 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingHorizontal: 10,
     borderRadius: 10,
+    minWidth: "40%",
+    alignItems: "center",
   },
   rentingInfo: {
     flex: 1,
