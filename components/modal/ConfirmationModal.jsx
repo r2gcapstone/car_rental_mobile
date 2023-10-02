@@ -21,7 +21,7 @@ const ConfirmationModal = ({
       >
         <View style={styles.box}>
           <Image style={styles.logo} source={logo} />
-          <Text style={styles.caption}>{caption}</Text>
+          <Text style={styles.caption}>{caption()}</Text>
           <View style={styles.pickerContainer}></View>
           <View style={styles.btnContainer}>
             <TouchableOpacity

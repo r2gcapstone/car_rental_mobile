@@ -77,6 +77,8 @@ const ApplicationInformation = () => {
   const handleOnPress = async (status) => {
     if (status === "approved") {
       onClose();
+    } else if (status === "pending") {
+      onClose();
     } else {
       const result = await deleteRentRequest(data.id);
       if (result.status === "success") {
@@ -85,8 +87,14 @@ const ApplicationInformation = () => {
     }
   };
 
-  const handleOkayBtn = () => {
-    //handle GPS location
+  const handleOkayBtn = async () => {
+    //handle cancelation and GPS location
+    if (status === "pending") {
+      const result = await deleteRentRequest(data.id);
+      if (result.status === "success") {
+        router.back();
+      }
+    }
   };
 
   const options = [
@@ -198,7 +206,7 @@ const ApplicationInformation = () => {
           </View>
         </View>
       </ScrollView>
-      {modal && (
+      {status === "approved" && modal && (
         <ConfirmationModal
           caption="This will use the location of your device as GPS Tracker for the vehicle"
           onClose={onClose}
@@ -208,6 +216,27 @@ const ApplicationInformation = () => {
             backgroundColor: colors.green.primary,
             borderColor: "#fff",
             borderWidth: 1,
+          }}
+          handleOkayBtn={handleOkayBtn}
+        />
+      )}
+      {status === "pending" && modal && (
+        <ConfirmationModal
+          caption={() => (
+            <View style={styles.caption}>
+              <Text style={styles.captionText}>
+                This will cancel your booking
+              </Text>
+              <Text style={[styles.captionText, { fontWeight: "bold" }]}>
+                Are you sure?
+              </Text>
+            </View>
+          )}
+          onClose={onClose}
+          btn1Text="Yes"
+          btn2Text="No"
+          btn1Props={{
+            backgroundColor: colors.red.primary,
           }}
           handleOkayBtn={handleOkayBtn}
         />
@@ -297,5 +326,14 @@ const styles = StyleSheet.create({
     width: 10,
     height: 12,
     marginRight: 6,
+  },
+  caption: {
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+  },
+  captionText: {
+    textAlign: "center",
+    fontSize: 16,
   },
 });
