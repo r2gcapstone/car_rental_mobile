@@ -7,11 +7,14 @@ import useSentenceCase from "hooks/useSentenceCase";
 import Text from "components/ThemedText";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { router } from "expo-router";
+import { useIsFocused } from "@react-navigation/native";
 
 const RentingItem = () => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const { toSentenceCase } = useSentenceCase();
   const [data, setData] = useState([]);
+
+  const isFocused = useIsFocused();
 
   const getRentingDetails = async () => {
     try {
@@ -68,8 +71,10 @@ const RentingItem = () => {
   ];
 
   useEffect(() => {
-    getRentingDetails();
-  }, []);
+    if (isFocused) {
+      getRentingDetails();
+    }
+  }, [isFocused]);
 
   return (
     <>

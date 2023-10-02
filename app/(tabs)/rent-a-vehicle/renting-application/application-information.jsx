@@ -6,16 +6,19 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import useSentenceCase from "hooks/useSentenceCase";
 import Text from "components/ThemedText";
 import ConfirmationModal from "components/modal/ConfirmationModal";
+import { deleteRentRequest } from "api/rental";
 
 //icon
 import peso from "assets/icons/pesoWhite.png";
 //layout
 import MainLayout from "layouts/MainLayout";
+import { router } from "expo-router";
 
 const ApplicationInformation = () => {
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
+
   const { toSentenceCase } = useSentenceCase();
   const newObject = { ...data };
   const [modal, setModal] = useState(false);
@@ -71,8 +74,15 @@ const ApplicationInformation = () => {
     },
   ];
 
-  const handleOnPress = () => {
-    onClose();
+  const handleOnPress = async (status) => {
+    if (status === "approved") {
+      onClose();
+    } else {
+      const result = await deleteRentRequest(data.id);
+      if (result.status === "success") {
+        router.back();
+      }
+    }
   };
 
   const handleOkayBtn = () => {
