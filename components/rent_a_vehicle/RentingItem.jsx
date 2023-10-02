@@ -7,11 +7,14 @@ import useSentenceCase from "hooks/useSentenceCase";
 import Text from "components/ThemedText";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { router } from "expo-router";
+import { useIsFocused } from "@react-navigation/native";
 
 const RentingItem = () => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const { toSentenceCase } = useSentenceCase();
   const [data, setData] = useState([]);
+
+  const isFocused = useIsFocused();
 
   const getRentingDetails = async () => {
     try {
@@ -45,16 +48,19 @@ const RentingItem = () => {
       id: 1,
       label: "pending",
       bgColor: colors.blue.strongblue,
+      textColor: "#fff",
     },
     {
       id: 2,
       label: "approved",
       bgColor: colors.green.primary,
+      textColor: "#fff",
     },
     {
       id: 3,
       label: "declined",
       bgColor: colors.red.primary,
+      textColor: "#fff",
     },
     {
       id: 4,
@@ -65,8 +71,10 @@ const RentingItem = () => {
   ];
 
   useEffect(() => {
-    getRentingDetails();
-  }, []);
+    if (isFocused) {
+      getRentingDetails();
+    }
+  }, [isFocused]);
 
   return (
     <>
@@ -120,7 +128,12 @@ const RentingItem = () => {
                           { backgroundColor: option.bgColor },
                         ]}
                       >
-                        <Text style={styles.statusText}>
+                        <Text
+                          style={[
+                            styles.statusText,
+                            { color: option.textColor },
+                          ]}
+                        >
                           {toSentenceCase(option.label)}
                         </Text>
                       </View>

@@ -1,21 +1,31 @@
 import { StyleSheet, View, ScrollView, Image } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useRoute } from "@react-navigation/native";
+import { colors } from "constants/Colors";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import useSentenceCase from "hooks/useSentenceCase";
 import Text from "components/ThemedText";
-import { colors } from "constants/Colors";
+import ConfirmationModal from "components/modal/ConfirmationModal";
+import { deleteRentRequest } from "api/rental";
+
 //icon
 import peso from "assets/icons/pesoWhite.png";
 //layout
 import MainLayout from "layouts/MainLayout";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { router } from "expo-router";
 
 const ApplicationInformation = () => {
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
+
   const { toSentenceCase } = useSentenceCase();
   const newObject = { ...data };
+  const [modal, setModal] = useState(false);
+
+  const onClose = () => {
+    setModal((prev) => !prev);
+  };
 
   const {
     vehicleDetails: { vehicleName },
@@ -64,7 +74,28 @@ const ApplicationInformation = () => {
     },
   ];
 
-  const handleOnPress = () => {};
+  const handleOnPress = async (status) => {
+    if (status === "approved") {
+      onClose();
+    } else if (status === "pending") {
+      onClose();
+    } else {
+      const result = await deleteRentRequest(data.id);
+      if (result.status === "success") {
+        router.back();
+      }
+    }
+  };
+
+  const handleOkayBtn = async () => {
+    //handle cancelation and GPS location
+    if (status === "pending") {
+      const result = await deleteRentRequest(data.id);
+      if (result.status === "success") {
+        router.back();
+      }
+    }
+  };
 
   const options = [
     {
@@ -82,14 +113,14 @@ const ApplicationInformation = () => {
     {
       id: 3,
       label: "declined",
-      value: "Turn Off Location",
+      value: "Delete Booking",
       bgColor: colors.red.primary,
     },
     {
       id: 4,
       label: "finished",
       value: "Delete Booking",
-      bgColor: colors.white[1],
+      bgColor: colors.red.primary,
       textColor: colors.textColor.dark,
     },
   ];
@@ -99,9 +130,9 @@ const ApplicationInformation = () => {
     if (value === "approved") {
       color = colors.green.primary;
     } else if (value === "pending") {
-      color = colors.blue.strongblue;
+      color = "#06F";
     } else if (value === "declined") {
-      color = colors.green.primary;
+      color = colors.red.primary;
     } else {
       color = colors.white[0];
     }
@@ -175,6 +206,41 @@ const ApplicationInformation = () => {
           </View>
         </View>
       </ScrollView>
+      {status === "approved" && modal && (
+        <ConfirmationModal
+          caption="This will use the location of your device as GPS Tracker for the vehicle"
+          onClose={onClose}
+          btn1Text="Okay"
+          btn2Text="No"
+          btn1Props={{
+            backgroundColor: colors.green.primary,
+            borderColor: "#fff",
+            borderWidth: 1,
+          }}
+          handleOkayBtn={handleOkayBtn}
+        />
+      )}
+      {status === "pending" && modal && (
+        <ConfirmationModal
+          caption={() => (
+            <View style={styles.caption}>
+              <Text style={styles.captionText}>
+                This will cancel your booking
+              </Text>
+              <Text style={[styles.captionText, { fontWeight: "bold" }]}>
+                Are you sure?
+              </Text>
+            </View>
+          )}
+          onClose={onClose}
+          btn1Text="Yes"
+          btn2Text="No"
+          btn1Props={{
+            backgroundColor: colors.red.primary,
+          }}
+          handleOkayBtn={handleOkayBtn}
+        />
+      )}
     </MainLayout>
   );
 };
@@ -222,6 +288,8 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingHorizontal: 10,
     borderRadius: 10,
+    minWidth: "40%",
+    alignItems: "center",
   },
   rentingInfo: {
     flex: 1,
@@ -258,5 +326,14 @@ const styles = StyleSheet.create({
     width: 10,
     height: 12,
     marginRight: 6,
+  },
+  caption: {
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+  },
+  captionText: {
+    textAlign: "center",
+    fontSize: 16,
   },
 });

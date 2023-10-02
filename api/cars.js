@@ -190,7 +190,9 @@ export const getRentingDocs = async () => {
     }
 
     // You can use the docs property of the querySnapshot object to get all the documents in the result
-    const docs = querySnapshot.docs.map((doc) => doc.data());
+    const docs = querySnapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
 
     return docs;
   } catch (error) {
