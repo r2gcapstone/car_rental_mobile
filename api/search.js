@@ -7,7 +7,7 @@ import {
   getDoc,
   doc,
 } from "firebase/firestore";
-import { db } from "../services/firebaseConfig";
+import { db, auth } from "../services/firebaseConfig";
 
 // Define the searchAvailableCars function
 export const searchAvailableCars = async ({ ...filter }) => {
@@ -15,11 +15,14 @@ export const searchAvailableCars = async ({ ...filter }) => {
     // Store the filter options
     const filterOptions = filter;
 
+    const user = auth.currentUser;
+    const userId = user.uid;
+
     // Get a reference to the 'cars' collection
     const carsRef = collection(db, "cars");
-    // Initialize queryRef with carsRef
 
-    let queryRef = carsRef;
+    // Initialize queryRef with carsRef
+    let queryRef = query(carsRef, where("userId", "!=", userId)); // Exclude cars owned by the current user
 
     // Define the filters and their corresponding fields in the database
     const filters = [

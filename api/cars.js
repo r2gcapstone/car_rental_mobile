@@ -99,28 +99,6 @@ export const RegisterCar = async ({ data }) => {
   }
 };
 
-//GET
-//get review function
-export const getReviews = async (carId) => {
-  try {
-    // Get a reference to the 'reviews' collection
-    const reviewsRef = collection(db, "reviews");
-    // Initialize queryRef with reviewsRef
-    let queryRef = reviewsRef;
-
-    // Add a where clause to get reviews of the specific car
-    queryRef = query(queryRef, where("carId", "==", carId));
-
-    // Get the reviews
-    const querySnapshot = await getDocs(queryRef);
-    const reviews = querySnapshot.docs.map((doc) => doc.data());
-
-    return reviews;
-  } catch (error) {
-    return { error: true, message: error.message, status: error.code };
-  }
-};
-
 export const RentCar = async (data) => {
   let date = new Date();
   const dateCreated = formatDate(date);
@@ -129,6 +107,7 @@ export const RentCar = async (data) => {
     const user = auth.currentUser;
     const userId = user.uid;
     const ownerId = data.rentInformation.ownerId;
+
     // Get a reference to the 'rentals' collection
     const rentalsCollection = collection(db, "rentals");
     // Get a reference to the 'users' collection
@@ -167,6 +146,28 @@ export const RentCar = async (data) => {
   }
 };
 
+//GET
+//get review function
+export const getReviews = async (carId) => {
+  try {
+    // Get a reference to the 'reviews' collection
+    const reviewsRef = collection(db, "reviews");
+    // Initialize queryRef with reviewsRef
+    let queryRef = reviewsRef;
+
+    // Add a where clause to get reviews of the specific car
+    queryRef = query(queryRef, where("carId", "==", carId));
+
+    // Get the reviews
+    const querySnapshot = await getDocs(queryRef);
+    const reviews = querySnapshot.docs.map((doc) => doc.data());
+
+    return reviews;
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
 export const getRentingDocs = async () => {
   try {
     const user = auth.currentUser;
@@ -195,6 +196,53 @@ export const getRentingDocs = async () => {
     });
 
     return docs;
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+//function to get all users car based on userId
+export const getCars = async () => {
+  try {
+    const user = auth.currentUser;
+    const userId = user.uid;
+
+    // Get a reference to the 'cars' collection
+    const carsRef = collection(db, "cars");
+
+    // Create a query against the collection
+    const q = query(carsRef, where("userId", "==", userId));
+
+    // Execute the query
+    const vehicleSnapshot = await getDocs(q);
+
+    // Map over the documents in the snapshot
+    const vehicles = await Promise.all(
+      vehicleSnapshot.docs.map(async (doc) => {
+        const car = doc.data();
+
+        // console.log(car);
+        if (car.status === "booked") {
+          // Get a reference to the 'rentals' collection
+          const rentalsRef = collection(db, "rentals");
+
+          // Create a query against the collection
+          const rentalQuery = query(rentalsRef, where("carId", "==", doc.id));
+
+          // Execute the query
+          const rentalSnapshot = await getDocs(rentalQuery);
+
+          // Get the renter's name and append it to the car object
+          rentalSnapshot.docs.forEach((rentalDoc) => {
+            const rental = rentalDoc.data();
+            car.rentee = rental.rentee;
+          });
+        }
+        return car;
+      })
+    );
+
+    return vehicles;
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
   }
