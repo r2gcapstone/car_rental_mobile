@@ -21,14 +21,26 @@ import subscription from "assets/icons/subScription.png";
 import arrow from "assets/icons/arrow.png";
 //image
 import image1 from "assets/images/image1.png";
+import { router } from "expo-router";
 
 const options = [
-  { label: "Application for Renting", icon: users },
-  { label: "My Vehicle", icon: myCar },
-  { label: "Subscription", icon: subscription },
+  {
+    label: "Application for Renting",
+    icon: users,
+    path: "rent-my-vehicle/application-for-renting",
+  },
+  { label: "My Vehicle", icon: myCar, path: "rent-my-vehicle/my-vehicle" },
+  {
+    label: "Subscription",
+    icon: subscription,
+    path: "rent-my-vehicle/subscription",
+  },
 ];
 
 export default function RentMyVehicle() {
+  const handleOnPress = async (path) => {
+    router.push(path);
+  };
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -54,7 +66,10 @@ export default function RentMyVehicle() {
               <Image style={styles.icon} source={option.icon} />
               <Text style={styles.btnText}>{option.label}</Text>
             </View>
-            <TouchableOpacity style={styles.viewContainer}>
+            <TouchableOpacity
+              onPress={() => handleOnPress(option.path)}
+              style={styles.viewContainer}
+            >
               <Text>View</Text>
               <Image style={styles.arrowIcon} source={arrow}></Image>
             </TouchableOpacity>

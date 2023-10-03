@@ -5,6 +5,7 @@ import { useRoute } from "@react-navigation/native";
 import { colors } from "constants/Colors";
 import Text from "components/ThemedText";
 import ProceedBtn from "components/button/ProceedBtn";
+import { useUserContext } from "context/UserContext";
 //utils
 import formatdate from "utils/formatDate";
 import formatTime from "utils/formatTime";
@@ -16,6 +17,8 @@ import peso from "assets/icons/pesoWhite.png";
 import MainLayout from "layouts/MainLayout";
 
 const RentingInfo = () => {
+  const { user } = useUserContext();
+  const userName = user.firstName + " " + user.lastName;
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
@@ -103,6 +106,7 @@ const RentingInfo = () => {
       ownerId: userId,
       carId,
       vehicleDetails,
+      rentee: userName,
     },
   };
 
