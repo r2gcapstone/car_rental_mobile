@@ -7,18 +7,15 @@ import ProceedBtn from "components/button/ProceedBtn";
 import { colors } from "constants/Colors";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { getVehicleInfo, updateCarData } from "api/cars";
-
 import { useRoute } from "@react-navigation/native";
 
 const PriceRate = () => {
-  const [priceRate, setPriceRate] = useState(null);
+  const [priceRate, setPriceRate] = useState("");
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
-
   const { mode, carId, label } = data;
-  console.log(data);
 
   const handleOnChangeText = (value) => {
     setPriceRate(+value);
@@ -35,7 +32,6 @@ const PriceRate = () => {
     try {
       showLoading();
       const result = await getVehicleInfo(id);
-      console.log("result", JSON.stringify(result, null, 2));
       hideLoading();
       if (!result.error) {
         setPriceRate(result.priceRate);
