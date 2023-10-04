@@ -15,6 +15,7 @@ import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { getVehicleInfo, updateCarData } from "api/cars";
 // constants
 import { colors } from "constants/Colors";
+import { parse } from "expo-linking";
 
 const initialState = {
   vehicleName: "",
@@ -30,7 +31,7 @@ const initialState = {
 export default function RegisterVehicle() {
   const route = useRoute();
   // prev data
-  const data = JSON.parse(route.params?.data) || "";
+  const data = JSON.parse(route.params?.data || "{}");
   const { mode, carId, label } = data;
   const [formData, setFormData] = useState(initialState);
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
