@@ -1,0 +1,9 @@
+export const gear = require("../icons/gear.png");
+export const doc = require("../icons/doc.png");
+export const dollar = require("../icons/dollar.png");
+export const globe = require("../icons/globe.png");
+export const hand = require("../icons/hand.png");
+export const img = require("../icons/img.png");
+export const road = require("../icons/road.png");
+export const star = require("../icons/star.png");
+export const subscription = require("../icons/subScription.png");

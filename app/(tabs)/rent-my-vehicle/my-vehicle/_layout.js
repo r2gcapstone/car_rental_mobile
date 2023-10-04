@@ -23,15 +23,13 @@ export default function MyVehicleStack() {
           ),
         })}
       />
-      {/* <Stack.Screen
-        name="search-result"
+      <Stack.Screen
+        name="selected-vehicle"
         options={() => ({
           ...headerProp,
-          headerLeft: () => (
-            <CustomBackButton router={router} customText="Result" />
-          ),
+          headerLeft: () => <CustomBackButton router={router} customText="" />,
         })}
-      /> */}
+      />
     </Stack>
   );
 }

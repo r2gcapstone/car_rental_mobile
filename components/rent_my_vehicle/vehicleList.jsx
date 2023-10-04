@@ -6,6 +6,7 @@ import useSentenceCase from "hooks/useSentenceCase";
 import Text from "components/ThemedText";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { getCars } from "api/cars";
+import { router } from "expo-router";
 
 const VehicleList = () => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
@@ -16,7 +17,6 @@ const VehicleList = () => {
     try {
       showLoading();
       const result = await getCars();
-
       if (Array.isArray(result)) {
         setData(result);
       }
@@ -33,7 +33,16 @@ const VehicleList = () => {
     getRegVehicles();
   }, []);
 
-  const handleOnPress = () => {};
+  const handleOnPress = (index) => {
+    if (data[index]) {
+      router.push({
+        pathname: "rent-my-vehicle/my-vehicle/selected-vehicle",
+        params: { data: JSON.stringify(data[index]) },
+      });
+    } else {
+      router.push("rent-my-vehicle/my-vehicle/selected-vehicle");
+    }
+  };
 
   return (
     <>
@@ -73,9 +82,16 @@ const VehicleList = () => {
                         },
                       ]}
                     >
-                      {status === "booked"
-                        ? `${"Booked By : " + rentee}`
-                        : toSentenceCase(status)}
+                      {status === "booked" ? (
+                        <>
+                          Booked By :{" "}
+                          <Text style={{ fontWeight: "bold" }}>
+                            {toSentenceCase(rentee)}
+                          </Text>
+                        </>
+                      ) : (
+                        toSentenceCase(status)
+                      )}
                     </Text>
                     <Text
                       style={[
