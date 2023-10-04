@@ -31,7 +31,6 @@ export default function RegisterVehicle() {
   const route = useRoute();
   // prev data
   const data = JSON.parse(route.params?.data) || "";
-  console.log(data);
   const { mode, carId, label } = data;
   const [formData, setFormData] = useState(initialState);
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();

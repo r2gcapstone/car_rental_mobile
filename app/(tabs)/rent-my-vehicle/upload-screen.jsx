@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import Text from "components/ThemedText";
 
@@ -7,23 +7,63 @@ import MainLayout from "layouts/MainLayout";
 import UploadImage from "components/rent_my_vehicle/UploadImage";
 import ProceedBtn from "components/button/ProceedBtn";
 import { useRoute } from "@react-navigation/native";
+import { useLoadingAnimation } from "hooks/useLoadingAnimation";
+import { getVehicleInfo, updateCarData } from "api/cars";
 
 //constants
 import { colors } from "constants/Colors";
 
+const initialState = {
+  front: "",
+  rear: "",
+  sideRight: "",
+  sideLeft: "",
+  interior1: "",
+  interior2: "",
+};
+
 const UploadScreen = () => {
+  const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const route = useRoute();
   //vehicleDetails data
   const data = JSON.parse(route.params?.data);
+  const { mode, carId, label } = data;
+  console.log(data);
+  const [imageUrl, setImageUrl] = useState(initialState);
 
-  const [imageUrl, setImageUrl] = useState({
-    front: "",
-    rear: "",
-    sideRight: "",
-    sideLeft: "",
-    interior1: "",
-    interior2: "",
-  });
+  // fetch data when screen is used for updating data
+  const fetchData = async (id) => {
+    try {
+      showLoading();
+      const result = await getVehicleInfo(id);
+      hideLoading();
+      if (!result.error) {
+        setImageUrl(result.imageUrls);
+      }
+    } catch (error) {
+      hideLoading();
+    }
+  };
+
+  let key = "";
+  if (label === "Edit Vehicle Image") {
+    key = "imageUrls";
+  }
+
+  const handleOnPress = async (carId) => {
+    try {
+      showLoading();
+      const result = await updateCarData(key, imageUrl, carId);
+      hideLoading();
+      console.log("result", JSON.stringify(result, null, 2));
+    } catch (error) {
+      hideLoading();
+    }
+  };
+
+  useEffect(() => {
+    fetchData(carId);
+  }, []);
 
   const newObject = { vehicleDetails: data, imageUrls: imageUrl };
 
@@ -77,17 +117,27 @@ const UploadScreen = () => {
             setImageUrl={setImageUrl}
           />
         </View>
-        <ProceedBtn
-          data={newObject}
-          disable={isImageUrlEmpty(imageUrl)}
-          contProps={{
-            marginVertical: 20,
-            backgroundColor: colors.blue.slitedark,
-          }}
-          btnText={"Proceed"}
-          path={"rent-my-vehicle/pickup-location"}
-        />
+        {mode === "update" ? (
+          <TouchableOpacity
+            style={styles.proceedBtn}
+            onPress={() => handleOnPress(carId)}
+          >
+            <Text style={styles.buttonText}>Update</Text>
+          </TouchableOpacity>
+        ) : (
+          <ProceedBtn
+            data={newObject}
+            disable={isImageUrlEmpty(imageUrl)}
+            contProps={{
+              marginVertical: 20,
+              backgroundColor: colors.blue.slitedark,
+            }}
+            btnText={"Proceed"}
+            path={"rent-my-vehicle/pickup-location"}
+          />
+        )}
       </ScrollView>
+      <LoadingComponent />
     </MainLayout>
   );
 };
@@ -121,5 +171,28 @@ const styles = StyleSheet.create({
     height: "100%",
     marginTop: 20,
     gap: 24,
+  },
+  proceedBtn: {
+    width: "100%",
+    paddingVertical: 12,
+    borderRadius: 8,
+    backgroundColor: colors.blue.slitedark,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 25,
+    marginBottom: 40,
+  },
+  buttonText: {
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    paddingHorizontal: 10,
+  },
+  icon: {
+    width: 28,
+    height: 28,
+    marginLeft: "-10%",
   },
 });
