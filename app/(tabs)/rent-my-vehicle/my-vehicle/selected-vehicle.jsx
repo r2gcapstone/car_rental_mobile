@@ -72,7 +72,7 @@ const SelectedVehicle = () => {
       id: 7,
       label: "Edit Outside of Origin Rate",
       icon: road,
-      path: "",
+      path: "(tabs)/rent-my-vehicle/outside-of-origin",
       style: { width: "100%", paddingBottom: 4 },
       alignText: { justifyContent: "center" },
       btnText: { flex: 0, fontSize: 18 },
@@ -81,7 +81,7 @@ const SelectedVehicle = () => {
       id: 8,
       label: "Vehicle Rating & Review",
       icon: star,
-      path: "",
+      path: "(tabs)/rent-a-vehicle/vehicle-reviews",
       style: {
         width: "100%",
         borderTopColor: "#fff",
@@ -139,7 +139,13 @@ const SelectedVehicle = () => {
   const handleOnPress = (path, label) => {
     router.push({
       pathname: path,
-      params: { data: JSON.stringify({ ...newObject, label: label }) },
+      params: {
+        data: JSON.stringify({
+          ...newObject,
+          label: label,
+          placeOrigin: data.pickupLocation.municipality.name,
+        }),
+      },
     });
   };
   return (
