@@ -56,7 +56,12 @@ const SelectedVehicle = () => {
       icon: doc,
       path: "(tabs)/rent-my-vehicle/upload-docs",
     },
-    { id: 5, label: "Edit Price Rate", icon: dollar, path: "" },
+    {
+      id: 5,
+      label: "Edit Price Rate",
+      icon: dollar,
+      path: "(tabs)/rent-my-vehicle/price-rate",
+    },
     { id: 6, label: "Edit Method of Payment", icon: hand, path: "" },
     {
       id: 7,
