@@ -48,7 +48,7 @@ const InputField = ({
           style={styles.input}
           onChangeText={validateInput}
           keyboardType={keyboardType}
-          placeholder={placeholder}
+          value={placeholder || ""}
         />
       </View>
       {isTextError && error && <Text style={styles.errorText}>{error}</Text>}

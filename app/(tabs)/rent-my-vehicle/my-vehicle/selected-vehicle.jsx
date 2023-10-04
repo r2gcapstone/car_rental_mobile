@@ -4,8 +4,6 @@ import Text from "components/ThemedText";
 import useSentenceCase from "hooks/useSentenceCase";
 import { useRoute } from "@react-navigation/native";
 import { router } from "expo-router";
-import { colors } from "constants/Colors";
-import { useEffect, useState } from "react";
 //Icon
 import {
   hand,
@@ -21,7 +19,6 @@ import {
 
 //layout
 import MainLayout from "layouts/MainLayout";
-import { getReviews } from "api/cars";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const SelectedVehicle = () => {
@@ -38,6 +35,7 @@ const SelectedVehicle = () => {
     status,
     subscriptionStatus,
     rentee,
+    carId,
   } = data;
 
   const btnArray = [
@@ -51,8 +49,7 @@ const SelectedVehicle = () => {
       id: 2,
       label: "Edit Vehicle Image",
       icon: img,
-      path: "",
-      data: {},
+      path: "(tabs)/rent-my-vehicle/upload-screen",
     },
     { id: 3, label: "Edit Location", icon: doc, path: "", data: {} },
     { id: 4, label: "Edit Documents", icon: doc, path: "", data: {} },
@@ -124,8 +121,13 @@ const SelectedVehicle = () => {
     },
   ];
 
-  const handleOnPress = (path) => {
-    router.push({ pathname: path });
+  const newObject = { mode: "update", carId: carId };
+
+  const handleOnPress = (path, label) => {
+    router.push({
+      pathname: path,
+      params: { data: JSON.stringify({ ...newObject, label: label }) },
+    });
   };
   return (
     <MainLayout>
@@ -182,7 +184,7 @@ const SelectedVehicle = () => {
             }) => (
               <View key={id} style={[styles.btnDiv, style]}>
                 <TouchableOpacity
-                  onPress={() => handleOnPress(path)}
+                  onPress={() => handleOnPress(path, label)}
                   style={[styles.btn, btnBgColor]}
                 >
                   <View style={[styles.btnTextContainer, alignText]}>
