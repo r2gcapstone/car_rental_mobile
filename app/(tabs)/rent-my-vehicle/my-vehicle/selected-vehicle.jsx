@@ -27,8 +27,6 @@ const SelectedVehicle = () => {
   const data = JSON.parse(route.params?.data);
   const { toSentenceCase } = useSentenceCase();
 
-  console.log(JSON.stringify(data, null, 2));
-
   const {
     imageUrls: { front },
     vehicleDetails: { vehicleName },
@@ -51,10 +49,15 @@ const SelectedVehicle = () => {
       icon: img,
       path: "(tabs)/rent-my-vehicle/upload-screen",
     },
-    { id: 3, label: "Edit Location", icon: doc, path: "", data: {} },
-    { id: 4, label: "Edit Documents", icon: doc, path: "", data: {} },
-    { id: 5, label: "Edit Price Rate", icon: dollar, path: "", data: {} },
-    { id: 6, label: "Edit Method of Payment", icon: hand, path: "", data: {} },
+    { id: 3, label: "Edit Location", icon: doc, path: "" },
+    {
+      id: 4,
+      label: "Edit Documents",
+      icon: doc,
+      path: "(tabs)/rent-my-vehicle/upload-docs",
+    },
+    { id: 5, label: "Edit Price Rate", icon: dollar, path: "" },
+    { id: 6, label: "Edit Method of Payment", icon: hand, path: "" },
     {
       id: 7,
       label: "Edit Outside of Origin Rate",
