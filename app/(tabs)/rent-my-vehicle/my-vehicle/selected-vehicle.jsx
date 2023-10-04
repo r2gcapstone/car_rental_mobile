@@ -62,7 +62,12 @@ const SelectedVehicle = () => {
       icon: dollar,
       path: "(tabs)/rent-my-vehicle/price-rate",
     },
-    { id: 6, label: "Edit Method of Payment", icon: hand, path: "" },
+    {
+      id: 6,
+      label: "Edit Method of Payment",
+      icon: hand,
+      path: "(tabs)/rent-my-vehicle/payment-option",
+    },
     {
       id: 7,
       label: "Edit Outside of Origin Rate",
