@@ -15,7 +15,6 @@ import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { getVehicleInfo, updateCarData } from "api/cars";
 // constants
 import { colors } from "constants/Colors";
-import { parse } from "expo-linking";
 
 const initialState = {
   vehicleName: "",

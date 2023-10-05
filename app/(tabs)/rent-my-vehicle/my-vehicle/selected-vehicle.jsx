@@ -25,6 +25,7 @@ const SelectedVehicle = () => {
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
+  console.log(JSON.stringify(data, null, 2));
   const { toSentenceCase } = useSentenceCase();
 
   const {
@@ -142,7 +143,12 @@ const SelectedVehicle = () => {
     },
   ];
 
-  const newObject = { mode: "update", carId: carId };
+  const newObject = {
+    mode: "update",
+    carId: carId,
+    vehicleDetails: { vehicleName },
+    imageUrls: { front },
+  };
 
   const handleOnPress = (path, label) => {
     router.push({
