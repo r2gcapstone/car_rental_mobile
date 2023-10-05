@@ -51,7 +51,6 @@ const PriceRate = () => {
       showLoading();
       const result = await updateCarData(key, priceRate, carId);
       hideLoading();
-      console.log("result", JSON.stringify(result, null, 2));
     } catch (error) {
       hideLoading();
     }

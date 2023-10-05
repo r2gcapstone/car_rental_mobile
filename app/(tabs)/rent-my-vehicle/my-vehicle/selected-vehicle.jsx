@@ -25,7 +25,6 @@ const SelectedVehicle = () => {
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
-  console.log(JSON.stringify(data, null, 2));
   const { toSentenceCase } = useSentenceCase();
 
   const {

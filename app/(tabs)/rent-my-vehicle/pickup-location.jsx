@@ -192,8 +192,6 @@ const PickupLocation = () => {
     try {
       showLoading();
       const result = await getVehicleInfo(id);
-
-      console.log(JSON.stringify(result, null, 2));
       hideLoading();
       if (!result.error) {
         setAddress(result.pickupLocation);

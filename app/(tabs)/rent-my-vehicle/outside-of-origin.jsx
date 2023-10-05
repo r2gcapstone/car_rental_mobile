@@ -19,8 +19,6 @@ const OutsideOfOrigin = () => {
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data) || "";
-  console.log(data);
-
   const { mode, carId, label, placeOrigin } = data;
 
   const handleOnChangeText = (municipalityName, value) => {
@@ -67,7 +65,6 @@ const OutsideOfOrigin = () => {
       showLoading();
       const result = await updateCarData(key, outsideRate, carId);
       hideLoading();
-      console.log("result", JSON.stringify(result, null, 2));
     } catch (error) {
       hideLoading();
     }

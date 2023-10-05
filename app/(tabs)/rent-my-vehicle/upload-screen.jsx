@@ -28,7 +28,6 @@ const UploadScreen = () => {
   //vehicleDetails data
   const data = JSON.parse(route.params?.data);
   const { mode, carId, label } = data;
-  console.log(data);
   const [imageUrl, setImageUrl] = useState(initialState);
 
   // fetch data when screen is used for updating data
@@ -55,7 +54,6 @@ const UploadScreen = () => {
       showLoading();
       const result = await updateCarData(key, imageUrl, carId);
       hideLoading();
-      console.log("result", JSON.stringify(result, null, 2));
     } catch (error) {
       hideLoading();
     }
