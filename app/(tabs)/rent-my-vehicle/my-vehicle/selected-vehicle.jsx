@@ -4,8 +4,6 @@ import Text from "components/ThemedText";
 import useSentenceCase from "hooks/useSentenceCase";
 import { useRoute } from "@react-navigation/native";
 import { router } from "expo-router";
-import { colors } from "constants/Colors";
-import { useEffect, useState } from "react";
 //Icon
 import {
   hand,
@@ -21,7 +19,6 @@ import {
 
 //layout
 import MainLayout from "layouts/MainLayout";
-import { getReviews } from "api/cars";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const SelectedVehicle = () => {
@@ -30,14 +27,13 @@ const SelectedVehicle = () => {
   const data = JSON.parse(route.params?.data);
   const { toSentenceCase } = useSentenceCase();
 
-  console.log(JSON.stringify(data, null, 2));
-
   const {
     imageUrls: { front },
     vehicleDetails: { vehicleName },
     status,
     subscriptionStatus,
     rentee,
+    carId,
   } = data;
 
   const btnArray = [
@@ -51,27 +47,49 @@ const SelectedVehicle = () => {
       id: 2,
       label: "Edit Vehicle Image",
       icon: img,
-      path: "",
-      data: {},
+      path: "(tabs)/rent-my-vehicle/upload-screen",
     },
-    { id: 3, label: "Edit Location", icon: doc, path: "", data: {} },
-    { id: 4, label: "Edit Documents", icon: doc, path: "", data: {} },
-    { id: 5, label: "Edit Price Rate", icon: dollar, path: "", data: {} },
-    { id: 6, label: "Edit Method of Payment", icon: hand, path: "", data: {} },
+    {
+      id: 3,
+      label: "Edit Pick-Up Location",
+      icon: doc,
+      path: "(tabs)/rent-my-vehicle/pickup-location",
+    },
+    {
+      id: 4,
+      label: "Edit Drop-Off Location",
+      icon: doc,
+      path: "(tabs)/rent-my-vehicle/dropoff-location",
+    },
+    {
+      id: 5,
+      label: "Edit Documents",
+      icon: doc,
+      path: "(tabs)/rent-my-vehicle/upload-docs",
+    },
+    {
+      id: 6,
+      label: "Edit Price Rate",
+      icon: dollar,
+      path: "(tabs)/rent-my-vehicle/price-rate",
+    },
     {
       id: 7,
-      label: "Edit Outside of Origin Rate",
-      icon: road,
-      path: "",
-      style: { width: "100%", paddingBottom: 4 },
-      alignText: { justifyContent: "center" },
-      btnText: { flex: 0, fontSize: 18 },
+      label: "Edit Method of Payment",
+      icon: hand,
+      path: "(tabs)/rent-my-vehicle/payment-option",
     },
     {
       id: 8,
+      label: "Edit Outside of Origin Rate",
+      icon: road,
+      path: "(tabs)/rent-my-vehicle/outside-of-origin",
+    },
+    {
+      id: 9,
       label: "Vehicle Rating & Review",
       icon: star,
-      path: "",
+      path: "(tabs)/rent-a-vehicle/vehicle-reviews",
       style: {
         width: "100%",
         borderTopColor: "#fff",
@@ -82,7 +100,7 @@ const SelectedVehicle = () => {
       btnText: { flex: 0, fontSize: 18 },
     },
     {
-      id: 9,
+      id: 10,
       label: "Buy Subscription",
       icon: subscription,
       path: "",
@@ -91,7 +109,7 @@ const SelectedVehicle = () => {
       btnText: { flex: 0, fontSize: 18, textAlign: "center" },
     },
     {
-      id: 10,
+      id: 11,
       label: "Turn Off GPS",
       icon: "",
       path: "",
@@ -99,7 +117,7 @@ const SelectedVehicle = () => {
       btnText: { fontSize: 18, textAlign: "center" },
     },
     {
-      id: 11,
+      id: 12,
       label: "GPS Tracker",
       icon: globe,
       path: "",
@@ -107,7 +125,7 @@ const SelectedVehicle = () => {
       btnText: { flex: 0, fontSize: 18, textAlign: "center" },
     },
     {
-      id: 12,
+      id: 13,
       label: "Hide Vehicle",
       icon: "",
       path: "",
@@ -115,7 +133,7 @@ const SelectedVehicle = () => {
       btnText: { fontSize: 18, textAlign: "center" },
     },
     {
-      id: 13,
+      id: 14,
       label: "Delete Vehicle",
       icon: "",
       path: "",
@@ -124,8 +142,24 @@ const SelectedVehicle = () => {
     },
   ];
 
-  const handleOnPress = (path) => {
-    router.push({ pathname: path });
+  const newObject = {
+    mode: "update",
+    carId: carId,
+    vehicleDetails: { vehicleName },
+    imageUrls: { front },
+  };
+
+  const handleOnPress = (path, label) => {
+    router.push({
+      pathname: path,
+      params: {
+        data: JSON.stringify({
+          ...newObject,
+          label: label,
+          placeOrigin: data.pickupLocation.municipality.name,
+        }),
+      },
+    });
   };
   return (
     <MainLayout>
@@ -182,7 +216,7 @@ const SelectedVehicle = () => {
             }) => (
               <View key={id} style={[styles.btnDiv, style]}>
                 <TouchableOpacity
-                  onPress={() => handleOnPress(path)}
+                  onPress={() => handleOnPress(path, label)}
                   style={[styles.btn, btnBgColor]}
                 >
                   <View style={[styles.btnTextContainer, alignText]}>

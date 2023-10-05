@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import Text from "components/ThemedText";
 import MainLayout from "layouts/MainLayout";
 import ProceedBtn from "components/button/ProceedBtn";
 import { colors } from "constants/Colors";
-
 import { useRoute } from "@react-navigation/native";
 import icon from "assets/icons/checkBox.png";
 
@@ -13,6 +12,7 @@ const PaymentOption = () => {
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
+  const { mode } = data;
 
   const isFieldEmpty = (PaymentOption) => {
     if (PaymentOption === "") {
@@ -52,16 +52,26 @@ const PaymentOption = () => {
           </View>
         </View>
 
-        <ProceedBtn
-          data={newObject}
-          disable={isFieldEmpty(PaymentOption)}
-          contProps={{
-            marginVertical: 30,
-            backgroundColor: colors.blue.slitedark,
-          }}
-          btnText={"Proceed"}
-          path={"rent-my-vehicle/upload-docs"}
-        />
+        {mode === "update" ? (
+          <TouchableOpacity
+            style={styles.proceedBtn}
+            // onPress={() => handleOnPress(carId)}
+            disabled={true}
+          >
+            <Text style={styles.buttonText}>Update</Text>
+          </TouchableOpacity>
+        ) : (
+          <ProceedBtn
+            data={newObject}
+            disable={isFieldEmpty(PaymentOption)}
+            contProps={{
+              marginVertical: 30,
+              backgroundColor: colors.blue.slitedark,
+            }}
+            btnText={"Proceed"}
+            path={"rent-my-vehicle/upload-docs"}
+          />
+        )}
       </View>
     </MainLayout>
   );
@@ -110,5 +120,23 @@ const styles = StyleSheet.create({
   optionContainer: {
     gap: 8,
     flexDirection: "row",
+  },
+  proceedBtn: {
+    width: "100%",
+    paddingVertical: 12,
+    borderRadius: 8,
+    backgroundColor: colors.blue.slitedark,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 25,
+    marginBottom: 40,
+  },
+  buttonText: {
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    paddingHorizontal: 10,
   },
 });

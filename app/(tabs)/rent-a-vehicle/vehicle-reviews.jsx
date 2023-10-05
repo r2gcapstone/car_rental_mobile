@@ -4,6 +4,7 @@ import useSentenceCase from "hooks/useSentenceCase";
 import { useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
+import { useUserContext } from "context/UserContext";
 
 //layout
 import MainLayout from "layouts/MainLayout";
@@ -16,16 +17,18 @@ const VehicleReviews = () => {
   const [reviews, setReviews] = useState([]);
   const route = useRoute();
   //prev data
-  const data = JSON.parse(route.params?.data);
-
+  const data = JSON.parse(route.params?.data || "{}");
   const { toSentenceCase } = useSentenceCase();
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
+  const { user } = useUserContext();
+  let stillOwnerName = user.firstName + " " + user.lastName;
 
   const {
     vehicleDetails: { vehicleName },
     imageUrls: { front },
     ownerName,
     carId,
+    mode,
   } = data;
 
   useEffect(() => {
@@ -57,10 +60,14 @@ const VehicleReviews = () => {
           <Image style={styles.image} source={{ uri: front }} />
         </View>
         <View style={styles.detailContainer}>
-          <Text style={styles.carName}>{toSentenceCase(vehicleName)}</Text>
+          <Text style={styles.carName}>
+            {toSentenceCase(vehicleName || "")}
+          </Text>
           <Text style={styles.label}>
             Owned by :{" "}
-            <Text style={styles.value}>{toSentenceCase(ownerName)}</Text>
+            <Text style={styles.value}>
+              {toSentenceCase(mode === "update" ? stillOwnerName : ownerName)}
+            </Text>
           </Text>
 
           <View style={styles.ratingContainer}>

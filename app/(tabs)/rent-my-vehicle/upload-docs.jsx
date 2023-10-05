@@ -1,27 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import Text from "components/ThemedText";
 import MainLayout from "layouts/MainLayout";
 import { colors } from "constants/Colors";
 import { useRoute } from "@react-navigation/native";
 import UploadImageBtn from "components/button/UploadImageBtn";
-import { RegisterCar } from "api/cars";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { router } from "expo-router";
-import formatdate from "../../../utils/formatDate";
+import formatdate from "utils/formatDate";
+import { getVehicleInfo, updateCarData, RegisterCar } from "api/cars";
+
+const initialState = {
+  governmentId: "",
+  BirthCert: "",
+  CertificateOfReg: "",
+};
 
 const UploadDocs = () => {
-  const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
-  const [document, setDocument] = useState({
-    governmentId: "",
-    BirthCert: "",
-    CertificateOfReg: "",
-  });
-  const currentDate = new Date();
   const route = useRoute();
 
   //prev data
   const data = JSON.parse(route.params?.data);
+  const { mode, carId, label } = data;
+  const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
+  const [document, setDocument] = useState(initialState);
+  const currentDate = new Date();
 
   //format date
   const formattedDate = formatdate(currentDate);
@@ -43,7 +46,7 @@ const UploadDocs = () => {
     dateCreated: formattedDate,
   };
 
-  const handleOnPress = async () => {
+  const handlePress = async () => {
     showLoading();
     try {
       const result = await RegisterCar({ data: { ...registerVehicle } });
@@ -59,6 +62,39 @@ const UploadDocs = () => {
       );
     }
   };
+
+  // fetch data when screen is used for updating data
+  const fetchData = async (id) => {
+    try {
+      showLoading();
+      const result = await getVehicleInfo(id);
+      hideLoading();
+      if (!result.error) {
+        setDocument(result.document);
+      }
+    } catch (error) {
+      hideLoading();
+    }
+  };
+
+  let key = "";
+  if (label === "Edit Documents") {
+    key = "document";
+  }
+
+  const handleOnPress = async (carId) => {
+    try {
+      showLoading();
+      const result = await updateCarData(key, document, carId);
+      hideLoading();
+    } catch (error) {
+      hideLoading();
+    }
+  };
+
+  useEffect(() => {
+    fetchData(carId);
+  }, []);
 
   return (
     <MainLayout>
@@ -92,14 +128,26 @@ const UploadDocs = () => {
           />
         </View>
       </ScrollView>
-      <TouchableOpacity
-        style={[styles.proceedBtn, isFieldEmpty(document) && { opacity: 0.5 }]}
-        //
-        // disabled={isFieldEmpty(document)}
-        onPress={handleOnPress}
-      >
-        <Text style={styles.buttonText}>Proceed</Text>
-      </TouchableOpacity>
+      {mode === "update" ? (
+        <TouchableOpacity
+          style={styles.proceedBtn}
+          onPress={() => handleOnPress(carId)}
+        >
+          <Text style={styles.buttonText}>Update</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={[
+            styles.proceedBtn,
+            isFieldEmpty(document) && { opacity: 0.5 },
+          ]}
+          disabled={isFieldEmpty(document)}
+          onPress={handlePress}
+        >
+          <Text style={styles.buttonText}>Proceed</Text>
+        </TouchableOpacity>
+      )}
+
       <LoadingComponent />
     </MainLayout>
   );
@@ -162,5 +210,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     paddingHorizontal: 10,
+  },
+  proceedBtn: {
+    width: "100%",
+    paddingVertical: 12,
+    borderRadius: 8,
+    backgroundColor: colors.blue.slitedark,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 25,
+    marginBottom: 40,
+  },
+  buttonText: {
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    paddingHorizontal: 10,
+  },
+  icon: {
+    width: 28,
+    height: 28,
+    marginLeft: "-10%",
   },
 });

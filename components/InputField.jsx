@@ -10,6 +10,7 @@ const InputField = ({
   labelTarget,
   keyboardType,
   placeholder,
+  value,
   textError,
   isTextError,
   isIcon,
@@ -49,6 +50,7 @@ const InputField = ({
           onChangeText={validateInput}
           keyboardType={keyboardType}
           placeholder={placeholder}
+          value={value}
         />
       </View>
       {isTextError && error && <Text style={styles.errorText}>{error}</Text>}

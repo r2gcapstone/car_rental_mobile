@@ -26,10 +26,10 @@ const UploadImageBtn = ({ label, name, imageUrl, setImageUrl }) => {
 
   return (
     <View style={styles.uploadContainer}>
-      <Text style={styles.label}> {label || "Label :"}</Text>
       {imageUrl[name] && (
         <Image source={{ uri: imageUrl[name] }} style={styles.selectedImage} />
       )}
+      <Text style={styles.label}> {label || "Label "}</Text>
       <TouchableOpacity
         style={styles.uploadBtnContainer}
         onPress={() => pickImage(name)}
@@ -75,9 +75,12 @@ const styles = StyleSheet.create({
   },
   selectedImage: {
     width: "100%",
-    height: 139,
+    height: 180,
     borderColor: "#6A6A6A",
     borderWidth: 2,
     borderRadius: 4,
+    objectFit: "cover",
+    borderRadius: 10,
+    marginTop: 20,
   },
 });

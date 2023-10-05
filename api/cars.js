@@ -201,7 +201,7 @@ export const getRentingDocs = async () => {
   }
 };
 
-//function to get all users car based on userId
+//function to get all users vehicles based on userId
 export const getCars = async () => {
   try {
     const user = auth.currentUser;
@@ -243,6 +243,44 @@ export const getCars = async () => {
     );
 
     return vehicles;
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+//function to get all specific vehicle information
+export const getVehicleInfo = async (carId) => {
+  try {
+    const carDoc = doc(db, "cars", carId);
+    const docSnap = await getDoc(carDoc);
+
+    if (docSnap.exists()) {
+      console.log("exist");
+    } else {
+      console.log("No such document!");
+    }
+
+    const vehicleDoc = docSnap.data();
+
+    return vehicleDoc;
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+//update vehicle information
+export const updateCarData = async (key, value, carId) => {
+  try {
+    console.log(key, value, carId);
+    await updateDoc(doc(db, "cars", carId), {
+      [key]: value,
+    });
+
+    return {
+      message: "update success!",
+      error: false,
+      status: 200,
+    };
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
   }
