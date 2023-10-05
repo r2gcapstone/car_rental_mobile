@@ -99,7 +99,7 @@ export default function RegisterVehicle() {
 
         <View style={styles.formContainer}>
           <InputField
-            placeholder={formData.vehicleName}
+            value={formData.vehicleName}
             label={"Vehicle Name :"}
             keyboardType="default"
             type="text"
@@ -108,7 +108,7 @@ export default function RegisterVehicle() {
             required
           />
           <InputField
-            placeholder={formData.model}
+            value={formData.model}
             label={"Model :"}
             keyboardType="default"
             type="text"
@@ -119,7 +119,7 @@ export default function RegisterVehicle() {
           <VehicleType formData={formData} setFormData={setFormData} />
           <GearShiftDropdown formData={formData} setFormData={setFormData} />
           <InputField
-            placeholder={formData.passengerCount.toString()}
+            value={formData.passengerCount.toString()}
             label={"Number of Passengers :"}
             keyboardType="number-pad"
             type="number"
@@ -129,7 +129,7 @@ export default function RegisterVehicle() {
           />
           <FuelType formData={formData} setFormData={setFormData} />
           <InputField
-            placeholder={formData.luggageCount.toString()}
+            value={formData.luggageCount.toString()}
             label={"Number of Luggage :"}
             keyboardType="number-pad"
             type="number"
@@ -138,7 +138,7 @@ export default function RegisterVehicle() {
             required
           />
           <InputField
-            placeholder={formData.plateNumber.toString()}
+            value={formData.plateNumber.toString()}
             label={"Plate Number :"}
             type="text"
             name="plateNumber"
@@ -156,7 +156,7 @@ export default function RegisterVehicle() {
         ) : (
           <ProceedBtn
             data={formData}
-            disable={isFormDataEmpty(formData)}
+            // disable={isFormDataEmpty(formData)}
             contProps={{ marginTop: 25, marginBottom: 40 }}
             btnProps={{ fontSize: 18 }}
             btnText={"Proceed"}

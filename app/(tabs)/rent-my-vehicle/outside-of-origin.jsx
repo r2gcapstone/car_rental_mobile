@@ -132,7 +132,7 @@ const OutsideOfOrigin = () => {
               .map(([key, value]) => {
                 return (
                   <InputField
-                    placeholder={value.toString()}
+                    value={value.toString()}
                     key={key}
                     keyboardType="number-pad"
                     label="Origin Location to "

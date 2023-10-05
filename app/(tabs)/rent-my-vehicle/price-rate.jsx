@@ -75,7 +75,8 @@ const PriceRate = () => {
         </Text>
         <View style={styles.formContainer}>
           <InputField
-            placeholder={priceRate.toString() || "e.g 1500"}
+            value={priceRate.toString()}
+            placeholder="e.g 1500"
             keyboardType="number-pad"
             label={"Price per day :"}
             textError="Please input a valid price"

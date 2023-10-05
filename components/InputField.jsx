@@ -10,6 +10,7 @@ const InputField = ({
   labelTarget,
   keyboardType,
   placeholder,
+  value,
   textError,
   isTextError,
   isIcon,
@@ -48,7 +49,8 @@ const InputField = ({
           style={styles.input}
           onChangeText={validateInput}
           keyboardType={keyboardType}
-          value={placeholder || ""}
+          placeholder={placeholder}
+          value={value}
         />
       </View>
       {isTextError && error && <Text style={styles.errorText}>{error}</Text>}
