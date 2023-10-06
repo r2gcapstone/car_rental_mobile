@@ -8,19 +8,11 @@ import MainLayout from "layouts/MainLayout";
 const RentingApplication = () => {
   return (
     <MainLayout>
-      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <ApplicantsList />
-      </ScrollView>
+      <ApplicantsList />
     </MainLayout>
   );
 };
 
 export default RentingApplication;
 
-const styles = StyleSheet.create({
-  scroll: {
-    flex: 1,
-    width: "100%",
-    marginTop: -23,
-  },
-});
+const styles = StyleSheet.create({});

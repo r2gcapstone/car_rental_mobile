@@ -3,7 +3,7 @@ import { Stack, router } from "expo-router";
 import { Image, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { colors } from "constants/Colors";
 
-export default function MyVehicleStack() {
+export default function RentingApplicationStack() {
   const headerProp = {
     headerTintColor: "#fff",
     headerStyle: {
@@ -26,13 +26,26 @@ export default function MyVehicleStack() {
           ),
         })}
       />
-      {/* <Stack.Screen
-        name="selected-vehicle"
+      <Stack.Screen
+        name="booking-information"
         options={() => ({
           ...headerProp,
+          headerLeft: () => (
+            <CustomBackButton
+              router={router}
+              customText="Booking Information"
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="success-screen"
+        options={() => ({
+          ...headerProp,
+          headerShown: false,
           headerLeft: () => <CustomBackButton router={router} customText="" />,
         })}
-      /> */}
+      />
     </Stack>
   );
 }

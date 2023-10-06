@@ -1,8 +1,8 @@
 import { auth, db } from "../services/firebaseConfig";
-import { updateDoc, doc } from "firebase/firestore";
+import { updateDoc, doc, getDoc } from "firebase/firestore";
 
-// Function to fetch user data from Firestore
-const updateUserData = async (key, value) => {
+// Function to update user data from Firestore
+export const updateUserData = async (key, value) => {
   try {
     const user = auth.currentUser;
 
@@ -19,4 +19,16 @@ const updateUserData = async (key, value) => {
     return { error: true, message: error.message, status: error.code };
   }
 };
-export default updateUserData;
+
+// Function to get user data using its userId
+export const getUserData = async (userId) => {
+  try {
+    const userDoc = doc(db, "users", userId);
+
+    const userSnapshot = await getDoc(userDoc);
+    const user = userSnapshot.data();
+    return user;
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};

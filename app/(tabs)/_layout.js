@@ -12,6 +12,34 @@ export default function TabLayout() {
   const segments = useSegments();
   const currentRoute = segments.join("/");
 
+  const rentAVehicleRoute = [
+    "(tabs)/rent-a-vehicle/search-result",
+    "(tabs)/rent-a-vehicle/selected-vehicle",
+    "(tabs)/rent-a-vehicle/vehicle-reviews",
+    "(tabs)/rent-a-vehicle/renting-info",
+    "(tabs)/rent-a-vehicle/rules-regulation",
+    "(tabs)/rent-a-vehicle/success-screen",
+    "(tabs)/rent-a-vehicle/renting-application",
+    "(tabs)/rent-a-vehicle/renting-application/application-information",
+  ];
+
+  const rentMyVehicleRoute = [
+    "(tabs)/rent-my-vehicle/register-vehicle",
+    "(tabs)/rent-my-vehicle/upload-screen",
+    "(tabs)/rent-my-vehicle/pickup-location",
+    "(tabs)/rent-my-vehicle/dropoff-location",
+    "(tabs)/rent-my-vehicle/price-rate",
+    "(tabs)/rent-my-vehicle/outside-of-origin",
+    "(tabs)/rent-my-vehicle/payment-option",
+    "(tabs)/rent-my-vehicle/upload-docs",
+    "(tabs)/rent-my-vehicle/success-screen",
+    "(tabs)/rent-my-vehicle/my-vehicle",
+    "(tabs)/rent-my-vehicle/my-vehicle/selected-vehicle",
+    "(tabs)/rent-my-vehicle/renting-application",
+    "(tabs)/rent-my-vehicle/renting-application/booking-information",
+    "(tabs)/rent-my-vehicle/renting-application/success-screen",
+  ];
+
   return (
     <Tabs
       screenOptions={{
@@ -41,19 +69,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="car" color={color} />,
           headerShown: false,
           tabBarStyle: {
-            display:
-              //conditionally hide the tab bar
-              currentRoute === "(tabs)/rent-a-vehicle/search-result" ||
-              currentRoute === "(tabs)/rent-a-vehicle/selected-vehicle" ||
-              currentRoute === "(tabs)/rent-a-vehicle/vehicle-reviews" ||
-              currentRoute === "(tabs)/rent-a-vehicle/renting-info" ||
-              currentRoute === "(tabs)/rent-a-vehicle/rules-regulation" ||
-              currentRoute === "(tabs)/rent-a-vehicle/success-screen" ||
-              currentRoute === "(tabs)/rent-a-vehicle/renting-application" ||
-              currentRoute ===
-                "(tabs)/rent-a-vehicle/renting-application/application-information"
-                ? "none"
-                : "flex",
+            display: rentAVehicleRoute.includes(currentRoute) ? "none" : "flex",
             backgroundColor: colors.blue.slitedark,
             borderColor: colors.blue.slitedark,
             paddingBottom: 5,
@@ -69,23 +85,9 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="car" color={color} />,
           headerShown: false,
           tabBarStyle: {
-            display:
-              //conditionally hide the tab bar
-              currentRoute === "(tabs)/rent-my-vehicle/register-vehicle" ||
-              currentRoute === "(tabs)/rent-my-vehicle/upload-screen" ||
-              currentRoute === "(tabs)/rent-my-vehicle/pickup-location" ||
-              currentRoute === "(tabs)/rent-my-vehicle/dropoff-location" ||
-              currentRoute === "(tabs)/rent-my-vehicle/price-rate" ||
-              currentRoute === "(tabs)/rent-my-vehicle/outside-of-origin" ||
-              currentRoute === "(tabs)/rent-my-vehicle/payment-option" ||
-              currentRoute === "(tabs)/rent-my-vehicle/upload-docs" ||
-              currentRoute === "(tabs)/rent-my-vehicle/success-screen" ||
-              currentRoute === "(tabs)/rent-my-vehicle/my-vehicle" ||
-              currentRoute ===
-                "(tabs)/rent-my-vehicle/my-vehicle/selected-vehicle" ||
-              "(tabs)/rent-my-vehicle/renting-application"
-                ? "none"
-                : "flex",
+            display: rentMyVehicleRoute.includes(currentRoute)
+              ? "none"
+              : "flex",
             backgroundColor: colors.blue.slitedark,
             borderColor: colors.blue.slitedark,
             paddingBottom: 5,

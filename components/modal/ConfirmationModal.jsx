@@ -2,14 +2,17 @@ import { Modal, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { colors } from "constants/Colors";
 import Text from "components/ThemedText";
-import logo from "../../assets/icons/logo.png";
+import logo from "assets/icons/logo.png";
 
 const ConfirmationModal = ({
   onClose,
   caption,
   btn1Text,
   btn2Text,
+  btn1TextProps,
+  btn2TextProps,
   btn1Props,
+  btn2Props,
   handleOkayBtn,
 }) => {
   return (
@@ -28,10 +31,11 @@ const ConfirmationModal = ({
               onPress={handleOkayBtn}
               style={[styles.btn, btn1Props]}
             >
-              <Text style={styles.btnText}>{btn1Text}</Text>
+              <Text style={[styles.btnText, btn1TextProps]}>{btn1Text}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btn} onPress={onClose}>
-              <Text style={styles.btnText}>{btn2Text}</Text>
+
+            <TouchableOpacity style={[styles.btn, btn2Props]} onPress={onClose}>
+              <Text style={[styles.btnText, btn2TextProps]}>{btn2Text}</Text>
             </TouchableOpacity>
           </View>
         </View>

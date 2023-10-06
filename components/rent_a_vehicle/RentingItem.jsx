@@ -1,6 +1,6 @@
 import { StyleSheet, View, Image } from "react-native";
 import React, { useEffect, useState } from "react";
-import { getRentingDocs } from "api/cars";
+import { getRentingDocs } from "api/rental";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { colors } from "constants/Colors";
 import useSentenceCase from "hooks/useSentenceCase";
