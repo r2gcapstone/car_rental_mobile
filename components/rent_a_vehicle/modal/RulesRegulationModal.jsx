@@ -3,7 +3,7 @@ import React from "react";
 import { colors } from "constants/Colors";
 import Text from "components/ThemedText";
 import exit from "assets/icons/exit.png";
-import { RentCar } from "api/cars";
+import { RentCar } from "api/rental";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { router } from "expo-router";
 

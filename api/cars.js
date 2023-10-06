@@ -13,7 +13,6 @@ import { getAuth } from "@firebase/auth";
 //utils
 import resizeImage from "../utils/resizeImage";
 import uploadImage from "../utils/uploadImage";
-import formatDate from "../utils/formatDate";
 
 const auth = getAuth(app);
 //POST
@@ -98,54 +97,6 @@ export const RegisterCar = async ({ data }) => {
     return { error: true, message: error.message, status: error.code };
   }
 };
-
-export const RentCar = async (data) => {
-  let date = new Date();
-  const dateCreated = formatDate(date);
-
-  try {
-    const user = auth.currentUser;
-    const userId = user.uid;
-    const ownerId = data.rentInformation.ownerId;
-
-    // Get a reference to the 'rentals' collection
-    const rentalsCollection = collection(db, "rentals");
-    // Get a reference to the 'users' collection
-    const usersCollection = collection(db, "users");
-
-    // Fetch the user document using the ownerId
-    const userDoc = doc(usersCollection, ownerId);
-    const userSnapshot = await getDoc(userDoc);
-
-    // Check if the user document exists
-    if (userSnapshot.exists()) {
-      const userData = userSnapshot.data();
-      const ownerName = userData.firstName;
-
-      const rentalData = {
-        ...data.rentInformation,
-        status: "pending",
-        userId,
-        ownerName,
-        dateCreated,
-      };
-      const result = await addDoc(rentalsCollection, rentalData);
-
-      console.log(result);
-
-      return {
-        message: "Rent request successfully created!",
-        error: false,
-        status: 201,
-      };
-    } else {
-      throw new Error("User not found");
-    }
-  } catch (error) {
-    return { error: true, message: error.message, status: error.code };
-  }
-};
-
 //GET
 //get review function
 export const getReviews = async (carId) => {
@@ -163,39 +114,6 @@ export const getReviews = async (carId) => {
     const reviews = querySnapshot.docs.map((doc) => doc.data());
 
     return reviews;
-  } catch (error) {
-    return { error: true, message: error.message, status: error.code };
-  }
-};
-
-export const getRentingDocs = async () => {
-  try {
-    const user = auth.currentUser;
-    const userId = user.uid;
-    // Get a reference to the 'rentals' collection
-    const rentalsRef = collection(db, "rentals");
-
-    // Create a query against the collection
-    const q = query(rentalsRef, where("userId", "==", userId));
-
-    // Execute the query
-    const querySnapshot = await getDocs(q);
-
-    // If no rentals were found, return a message indicating this
-    if (querySnapshot.empty) {
-      return {
-        error: false,
-        message: "No rental records found!",
-        status: 204,
-      };
-    }
-
-    // You can use the docs property of the querySnapshot object to get all the documents in the result
-    const docs = querySnapshot.docs.map((doc) => {
-      return { id: doc.id, ...doc.data() };
-    });
-
-    return docs;
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
   }

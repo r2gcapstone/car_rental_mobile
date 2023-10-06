@@ -1,7 +1,7 @@
 import { Modal, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import InputField from "components/InputField";
-import updateUserData from "api/user";
+import { updateUserData } from "api/user";
 
 const ChangeLocModal = ({
   onClose,
