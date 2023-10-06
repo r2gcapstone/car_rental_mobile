@@ -1,5 +1,6 @@
 import { auth, db } from "../services/firebaseConfig";
 import { updateDoc, doc, getDoc } from "firebase/firestore";
+import formatDate from "utils/formatDate";
 
 // Function to update user data from Firestore
 export const updateUserData = async (key, value) => {
@@ -8,6 +9,28 @@ export const updateUserData = async (key, value) => {
 
     updateDoc(doc(db, "users/" + user.uid), {
       [key]: value,
+    });
+
+    return {
+      message: "update success!",
+      error: false,
+      status: 200,
+    };
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+// Function to update all userData
+export const updateAllUserData = async (data) => {
+  try {
+    const user = auth.currentUser;
+    const date = new Date();
+    const formatedDate = formatDate(date);
+
+    updateDoc(doc(db, "users", user.uid), {
+      ...data,
+      dateUpdated: formatedDate,
     });
 
     return {

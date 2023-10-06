@@ -13,6 +13,7 @@ import { getAuth } from "@firebase/auth";
 //utils
 import resizeImage from "../utils/resizeImage";
 import uploadImage from "../utils/uploadImage";
+import formatDate from "utils/formatDate";
 
 const auth = getAuth(app);
 //POST
@@ -188,10 +189,13 @@ export const getVehicleInfo = async (carId) => {
 
 //update vehicle information
 export const updateCarData = async (key, value, carId) => {
+  const date = new Date();
+  const formatedDate = formatDate(date);
   try {
     console.log(key, value, carId);
     await updateDoc(doc(db, "cars", carId), {
       [key]: value,
+      dateUpdated: formatedDate,
     });
 
     return {

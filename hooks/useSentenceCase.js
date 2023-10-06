@@ -1,4 +1,4 @@
-function useSentenceCase() {
+const useSentenceCase = () => {
   const toSentenceCase = (str) => {
     if (!str || str.trim() === "") {
       return str; // Return empty or undefined values as is
@@ -13,6 +13,6 @@ function useSentenceCase() {
   };
 
   return { toSentenceCase };
-}
+};
 
 export default useSentenceCase;

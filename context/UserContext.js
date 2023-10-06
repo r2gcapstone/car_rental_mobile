@@ -16,6 +16,7 @@ export const UserProvider = ({ children }) => {
     email: "",
     imageUrl: "",
     mobileNumber: "",
+    dateCreated: "",
   });
 
   // You can add functions to update user details here if needed

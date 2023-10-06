@@ -92,6 +92,7 @@ export const login = async (email, password) => {
       email: ownerData.email,
       imageUrl: ownerData.imageUrl,
       mobileNumber: ownerData.mobileNumber,
+      dateCreated: ownerData.dateCreated,
     };
 
     return {
