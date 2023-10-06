@@ -40,7 +40,7 @@ export default function Profile() {
     router.push("profile/update-info");
   };
   const handleChangePassBtn = () => {
-    router.push("profile/change-password");
+    router.push("profile/change-pass");
   };
   return (
     <MainLayout>
