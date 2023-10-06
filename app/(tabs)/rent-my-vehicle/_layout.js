@@ -81,6 +81,13 @@ export default function RentMyVehicleStack() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="renting-application"
+        options={{
+          href: null,
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

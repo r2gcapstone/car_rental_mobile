@@ -27,7 +27,7 @@ const options = [
   {
     label: "Application for Renting",
     icon: users,
-    path: "rent-my-vehicle/application-for-renting",
+    path: "rent-my-vehicle/renting-application",
   },
   { label: "My Vehicle", icon: myCar, path: "rent-my-vehicle/my-vehicle" },
   {

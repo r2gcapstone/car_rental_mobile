@@ -82,7 +82,8 @@ export default function TabLayout() {
               currentRoute === "(tabs)/rent-my-vehicle/success-screen" ||
               currentRoute === "(tabs)/rent-my-vehicle/my-vehicle" ||
               currentRoute ===
-                "(tabs)/rent-my-vehicle/my-vehicle/selected-vehicle"
+                "(tabs)/rent-my-vehicle/my-vehicle/selected-vehicle" ||
+              "(tabs)/rent-my-vehicle/renting-application"
                 ? "none"
                 : "flex",
             backgroundColor: colors.blue.slitedark,
