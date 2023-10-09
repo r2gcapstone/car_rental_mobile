@@ -38,6 +38,8 @@ export default function TabLayout() {
     "(tabs)/rent-my-vehicle/renting-application",
     "(tabs)/rent-my-vehicle/renting-application/booking-information",
     "(tabs)/rent-my-vehicle/renting-application/success-screen",
+    "(tabs)/rent-my-vehicle/subscription",
+    "(tabs)/rent-my-vehicle/subscription/buy-subscription",
   ];
 
   const ProfileRoute = [
