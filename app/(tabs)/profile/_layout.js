@@ -22,6 +22,16 @@ export default function ProfileStack() {
           headerLeft: () => <CustomBackButton router={router} customText="" />,
         })}
       />
+      <Stack.Screen
+        name="change-pass"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => (
+            <CustomBackButton router={router} customText="Change Password" />
+          ),
+        })}
+      />
+      <Stack.Screen name="success-screen" options={{ headerShown: false }} />
     </Stack>
   );
 }

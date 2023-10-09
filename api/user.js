@@ -1,4 +1,5 @@
 import { auth, db } from "../services/firebaseConfig";
+import { updatePassword } from "firebase/auth";
 import { updateDoc, doc, getDoc } from "firebase/firestore";
 import formatDate from "utils/formatDate";
 
@@ -16,6 +17,29 @@ export const updateUserData = async (key, value) => {
       error: false,
       status: 200,
     };
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+export const updateUserPassword = async (newPassword) => {
+  try {
+    const user = auth.currentUser;
+    const userDoc = doc(db, "users", user.uid);
+    const userSnapshot = await getDoc(userDoc);
+    const userData = userSnapshot.data();
+    const currentPassword = userData.password;
+
+    if (user) {
+      await updatePassword(user, newPassword);
+      return {
+        message: "Password update success!",
+        error: false,
+        status: 200,
+      };
+    } else {
+      throw new Error("No user is currently signed in.");
+    }
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
   }
@@ -47,7 +71,6 @@ export const updateAllUserData = async (data) => {
 export const getUserData = async (userId) => {
   try {
     const userDoc = doc(db, "users", userId);
-
     const userSnapshot = await getDoc(userDoc);
     const user = userSnapshot.data();
     return user;

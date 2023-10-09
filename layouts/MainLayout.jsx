@@ -30,8 +30,6 @@ const styles = StyleSheet.create({
   safeView: {
     flex: 1,
     width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
     paddingTop: StatusBar.currentHeight,
   },
 });

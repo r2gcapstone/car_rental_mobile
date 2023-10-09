@@ -1,6 +1,8 @@
 import { StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { router } from "expo-router";
+import { logout } from "api/auth";
+import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 
 //layout
 import MainLayout from "layouts/MainLayout";
@@ -11,11 +13,27 @@ import Text from "components/ThemedText";
 import { useRoute } from "@react-navigation/native";
 
 export default function SuccessScreen() {
+  const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const route = useRoute();
   //prev data
-  const caption = route.params?.caption;
-  const handleNav = () => {
-    router.replace("(tabs)/profile");
+  const data = route?.params;
+  const { caption, mode } = data;
+  const handleNav = async (mode) => {
+    if (mode == "updatePass") {
+      try {
+        const response = await logout();
+        if (!response.error) {
+          showLoading();
+          router.replace("/login");
+          hideLoading();
+        }
+      } catch (error) {
+        console.error(error);
+        hideLoading();
+      }
+    } else {
+      router.replace("(tabs)/profile");
+    }
   };
 
   return (
@@ -25,11 +43,15 @@ export default function SuccessScreen() {
         <Text style={styles.successText}>{caption}</Text>
 
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.proceedButton} onPress={handleNav}>
+          <TouchableOpacity
+            style={styles.proceedButton}
+            onPress={() => handleNav(mode)}
+          >
             <Text style={styles.proceedBtnText}>Okay</Text>
           </TouchableOpacity>
         </View>
       </View>
+      <LoadingComponent />
     </MainLayout>
   );
 }

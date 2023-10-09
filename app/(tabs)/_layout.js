@@ -40,6 +40,11 @@ export default function TabLayout() {
     "(tabs)/rent-my-vehicle/renting-application/success-screen",
   ];
 
+  const ProfileRoute = [
+    "(tabs)/profile/update-info",
+    "(tabs)/profile/change-pass",
+    "(tabs)/profile/success-screen",
+  ];
   return (
     <Tabs
       screenOptions={{
@@ -102,6 +107,13 @@ export default function TabLayout() {
           tabBarActiveTintColor: "#27374D",
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
           headerShown: false,
+          tabBarStyle: {
+            display: ProfileRoute.includes(currentRoute) ? "none" : "flex",
+            backgroundColor: colors.blue.slitedark,
+            borderColor: colors.blue.slitedark,
+            paddingBottom: 5,
+            height: 55,
+          },
         }}
       />
     </Tabs>

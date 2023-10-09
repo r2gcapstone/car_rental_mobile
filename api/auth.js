@@ -60,7 +60,6 @@ export const signup = async (
       agreeToTerms,
       dateCreated,
       deactivatedAt,
-      password,
     });
 
     return {

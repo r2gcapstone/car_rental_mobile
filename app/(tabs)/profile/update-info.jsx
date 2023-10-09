@@ -7,7 +7,6 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import MainLayout from "layouts/MainLayout";
-import Header from "components/home/Header";
 import Text from "components/ThemedText";
 import { useUserContext } from "context/UserContext";
 import useSentenceCase from "hooks/useSentenceCase";
