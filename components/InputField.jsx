@@ -14,6 +14,7 @@ const InputField = ({
   textError,
   isTextError,
   isIcon,
+  textProp,
 }) => {
   const [error, setError] = useState("");
   const validateInput = (text) => {
@@ -46,7 +47,7 @@ const InputField = ({
         )}
 
         <TextInput
-          style={styles.input}
+          style={[styles.input, textProp]}
           onChangeText={validateInput}
           keyboardType={keyboardType}
           placeholder={placeholder}

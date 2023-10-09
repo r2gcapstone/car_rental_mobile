@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "70%",
+    alignSelf: "center",
     flexDirection: "column",
 
     gap: 20,

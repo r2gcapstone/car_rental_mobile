@@ -10,7 +10,7 @@ import { colors } from "../../constants/Colors";
 import LoadingAnimation from "components/LoadingAnimation";
 import { StatusBar } from "react-native";
 
-export default function Header() {
+const Header = () => {
   const [modal, setModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,7 +57,9 @@ export default function Header() {
       <LoadingAnimation isVisible={isLoading} />
     </View>
   );
-}
+};
+
+export default Header;
 
 const styles = StyleSheet.create({
   container: {

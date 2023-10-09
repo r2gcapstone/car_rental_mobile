@@ -51,12 +51,13 @@ const SignInScreen = () => {
     if (response.userData) {
       setUser((prevUser) => ({
         ...prevUser, // Copy the previous user data
-        firstName: response.userData.firstName, // Update firstName
-        lastName: response.userData.lastName, // Update lastName
-        address: response.userData.address, // Update address
-        email: response.userData.email, // Update email
-        imageUrl: response.userData.imageUrl, // Update imageUrl
-        mobileNumber: response.userData.mobileNumber, // Update mobileNumber
+        firstName: response.userData.firstName,
+        lastName: response.userData.lastName,
+        address: response.userData.address,
+        email: response.userData.email,
+        imageUrl: response.userData.imageUrl,
+        mobileNumber: response.userData.mobileNumber,
+        dateCreated: response.userData.dateCreated,
       }));
     }
 

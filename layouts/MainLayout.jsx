@@ -2,12 +2,11 @@ import { StyleSheet, StatusBar, ScrollView, View } from "react-native";
 import React from "react";
 import KeyboardAvoidingContainer from "components/KeyboardAvoidingView";
 import { SafeAreaView } from "react-native";
-// import View from "components/ThemedView";
 
 // Constants
 import { colors } from "constants/Colors";
 
-export default function MainLayout({ children }) {
+const MainLayout = ({ children }) => {
   return (
     <KeyboardAvoidingContainer>
       <View style={styles.container}>
@@ -20,7 +19,8 @@ export default function MainLayout({ children }) {
       </View>
     </KeyboardAvoidingContainer>
   );
-}
+};
+export default MainLayout;
 
 const styles = StyleSheet.create({
   container: {
@@ -30,8 +30,6 @@ const styles = StyleSheet.create({
   safeView: {
     flex: 1,
     width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
     paddingTop: StatusBar.currentHeight,
   },
 });
