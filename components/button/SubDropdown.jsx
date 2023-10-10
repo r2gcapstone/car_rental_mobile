@@ -1,6 +1,6 @@
 import { Picker } from "@react-native-picker/picker";
 
-const SubDropdown = ({ value, handleOnChange, vehicle, props }) => (
+const SubDropdown = ({ value, handleOnChange, options, props }) => (
   <Picker
     {...props}
     selectedValue={value}
@@ -13,8 +13,8 @@ const SubDropdown = ({ value, handleOnChange, vehicle, props }) => (
     }}
   >
     <Picker.Item label="Choose a Vehicle" value=""></Picker.Item>
-    {vehicle &&
-      Object.values(vehicle).map((option, index) => {
+    {options &&
+      Object.values(options).map((option, index) => {
         const {
           vehicleDetails: { vehicleName },
         } = option;

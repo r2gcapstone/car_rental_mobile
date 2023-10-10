@@ -23,7 +23,6 @@ export default function SubscriptionStack() {
           ),
         })}
       />
-
       <Stack.Screen
         name="buy-subscription"
         options={() => ({
@@ -49,6 +48,13 @@ export default function SubscriptionStack() {
           headerLeft: () => (
             <CustomBackButton router={router} customText="Choose Vehicle" />
           ),
+        })}
+      />
+      <Stack.Screen
+        name="subscription-info"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => <CustomBackButton router={router} customText="" />,
         })}
       />
     </Stack>

@@ -15,6 +15,7 @@ const ChooseVehicle = () => {
   const { label, price } = data;
   const [vehicle, setVehicle] = useState();
   const [value, setValue] = useState("");
+  const [days, setDays] = useState("");
 
   const fetchVehicle = async () => {
     try {
@@ -25,6 +26,16 @@ const ChooseVehicle = () => {
 
   const handleOnChange = (val) => {
     setValue(val);
+    //month is set to 30 days as default
+    if (label === "MONTHLY") {
+      setDays("30");
+    } else if (label === "3 MONTHS") {
+      setDays("90");
+    } else if (label === "6 MONTHS") {
+      setDays("180");
+    } else {
+      setDays("365");
+    }
   };
 
   const isFieldEmpty = (value) => {
@@ -37,7 +48,7 @@ const ChooseVehicle = () => {
     fetchVehicle();
   }, []);
 
-  const newObject = { type: label, price, value };
+  const newObject = { type: label, price, value, days: days };
 
   return (
     <MainLayout>
@@ -50,7 +61,7 @@ const ChooseVehicle = () => {
           <SubDropdown
             value={value}
             handleOnChange={handleOnChange}
-            vehicle={vehicle}
+            options={vehicle}
           />
         </View>
       </View>
@@ -64,7 +75,7 @@ const ChooseVehicle = () => {
         }}
         btnProps={{ fontSize: 16, fontWeight: "bold" }}
         btnText={"Proceed"}
-        path={"rent-my-vehicle/subscription-info"}
+        path={"rent-my-vehicle/subscription/subscription-info"}
       />
     </MainLayout>
   );

@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar, ScrollView, View } from "react-native";
+import { StyleSheet, StatusBar, View } from "react-native";
 import React from "react";
 import KeyboardAvoidingContainer from "components/KeyboardAvoidingView";
 import { SafeAreaView } from "react-native";
@@ -25,7 +25,7 @@ export default MainLayout;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 25,
+    paddingHorizontal: "5%",
   },
   safeView: {
     flex: 1,
