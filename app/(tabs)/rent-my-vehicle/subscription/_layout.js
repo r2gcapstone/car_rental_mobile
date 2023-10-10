@@ -42,6 +42,15 @@ export default function SubscriptionStack() {
           ),
         })}
       />
+      <Stack.Screen
+        name="choose-vehicle"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => (
+            <CustomBackButton router={router} customText="Choose Vehicle" />
+          ),
+        })}
+      />
     </Stack>
   );
 }
