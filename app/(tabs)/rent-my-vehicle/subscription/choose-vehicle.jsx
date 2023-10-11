@@ -28,7 +28,6 @@ const ChooseVehicle = () => {
   const handleOnChange = (value, index) => {
     setValue(value);
     setSelectedVehicle(vehicle[index - 1]);
-    console.log(value, index);
     //month is set to 30 days as default
     if (label === "MONTHLY") {
       setDays("30");

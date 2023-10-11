@@ -26,7 +26,6 @@ const MySubscription = () => {
       hideLoading();
       if (!result.error) {
         setData(result);
-        console.log(JSON.stringify(result, null, 2));
       }
     } catch (error) {
       hideLoading();

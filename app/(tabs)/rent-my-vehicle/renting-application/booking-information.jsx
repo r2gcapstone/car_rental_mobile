@@ -30,7 +30,6 @@ const BookingInformation = () => {
   const [choice, setChoice] = useState("");
 
   const onClose = (value) => {
-    console.log("value", value);
     setChoice(value);
     setModal((prev) => !prev);
   };
