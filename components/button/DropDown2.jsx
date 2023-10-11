@@ -11,6 +11,7 @@ const DropDown2 = ({ data, setData, options, label, name, id, setId }) => {
       <View style={styles.pickerContainer}>
         {options && (
           <Picker
+            dropdownIconColor={"#000"}
             selectedValue={data[name].name}
             onValueChange={(itemValue) => {
               // Find the corresponding option based on the selected value

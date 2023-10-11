@@ -120,7 +120,7 @@ export const getReviews = async (carId) => {
   }
 };
 
-//function to get all users vehicles based on userId
+//function get all vehicles for search vehicle feature
 export const getCars = async () => {
   try {
     const user = auth.currentUser;
@@ -203,6 +203,35 @@ export const updateCarData = async (key, value, carId) => {
       error: false,
       status: 200,
     };
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+//function get all vehicles for search vehicle feature
+export const getRegisteredVehicle = async () => {
+  try {
+    const user = auth.currentUser;
+    const userId = user.uid;
+
+    // Get a reference to the 'cars' collection
+    const carsRef = collection(db, "cars");
+
+    // Create a query against the collection
+    const q = query(carsRef, where("userId", "==", userId));
+
+    // Execute the query
+    const vehicleSnapshot = await getDocs(q);
+
+    let vehicles = [];
+
+    vehicleSnapshot.docs.forEach((doc) => {
+      const vehicle = doc.data();
+
+      vehicles.push(vehicle);
+    });
+
+    return vehicles;
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
   }

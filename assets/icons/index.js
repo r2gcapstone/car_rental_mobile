@@ -7,3 +7,4 @@ export const img = require("../icons/img.png");
 export const road = require("../icons/road.png");
 export const star = require("../icons/star.png");
 export const subscription = require("../icons/subScription.png");
+export const piggy = require("../icons/piggy.png");
