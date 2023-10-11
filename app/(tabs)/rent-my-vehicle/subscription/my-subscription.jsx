@@ -1,24 +1,20 @@
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { StyleSheet, ScrollView, View, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getAllSubscription } from "api/subscription";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import useSentenceCase from "hooks/useSentenceCase";
 import { colors } from "constants/Colors";
 import Text from "components/ThemedText";
-const { toSentenceCase } = useSentenceCase();
 
-//layout
+// Layout
 import MainLayout from "layouts/MainLayout";
 
 const MySubscription = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
+  const [message, setMessage] = useState("");
+  const { toSentenceCase } = useSentenceCase();
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
+
   const getSubscription = async () => {
     try {
       showLoading();
@@ -26,7 +22,9 @@ const MySubscription = () => {
       hideLoading();
       if (!result.error) {
         setData(result);
+        setMessage("");
       }
+      setMessage("No subscription found!");
     } catch (error) {
       hideLoading();
       alert(error);
@@ -36,11 +34,12 @@ const MySubscription = () => {
   useEffect(() => {
     getSubscription();
   }, []);
+
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-          {data &&
+          {data.length > 0 ? (
             data.map(({ carImage, vehicleName, duration }, index) => (
               <View
                 key={index}
@@ -62,7 +61,12 @@ const MySubscription = () => {
                   </View>
                 </View>
               </View>
-            ))}
+            ))
+          ) : (
+            <Text style={[styles.label, { alignSelf: "center" }]}>
+              {message}
+            </Text>
+          )}
         </View>
       </ScrollView>
       <LoadingComponent />
