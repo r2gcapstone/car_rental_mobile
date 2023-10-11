@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     width: "100%",
+    paddingBottom: 20,
   },
   container: {
     flex: 1,

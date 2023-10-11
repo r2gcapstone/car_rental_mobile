@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     marginTop: -23,
+    marginBottom: 20,
   },
   imageContainer: {
     paddingTop: 20,
