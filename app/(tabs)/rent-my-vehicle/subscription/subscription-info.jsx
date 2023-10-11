@@ -133,21 +133,20 @@ const ChooseVehicle = () => {
               </View>
             )}
           </View>
+          <ProceedBtn
+            data={newObject}
+            disable={isFieldEmpty(number)}
+            contProps={{
+              marginBottom: 40,
+              marginTop: 20,
+              bottom: 0,
+            }}
+            btnProps={{ fontSize: 16, fontWeight: "bold" }}
+            btnText={"Proceed"}
+            path={"rent-my-vehicle/subscription/payment-info"}
+          />
         </KeyboardAvoidingView>
       </ScrollView>
-
-      <ProceedBtn
-        data={newObject}
-        disable={isFieldEmpty(number)}
-        contProps={{
-          marginBottom: 40,
-          marginTop: 20,
-          bottom: 0,
-        }}
-        btnProps={{ fontSize: 16, fontWeight: "bold" }}
-        btnText={"Proceed"}
-        path={"rent-my-vehicle/subscription/payment-info"}
-      />
     </MainLayout>
   );
 };
@@ -155,6 +154,11 @@ const ChooseVehicle = () => {
 export default ChooseVehicle;
 
 const styles = StyleSheet.create({
+  scroll: {
+    flex: 1,
+    marginTop: -23,
+    width: "100%",
+  },
   container: {
     flex: 1,
     gap: 20,
@@ -201,5 +205,6 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     color: "red",
     marginTop: -15,
+    marginBottom: 40,
   },
 });
