@@ -60,8 +60,6 @@ const ChooseVehicle = () => {
     carId: selectedVehicle.carId,
   };
 
-  console.log(JSON.stringify(selectedVehicle, null, 2));
-
   return (
     <MainLayout>
       <View style={styles.container}>

@@ -45,7 +45,6 @@ const BuySubscription = () => {
 
   const handleOnPress = (label, price) => {
     const newData = { label: label, price: price };
-    console.log(newData);
     router.push({
       pathname: "rent-my-vehicle/subscription/choose-vehicle",
       params: { data: JSON.stringify(newData) },
