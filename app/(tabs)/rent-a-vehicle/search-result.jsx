@@ -20,7 +20,6 @@ const ResultScreen = () => {
   const { result, dateTime } = JSON.parse(route.params?.data);
   const { searchResults } = result;
 
-  console.log(searchResults);
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
