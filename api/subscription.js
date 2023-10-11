@@ -31,3 +31,33 @@ export const Subscribe = async (data) => {
     return { error: true, message: error.message, status: error.code };
   }
 };
+
+//fetch all subscription function
+export const getAllSubscription = async () => {
+  try {
+    const user = auth.currentUser;
+    const userId = user.uid;
+
+    // Get a reference to the 'subscription' collection
+    const subscriptionCollection = collection(db, "subscription");
+
+    const querySnapshot = await getDocs(
+      subscriptionCollection,
+      where("userId", "==", userId)
+    );
+
+    let subscription = [];
+    querySnapshot.docs.forEach((doc) => {
+      const sub = doc.data();
+
+      // Only push the subscription if status is not 'pending'
+      if (sub.status !== "pending") {
+        subscription.push(sub);
+      }
+    });
+
+    return subscription;
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
