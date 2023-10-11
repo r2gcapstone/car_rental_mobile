@@ -47,7 +47,7 @@ const ChooseVehicle = () => {
     }
   };
 
-  const paymentMethod = [{ id: 1, label: "Gcash", value: "", path: "" }];
+  const paymentMethod = [{ id: 1, label: "Gcash", value: "gcash" }];
 
   const dataArray = [
     {
@@ -74,10 +74,6 @@ const ChooseVehicle = () => {
   ];
 
   const newObject = { ...data, wallet, gcashNumber: number };
-
-  useEffect(() => {
-    console.log(newObject);
-  }, [number]);
 
   return (
     <MainLayout>

@@ -16,6 +16,7 @@ const ChooseVehicle = () => {
   const [vehicle, setVehicle] = useState();
   const [value, setValue] = useState("");
   const [days, setDays] = useState("");
+  const [selectedVehicle, setSelectedVehicle] = useState("");
 
   const fetchVehicle = async () => {
     try {
@@ -24,8 +25,10 @@ const ChooseVehicle = () => {
     } catch (error) {}
   };
 
-  const handleOnChange = (val) => {
-    setValue(val);
+  const handleOnChange = (value, index) => {
+    setValue(value);
+    setSelectedVehicle(vehicle[index - 1]);
+    console.log(value, index);
     //month is set to 30 days as default
     if (label === "MONTHLY") {
       setDays("30");
@@ -48,7 +51,16 @@ const ChooseVehicle = () => {
     fetchVehicle();
   }, []);
 
-  const newObject = { type: label, price, value, days: days };
+  const newObject = {
+    type: label,
+    price,
+    value,
+    days: days,
+    imageUrls: selectedVehicle.imageUrls,
+    carId: selectedVehicle.carId,
+  };
+
+  console.log(JSON.stringify(selectedVehicle, null, 2));
 
   return (
     <MainLayout>

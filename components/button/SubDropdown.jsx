@@ -4,7 +4,7 @@ const SubDropdown = ({ value, handleOnChange, options, props }) => (
   <Picker
     {...props}
     selectedValue={value}
-    onValueChange={(value) => handleOnChange(value)}
+    onValueChange={(value, index) => handleOnChange(value, index)}
     dropdownIconColor={"#fff"}
     style={{
       backgroundColor: "#526D82",

@@ -17,8 +17,8 @@ const WalletDropDown = ({ wallet, options, handleOnChange }) => {
         }}
       >
         <Picker.Item label="Choose" value=""></Picker.Item>
-        {options.map(({ id, label }, index) => (
-          <Picker.Item key={id} label={label} value={label}></Picker.Item>
+        {options.map(({ label, value }, index) => (
+          <Picker.Item key={index} label={label} value={value}></Picker.Item>
         ))}
       </Picker>
     </View>

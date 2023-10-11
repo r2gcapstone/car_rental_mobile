@@ -57,6 +57,13 @@ export default function SubscriptionStack() {
           headerLeft: () => <CustomBackButton router={router} customText="" />,
         })}
       />
+      <Stack.Screen
+        name="payment-info"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => <CustomBackButton router={router} customText="" />,
+        })}
+      />
     </Stack>
   );
 }
