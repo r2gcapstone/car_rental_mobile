@@ -20,6 +20,7 @@ const ResultScreen = () => {
   const { result, dateTime } = JSON.parse(route.params?.data);
   const { searchResults } = result;
 
+  console.log(searchResults);
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -29,13 +30,19 @@ const ResultScreen = () => {
           <Image style={styles.logoIcon} source={logo} />
         </View>
         <View style={styles.resultContainer}>
-          {searchResults.map((resultItem) => (
-            <ResultItem
-              key={resultItem.id}
-              resultItem={resultItem}
-              dateTime={dateTime}
-            />
-          ))}
+          {searchResults.length > 0 ? (
+            searchResults.map((resultItem) => (
+              <ResultItem
+                key={resultItem.id}
+                resultItem={resultItem}
+                dateTime={dateTime}
+              />
+            ))
+          ) : (
+            <Text style={[styles.label, { alignSelf: "center" }]}>
+              No result found!
+            </Text>
+          )}
         </View>
       </ScrollView>
     </MainLayout>
