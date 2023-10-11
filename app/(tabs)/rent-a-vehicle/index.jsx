@@ -19,7 +19,7 @@ import RentDateAndTime from "components/rent_a_vehicle/RentDateAndTime";
 import VehicleDropdown from "components/rent_a_vehicle/VehicleType";
 import GearShiftDropdown from "components/rent_a_vehicle/GearType";
 import FuelTypeDropdown from "components/rent_a_vehicle/FuelType";
-import LoadingAnimation from "components/LoadingAnimation";
+import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import InputField from "components/InputField";
 
 import { colors } from "constants/Colors";
@@ -33,7 +33,7 @@ const initialDateTimeValues = {
 
 export default function RentAVehicle() {
   const [dateTimeValues, setDateTimeValues] = useState(initialDateTimeValues);
-  const [isLoading, setIsLoading] = useState(false);
+  const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
 
   const [filter, setFilter] = useState({
     vehicleType: "",
@@ -50,22 +50,23 @@ export default function RentAVehicle() {
   };
 
   const handleSearch = async () => {
-    setIsLoading(true); // Show loading modal
-    const result = await searchAvailableCars(filter);
+    try {
+      showLoading();
+      const result = await searchAvailableCars(filter);
+      hideLoading();
 
-    if (result.status === 204) {
-      setIsLoading(false);
-      alert("No Result found");
-      return;
+      if (result.error || !result.searchResult) {
+        alert("No result found!");
+        return;
+      }
+      const data = { result, dateTime: dateTimeValues };
+      router.push({
+        pathname: "rent-a-vehicle/search-result",
+        params: { data: JSON.stringify(data) },
+      });
+    } catch (error) {
+      alert("Something went wrong, please try again later!");
     }
-
-    setIsLoading(false);
-
-    const data = { result, dateTime: dateTimeValues };
-    router.push({
-      pathname: "rent-a-vehicle/search-result",
-      params: { data: JSON.stringify(data) },
-    });
   };
 
   return (
@@ -187,7 +188,7 @@ export default function RentAVehicle() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <LoadingAnimation isVisible={isLoading} />
+      <LoadingComponent />
     </MainLayout>
   );
 }

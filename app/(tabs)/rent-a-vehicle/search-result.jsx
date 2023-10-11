@@ -29,13 +29,19 @@ const ResultScreen = () => {
           <Image style={styles.logoIcon} source={logo} />
         </View>
         <View style={styles.resultContainer}>
-          {searchResults.map((resultItem) => (
-            <ResultItem
-              key={resultItem.id}
-              resultItem={resultItem}
-              dateTime={dateTime}
-            />
-          ))}
+          {searchResults ? (
+            searchResults.map((resultItem) => (
+              <ResultItem
+                key={resultItem.id}
+                resultItem={resultItem}
+                dateTime={dateTime}
+              />
+            ))
+          ) : (
+            <Text style={[styles.label, { alignSelf: "center" }]}>
+              "No result found!"
+            </Text>
+          )}
         </View>
       </ScrollView>
     </MainLayout>
