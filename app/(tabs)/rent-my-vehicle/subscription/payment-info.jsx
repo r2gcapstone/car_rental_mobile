@@ -6,6 +6,8 @@ import { useRoute } from "@react-navigation/native";
 import { Subscribe } from "api/subscription";
 import formatdate from "utils/formatDate";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
+import useSentenceCase from "hooks/useSentenceCase";
+
 //layout
 import MainLayout from "layouts/MainLayout";
 import { router } from "expo-router";
@@ -13,6 +15,7 @@ import { router } from "expo-router";
 const PaymentInfo = () => {
   const route = useRoute();
   const date = formatdate(new Date());
+  const { toSentenceCase } = useSentenceCase();
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const data = JSON.parse(route.params?.data);
   const { type, price, value, days, wallet, gcashNumber, imageUrls, carId } =
@@ -73,7 +76,7 @@ const PaymentInfo = () => {
             </View>
             <View style={styles.row2}>
               <Text style={styles.label}>Payment Method : </Text>
-              <Text style={styles.value}>{wallet}</Text>
+              <Text style={styles.value}>{toSentenceCase(wallet)}</Text>
             </View>
             <View style={styles.row2}>
               <Text style={styles.label}>Mobile Number :</Text>
