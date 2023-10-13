@@ -145,7 +145,7 @@ export const getAllRentals = async (filter) => {
   }
 };
 
-//function to get Renting docs
+//function to get Renting docs based on userId
 export const getRentingDocs = async () => {
   try {
     const user = auth.currentUser;
@@ -174,6 +174,34 @@ export const getRentingDocs = async () => {
     });
 
     return docs;
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+// Function to get a vehicle(via user gps phone) location using document id
+export const getMyRentalLoc = async (carId) => {
+  try {
+    // Get a reference to the 'rentals' collection
+    const rentalsRef = collection(db, "rentals");
+
+    // Create a query against the collection
+    const q = query(rentalsRef, where("carId", "==", carId));
+
+    const snapshot = await getDocs(q);
+
+    // Initialize an empty array to hold the results
+    let results = [];
+
+    // Loop through each document in the snapshot
+    snapshot.forEach((doc) => {
+      // Push the data of each document into the results array
+      results.push(doc.data());
+    });
+
+    // console.log(JSON.stringify(results, null, 2));
+
+    return results[0];
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
   }

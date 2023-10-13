@@ -35,6 +35,7 @@ export const LocationProvider = ({ children }) => {
             let newLoc = {
               ...newLocation,
               timestamp: formatTimeStamp(newLocation.timestamp),
+              status: "on",
             };
             updateRentalData(newLoc, docId);
           }
