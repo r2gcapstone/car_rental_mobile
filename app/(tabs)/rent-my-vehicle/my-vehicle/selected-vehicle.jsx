@@ -120,7 +120,7 @@ const SelectedVehicle = () => {
       id: 12,
       label: "GPS Tracker",
       icon: globe,
-      path: "",
+      path: "rent-my-vehicle/my-vehicle/tracker",
       btnBgColor: { backgroundColor: "#1C8A00" },
       btnText: { flex: 0, fontSize: 18, textAlign: "center" },
     },

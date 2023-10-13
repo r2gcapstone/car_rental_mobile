@@ -178,3 +178,22 @@ export const getRentingDocs = async () => {
     return { error: true, message: error.message, status: error.code };
   }
 };
+
+// Function to update rental data from Firestore
+export const updateRentalData = async (location, docId) => {
+  console.log("Called");
+  try {
+    const docRef = doc(db, "rentals/", docId);
+
+    await updateDoc(docRef, {
+      location: location,
+    });
+    return {
+      message: "update success!",
+      error: false,
+      status: 200,
+    };
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
