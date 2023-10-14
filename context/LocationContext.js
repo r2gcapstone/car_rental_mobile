@@ -1,4 +1,3 @@
-// LocationContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
 import * as Location from "expo-location";
 import formatTimeStamp from "utils/formatTimeStamp";
@@ -16,7 +15,6 @@ export const LocationProvider = ({ children }) => {
   const [isTracking, setIsTracking] = useState(false);
 
   useEffect(() => {
-    console.log("Ids", JSON.stringify(docIds, null, 2));
     let subscriber;
 
     const startLocationTracking = async () => {
@@ -29,9 +27,7 @@ export const LocationProvider = ({ children }) => {
       subscriber = await Location.watchPositionAsync(
         { accuracy: Location.Accuracy.High, timeInterval: 600000 }, // 10 minutes in milliseconds
         (newLocation) => {
-          console.log(formatTimeStamp(newLocation.timestamp));
           setLocation(newLocation);
-          // Add logic here to pass the location to Firebase or any other service
           if (docIds) {
             let newLoc = {
               ...newLocation,
