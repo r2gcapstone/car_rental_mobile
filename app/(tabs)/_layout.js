@@ -35,6 +35,7 @@ export default function TabLayout() {
     "(tabs)/rent-my-vehicle/success-screen",
     "(tabs)/rent-my-vehicle/my-vehicle",
     "(tabs)/rent-my-vehicle/my-vehicle/selected-vehicle",
+    "(tabs)/rent-my-vehicle/my-vehicle/tracker",
     "(tabs)/rent-my-vehicle/renting-application",
     "(tabs)/rent-my-vehicle/renting-application/booking-information",
     "(tabs)/rent-my-vehicle/renting-application/success-screen",

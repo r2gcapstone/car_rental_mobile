@@ -1,5 +1,5 @@
 import { StyleSheet, View, ScrollView, Image } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRoute } from "@react-navigation/native";
 import { colors } from "constants/Colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -7,6 +7,9 @@ import useSentenceCase from "hooks/useSentenceCase";
 import Text from "components/ThemedText";
 import ConfirmationModal from "components/modal/ConfirmationModal";
 import { deleteRentRequest } from "api/rental";
+//context
+import { useLocationContext } from "context/LocationContext";
+import { updateRentalData } from "api/rental";
 
 //icon
 import peso from "assets/icons/pesoWhite.png";
@@ -18,10 +21,11 @@ const ApplicationInformation = () => {
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
-
   const { toSentenceCase } = useSentenceCase();
   const newObject = { ...data };
   const [modal, setModal] = useState(false);
+  const { setIsTracking, isTracking, errorMsg, location, setDocIds, docIds } =
+    useLocationContext();
 
   const onClose = () => {
     setModal((prev) => !prev);
@@ -82,7 +86,7 @@ const ApplicationInformation = () => {
     } else {
       const result = await deleteRentRequest(data.id);
       if (result.status === "success") {
-        router.back();
+        router.push("/");
       }
     }
   };
@@ -92,7 +96,22 @@ const ApplicationInformation = () => {
     if (status === "pending") {
       const result = await deleteRentRequest(data.id);
       if (result.status === "success") {
-        router.back();
+        router.push("/");
+      }
+    } else if (status === "approved") {
+      setIsTracking((prev) => !prev);
+      setModal((prev) => !prev);
+      setDocIds((prevDocIds) => {
+        if (!prevDocIds.includes(data.docId)) {
+          return [...prevDocIds, data.docId];
+        }
+        return prevDocIds;
+      });
+
+      if (isTracking && docIds.includes(data.docId)) {
+        console.log(isTracking);
+        setDocIds((prevDocIds) => prevDocIds.filter((id) => id !== data.docId));
+        updateRentalData({ ...location, status: "off" }, data.docId);
       }
     }
   };
@@ -107,8 +126,14 @@ const ApplicationInformation = () => {
     {
       id: 2,
       label: "approved",
-      value: "Turn On Location",
-      bgColor: colors.green.primary,
+      value:
+        isTracking && docIds.includes(data.docId)
+          ? "Turn Off Location"
+          : "Turn On Location",
+      bgColor:
+        isTracking && docIds.includes(data.docId)
+          ? colors.red.primary
+          : colors.green.primary,
     },
     {
       id: 3,
@@ -208,12 +233,26 @@ const ApplicationInformation = () => {
       </ScrollView>
       {status === "approved" && modal && (
         <ConfirmationModal
-          caption="This will use the location of your device as GPS Tracker for the vehicle"
+          caption={() =>
+            isTracking && docIds.includes(data.docId) ? (
+              <Text style={styles.captionText}>
+                This will turn off the location tracker in your device
+              </Text>
+            ) : (
+              <Text style={styles.captionText}>
+                This will use the location of your device as GPS Tracker for the
+                vehicle
+              </Text>
+            )
+          }
           onClose={onClose}
           btn1Text="Okay"
           btn2Text="No"
           btn1Props={{
-            backgroundColor: colors.green.primary,
+            backgroundColor:
+              isTracking && docIds.includes(data.docId)
+                ? colors.red.primary
+                : colors.green.primary,
             borderColor: "#fff",
             borderWidth: 1,
           }}
