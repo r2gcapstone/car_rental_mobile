@@ -12,10 +12,11 @@ export const useLocationContext = () => {
 export const LocationProvider = ({ children }) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [docId, setDocId] = useState(null);
+  const [docIds, setDocIds] = useState([]);
   const [isTracking, setIsTracking] = useState(false);
 
   useEffect(() => {
+    console.log("Ids", JSON.stringify(docIds, null, 2));
     let subscriber;
 
     const startLocationTracking = async () => {
@@ -31,13 +32,15 @@ export const LocationProvider = ({ children }) => {
           console.log(formatTimeStamp(newLocation.timestamp));
           setLocation(newLocation);
           // Add logic here to pass the location to Firebase or any other service
-          if (docId) {
+          if (docIds) {
             let newLoc = {
               ...newLocation,
               timestamp: formatTimeStamp(newLocation.timestamp),
               status: "on",
             };
-            updateRentalData(newLoc, docId);
+            docIds.forEach((docId) => {
+              updateRentalData(newLoc, docId);
+            });
           }
         }
       );
@@ -56,7 +59,14 @@ export const LocationProvider = ({ children }) => {
 
   return (
     <LocationContext.Provider
-      value={{ location, errorMsg, setDocId, setIsTracking, isTracking }}
+      value={{
+        location,
+        errorMsg,
+        setDocIds,
+        setIsTracking,
+        docIds,
+        isTracking,
+      }}
     >
       {children}
     </LocationContext.Provider>

@@ -24,7 +24,7 @@ const ApplicationInformation = () => {
   const { toSentenceCase } = useSentenceCase();
   const newObject = { ...data };
   const [modal, setModal] = useState(false);
-  const { setIsTracking, isTracking, errorMsg, location, setDocId } =
+  const { setIsTracking, isTracking, errorMsg, location, setDocIds, docIds } =
     useLocationContext();
 
   const onClose = () => {
@@ -101,10 +101,16 @@ const ApplicationInformation = () => {
     } else if (status === "approved") {
       setIsTracking((prev) => !prev);
       setModal((prev) => !prev);
-      setDocId(data.docId);
+      setDocIds((prevDocIds) => {
+        if (!prevDocIds.includes(data.docId)) {
+          return [...prevDocIds, data.docId];
+        }
+        return prevDocIds;
+      });
 
-      if (isTracking) {
+      if (isTracking && docIds.includes(data.docId)) {
         console.log(isTracking);
+        setDocIds((prevDocIds) => prevDocIds.filter((id) => id !== data.docId));
         updateRentalData({ ...location, status: "off" }, data.docId);
       }
     }
@@ -120,8 +126,14 @@ const ApplicationInformation = () => {
     {
       id: 2,
       label: "approved",
-      value: isTracking ? "Turn Off Location" : "Turn On Location",
-      bgColor: isTracking ? colors.red.primary : colors.green.primary,
+      value:
+        isTracking && docIds.includes(data.docId)
+          ? "Turn Off Location"
+          : "Turn On Location",
+      bgColor:
+        isTracking && docIds.includes(data.docId)
+          ? colors.red.primary
+          : colors.green.primary,
     },
     {
       id: 3,
@@ -222,7 +234,7 @@ const ApplicationInformation = () => {
       {status === "approved" && modal && (
         <ConfirmationModal
           caption={() =>
-            isTracking ? (
+            isTracking && docIds.includes(data.docId) ? (
               <Text style={styles.captionText}>
                 This will turn off the location tracker in your device
               </Text>
@@ -237,9 +249,10 @@ const ApplicationInformation = () => {
           btn1Text="Okay"
           btn2Text="No"
           btn1Props={{
-            backgroundColor: isTracking
-              ? colors.red.primary
-              : colors.green.primary,
+            backgroundColor:
+              isTracking && docIds.includes(data.docId)
+                ? colors.red.primary
+                : colors.green.primary,
             borderColor: "#fff",
             borderWidth: 1,
           }}

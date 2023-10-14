@@ -207,9 +207,8 @@ export const getMyRentalLoc = async (carId) => {
   }
 };
 
-// Function to update rental data from Firestore
+// Function to update rented vehicle location bases on docId
 export const updateRentalData = async (location, docId) => {
-  console.log("Called");
   try {
     const docRef = doc(db, "rentals/", docId);
 
