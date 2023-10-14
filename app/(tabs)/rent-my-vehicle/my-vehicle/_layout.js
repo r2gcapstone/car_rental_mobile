@@ -42,6 +42,29 @@ export default function MyVehicleStack() {
           ),
         })}
       />
+      <Stack.Screen
+        name="buy-subscription"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => (
+            <CustomBackButton router={router} customText="Buy Subscription" />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="payment-info"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => <CustomBackButton router={router} customText="" />,
+        })}
+      />
+      <Stack.Screen
+        name="subscription-info"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => <CustomBackButton router={router} customText="" />,
+        })}
+      />
     </Stack>
   );
 }

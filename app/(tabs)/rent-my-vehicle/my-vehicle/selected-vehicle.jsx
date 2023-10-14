@@ -103,7 +103,7 @@ const SelectedVehicle = () => {
       id: 10,
       label: "Buy Subscription",
       icon: subscription,
-      path: "",
+      path: "(tabs)/rent-my-vehicle/my-vehicle/buy-subscription",
       style: { width: "100%" },
       alignText: { justifyContent: "center" },
       btnText: { flex: 0, fontSize: 18, textAlign: "center" },
