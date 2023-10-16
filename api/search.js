@@ -21,8 +21,10 @@ export const searchAvailableCars = async ({ ...filter }) => {
     // Get a reference to the 'cars' collection
     const carsRef = collection(db, "cars");
 
-    // Initialize queryRef with carsRef
-    let queryRef = query(carsRef, where("userId", "!=", userId)); // Exclude cars owned by the current user
+    // Initialize queryRef with carsRef  and default filter
+    let queryRef = query(carsRef, where("userId", "!=", userId));
+    queryRef = query(carsRef, where("subscriptionStatus", "==", "subscribed"));
+    queryRef = query(carsRef, where("isHidden", "==", false));
 
     // Define the filters and their corresponding fields in the database
     const filters = [
@@ -84,8 +86,6 @@ export const searchAvailableCars = async ({ ...filter }) => {
     // Return the available cars
     return { searchResults: availableCars };
   } catch (error) {
-    // If an error occurred, log it and return an error message
-    console.error("Error searching available cars:", error);
     return { error: true, message: error.message, status: error.code };
   }
 };

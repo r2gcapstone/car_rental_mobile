@@ -189,6 +189,7 @@ export const getVehicleInfo = async (carId) => {
 
 //update vehicle information
 export const updateCarData = async (key, value, carId) => {
+  console.log("carId", carId);
   const date = new Date();
   const formatedDate = formatDate(date);
   try {
