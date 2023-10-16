@@ -14,6 +14,7 @@ const ConfirmationModal = ({
   btn1Props,
   btn2Props,
   handleOkayBtn,
+  title,
 }) => {
   return (
     <Modal style={styles.modal} animationType="fade" transparent={true}>
@@ -23,7 +24,12 @@ const ConfirmationModal = ({
         onPress={onClose}
       >
         <View style={styles.box}>
-          <Image style={styles.logo} source={logo} />
+          {title ? (
+            <Text style={styles.title}>{title}</Text>
+          ) : (
+            <Image style={styles.logo} source={logo} />
+          )}
+
           <Text style={styles.caption}>{caption()}</Text>
           <View style={styles.pickerContainer}></View>
           <View style={styles.btnContainer}>
@@ -97,5 +103,9 @@ const styles = StyleSheet.create({
   btnText: {
     textAlign: "center",
     fontSize: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
   },
 });

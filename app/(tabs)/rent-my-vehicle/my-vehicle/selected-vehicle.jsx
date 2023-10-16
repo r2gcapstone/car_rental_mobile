@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, ScrollView, View, Image } from "react-native";
 import Text from "components/ThemedText";
 import useSentenceCase from "hooks/useSentenceCase";
@@ -16,16 +16,23 @@ import {
   star,
   subscription,
 } from "assets/icons";
+import ConfirmationModal from "components/modal/ConfirmationModal";
+import { colors } from "constants/Colors";
 
 //layout
 import MainLayout from "layouts/MainLayout";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { getMyRentalLoc } from "api/rental";
+import { updateRentalData } from "api/rental";
 
 const SelectedVehicle = () => {
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
   const { toSentenceCase } = useSentenceCase();
+  const [modal, setModal] = useState(false);
+  const [isGps, setIsGps] = useState(null);
+  const [docId, setDocId] = useState(null);
 
   const {
     imageUrls: { front },
@@ -110,10 +117,10 @@ const SelectedVehicle = () => {
     },
     {
       id: 11,
-      label: "Turn Off GPS",
+      label: isGps ? "Turn Off GPS" : "Turn On GPS",
       icon: "",
       path: "",
-      btnBgColor: { backgroundColor: "#1C8A00" },
+      btnBgColor: { backgroundColor: "#1C8A00", opacity: !isGps ? 1 : 0.5 },
       btnText: { fontSize: 18, textAlign: "center" },
     },
     {
@@ -150,6 +157,10 @@ const SelectedVehicle = () => {
   };
 
   const handleOnPress = (path, label) => {
+    if (label === "Turn Off GPS" || label === "Turn On GPS") {
+      onClose();
+      return;
+    }
     router.push({
       pathname: path,
       params: {
@@ -161,6 +172,38 @@ const SelectedVehicle = () => {
       },
     });
   };
+
+  const fetchGPSStatus = async (carId) => {
+    try {
+      const result = await getMyRentalLoc(carId);
+      if (!result.error) {
+        setIsGps(result.location.status === "off" ? false : true);
+        setDocId(result.docId);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const handleOkayBtn = async (docId) => {
+    try {
+      await updateRentalData(isGps ? "off" : "on", docId);
+      setIsGps((prev) => !prev);
+      onClose();
+    } catch (error) {
+      onClose();
+      alert(error);
+    }
+  };
+
+  const onClose = () => {
+    setModal((prev) => !prev);
+  };
+
+  useEffect(() => {
+    fetchGPSStatus(carId);
+  }, [isGps]);
+
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -230,6 +273,31 @@ const SelectedVehicle = () => {
           )}
         </View>
       </ScrollView>
+      {modal && (
+        <ConfirmationModal
+          title="Are you sure?"
+          caption={() =>
+            isGps ? (
+              <Text style={styles.captionText}>
+                This will disable the GPS Tracking feature
+              </Text>
+            ) : (
+              <Text style={styles.captionText}>
+                This will enable the GPS Tracking feature
+              </Text>
+            )
+          }
+          onClose={onClose}
+          btn1Text="Okay"
+          btn2Text="No"
+          btn1Props={{
+            backgroundColor: colors.green.primary,
+            borderColor: "#fff",
+            borderWidth: 1,
+          }}
+          handleOkayBtn={() => handleOkayBtn(docId)}
+        />
+      )}
     </MainLayout>
   );
 };

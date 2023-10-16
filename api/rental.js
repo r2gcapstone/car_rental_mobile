@@ -212,9 +212,16 @@ export const updateRentalData = async (location, docId) => {
   try {
     const docRef = doc(db, "rentals/", docId);
 
-    await updateDoc(docRef, {
-      location: location,
-    });
+    if (typeof location !== "string") {
+      await updateDoc(docRef, {
+        location: location,
+      });
+    } else {
+      await updateDoc(docRef, {
+        "location.status": location,
+      });
+    }
+
     return {
       message: "update success!",
       error: false,
