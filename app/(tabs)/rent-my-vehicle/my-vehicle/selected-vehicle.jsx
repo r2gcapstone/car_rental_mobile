@@ -27,6 +27,7 @@ import { updateRentalData } from "api/rental";
 import { getVehicleInfo, updateCarData } from "api/cars";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { hide } from "expo-splash-screen";
+import { deleteAVehicle } from "../../../../api/cars";
 
 const SelectedVehicle = () => {
   const route = useRoute();
@@ -35,6 +36,7 @@ const SelectedVehicle = () => {
   const { toSentenceCase } = useSentenceCase();
   const [modal, setModal] = useState(false);
   const [modal2, setModal2] = useState(false);
+  const [modal3, setModal3] = useState(false);
   const [isGps, setIsGps] = useState(null);
   const [docId, setDocId] = useState(null);
   const [isHidden, setIsHidden] = useState(null);
@@ -169,6 +171,9 @@ const SelectedVehicle = () => {
     } else if (label === "Hide Vehicle" || label === "Show Vehicle") {
       onClose("m2");
       return;
+    } else if (label === "Delete Vehicle") {
+      onClose("m3");
+      return;
     }
 
     router.push({
@@ -196,7 +201,6 @@ const SelectedVehicle = () => {
   };
 
   const fetchHiddenStatus = async (carId, modal) => {
-    showLoading();
     if (modal === "m1") {
       try {
         const result = await getMyRentalLoc(carId);
@@ -217,7 +221,6 @@ const SelectedVehicle = () => {
         alert(error);
       }
     }
-    hideLoading();
   };
 
   const handleOkayBtn = async (docId, modal) => {
@@ -232,11 +235,22 @@ const SelectedVehicle = () => {
       }
     } else if (modal === "m2") {
       try {
-        await updateCarData("isHidden", !isHidden, carId);
+        await updateCarData("isHidden", !isHidden, docId);
         setIsHidden((prev) => !prev);
         onClose("m2");
       } catch (error) {
         onClose("m2");
+        alert(error);
+      }
+    } else {
+      try {
+        const result = await deleteAVehicle(docId);
+        if (!result.error) {
+          router.push("/");
+        }
+        onClose("m3");
+      } catch (error) {
+        onClose("m3");
         alert(error);
       }
     }
@@ -247,6 +261,8 @@ const SelectedVehicle = () => {
       setModal((prev) => !prev);
     } else if (modal === "m2") {
       setModal2((prev) => !prev);
+    } else {
+      setModal3((prev) => !prev);
     }
   };
 
@@ -367,10 +383,26 @@ const SelectedVehicle = () => {
           btn1Props={{
             backgroundColor: isHidden ? "#0068C8" : "#C89000",
           }}
-          handleOkayBtn={() => handleOkayBtn(modal && docId, "m2")}
+          handleOkayBtn={() => handleOkayBtn(modal2 && carId, "m2")}
         />
       )}
-      <LoadingComponent />
+      {modal3 && (
+        <ConfirmationModal
+          title="Are you sure?"
+          caption={() => (
+            <Text style={styles.captionText}>
+              This will delete your vehicle permanently
+            </Text>
+          )}
+          onClose={() => onClose("m3")}
+          btn1Text="Yes"
+          btn2Text="No"
+          btn1Props={{
+            backgroundColor: colors.red.primary,
+          }}
+          handleOkayBtn={() => handleOkayBtn(modal3 && carId, "m3")}
+        />
+      )}
     </MainLayout>
   );
 };

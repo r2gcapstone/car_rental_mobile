@@ -8,6 +8,8 @@ import {
   updateDoc,
   doc,
   getDoc,
+  deleteDoc,
+  limit,
 } from "firebase/firestore";
 import { getAuth } from "@firebase/auth";
 //utils
@@ -173,12 +175,6 @@ export const getVehicleInfo = async (carId) => {
     const carDoc = doc(db, "cars", carId);
     const docSnap = await getDoc(carDoc);
 
-    if (docSnap.exists()) {
-      console.log("exist");
-    } else {
-      console.log("No such document!");
-    }
-
     const vehicleDoc = docSnap.data();
 
     return vehicleDoc;
@@ -237,3 +233,144 @@ export const getRegisteredVehicle = async () => {
     return { error: true, message: error.message, status: error.code };
   }
 };
+
+//function to delete vehicle
+//
+export const deleteAVehicle = async (carId) => {
+  try {
+    const user = auth.currentUser;
+    const userId = user.uid;
+
+    // Get a reference to the 'cars','rentals','reviews','subscription' collection
+    const carsRef = collection(db, "cars");
+    const rentalRef = collection(db, "rentals");
+    const reviewsRef = collection(db, "reviews");
+    const subscriptionRef = collection(db, "subscription");
+
+    // Create a query against the rentals collection
+    let rentalQueryRef = query(
+      rentalRef,
+      where("carId", "==", carId),
+      where("status", "==", "approved")
+    );
+
+    // Get all documents from rentals collection that satisfy the query
+    const rentalQuerySnapshot = await getDocs(rentalQueryRef);
+
+    // Check if car is currently rented
+    let isRented = false;
+    rentalQuerySnapshot.forEach((doc) => {
+      if (doc.exists()) {
+        isRented = true;
+      }
+    });
+
+    if (!isRented) {
+      // Create a query against the cars collection
+      let carQueryRef = doc(carsRef, carId);
+
+      // Delete the document
+      const result = await deleteDoc(carQueryRef);
+
+      // Create a query against the reviews collection
+      let reviewsQueryRef = query(reviewsRef, where("carId", "==", carId));
+
+      // Get all documents from reviews collection that satisfy the query
+      const reviewsQuerySnapshot = await getDocs(reviewsQueryRef);
+
+      // Loop through each document and delete it
+      reviewsQuerySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref);
+      });
+
+      // Create a query against the subscription collection
+      let subscriptionQueryRef = query(
+        subscriptionRef,
+        where("carId", "==", carId)
+      );
+
+      // Get all documents from subscription collection that satisfy the query
+      const subscriptionQuerySnapshot = await getDocs(subscriptionQueryRef);
+
+      // Loop through each document and delete it
+      subscriptionQuerySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref);
+      });
+
+      return {
+        message: "Deleted successfully!",
+        error: false,
+        status: 200,
+      };
+    } else {
+      alert("Vehicle is currently rented and cannot be deleted!");
+
+      return {
+        message: "Car is currently rented and cannot be deleted.",
+        error: true,
+        status: 400,
+      };
+    }
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+// export const deleteAVehicle = async (carId) => {
+//   try {
+//     const user = auth.currentUser;
+//     const userId = user.uid;
+
+//     // Get a reference to the 'cars' collection
+//     const carsRef = collection(db, "cars");
+
+//     // Get a reference to the 'rentals' collection
+//     const rentalRef = collection(db, "rentals");
+
+//     // Create a query against the rentals collection
+//     let rentalQueryRef = query(
+//       rentalRef,
+//       where("carId", "==", carId),
+//       where("status", "==", "approved")
+//     );
+
+//     // Get all documents from rentals collection that satisfy the query
+//     const rentalQuerySnapshot = await getDocs(rentalQueryRef);
+
+//     console.log(carId);
+//     // Check if car is currently rented
+//     let isRented = false;
+//     rentalQuerySnapshot.forEach((doc) => {
+//       if (doc.exists()) {
+//         isRented = true;
+//       }
+//     });
+
+//     console.log(isRented);
+
+//     if (!isRented) {
+//       // Create a query against the cars collection
+//       let queryRef = doc(carsRef, carId);
+
+//       // // Delete the document
+//       const result = await deleteDoc(queryRef);
+//       console.log(result);
+
+//       return {
+//         message: "Deleted successfully!",
+//         error: false,
+//         status: 200,
+//       };
+//     } else {
+//       alert("Vehicle is currently rented and cannot be deleted!");
+
+//       return {
+//         message: "Car is currently rented and cannot be deleted.",
+//         error: true,
+//         status: 400,
+//       };
+//     }
+//   } catch (error) {
+//     return { error: true, message: error.message, status: error.code };
+//   }
+// };

@@ -199,8 +199,6 @@ export const getMyRentalLoc = async (carId) => {
       results.push(doc.data());
     });
 
-    // console.log(JSON.stringify(results, null, 2));
-
     return results[0];
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
