@@ -53,7 +53,10 @@ const Dropdown = ({
               ]}
               key={option.value}
             >
-              <TouchableOpacity onPress={() => selectOption(option.value)}>
+              <TouchableOpacity
+                style={styles.optionContainer}
+                onPress={() => selectOption(option.value)}
+              >
                 <Text style={[styles.optionLabel, labelStyle]}>
                   {option.label}
                 </Text>
@@ -109,12 +112,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#fff",
+    borderBottomColor: colors.white[1],
     width: "100%",
     alignItems: "center",
   },
   lastOption: {
     borderBottomWidth: 0,
+  },
+  optionContainer: {
+    width: "100%",
   },
   optionLabel: {
     color: "#fff",
@@ -122,8 +128,9 @@ const styles = StyleSheet.create({
   },
   optionCaption: {
     color: "#fff",
-    fontSize: 10,
+    fontSize: 14,
     marginTop: 4,
+    color: colors.white[1],
   },
   icon: {
     width: 16,
