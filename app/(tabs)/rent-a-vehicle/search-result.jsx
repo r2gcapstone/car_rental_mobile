@@ -10,6 +10,7 @@ import ChangeLocation from "components/rent_a_vehicle/ChangeLocation";
 //Icon
 import logo from "assets/icons/logo.png";
 
+//hook
 import { useUserContext } from "context/UserContext";
 
 const ResultScreen = () => {
@@ -18,7 +19,6 @@ const ResultScreen = () => {
 
   //prev data
   const { result, dateTime } = JSON.parse(route.params?.data);
-  const { searchResults } = result;
 
   return (
     <MainLayout>
@@ -29,8 +29,8 @@ const ResultScreen = () => {
           <Image style={styles.logoIcon} source={logo} />
         </View>
         <View style={styles.resultContainer}>
-          {searchResults ? (
-            searchResults.map((resultItem) => (
+          {result && result.length > 0 ? (
+            result.map((resultItem) => (
               <ResultItem
                 key={resultItem.id}
                 resultItem={resultItem}
@@ -38,7 +38,9 @@ const ResultScreen = () => {
               />
             ))
           ) : (
-            <Text style={{ alignSelf: "center" }}>No result found!</Text>
+            <Text style={[styles.label, { alignSelf: "center" }]}>
+              No result found!
+            </Text>
           )}
         </View>
       </ScrollView>

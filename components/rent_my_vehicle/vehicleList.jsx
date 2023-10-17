@@ -1,5 +1,6 @@
 import { StyleSheet, View, Image } from "react-native";
 import React, { useEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/native"; // Added import
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { colors } from "constants/Colors";
 import useSentenceCase from "hooks/useSentenceCase";
@@ -12,6 +13,7 @@ const VehicleList = () => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const { toSentenceCase } = useSentenceCase();
   const [data, setData] = useState([]);
+  const isFocused = useIsFocused(); // useIsFocused hook
 
   const getRegVehicles = async () => {
     try {
@@ -30,8 +32,10 @@ const VehicleList = () => {
   };
 
   useEffect(() => {
-    getRegVehicles();
-  }, []);
+    if (isFocused) {
+      getRegVehicles();
+    }
+  }, [isFocused]);
 
   const handleOnPress = (index) => {
     if (data[index]) {

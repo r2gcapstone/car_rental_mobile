@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
 
 //layout
@@ -19,7 +19,7 @@ import RentDateAndTime from "components/rent_a_vehicle/RentDateAndTime";
 import VehicleDropdown from "components/rent_a_vehicle/VehicleType";
 import GearShiftDropdown from "components/rent_a_vehicle/GearType";
 import FuelTypeDropdown from "components/rent_a_vehicle/FuelType";
-import LoadingAnimation from "components/LoadingAnimation";
+import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import InputField from "components/InputField";
 
 import { colors } from "constants/Colors";
@@ -33,7 +33,8 @@ const initialDateTimeValues = {
 
 export default function RentAVehicle() {
   const [dateTimeValues, setDateTimeValues] = useState(initialDateTimeValues);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isDate, setIsDate] = useState(true);
+  const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
 
   const [filter, setFilter] = useState({
     vehicleType: "",
@@ -50,23 +51,38 @@ export default function RentAVehicle() {
   };
 
   const handleSearch = async () => {
-    setIsLoading(true); // Show loading modal
-    const result = await searchAvailableCars(filter);
+    try {
+      showLoading();
+      const result = await searchAvailableCars(filter);
+      hideLoading();
 
-    if (result.status === 204) {
-      setIsLoading(false);
-      alert("No Result found");
-      return;
+      if (result.error) {
+        return alert("No result found!");
+      }
+      const data = { result, dateTime: dateTimeValues };
+      router.push({
+        pathname: "rent-a-vehicle/search-result",
+        params: { data: JSON.stringify(data) },
+      });
+    } catch (error) {
+      alert("No result found!");
     }
-
-    setIsLoading(false);
-
-    const data = { result, dateTime: dateTimeValues };
-    router.push({
-      pathname: "rent-a-vehicle/search-result",
-      params: { data: JSON.stringify(data) },
-    });
   };
+
+  useEffect(() => {
+    const { startRentDate, endRentDate } = dateTimeValues;
+
+    //check if endRentDate is not set
+
+    if (
+      startRentDate.toString() !== endRentDate.toString() &&
+      startRentDate < endRentDate
+    ) {
+      setIsDate(false);
+    } else {
+      setIsDate(true);
+    }
+  }, [dateTimeValues]);
 
   return (
     <MainLayout>
@@ -158,7 +174,8 @@ export default function RentAVehicle() {
             near you. (Required)
           </Text>
           <TouchableOpacity
-            style={styles.button}
+            disabled={isDate}
+            style={[styles.button, { opacity: isDate ? 0.5 : 1 }]}
             onPress={() => handleSearch()}
           >
             <Text style={styles.buttonText}>Search</Text>
@@ -187,7 +204,7 @@ export default function RentAVehicle() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <LoadingAnimation isVisible={isLoading} />
+      <LoadingComponent />
     </MainLayout>
   );
 }

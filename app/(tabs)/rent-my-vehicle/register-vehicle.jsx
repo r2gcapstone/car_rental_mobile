@@ -154,7 +154,7 @@ export default function RegisterVehicle() {
         ) : (
           <ProceedBtn
             data={formData}
-            // disable={isFormDataEmpty(formData)}
+            disable={isFormDataEmpty(formData)}
             contProps={{ marginTop: 25, marginBottom: 40 }}
             btnProps={{ fontSize: 18 }}
             btnText={"Proceed"}

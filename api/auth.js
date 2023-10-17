@@ -68,7 +68,6 @@ export const signup = async (
       status: 201,
     };
   } catch (error) {
-    console.log(error);
     return { error: true, message: error.message, status: error.code };
   }
 };
@@ -85,6 +84,7 @@ export const login = async (email, password) => {
 
     //filter user data for context
     const userData = {
+      ownerId: user.uid,
       firstName: ownerData.firstName,
       lastName: ownerData.lastName,
       address: ownerData.address,

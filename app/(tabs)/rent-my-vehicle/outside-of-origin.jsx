@@ -41,6 +41,8 @@ const OutsideOfOrigin = () => {
       "province"
     ) || [];
 
+  const filteredDataArray = filteredData();
+
   // fetch data when screen is used for updating data
   const fetchData = async (id) => {
     try {
@@ -100,8 +102,8 @@ const OutsideOfOrigin = () => {
             </View>
           </View>
           {mode !== "update" &&
-            filteredData &&
-            filteredData.map((item, index) => {
+            filteredDataArray &&
+            filteredDataArray.map((item, index) => {
               if (
                 item.municipality_name !== data.pickupLocation.municipality.name
               ) {

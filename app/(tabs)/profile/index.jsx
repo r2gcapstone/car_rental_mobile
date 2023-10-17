@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 20,
     justifyContent: "space-between",
+    paddingBottom: 20,
   },
   row: {
     width: "100%",

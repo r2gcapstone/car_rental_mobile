@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   uploadContainer: {
     flex: 1,
-    height: 139,
+    height: 180,
     justifyContent: "center",
     alignItems: "center",
     alignContent: "center",
@@ -80,13 +80,14 @@ const styles = StyleSheet.create({
   },
   selectedImage: {
     width: "100%",
-    height: 139,
+    height: "100%",
     borderColor: "#fff",
     borderWidth: 2,
   },
   imageButton: {
     flex: 1,
     width: "100%",
+    objectFit: "contain",
   },
   caption: {
     alignSelf: "center",

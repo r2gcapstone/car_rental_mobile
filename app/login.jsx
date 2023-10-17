@@ -51,6 +51,7 @@ const SignInScreen = () => {
     if (response.userData) {
       setUser((prevUser) => ({
         ...prevUser, // Copy the previous user data
+        ownerId: response.userData.ownerId,
         firstName: response.userData.firstName,
         lastName: response.userData.lastName,
         address: response.userData.address,

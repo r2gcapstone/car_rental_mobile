@@ -109,7 +109,6 @@ const ApplicationInformation = () => {
       });
 
       if (isTracking && docIds.includes(data.docId)) {
-        console.log(isTracking);
         setDocIds((prevDocIds) => prevDocIds.filter((id) => id !== data.docId));
         updateRentalData({ ...location, status: "off" }, data.docId);
       }

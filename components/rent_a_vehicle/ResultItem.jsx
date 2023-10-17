@@ -17,8 +17,13 @@ import paymentIcon from "assets/icons/payment.png";
 import fuelIcon from "assets/icons/fuel.png";
 import locationIcon from "assets/icons/location.png";
 import pesoWhite from "assets/icons/pesoWhite.png";
+//hook
+import { useUserContext } from "context/UserContext";
 
 const ResultItem = ({ resultItem, dateTime }) => {
+  const { user } = useUserContext();
+  const { ownerId } = user;
+
   const iconAssets = {
     car: carIcon,
     user: userIcon,
@@ -33,6 +38,7 @@ const ResultItem = ({ resultItem, dateTime }) => {
   const { toSentenceCase } = useSentenceCase();
   const {
     id,
+    userId,
     vehicleDetails,
     imageUrls,
     pickupLocation,
@@ -59,9 +65,14 @@ const ResultItem = ({ resultItem, dateTime }) => {
           <Image style={styles.pesoIcon} source={pesoWhite} />
           <Text style={styles.priceText}> {priceRate} </Text>/ day
         </Text>
+
         <ProceedBtn
           data={newObject}
-          contProps={{ backgroundColor: colors.red.primary }}
+          disable={userId == ownerId}
+          contProps={{
+            backgroundColor: colors.red.primary,
+            opacity: userId == ownerId ? 0.8 : 1,
+          }}
           btnProps={{ fontSize: 12 }}
           btnText={"Apply for Renting"}
           path={"rent-a-vehicle/selected-vehicle"}

@@ -42,13 +42,10 @@ export const RegisterCar = async ({ data }) => {
         const promise = resizeImage(imageUrl, 640)
           .then((resizedImageUrl) => uploadImage(resizedImageUrl, "cars"))
           .then((downloadURL) => {
-            console.log(downloadURL);
             // Update the data with the download URL
             dataCopy.imageUrls[key] = downloadURL;
           })
-          .catch((error) =>
-            console.error(`Error processing image ${key}: ${error}`)
-          );
+          .catch((error) => alert(error));
 
         // Add the promise to the array
         promises.push(promise);
@@ -64,13 +61,10 @@ export const RegisterCar = async ({ data }) => {
         const promise = resizeImage(imageUrl, 640)
           .then((resizedImageUrl) => uploadImage(resizedImageUrl, "document"))
           .then((downloadURL) => {
-            console.log(downloadURL);
             // Update the data with the download URL
             dataCopy.document[key] = downloadURL;
           })
-          .catch((error) =>
-            console.error(`Error processing image ${key}: ${error}`)
-          );
+          .catch((error) => alert(error));
 
         // Add the promise to the array
         promises.push(promise);
@@ -89,7 +83,13 @@ export const RegisterCar = async ({ data }) => {
     const carId = docRef.id;
 
     // Update the document to include the carId
-    await updateDoc(docRef, { carId });
+    await updateDoc(docRef, {
+      carId,
+      subscriptionStatus: "not subscribed",
+      status: "not booked",
+      isHidden: false,
+      location: { status: "off" },
+    });
 
     return {
       message: "Vehicle successfully registered!",
@@ -142,7 +142,6 @@ export const getCars = async () => {
       vehicleSnapshot.docs.map(async (doc) => {
         const car = doc.data();
 
-        // console.log(car);
         if (car.status === "booked") {
           // Get a reference to the 'rentals' collection
           const rentalsRef = collection(db, "rentals");
@@ -185,11 +184,9 @@ export const getVehicleInfo = async (carId) => {
 
 //update vehicle information
 export const updateCarData = async (key, value, carId) => {
-  console.log("carId", carId);
   const date = new Date();
   const formatedDate = formatDate(date);
   try {
-    console.log(key, value, carId);
     await updateDoc(doc(db, "cars", carId), {
       [key]: value,
       dateUpdated: formatedDate,
@@ -315,62 +312,3 @@ export const deleteAVehicle = async (carId) => {
     return { error: true, message: error.message, status: error.code };
   }
 };
-
-// export const deleteAVehicle = async (carId) => {
-//   try {
-//     const user = auth.currentUser;
-//     const userId = user.uid;
-
-//     // Get a reference to the 'cars' collection
-//     const carsRef = collection(db, "cars");
-
-//     // Get a reference to the 'rentals' collection
-//     const rentalRef = collection(db, "rentals");
-
-//     // Create a query against the rentals collection
-//     let rentalQueryRef = query(
-//       rentalRef,
-//       where("carId", "==", carId),
-//       where("status", "==", "approved")
-//     );
-
-//     // Get all documents from rentals collection that satisfy the query
-//     const rentalQuerySnapshot = await getDocs(rentalQueryRef);
-
-//     console.log(carId);
-//     // Check if car is currently rented
-//     let isRented = false;
-//     rentalQuerySnapshot.forEach((doc) => {
-//       if (doc.exists()) {
-//         isRented = true;
-//       }
-//     });
-
-//     console.log(isRented);
-
-//     if (!isRented) {
-//       // Create a query against the cars collection
-//       let queryRef = doc(carsRef, carId);
-
-//       // // Delete the document
-//       const result = await deleteDoc(queryRef);
-//       console.log(result);
-
-//       return {
-//         message: "Deleted successfully!",
-//         error: false,
-//         status: 200,
-//       };
-//     } else {
-//       alert("Vehicle is currently rented and cannot be deleted!");
-
-//       return {
-//         message: "Car is currently rented and cannot be deleted.",
-//         error: true,
-//         status: 400,
-//       };
-//     }
-//   } catch (error) {
-//     return { error: true, message: error.message, status: error.code };
-//   }
-// };

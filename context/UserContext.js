@@ -9,7 +9,7 @@ export const useUserContext = () => {
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
-    id: null,
+    ownerId: null,
     firstName: "",
     lastName: "",
     address: "",
