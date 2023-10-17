@@ -195,9 +195,7 @@ const SelectedVehicle = () => {
         setIsGps(result.location.status === "off" ? false : true);
         setDocId(result.docId);
       }
-    } catch (error) {
-      alert(error);
-    }
+    } catch (error) {}
   };
 
   const fetchHiddenStatus = async (carId, modal) => {
@@ -208,50 +206,43 @@ const SelectedVehicle = () => {
           setIsGps(result.location.status === "off" ? false : true);
           setDocId(result.docId);
         }
-      } catch (error) {
-        alert(error);
-      }
+      } catch (error) {}
     } else if (modal === "m2") {
       try {
         const result = await getVehicleInfo(carId);
         if (!result.error) {
           setIsHidden(result.isHidden);
         }
-      } catch (error) {
-        alert(error);
-      }
+      } catch (error) {}
     }
   };
 
   const handleOkayBtn = async (docId, modal) => {
     if (modal === "m1") {
+      onClose("m1");
       try {
         await updateRentalData(isGps ? "off" : "on", docId);
         setIsGps((prev) => !prev);
-        onClose("m1");
       } catch (error) {
-        onClose("m1");
-        alert(error);
+        console.log(error);
       }
     } else if (modal === "m2") {
       try {
+        onClose("m2");
         await updateCarData("isHidden", !isHidden, docId);
         setIsHidden((prev) => !prev);
-        onClose("m2");
       } catch (error) {
-        onClose("m2");
-        alert(error);
+        console.log(error);
       }
     } else {
       try {
         const result = await deleteAVehicle(docId);
+        onClose("m3");
         if (!result.error) {
           router.push("/");
         }
-        onClose("m3");
       } catch (error) {
-        onClose("m3");
-        alert(error);
+        console.log(error);
       }
     }
   };

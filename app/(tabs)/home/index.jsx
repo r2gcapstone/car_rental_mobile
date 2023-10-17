@@ -30,9 +30,7 @@ export default function Homepage() {
           }
         });
       }
-    } catch (error) {
-      alert(error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
