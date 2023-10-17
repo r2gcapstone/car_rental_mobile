@@ -89,7 +89,13 @@ export const RegisterCar = async ({ data }) => {
     const carId = docRef.id;
 
     // Update the document to include the carId
-    await updateDoc(docRef, { carId });
+    await updateDoc(docRef, {
+      carId,
+      subscriptionStatus: "not subscribed",
+      status: "not booked",
+      isHidden: false,
+      location: { status: "off" },
+    });
 
     return {
       message: "Vehicle successfully registered!",
