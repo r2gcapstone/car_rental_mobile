@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
 
 //layout
@@ -33,6 +33,7 @@ const initialDateTimeValues = {
 
 export default function RentAVehicle() {
   const [dateTimeValues, setDateTimeValues] = useState(initialDateTimeValues);
+  const [isDate, setIsDate] = useState(true);
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
 
   const [filter, setFilter] = useState({
@@ -67,6 +68,21 @@ export default function RentAVehicle() {
       alert("No result found!");
     }
   };
+
+  useEffect(() => {
+    const { startRentDate, endRentDate } = dateTimeValues;
+
+    //check if endRentDate is not set
+
+    if (
+      startRentDate.toString() !== endRentDate.toString() &&
+      startRentDate < endRentDate
+    ) {
+      setIsDate(false);
+    } else {
+      setIsDate(true);
+    }
+  }, [dateTimeValues]);
 
   return (
     <MainLayout>
@@ -158,7 +174,8 @@ export default function RentAVehicle() {
             near you. (Required)
           </Text>
           <TouchableOpacity
-            style={styles.button}
+            disabled={isDate}
+            style={[styles.button, { opacity: isDate ? 0.5 : 1 }]}
             onPress={() => handleSearch()}
           >
             <Text style={styles.buttonText}>Search</Text>
