@@ -68,7 +68,6 @@ export const signup = async (
       status: 201,
     };
   } catch (error) {
-    console.log(error);
     return { error: true, message: error.message, status: error.code };
   }
 };

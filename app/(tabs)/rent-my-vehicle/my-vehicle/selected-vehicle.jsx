@@ -223,17 +223,13 @@ const SelectedVehicle = () => {
       try {
         await updateRentalData(isGps ? "off" : "on", docId);
         setIsGps((prev) => !prev);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     } else if (modal === "m2") {
       try {
         onClose("m2");
         await updateCarData("isHidden", !isHidden, docId);
         setIsHidden((prev) => !prev);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     } else {
       try {
         const result = await deleteAVehicle(docId);
@@ -241,9 +237,7 @@ const SelectedVehicle = () => {
         if (!result.error) {
           router.push("/");
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
   };
 
