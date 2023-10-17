@@ -85,6 +85,7 @@ export const login = async (email, password) => {
 
     //filter user data for context
     const userData = {
+      ownerId: user.uid,
       firstName: ownerData.firstName,
       lastName: ownerData.lastName,
       address: ownerData.address,
