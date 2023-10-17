@@ -154,7 +154,9 @@ const RentingItem = () => {
             alignItems: "center",
           }}
         >
-          <Text style={styles.text}>No Rental Application Found !</Text>
+          <Text style={{ textAlign: "center", marginTop: 20 }}>
+            No Rental Application Found !
+          </Text>
         </View>
       )}
       <LoadingComponent />
