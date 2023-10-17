@@ -1,15 +1,44 @@
 import { StyleSheet, Image, ScrollView, View } from "react-native";
-import React from "react";
-
+import React, { useEffect } from "react";
+import { getRentingDocs } from "../../../api/rental";
 //layout
 import MainLayout from "layouts/MainLayout";
 // Components
 import Text from "components/ThemedText";
 import Header from "components/home/Header";
-
+import { useLocationContext } from "context/LocationContext";
 import { colors } from "constants/Colors";
 
 export default function Homepage() {
+  const { setIsTracking, setDocIds } = useLocationContext();
+  const fetchTrackingStatus = async () => {
+    try {
+      const result = await getRentingDocs();
+      if (result && Array.isArray(result)) {
+        const hasOnStatus = result.some(
+          (item) => item.location.status === "on"
+        );
+        setIsTracking(hasOnStatus);
+        result.forEach((item) => {
+          if (item.location.status === "on") {
+            setDocIds((prevDocIds) => {
+              if (!prevDocIds.includes(item.docId)) {
+                return [...prevDocIds, item.docId];
+              }
+              return prevDocIds;
+            });
+          }
+        });
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTrackingStatus();
+  }, []);
+
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>

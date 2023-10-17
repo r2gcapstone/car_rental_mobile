@@ -30,6 +30,41 @@ export default function MyVehicleStack() {
           headerLeft: () => <CustomBackButton router={router} customText="" />,
         })}
       />
+      <Stack.Screen
+        name="tracker"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => (
+            <CustomBackButton
+              router={router}
+              customText="GPS Tracker for Vehicle"
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="buy-subscription"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => (
+            <CustomBackButton router={router} customText="Buy Subscription" />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="payment-info"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => <CustomBackButton router={router} customText="" />,
+        })}
+      />
+      <Stack.Screen
+        name="subscription-info"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => <CustomBackButton router={router} customText="" />,
+        })}
+      />
     </Stack>
   );
 }

@@ -14,7 +14,10 @@ export const searchAvailableCars = async (filter) => {
     const userId = user.uid;
     const carsRef = collection(db, "cars");
 
+    // Initialize queryRef with carsRef  and default filter
     let queryRef = query(carsRef, where("userId", "!=", userId));
+    queryRef = query(carsRef, where("subscriptionStatus", "==", "subscribed"));
+    queryRef = query(carsRef, where("isHidden", "==", false));
 
     const filters = [
       { key: "vehicleType", field: "vehicleType" },
@@ -56,6 +59,8 @@ export const searchAvailableCars = async (filter) => {
 
     return { searchResults: availableCars };
   } catch (error) {
-    return { error: true, message: error, status: error.code };
+    // If an error occurred, log it and return an error message
+    console.error("Error searching available cars:", error);
+    return { error: true, message: error.message, status: error.code };
   }
 };
