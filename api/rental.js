@@ -9,13 +9,15 @@ import {
   updateDoc,
   getDoc,
   addDoc,
+  Timestamp,
 } from "firebase/firestore";
-import formatDate from "../utils/formatDate";
+import formatdate from "utils/formatDate";
+import formatTime from "utils/formatTime";
 
 //Rent a car function
 export const RentCar = async (data) => {
-  let date = new Date();
-  const dateCreated = formatDate(date);
+  let dateCreated = new Date();
+  dateCreated = Timestamp.fromDate(dateCreated);
 
   try {
     const user = auth.currentUser;
@@ -41,7 +43,7 @@ export const RentCar = async (data) => {
         status: "pending",
         userId,
         ownerName,
-        dateCreated,
+        dateCreated: dateCreated,
       };
 
       // Add the document to the 'rentals' collection and get the docRef
@@ -52,8 +54,6 @@ export const RentCar = async (data) => {
 
       // Update the document with docId
       await updateDoc(docRef, rentalData);
-
-      console.log(rentalData);
 
       return {
         message: "Rent request successfully created!",
@@ -111,33 +111,53 @@ export const deleteRentRequest = async (docId) => {
 };
 
 //Get rental request based on userId
+
 export const getAllRentals = async (filter) => {
   try {
     const user = auth.currentUser;
     const userId = user.uid;
+    let currentDate = new Date();
 
-    // get rentals reference
+    // Get rentals reference
     const collectionRef = collection(db, "rentals");
 
     // Create a query against the collection
-    const q = query(collectionRef, where("ownerId", "==", userId));
+    const q = query(
+      collectionRef,
+      where("ownerId", "==", userId),
+      where("status", "==", "pending")
+    );
 
-    // get all rentals
+    // Get all rentals
     const rentalSnapshot = await getDocs(q);
 
     let rentals = [];
-    rentalSnapshot.docs.forEach((doc) => {
-      const rental = doc.data();
 
-      rentals.push(rental);
+    // Use map instead of forEach to return an array of promises
+    const rentalPromises = rentalSnapshot.docs.map(async (doc) => {
+      let rental = doc.data();
+
+      // Check if 24 hours have passed since dateCreated
+      const dateCreated = rental.dateCreated.toDate();
+
+      if (currentDate - dateCreated <= 24 * 60 * 60 * 1000) {
+        // Calculate the remaining hours
+        let remainingHours = Math.floor(
+          (24 * 60 * 60 * 1000 - (currentDate - dateCreated)) / (60 * 60 * 1000)
+        );
+
+        // Add a new key with the remaining hours as value
+        rental.remainingHours = remainingHours;
+
+        // Append the rental object to the rentals array
+        rentals.push(rental);
+      } else {
+        await updateRentalDataField("status", "declined", doc.id);
+      }
     });
 
-    // Filter rentals based on status
-    if (filter && filter.status) {
-      rentals = rentals.filter((rental) => rental.status === filter.status);
-    }
-
-    // console.log(JSON.stringify(rentals, null, 2));
+    // Wait for all promises to resolve
+    await Promise.all(rentalPromises);
 
     return rentals;
   } catch (error) {
@@ -219,6 +239,24 @@ export const updateRentalData = async (location, docId) => {
         "location.status": location,
       });
     }
+
+    return {
+      message: "update success!",
+      error: false,
+      status: 200,
+    };
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+export const updateRentalDataField = async (key, value, docId) => {
+  try {
+    const docRef = doc(db, "rentals/", docId);
+
+    await updateDoc(docRef, {
+      [key]: value,
+    });
 
     return {
       message: "update success!",
