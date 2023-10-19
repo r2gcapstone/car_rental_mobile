@@ -1,22 +1,26 @@
 import { db, auth } from "../services/firebaseConfig";
 import {
-  doc,
-  deleteDoc,
   collection,
   getDocs,
   query,
   where,
-  updateDoc,
-  getDoc,
   addDoc,
+  Timestamp,
 } from "firebase/firestore";
 import { router } from "expo-router";
 
 //subscribe function
 export const Subscribe = async (data) => {
+  let dateCreated = new Date();
+  dateCreated = Timestamp.fromDate(dateCreated);
   try {
     const user = auth.currentUser;
-    const newData = { ...data, userId: user.uid };
+    const newData = {
+      ...data,
+      userId: user.uid,
+      status: "pending",
+      dateCreated: dateCreated,
+    };
 
     // Get a reference to the 'rentals' collection
     const subscriptionCollection = collection(db, "subscription");

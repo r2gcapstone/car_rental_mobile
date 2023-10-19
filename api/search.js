@@ -10,13 +10,23 @@ import { db } from "../services/firebaseConfig";
 export const searchAvailableCars = async (filter) => {
   try {
     const carsRef = collection(db, "cars");
+    const rentalsRef = collection(db, "rentals");
 
-    // Initialize queryRef with carsRef  and default filter
+    // Get all rentals with pending status
+    const pendingRentalsSnapshot = await getDocs(
+      query(rentalsRef, where("status", "==", "pending"))
+    );
+    const pendingRentalsCarIds = pendingRentalsSnapshot.docs.map(
+      (doc) => doc.data().carId
+    );
+
+    // Initialize queryRef with carsRef and default filter
     let queryRef = query(
       carsRef,
       where("subscriptionStatus", "==", "subscribed"),
       where("status", "==", "not booked"),
-      where("isHidden", "==", false)
+      where("isHidden", "==", false),
+      where("__name__", "not-in", pendingRentalsCarIds)
     );
 
     const filters = [
