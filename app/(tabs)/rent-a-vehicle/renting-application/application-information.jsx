@@ -62,7 +62,7 @@ const ApplicationInformation = () => {
     {
       id: 8,
       label: "Method of Payment :",
-      value: toSentenceCase(paymentMethod),
+      value: paymentMethod,
     },
     { id: 9, label: "Rent Duration :", value: `${rentDuration} Day(s)` },
     { id: 10, label: "Price Rate (Per Day) :", value: priceRate },

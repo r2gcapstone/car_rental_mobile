@@ -9,18 +9,20 @@ import {
   doc,
   getDoc,
   deleteDoc,
-  limit,
+  Timestamp,
 } from "firebase/firestore";
 import { getAuth } from "@firebase/auth";
 //utils
 import resizeImage from "../utils/resizeImage";
 import uploadImage from "../utils/uploadImage";
-import formatDate from "utils/formatDate";
 
 const auth = getAuth(app);
 //POST
 //register car function
 export const RegisterCar = async ({ data }) => {
+  let dateCreated = new Date();
+  dateCreated = Timestamp.fromDate(dateCreated);
+
   try {
     const user = auth.currentUser;
     const userId = user.uid;
@@ -89,6 +91,7 @@ export const RegisterCar = async ({ data }) => {
       status: "not booked",
       isHidden: false,
       location: { status: "off" },
+      dateCreated: dateCreated,
     });
 
     return {
@@ -184,12 +187,13 @@ export const getVehicleInfo = async (carId) => {
 
 //update vehicle information
 export const updateCarData = async (key, value, carId) => {
-  const date = new Date();
-  const formatedDate = formatDate(date);
+  let dateUpdated = new Date();
+  dateUpdated = Timestamp.fromDate(dateUpdated);
+
   try {
     await updateDoc(doc(db, "cars", carId), {
       [key]: value,
-      dateUpdated: formatedDate,
+      dateUpdated: dateUpdated,
     });
 
     return {

@@ -26,7 +26,6 @@ import { getMyRentalLoc } from "api/rental";
 import { updateRentalData } from "api/rental";
 import { getVehicleInfo, updateCarData } from "api/cars";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
-import { hide } from "expo-splash-screen";
 import { deleteAVehicle } from "../../../../api/cars";
 
 const SelectedVehicle = () => {
@@ -40,7 +39,6 @@ const SelectedVehicle = () => {
   const [isGps, setIsGps] = useState(null);
   const [docId, setDocId] = useState(null);
   const [isHidden, setIsHidden] = useState(null);
-  const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
 
   const {
     imageUrls: { front },
@@ -229,7 +227,9 @@ const SelectedVehicle = () => {
         onClose("m2");
         await updateCarData("isHidden", !isHidden, docId);
         setIsHidden((prev) => !prev);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       try {
         const result = await deleteAVehicle(docId);

@@ -8,6 +8,7 @@ import Text from "components/ThemedText";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { router } from "expo-router";
 import { useIsFocused } from "@react-navigation/native";
+import formatdate from "utils/formatDate";
 
 const RentingItem = () => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
@@ -105,7 +106,7 @@ const RentingItem = () => {
                     {toSentenceCase(vehicleName)}
                   </Text>
                   <Text style={styles.text}>
-                    Application Date : {dateCreated}
+                    Application Date : {formatdate(dateCreated)}
                   </Text>
                   <Text style={styles.text}>
                     Vehicle Owner :{" "}

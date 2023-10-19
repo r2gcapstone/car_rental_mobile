@@ -19,7 +19,7 @@ export default function SuccessScreen() {
   const data = route?.params;
   const { caption, mode } = data;
   const handleNav = async (mode) => {
-    if (mode == "updatePass") {
+    if (mode == "updatePass" || mode == "updateEmail") {
       try {
         const response = await logout();
         if (!response.error) {
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    width: "90%",
+    width: "100%",
     gap: 20,
   },
   logo: { width: 182, height: 220 },

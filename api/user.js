@@ -1,5 +1,6 @@
+import { router } from "expo-router";
 import { auth, db } from "../services/firebaseConfig";
-import { updatePassword } from "firebase/auth";
+import { updatePassword, updateEmail } from "firebase/auth";
 import { updateDoc, doc, getDoc } from "firebase/firestore";
 import formatDate from "utils/formatDate";
 
@@ -52,7 +53,16 @@ export const updateAllUserData = async (data) => {
     const date = new Date();
     const formatedDate = formatDate(date);
 
-    updateDoc(doc(db, "users", user.uid), {
+    // update email in auth
+    if (data.email) {
+      try {
+        await updateEmail(user, data.email);
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+    await updateDoc(doc(db, "users", user.uid), {
       ...data,
       dateUpdated: formatedDate,
     });

@@ -19,11 +19,15 @@ export default function UpdateUserInformation() {
   const { user, setUser } = useUserContext();
   const { toSentenceCase } = useSentenceCase();
   const [updatedUser, setUpdatedUser] = useState(user);
-
   const { firstName, lastName, address, email, imageUrl, mobileNumber } =
     updatedUser;
 
+  const [isEmail, setIsEmail] = useState(false);
+
   const handleOnChangeText = (name, value) => {
+    if (name === "email") {
+      setIsEmail(true);
+    }
     setUpdatedUser((prev) => ({
       ...prev,
       [name]: value,
@@ -38,6 +42,7 @@ export default function UpdateUserInformation() {
           pathname: "profile/success-screen",
           params: {
             caption: "You have successfully updated your personal information",
+            mode: isEmail && "updateEmail",
           },
         });
       }

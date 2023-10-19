@@ -1,6 +1,5 @@
 import { Image, StyleSheet, View } from "react-native";
 import React from "react";
-
 import Text from "components/ThemedText";
 import { logout } from "api/auth";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -27,6 +26,11 @@ const Header = () => {
       console.error(error);
     }
   };
+
+  const handleBellOnPress = () => {
+    router.push("/notification");
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -34,10 +38,12 @@ const Header = () => {
         <Text style={styles.logoText}>R2G</Text>
       </View>
       <View style={styles.logoutContainer}>
-        <Image
-          source={require("assets/images/bell.png")}
-          style={styles.bellIcon}
-        />
+        <TouchableOpacity onPress={handleBellOnPress}>
+          <Image
+            source={require("assets/images/bell.png")}
+            style={styles.bellIcon}
+          />
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => setModal((prevValue) => !prevValue)}>
           <Image
             source={require("assets/images/logout.png")}

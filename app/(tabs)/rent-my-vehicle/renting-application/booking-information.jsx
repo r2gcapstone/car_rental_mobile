@@ -69,7 +69,7 @@ const BookingInformation = () => {
     {
       id: 9,
       label: "Method of Payment :",
-      value: toSentenceCase(paymentMethod),
+      value: paymentMethod,
     },
     { id: 10, label: "Rent Duration :", value: `${rentDuration} Day(s)` },
 

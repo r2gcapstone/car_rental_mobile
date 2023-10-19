@@ -13,6 +13,7 @@ import { useUserContext } from "context/UserContext";
 import useSentenceCase from "hooks/useSentenceCase";
 import { colors } from "constants/Colors";
 import { router } from "expo-router";
+import formatDate from "utils/formatDate";
 
 export default function Profile() {
   const { user } = useUserContext();
@@ -56,7 +57,7 @@ export default function Profile() {
               {toSentenceCase(firstName) + " " + toSentenceCase(lastName)}
             </Text>
             <Text style={styles.text}>Account Created :</Text>
-            <Text style={styles.text}>{dateCreated}</Text>
+            <Text style={styles.text}>{formatDate(dateCreated)}</Text>
           </View>
           <View style={styles.row}>
             <View style={styles.headerContainer}>

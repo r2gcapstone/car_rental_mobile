@@ -4,7 +4,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth, db } from "../services/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
 //utils
 import resizeImage from "../utils/resizeImage";
 import uploadImage from "../utils/uploadImage";
@@ -23,14 +23,9 @@ export const signup = async (
   agreeToTerms
 ) => {
   let dateCreated = new Date();
-  const deactivatedAt = "";
-  const formattedDate = dateCreated.toLocaleDateString("en-US", {
-    month: "2-digit",
-    day: "2-digit",
-    year: "numeric",
-  });
-  dateCreated = formattedDate;
+  dateCreated = Timestamp.fromDate(dateCreated);
 
+  const deactivatedAt = null;
   try {
     // Signup using createUserWithEmailAndPassword function of firebase
     await createUserWithEmailAndPassword(auth, email, password);
@@ -74,6 +69,8 @@ export const signup = async (
 
 // Login function
 export const login = async (email, password) => {
+  let date = new Date();
+  let dateCreated = Timestamp.fromDate(date);
   try {
     await signInWithEmailAndPassword(auth, email, password);
 
@@ -91,7 +88,7 @@ export const login = async (email, password) => {
       email: ownerData.email,
       imageUrl: ownerData.imageUrl,
       mobileNumber: ownerData.mobileNumber,
-      dateCreated: ownerData.dateCreated,
+      dateCreated: dateCreated,
     };
 
     return {

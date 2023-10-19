@@ -1,6 +1,6 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack, router } from "expo-router";
 import { useEffect } from "react";
 //components
 import ThemeContext from "context/ThemeContext";
@@ -8,6 +8,8 @@ import DefaultTheme from "constants/Theme";
 //userContext
 import { UserProvider } from "context/UserContext";
 import { LocationProvider } from "context/LocationContext";
+import { TouchableOpacity, StyleSheet, Image, Text } from "react-native";
+import { colors } from "constants/Colors";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -39,6 +41,13 @@ export default function RootLayout() {
 
   return <RootLayoutNav />;
 }
+const headerProp = {
+  headerTintColor: "#fff",
+  headerStyle: {
+    backgroundColor: colors.blue.dark,
+  },
+  title: "",
+};
 
 function RootLayoutNav() {
   return (
@@ -72,6 +81,18 @@ function RootLayoutNav() {
               name="(sign-up)/success-modal"
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="(notification)/notification"
+              options={() => ({
+                ...headerProp,
+                headerLeft: () => (
+                  <CustomBackButton
+                    router={router}
+                    customText="Notifications"
+                  />
+                ),
+              })}
+            />
 
             {/* tabs*/}
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -81,3 +102,26 @@ function RootLayoutNav() {
     </ThemeContext.Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  backBtn: {
+    height: 20,
+    width: 20,
+    padding: 4,
+    transform: [{ rotate: "180deg" }],
+  },
+});
+
+const CustomBackButton = ({ customText, router }) => (
+  <TouchableOpacity
+    style={{
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 8,
+    }}
+    onPress={() => router.back()}
+  >
+    <Image style={styles.backBtn} source={require("assets/icons/arrow.png")} />
+    <Text style={{ color: "#fff", fontSize: 18 }}>{customText}</Text>
+  </TouchableOpacity>
+);
