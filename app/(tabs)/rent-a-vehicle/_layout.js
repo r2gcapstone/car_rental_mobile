@@ -72,6 +72,8 @@ const styles = StyleSheet.create({
 const CustomBackButton = ({ customText, router }) => (
   <TouchableOpacity
     style={{
+      marginTop: 40, // emulator
+      paddingBottom: 10, // emulator
       flexDirection: "row",
       alignItems: "center",
       gap: 8,
