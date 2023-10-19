@@ -13,6 +13,7 @@ import useSentenceCase from "hooks/useSentenceCase";
 import { colors } from "constants/Colors";
 import { router } from "expo-router";
 import { useIsFocused } from "@react-navigation/native";
+import formatDate from "utils/formatDate";
 
 const ApplicantsList = () => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
@@ -23,8 +24,7 @@ const ApplicantsList = () => {
   const getRentals = async () => {
     try {
       showLoading();
-      const filter = { status: "pending" };
-      const result = await getAllRentals(filter);
+      const result = await getAllRentals();
       if (Array.isArray(result)) {
         setData(result);
       }
@@ -82,7 +82,7 @@ const ApplicantsList = () => {
                   </View>
                 </View>
                 <View style={styles.col2}>
-                  <Text style={styles.dateText}>{dateCreated.toString()}</Text>
+                  <Text style={styles.text}>{formatDate(dateCreated)}</Text>
                 </View>
               </View>
             </TouchableOpacity>
@@ -147,11 +147,9 @@ const styles = StyleSheet.create({
   renteeName: {
     fontSize: 14,
     fontWeight: "bold",
+    color: colors.white[1],
   },
-  dateText: {
-    fontSize: 12,
-  },
-  text: {},
+  text: { color: colors.white[1] },
   container2: {
     flex: 1,
     marginTop: -100,

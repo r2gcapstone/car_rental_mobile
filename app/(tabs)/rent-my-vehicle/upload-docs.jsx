@@ -7,7 +7,6 @@ import { useRoute } from "@react-navigation/native";
 import UploadImageBtn from "components/button/UploadImageBtn";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { router } from "expo-router";
-import formatdate from "utils/formatDate";
 import { getVehicleInfo, updateCarData, RegisterCar } from "api/cars";
 
 const initialState = {
@@ -24,10 +23,6 @@ const UploadDocs = () => {
   const { mode, carId, label } = data;
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const [document, setDocument] = useState(initialState);
-  const currentDate = new Date();
-
-  //format date
-  const formattedDate = formatdate(currentDate);
 
   //check fields if empty
   const isFieldEmpty = (document) => {
@@ -43,7 +38,6 @@ const UploadDocs = () => {
   const registerVehicle = {
     ...data,
     document: document,
-    dateCreated: formattedDate,
   };
 
   const handlePress = async () => {

@@ -7,8 +7,8 @@ import Text from "components/ThemedText";
 import ProceedBtn from "components/button/ProceedBtn";
 import { useUserContext } from "context/UserContext";
 //utils
-import formatdate from "utils/formatDate";
-import formatTime from "utils/formatTime";
+import formatdate2 from "utils/formatDate2";
+import formatTime2 from "utils/formatTime2";
 import countTotalDays from "utils/calculateDays";
 //icon
 import peso from "assets/icons/pesoWhite.png";
@@ -42,10 +42,10 @@ const RentingInfo = () => {
   const dropOff = `${d.streetName}, ${d.houseNumber}, ${d.barangay.name}, ${d.municipality.name}, ${d.zipCode} ${d.province.name}`;
 
   //format dates
-  const startDate = formatdate(startRentDate);
-  const endDate = formatdate(endRentDate);
-  const startTime = formatTime(startRentTime);
-  const endTime = formatTime(endRentTime);
+  const startDate = formatdate2(startRentDate);
+  const endDate = formatdate2(endRentDate);
+  const startTime = formatTime2(startRentTime);
+  const endTime = formatTime2(endRentTime);
 
   const bookingArray = [
     { id: 1, label: "Start Rent Date:", value: startDate },
