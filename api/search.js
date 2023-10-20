@@ -7,6 +7,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { db } from "../services/firebaseConfig";
+
 export const searchAvailableCars = async (filter) => {
   try {
     const carsRef = collection(db, "cars");
@@ -25,9 +26,16 @@ export const searchAvailableCars = async (filter) => {
       carsRef,
       where("subscriptionStatus", "==", "subscribed"),
       where("status", "==", "not booked"),
-      where("isHidden", "==", false),
-      where("__name__", "not-in", pendingRentalsCarIds)
+      where("isHidden", "==", false)
     );
+
+    // Add the not-in condition only if there are pending rentals
+    if (pendingRentalsCarIds.length > 0) {
+      queryRef = query(
+        queryRef,
+        where("__name__", "not-in", pendingRentalsCarIds)
+      );
+    }
 
     const filters = [
       { key: "vehicleType", field: "vehicleType" },
