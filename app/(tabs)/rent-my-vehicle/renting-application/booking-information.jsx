@@ -13,6 +13,10 @@ import Text from "components/ThemedText";
 import ConfirmationModal from "components/modal/ConfirmationModal";
 import { getUserData } from "api/user";
 import { rentalRequest } from "api/rental";
+import formatDate from "utils/formatDate";
+import formatTime from "utils/formatTime";
+import { Timestamp } from "firebase/firestore";
+
 //icon
 import peso from "assets/icons/pesoWhite.png";
 //layout
@@ -37,7 +41,7 @@ const BookingInformation = () => {
   const {
     vehicleDetails: { vehicleName },
     imageUrl,
-    dateTime: { startDate, endDate, startTime, endTime },
+    dateTime,
     pickupLocation,
     dropoffLocation,
     paymentMethod,
@@ -52,6 +56,13 @@ const BookingInformation = () => {
 
   const renteeId = userId;
 
+  const convertedDateTime = {
+    startDate: Timestamp.fromDate(new Date(dateTime.startDate.seconds * 1000)),
+    startTime: Timestamp.fromDate(new Date(dateTime.startTime.seconds * 1000)),
+    endDate: Timestamp.fromDate(new Date(dateTime.endDate.seconds * 1000)),
+    endTime: Timestamp.fromDate(new Date(dateTime.endTime.seconds * 1000)),
+  };
+
   const p = { ...pickupLocation };
   const d = { ...dropoffLocation };
   const pickUp = `${p.streetName}, ${p.houseNumber}, ${p.barangay.name}, ${p.municipality.name}, ${p.zipCode} ${p.province.name}`;
@@ -59,10 +70,26 @@ const BookingInformation = () => {
 
   const dataArray = [
     { id: 1, label: "Vehicle to Rent :", value: toSentenceCase(vehicleName) },
-    { id: 2, label: "Pick-up Date :", value: startDate },
-    { id: 3, label: "Pick-up Time :", value: startTime },
-    { id: 4, label: "Drop-off Date :", value: endDate },
-    { id: 5, label: "End Rent Time : ", value: endTime },
+    {
+      id: 2,
+      label: "Pick-up Date :",
+      value: formatDate(convertedDateTime.startDate),
+    },
+    {
+      id: 3,
+      label: "Pick-up Time :",
+      value: formatTime(convertedDateTime.startTime),
+    },
+    {
+      id: 4,
+      label: "Drop-off Date :",
+      value: formatDate(convertedDateTime.endDate),
+    },
+    {
+      id: 5,
+      label: "End Rent Time : ",
+      value: formatTime(convertedDateTime.endTime),
+    },
     { id: 6, label: "Pick-up Location :", value: toSentenceCase(pickUp) },
     { id: 7, label: "Drop-off Location :", value: toSentenceCase(dropOff) },
     { id: 8, label: "Price Rate (Per Day) :", value: priceRate },

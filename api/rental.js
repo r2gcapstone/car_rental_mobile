@@ -16,43 +16,47 @@ import formatTime from "utils/formatTime";
 
 //Rent a car function
 export const RentCar = async (data) => {
-  let dateCreated = new Date();
-  dateCreated = Timestamp.fromDate(dateCreated);
-
   try {
     const user = auth.currentUser;
     const userId = user.uid;
     const ownerId = data.rentInformation.ownerId;
 
-    // Get a reference to the 'rentals' collection
     const rentalsCollection = collection(db, "rentals");
-    // Get a reference to the 'users' collection
     const usersCollection = collection(db, "users");
 
-    // Fetch the user document using the ownerId
     const userDoc = doc(usersCollection, ownerId);
     const userSnapshot = await getDoc(userDoc);
 
-    // Check if the user document exists
     if (userSnapshot.exists()) {
       const userData = userSnapshot.data();
       const ownerName = userData.firstName;
 
-      let rentalData = {
+      const dateCreated = Timestamp.now();
+
+      const rentalData = {
         ...data.rentInformation,
         status: "pending",
         userId,
         ownerName,
-        dateCreated: dateCreated,
+        dateCreated,
+        dateTime: {
+          startDate: Timestamp.fromDate(
+            new Date(data.rentInformation.dateTime.startRentDate.seconds * 1000)
+          ),
+          startTime: Timestamp.fromDate(
+            new Date(data.rentInformation.dateTime.startRentTime.seconds * 1000)
+          ),
+          endDate: Timestamp.fromDate(
+            new Date(data.rentInformation.dateTime.endRentDate.seconds * 1000)
+          ),
+          endTime: Timestamp.fromDate(
+            new Date(data.rentInformation.dateTime.endRentTime.seconds * 1000)
+          ),
+        },
       };
 
-      // Add the document to the 'rentals' collection and get the docRef
-      let docRef = await addDoc(rentalsCollection, rentalData);
-
-      // Add docId to rentalData
+      const docRef = await addDoc(rentalsCollection, rentalData);
       rentalData.docId = docRef.id;
-
-      // Update the document with docId
       await updateDoc(docRef, rentalData);
 
       return {

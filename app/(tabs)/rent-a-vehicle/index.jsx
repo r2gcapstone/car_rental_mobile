@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
+import { Timestamp } from "firebase/firestore";
 
 //layout
 import MainLayout from "layouts/MainLayout";
@@ -49,7 +50,6 @@ export default function RentAVehicle() {
   const handleOnhangeText = (name, value) => {
     setFilter({ ...filter, [name]: value });
   };
-
   const handleSearch = async () => {
     try {
       showLoading();
@@ -59,7 +59,17 @@ export default function RentAVehicle() {
       if (result.error) {
         return alert("No result found!");
       }
-      const data = { result, dateTime: dateTimeValues };
+
+      const { startRentDate, startRentTime, endRentDate, endRentTime } =
+        dateTimeValues;
+      const newDateObject = {
+        startRentDate: Timestamp.fromDate(startRentDate),
+        startRentTime: Timestamp.fromDate(startRentTime),
+        endRentDate: Timestamp.fromDate(endRentDate),
+        endRentTime: Timestamp.fromDate(endRentTime),
+      };
+
+      const data = { result, dateTime: newDateObject };
       router.push({
         pathname: "rent-a-vehicle/search-result",
         params: { data: JSON.stringify(data) },

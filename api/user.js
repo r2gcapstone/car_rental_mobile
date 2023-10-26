@@ -1,8 +1,6 @@
-import { router } from "expo-router";
 import { auth, db } from "../services/firebaseConfig";
 import { updatePassword, updateEmail } from "firebase/auth";
 import { updateDoc, doc, getDoc, Timestamp } from "firebase/firestore";
-import formatDate from "utils/formatDate";
 
 // Function to update user data from Firestore
 export const updateUserData = async (key, value) => {
