@@ -17,6 +17,7 @@ export const UserProvider = ({ children }) => {
     imageUrl: "",
     mobileNumber: "",
     dateCreated: "",
+    notifCount: 0,
   });
 
   // You can add functions to update user details here if needed

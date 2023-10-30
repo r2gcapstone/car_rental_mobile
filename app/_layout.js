@@ -93,6 +93,15 @@ function RootLayoutNav() {
                 ),
               })}
             />
+            <Stack.Screen
+              name="(notification)/write-review"
+              options={() => ({
+                ...headerProp,
+                headerLeft: () => (
+                  <CustomBackButton router={router} customText="" />
+                ),
+              })}
+            />
 
             {/* tabs*/}
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

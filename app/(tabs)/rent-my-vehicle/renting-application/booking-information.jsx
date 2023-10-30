@@ -12,7 +12,7 @@ import useSentenceCase from "hooks/useSentenceCase";
 import Text from "components/ThemedText";
 import ConfirmationModal from "components/modal/ConfirmationModal";
 import { getUserData } from "api/user";
-import { rentalRequest } from "api/rental";
+import { rentalRequest, updateRentalDataField } from "api/rental";
 import formatDate from "utils/formatDate";
 import formatTime from "utils/formatTime";
 import { Timestamp } from "firebase/firestore";
@@ -27,6 +27,7 @@ const BookingInformation = () => {
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
+  const from = route.params?.from;
   const { toSentenceCase } = useSentenceCase();
   const newObject = { ...data };
   const [modal, setModal] = useState(false);
@@ -119,7 +120,7 @@ const BookingInformation = () => {
         await rentalRequest(docId, "approved", carId);
         router.push({
           pathname: path,
-          params: { choice },
+          params: { choice, from },
         });
       } catch (error) {
         alert(error);
@@ -129,7 +130,7 @@ const BookingInformation = () => {
         await rentalRequest(docId, "declined");
         router.push({
           pathname: path,
-          params: { choice },
+          params: { choice, from },
         });
       } catch (error) {
         alert(error);

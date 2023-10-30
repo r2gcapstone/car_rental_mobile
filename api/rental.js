@@ -11,8 +11,6 @@ import {
   addDoc,
   Timestamp,
 } from "firebase/firestore";
-import formatdate from "utils/formatDate";
-import formatTime from "utils/formatTime";
 
 //Rent a car function
 export const RentCar = async (data) => {
@@ -37,6 +35,7 @@ export const RentCar = async (data) => {
         ...data.rentInformation,
         status: "pending",
         userId,
+        reviewed: false,
         ownerName,
         dateCreated,
         dateTime: {
@@ -115,8 +114,7 @@ export const deleteRentRequest = async (docId) => {
 };
 
 //Get rental request based on userId
-
-export const getAllRentals = async (filter) => {
+export const getAllRentals = async () => {
   try {
     const user = auth.currentUser;
     const userId = user.uid;
@@ -269,5 +267,52 @@ export const updateRentalDataField = async (key, value, docId) => {
     };
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
+  }
+};
+
+//Get notification for finished rental using userId
+export const getFinishedRental = async () => {
+  try {
+    const user = auth.currentUser;
+    const userId = user.uid;
+    let currentDate = new Date();
+
+    // Get rentals reference
+    const collectionRef = collection(db, "rentals");
+
+    // Create a query against the collection
+    const q = query(
+      collectionRef,
+      where("userId", "==", userId),
+      where("reviewed", "==", false)
+    );
+
+    // Get all rentals
+    const rentalSnapshot = await getDocs(q);
+
+    let rentals = [];
+
+    // Use map instead of forEach to return an array of promises
+    const rentalPromises = rentalSnapshot.docs.map(async (doc) => {
+      let rental = doc.data();
+
+      const endDate = rental.dateTime.endDate.toDate();
+      const status = rental.status;
+
+      if (
+        (currentDate >= endDate && status === "approved") ||
+        status === "finished"
+      ) {
+        rentals.push(rental);
+        await updateRentalDataField("status", "finished", doc.id);
+      }
+    });
+
+    // Wait for all promises to resolve
+    await Promise.all(rentalPromises);
+
+    return rentals;
+  } catch (error) {
+    return { status: "error", message: error.message };
   }
 };

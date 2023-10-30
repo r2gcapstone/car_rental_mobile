@@ -1,15 +1,24 @@
 import { StyleSheet, View, Image } from "react-native";
 import React, { useEffect, useState } from "react";
-import { getAllRentals } from "api/rental";
+import {
+  getAllRentals,
+  getFinishedRental,
+  updateRentalDataField,
+} from "api/rental";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { colors } from "constants/Colors";
 import Text from "components/ThemedText";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { router } from "expo-router";
+import { useIsFocused } from "@react-navigation/native";
+import { useUserContext } from "context/UserContext";
 
 const NotificationList = () => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const [data, setData] = useState([]);
+  const [finishedRental, setFinishedRental] = useState([]);
+  const isFocused = useIsFocused();
+  const { user, setUser } = useUserContext();
 
   const getRentingDetails = async () => {
     try {
@@ -17,6 +26,17 @@ const NotificationList = () => {
       const result = await getAllRentals();
       if (Array.isArray(result)) {
         setData(result);
+      }
+    } catch (error) {
+      alert("There has been an error fetching Rental Notification.");
+    }
+  };
+
+  const finishedRentals = async () => {
+    try {
+      const result = await getFinishedRental();
+      if (Array.isArray(result)) {
+        setFinishedRental(result);
       }
       hideLoading();
     } catch (error) {
@@ -28,52 +48,91 @@ const NotificationList = () => {
   const handleOnPress = (index) => {
     if (data[index]) {
       router.push({
-        pathname: "rent-a-vehicle/renting-application/application-information",
-        params: { data: JSON.stringify(data[index]) },
+        pathname: "rent-my-vehicle/renting-application/booking-information",
+        params: { data: JSON.stringify(data[index]), from: "notification" },
       });
-    } else {
-      router.push("rent-a-vehicle/renting-application/application-information");
     }
   };
 
+  const handleOnPressReview = (index) => {
+    if (finishedRental[index]) {
+      router.push({
+        pathname: "(notification)/write-review",
+        params: { data: JSON.stringify(finishedRental[index]) },
+      });
+    } else {
+      router.push("(notification)/write-review");
+    }
+  };
+
+  //set field to viewed
+  const updateFields = async () => {
+    for (let { docId } of data) {
+      await updateRentalDataField("viewed", true, docId);
+    }
+    for (let { docId } of finishedRental) {
+      await updateRentalDataField("viewed", true, docId);
+    }
+  };
+
+  //run using sideeffect
   useEffect(() => {
-    getRentingDetails();
-  }, []);
+    setUser({ ...user, notifCount: 0 });
+    updateFields();
+  }, [data, finishedRental]);
+
+  useEffect(() => {
+    if (isFocused) {
+      getRentingDetails();
+      finishedRentals();
+    }
+  }, [isFocused]);
 
   return (
     <View style={styles.wrapper}>
-      {data.length > 0 ? (
-        data.map(({ imageUrl, remainingHours }, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[styles.container]}
-            onPress={() => handleOnPress(index)}
-          >
-            <View style={styles.row}>
-              <Image style={styles.img} source={{ uri: imageUrl }} />
-              <View style={styles.col}>
-                <Text style={styles.Message}>
-                  You have {remainingHours.toString()} hour(s) remaining to
-                  respond to this application for renting your vehicle.
-                </Text>
+      <View style={styles.wrapper2}>
+        {data.length > 0 &&
+          data.map(({ imageUrl, remainingHours }, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[styles.container]}
+              onPress={() => handleOnPress(index)}
+            >
+              <View style={styles.row}>
+                <Image style={styles.img} source={{ uri: imageUrl }} />
+                <View style={styles.col}>
+                  <Text style={styles.Message}>
+                    You have {remainingHours.toString()} hour(s) remaining to
+                    respond to this application for renting your vehicle.
+                  </Text>
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        ))
-      ) : (
-        <View
-          style={{
-            flex: 1,
-            width: "100%",
-            justifyContent: "center",
-            margin: "auto",
-            height: "auto",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ textAlign: "center", marginTop: 20 }}>
-            No Notification Found !
-          </Text>
+            </TouchableOpacity>
+          ))}
+      </View>
+      <View style={styles.wrapper2}>
+        {finishedRental.length > 0 &&
+          finishedRental.map(({ imageUrl }, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[styles.container]}
+              onPress={() => handleOnPressReview(index)}
+            >
+              <View style={styles.row}>
+                <Image style={styles.img} source={{ uri: imageUrl }} />
+                <View style={styles.col}>
+                  <Text style={styles.Message}>
+                    As your rental with this vehicle comes to an end, we kindly
+                    ask for your valuable review and rating.
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          ))}
+      </View>
+      {finishedRental.length === 0 && data.length === 0 && (
+        <View style={{ marginTop: 20 }}>
+          <Text style={{ textAlign: "center" }}>No notification found !</Text>
         </View>
       )}
       <LoadingComponent />
