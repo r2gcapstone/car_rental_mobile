@@ -22,6 +22,7 @@ import GearShiftDropdown from "components/rent_a_vehicle/GearType";
 import FuelTypeDropdown from "components/rent_a_vehicle/FuelType";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import InputField from "components/InputField";
+import { updateSubscription } from "api/subscription";
 
 import { colors } from "constants/Colors";
 
@@ -51,6 +52,9 @@ export default function RentAVehicle() {
     setFilter({ ...filter, [name]: value });
   };
   const handleSearch = async () => {
+    //update here also the subscription status for all documents
+    //Not recommended but it works for now.
+    updateSubscription();
     try {
       showLoading();
       const result = await searchAvailableCars(filter);

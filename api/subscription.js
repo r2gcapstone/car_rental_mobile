@@ -6,8 +6,12 @@ import {
   where,
   addDoc,
   Timestamp,
+  updateDoc,
+  doc,
 } from "firebase/firestore";
 import { router } from "expo-router";
+import countTotalDays from "utils/calculateDays";
+import { updateCarData } from "./cars";
 
 //subscribe function
 export const Subscribe = async (data) => {
@@ -98,5 +102,62 @@ export const getAllSubscription = async () => {
     return subscription;
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
+  }
+};
+
+//update vehicle information
+export const updateSubscriptionData = async (key, value, docId) => {
+  let dateUpdated = new Date();
+  dateUpdated = Timestamp.fromDate(dateUpdated);
+
+  try {
+    await updateDoc(doc(db, "subscription", docId), {
+      [key]: value,
+      dateUpdated: dateUpdated,
+    });
+
+    return {
+      message: "update success!",
+      error: false,
+      status: 200,
+    };
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+//update subscription status when it expires
+//Note: not recommended but it works for now
+export const updateSubscription = async () => {
+  try {
+    let currentDate = new Date();
+
+    // Get a reference to the 'subscription' collection
+    const subscriptionCollection = collection(db, "subscription");
+
+    const querySnapshot = await getDocs(subscriptionCollection);
+
+    querySnapshot.docs.forEach((doc) => {
+      const sub = doc.data();
+      let days = 0;
+
+      const dateCreated = sub.dateCreated;
+      const duration = sub.duration;
+
+      if (currentDate > dateCreated) {
+        days = countTotalDays(dateCreated.toDate(), currentDate);
+        if (days > duration) {
+          updateCarData("subscriptionStatus", "not subscribed", sub.carId);
+        }
+      }
+    });
+
+    return {
+      message: "update success!",
+      error: false,
+      status: 200,
+    };
+  } catch (error) {
+    return { status: "error", message: error.message };
   }
 };

@@ -10,6 +10,7 @@ import LoadingAnimation from "components/LoadingAnimation";
 import { StatusBar } from "react-native";
 import { useUserContext } from "context/UserContext";
 import useNotifications from "hooks/useNotifications";
+import { updateSubscription } from "api/subscription";
 
 const Header = () => {
   const [modal, setModal] = useState(false);
@@ -39,6 +40,9 @@ const Header = () => {
     setUser({ ...user, notifCount: notifCount });
   }, [notifCount]);
 
+  useEffect(() => {
+    updateSubscription();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>

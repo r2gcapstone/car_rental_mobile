@@ -11,6 +11,8 @@ import {
   addDoc,
   Timestamp,
 } from "firebase/firestore";
+import { updateCarData } from "./cars";
+import countTotalDays from "utils/calculateDays";
 
 //Rent a car function
 export const RentCar = async (data) => {
@@ -36,6 +38,7 @@ export const RentCar = async (data) => {
         status: "pending",
         userId,
         reviewed: false,
+        viewed: false,
         ownerName,
         dateCreated,
         dateTime: {
@@ -297,6 +300,7 @@ export const getFinishedRental = async () => {
       let rental = doc.data();
 
       const endDate = rental.dateTime.endDate.toDate();
+      const startDate = rental.dateTime.startDate.toDate();
       const status = rental.status;
 
       if (
@@ -305,6 +309,11 @@ export const getFinishedRental = async () => {
       ) {
         rentals.push(rental);
         await updateRentalDataField("status", "finished", doc.id);
+        //always ask user for review and highlight in notif the count
+        await updateRentalDataField("viewed", false, doc.id);
+
+        //reset car data status
+        await updateCarData("status", "not booked", rental.carId);
       }
     });
 
@@ -312,6 +321,56 @@ export const getFinishedRental = async () => {
     await Promise.all(rentalPromises);
 
     return rentals;
+  } catch (error) {
+    return { status: "error", message: error.message };
+  }
+};
+
+//update renting duration for approved rental request
+export const updateRentingDuration = async () => {
+  try {
+    const user = auth.currentUser;
+    const userId = user.uid;
+    let currentDate = new Date();
+
+    // Get rentals reference
+    const collectionRef = collection(db, "rentals");
+
+    // Create a query against the collection
+    const q = query(
+      collectionRef,
+      // all users will act as trigger to update duration since no cloud function is used
+      where("status", "==", "approved")
+    );
+
+    // Get all rentals
+    const rentalSnapshot = await getDocs(q);
+
+    // Use map instead of forEach to return an array of promises
+    const rentalPromises = rentalSnapshot.docs.map(async (doc) => {
+      let rental = doc.data();
+
+      const endDate = rental.dateTime.endDate.toDate();
+      const startDate = rental.dateTime.startDate.toDate();
+
+      //Reduce rent duration based on current date
+      if (currentDate >= startDate && currentDate <= endDate) {
+        //calculate total days
+        const updateRentDuration = countTotalDays(currentDate, endDate);
+        console.log(updateRentDuration);
+        //calculate total payment based on rate or outside rate per day if destination data is provided
+        await updateRentalDataField("rentDuration", updateRentDuration, doc.id);
+      }
+    });
+
+    // Wait for all promises to resolve
+    await Promise.all(rentalPromises);
+
+    return {
+      message: "update success!",
+      error: false,
+      status: 200,
+    };
   } catch (error) {
     return { status: "error", message: error.message };
   }

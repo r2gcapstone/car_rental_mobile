@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import * as Location from "expo-location";
 import formatTimeStamp from "utils/formatTimeStamp";
 import { updateRentalData } from "api/rental";
+import { updateRentingDuration } from "api/rental";
 
 const LocationContext = createContext();
 export const useLocationContext = () => {
