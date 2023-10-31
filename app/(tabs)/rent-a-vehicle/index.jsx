@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
+import { Timestamp } from "firebase/firestore";
 
 //layout
 import MainLayout from "layouts/MainLayout";
@@ -21,6 +22,7 @@ import GearShiftDropdown from "components/rent_a_vehicle/GearType";
 import FuelTypeDropdown from "components/rent_a_vehicle/FuelType";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import InputField from "components/InputField";
+import { updateSubscription } from "api/subscription";
 
 import { colors } from "constants/Colors";
 
@@ -49,8 +51,10 @@ export default function RentAVehicle() {
   const handleOnhangeText = (name, value) => {
     setFilter({ ...filter, [name]: value });
   };
-
   const handleSearch = async () => {
+    //update here also the subscription status for all documents
+    //Not recommended but it works for now.
+    updateSubscription();
     try {
       showLoading();
       const result = await searchAvailableCars(filter);
@@ -59,7 +63,17 @@ export default function RentAVehicle() {
       if (result.error) {
         return alert("No result found!");
       }
-      const data = { result, dateTime: dateTimeValues };
+
+      const { startRentDate, startRentTime, endRentDate, endRentTime } =
+        dateTimeValues;
+      const newDateObject = {
+        startRentDate: Timestamp.fromDate(startRentDate),
+        startRentTime: Timestamp.fromDate(startRentTime),
+        endRentDate: Timestamp.fromDate(endRentDate),
+        endRentTime: Timestamp.fromDate(endRentTime),
+      };
+
+      const data = { result, dateTime: newDateObject };
       router.push({
         pathname: "rent-a-vehicle/search-result",
         params: { data: JSON.stringify(data) },

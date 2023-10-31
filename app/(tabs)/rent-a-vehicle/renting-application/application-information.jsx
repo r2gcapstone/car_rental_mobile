@@ -7,10 +7,12 @@ import useSentenceCase from "hooks/useSentenceCase";
 import Text from "components/ThemedText";
 import ConfirmationModal from "components/modal/ConfirmationModal";
 import { deleteRentRequest } from "api/rental";
+import formatDate2 from "utils/formatDate2";
+import formatTime2 from "utils/formatTime2";
+import { Timestamp } from "firebase/firestore";
 //context
 import { useLocationContext } from "context/LocationContext";
 import { updateRentalData } from "api/rental";
-
 //icon
 import peso from "assets/icons/pesoWhite.png";
 //layout
@@ -24,7 +26,7 @@ const ApplicationInformation = () => {
   const { toSentenceCase } = useSentenceCase();
   const newObject = { ...data };
   const [modal, setModal] = useState(false);
-  const { setIsTracking, isTracking, errorMsg, location, setDocIds, docIds } =
+  const { setIsTracking, isTracking, location, setDocIds, docIds } =
     useLocationContext();
 
   const onClose = () => {
@@ -36,7 +38,7 @@ const ApplicationInformation = () => {
     imageUrl,
     ownerName,
     status,
-    dateTime: { startDate, endDate, startTime, endTime },
+    dateTime,
     pickupLocation,
     dropoffLocation,
     paymentMethod,
@@ -46,10 +48,34 @@ const ApplicationInformation = () => {
     totalPayment,
   } = newObject;
 
+  //format date back to firebase timeStamp
+  const convertedData = {
+    startDate: Timestamp.fromMillis(
+      dateTime.startDate.seconds * 1000 +
+        dateTime.startDate.nanoseconds / 1000000
+    ),
+    startTime: Timestamp.fromMillis(
+      dateTime.startTime.seconds * 1000 +
+        dateTime.startTime.nanoseconds / 1000000
+    ),
+    endDate: Timestamp.fromMillis(
+      dateTime.endDate.seconds * 1000 + dateTime.endDate.nanoseconds / 1000000
+    ),
+    endTime: Timestamp.fromMillis(
+      dateTime.endTime.seconds * 1000 + dateTime.endTime.nanoseconds / 1000000
+    ),
+  };
+
   const p = { ...pickupLocation };
   const d = { ...dropoffLocation };
   const pickUp = `${p.streetName}, ${p.houseNumber}, ${p.barangay.name}, ${p.municipality.name}, ${p.zipCode} ${p.province.name}`;
   const dropOff = `${d.streetName}, ${d.houseNumber}, ${d.barangay.name}, ${d.municipality.name}, ${d.zipCode} ${d.province.name}`;
+
+  // //convert to javascript date for ui
+  let startDate = formatDate2(convertedData.startDate.toDate());
+  let startTime = formatTime2(convertedData.startTime.toDate());
+  let endDate = formatDate2(convertedData.endDate.toDate());
+  let endTime = formatTime2(convertedData.endTime.toDate());
 
   const dataArray = [
     { id: 1, label: "Booking Status :", value: toSentenceCase(status) },

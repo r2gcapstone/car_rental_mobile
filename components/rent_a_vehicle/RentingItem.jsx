@@ -93,10 +93,7 @@ const RentingItem = () => {
           ) => (
             <TouchableOpacity
               key={index}
-              style={[
-                styles.container,
-                index === data.length - 1 && styles.lastItem,
-              ]}
+              style={[styles.container]}
               onPress={() => handleOnPress(index)}
             >
               <View style={styles.row}>

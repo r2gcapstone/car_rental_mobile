@@ -93,6 +93,15 @@ function RootLayoutNav() {
                 ),
               })}
             />
+            <Stack.Screen
+              name="(notification)/write-review"
+              options={() => ({
+                ...headerProp,
+                headerLeft: () => (
+                  <CustomBackButton router={router} customText="" />
+                ),
+              })}
+            />
 
             {/* tabs*/}
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -115,6 +124,8 @@ const styles = StyleSheet.create({
 const CustomBackButton = ({ customText, router }) => (
   <TouchableOpacity
     style={{
+      marginTop: 40, // emulator
+      paddingBottom: 10, // emulator
       flexDirection: "row",
       alignItems: "center",
       gap: 8,

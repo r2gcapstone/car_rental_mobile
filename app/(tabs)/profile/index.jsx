@@ -45,50 +45,54 @@ export default function Profile() {
   };
   return (
     <MainLayout>
-      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <Header />
-        <View style={styles.container}>
-          <View style={styles.row}>
-            <Image
-              style={styles.avatar}
-              source={{ uri: imageUrl && imageUrl }}
-            />
-            <Text style={styles.nameText}>
-              {toSentenceCase(firstName) + " " + toSentenceCase(lastName)}
-            </Text>
-            <Text style={styles.text}>Account Created :</Text>
-            <Text style={styles.text}>{formatDate(dateCreated)}</Text>
-          </View>
-          <View style={styles.row}>
-            <View style={styles.headerContainer}>
-              <Text style={styles.header}>Account information</Text>
+      {user && (
+        <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+          <Header />
+          <View style={styles.container}>
+            <View style={styles.row}>
+              <Image
+                style={styles.avatar}
+                source={{ uri: imageUrl && imageUrl }}
+              />
+              <Text style={styles.nameText}>
+                {toSentenceCase(firstName) + " " + toSentenceCase(lastName)}
+              </Text>
+              <Text style={styles.text}>Account Created :</Text>
+              {dateCreated && (
+                <Text style={styles.text}>{formatDate(dateCreated)}</Text>
+              )}
             </View>
-            {dataArray.map(({ id, label, value }) => (
-              <View key={id} style={styles.valueRow}>
-                <Text style={styles.label}>{label}</Text>
-                <Text style={styles.value}>{toSentenceCase(value)}</Text>
+            <View style={styles.row}>
+              <View style={styles.headerContainer}>
+                <Text style={styles.header}>Account information</Text>
               </View>
-            ))}
+              {dataArray.map(({ id, label, value }) => (
+                <View key={id} style={styles.valueRow}>
+                  <Text style={styles.label}>{label}</Text>
+                  <Text style={styles.value}>{toSentenceCase(value)}</Text>
+                </View>
+              ))}
+            </View>
+            <View style={styles.row}>
+              <TouchableOpacity
+                onPress={handleUpdateBtn}
+                style={[styles.btn, { backgroundColor: colors.blue.primary }]}
+              >
+                <Text style={styles.btn1Text}>Update Account Information</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={handleChangePassBtn}
+                style={[
+                  styles.btn,
+                  { backgroundColor: colors.red.primary, opacity: 0.7 },
+                ]}
+              >
+                <Text style={styles.btn2Text}>Change Password</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.row}>
-            <TouchableOpacity
-              onPress={handleUpdateBtn}
-              style={[styles.btn, { backgroundColor: colors.blue.primary }]}
-            >
-              <Text style={styles.btn1Text}>Update Account Information</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleChangePassBtn}
-              style={[
-                styles.btn,
-                { backgroundColor: colors.red.primary, opacity: 0.7 },
-              ]}
-            >
-              <Text style={styles.btn2Text}>Change Password</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      )}
     </MainLayout>
   );
 }

@@ -6,6 +6,7 @@ import { colors } from "constants/Colors";
 import Text from "components/ThemedText";
 import ProceedBtn from "components/button/ProceedBtn";
 import { useUserContext } from "context/UserContext";
+import { Timestamp } from "firebase/firestore";
 //utils
 import formatdate2 from "utils/formatDate2";
 import formatTime2 from "utils/formatTime2";
@@ -28,7 +29,6 @@ const RentingInfo = () => {
     dropoffLocation,
     paymentOption,
     priceRate,
-    dateTime: { startRentDate, startRentTime, endRentDate, endRentTime },
     destination,
     carId,
     userId,
@@ -41,23 +41,43 @@ const RentingInfo = () => {
   const pickUp = `${p.streetName}, ${p.houseNumber}, ${p.barangay.name}, ${p.municipality.name}, ${p.zipCode} ${p.province.name}`;
   const dropOff = `${d.streetName}, ${d.houseNumber}, ${d.barangay.name}, ${d.municipality.name}, ${d.zipCode} ${d.province.name}`;
 
-  //format dates
-  const startDate = formatdate2(startRentDate);
-  const endDate = formatdate2(endRentDate);
-  const startTime = formatTime2(startRentTime);
-  const endTime = formatTime2(endRentTime);
+  //format date back to firebase timeStamp
+  const convertedData = {
+    startRentDate: Timestamp.fromMillis(
+      data.dateTime.startRentDate.seconds * 1000 +
+        data.dateTime.startRentDate.nanoseconds / 1000000
+    ),
+    startRentTime: Timestamp.fromMillis(
+      data.dateTime.startRentTime.seconds * 1000 +
+        data.dateTime.startRentTime.nanoseconds / 1000000
+    ),
+    endRentDate: Timestamp.fromMillis(
+      data.dateTime.endRentDate.seconds * 1000 +
+        data.dateTime.endRentDate.nanoseconds / 1000000
+    ),
+    endRentTime: Timestamp.fromMillis(
+      data.dateTime.endRentTime.seconds * 1000 +
+        data.dateTime.endRentTime.nanoseconds / 1000000
+    ),
+  };
+
+  //convert to javascript date for ui
+  let startDate = convertedData.startRentDate.toDate();
+  let startTime = convertedData.startRentTime.toDate();
+  let endDate = convertedData.endRentDate.toDate();
+  let endTime = convertedData.endRentTime.toDate();
 
   const bookingArray = [
-    { id: 1, label: "Start Rent Date:", value: startDate },
-    { id: 2, label: "Start Rent Time :", value: startTime },
-    { id: 3, label: "End Rent Date :", value: endDate },
-    { id: 4, label: "End Rent Time :", value: endTime },
+    { id: 1, label: "Start Rent Date:", value: formatdate2(startDate) },
+    { id: 2, label: "Start Rent Time :", value: formatTime2(startTime) },
+    { id: 3, label: "End Rent Date :", value: formatdate2(endDate) },
+    { id: 4, label: "End Rent Time :", value: formatTime2(endTime) },
     { id: 5, label: "Pick-up Location :", value: pickUp },
     { id: 6, label: "Drop-off Location : ", value: dropOff },
   ];
 
   //calculate total days
-  const rentDuration = countTotalDays(startRentDate, endRentDate);
+  const rentDuration = countTotalDays(startDate, endDate);
   //calculate total payment based on rate or outside rate per day if destination data is provided
   let total = 0;
   if (destination.municipality) {
@@ -95,7 +115,7 @@ const RentingInfo = () => {
   const newObject = {
     rentInformation: {
       totalPayment: total,
-      dateTime: { startDate, startTime, endDate, endTime },
+      dateTime: { ...convertedData },
       rentDuration: rentDuration,
       imageUrl: imageUrls.front,
       priceRate,
@@ -138,7 +158,9 @@ const RentingInfo = () => {
                       )}
 
                       <Text style={styles.value2}>
-                        {toSentenceCase(item.value)}
+                        {item.label === "Method of Payment:"
+                          ? item.value
+                          : toSentenceCase(item.value)}
                       </Text>
                     </View>
                   </View>

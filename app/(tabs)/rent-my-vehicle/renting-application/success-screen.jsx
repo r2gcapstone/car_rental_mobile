@@ -14,8 +14,12 @@ export default function SuccessScreen() {
   const route = useRoute();
   //prev data
   const choice = route.params?.choice;
+  const from = route.params?.from;
+
   const handleNav = () => {
-    router.push("/");
+    if (from === "notification") {
+      router.replace("/home");
+    } else router.push("/");
   };
 
   return (

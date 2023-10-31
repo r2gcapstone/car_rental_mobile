@@ -1,6 +1,6 @@
 const formatTime = (time) => {
   // Convert seconds and nanoseconds to milliseconds
-  var d = new Date(time);
+  var d = time.toDate();
 
   // Convert to UTC+8
   d.setHours(d.getHours() + 8);

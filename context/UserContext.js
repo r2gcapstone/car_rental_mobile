@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { updateRentingDuration } from "api/rental";
 
 // Create the UserContext
 const UserContext = createContext();
@@ -17,9 +18,16 @@ export const UserProvider = ({ children }) => {
     imageUrl: "",
     mobileNumber: "",
     dateCreated: "",
+    notifCount: 0,
   });
 
-  // You can add functions to update user details here if needed
+  useEffect(() => {
+    updateRentingDuration();
+
+    const intervalId = setInterval(updateRentingDuration, 720000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

@@ -1,8 +1,6 @@
-import { router } from "expo-router";
 import { auth, db } from "../services/firebaseConfig";
 import { updatePassword, updateEmail } from "firebase/auth";
-import { updateDoc, doc, getDoc } from "firebase/firestore";
-import formatDate from "utils/formatDate";
+import { updateDoc, doc, getDoc, Timestamp } from "firebase/firestore";
 
 // Function to update user data from Firestore
 export const updateUserData = async (key, value) => {
@@ -51,7 +49,7 @@ export const updateAllUserData = async (data) => {
   try {
     const user = auth.currentUser;
     const date = new Date();
-    const formatedDate = formatDate(date);
+    const dateUpdated = Timestamp.fromDate(date);
 
     // update email in auth
     if (data.email) {
@@ -64,7 +62,7 @@ export const updateAllUserData = async (data) => {
 
     await updateDoc(doc(db, "users", user.uid), {
       ...data,
-      dateUpdated: formatedDate,
+      dateUpdated: dateUpdated,
     });
 
     return {

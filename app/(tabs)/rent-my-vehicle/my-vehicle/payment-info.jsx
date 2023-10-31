@@ -14,7 +14,6 @@ import { router } from "expo-router";
 
 const PaymentInfo = () => {
   const route = useRoute();
-  const date = formatdate(new Date());
   const { toSentenceCase } = useSentenceCase();
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const data = JSON.parse(route.params?.data);
@@ -30,7 +29,6 @@ const PaymentInfo = () => {
     duration: days,
     vehicleName: value,
     carImage: imageUrls.front,
-    dateCreated: date,
     status: "pending",
   };
 
