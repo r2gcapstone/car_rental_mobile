@@ -192,6 +192,9 @@ const DropoffLocation = () => {
     try {
       showLoading();
       const result = await updateCarData(key, address, carId);
+      if (!result.error) {
+        alert("Dropoff Location updated successfully!");
+      }
       hideLoading();
     } catch (error) {
       hideLoading();

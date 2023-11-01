@@ -210,6 +210,9 @@ const PickupLocation = () => {
     try {
       showLoading();
       const result = await updateCarData(key, address, carId);
+      if (!result.error) {
+        alert("Pickup Location updated successfully!");
+      }
       hideLoading();
     } catch (error) {
       hideLoading();

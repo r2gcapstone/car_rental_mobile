@@ -8,7 +8,7 @@ import UploadImage from "components/rent_my_vehicle/UploadImage";
 import ProceedBtn from "components/button/ProceedBtn";
 import { useRoute } from "@react-navigation/native";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
-import { getVehicleInfo, updateCarData } from "api/cars";
+import { getVehicleInfo, updateCarImage } from "api/cars";
 
 //constants
 import { colors } from "constants/Colors";
@@ -52,7 +52,10 @@ const UploadScreen = () => {
   const handleOnPress = async (carId) => {
     try {
       showLoading();
-      const result = await updateCarData(key, imageUrl, carId);
+      const result = await updateCarImage(key, imageUrl, carId);
+      if (!result.error) {
+        alert("Image successfully updated!");
+      }
       hideLoading();
     } catch (error) {
       hideLoading();
