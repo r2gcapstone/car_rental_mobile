@@ -13,7 +13,7 @@ import { router } from "expo-router";
 import { useIsFocused } from "@react-navigation/native";
 import { useUserContext } from "context/UserContext";
 
-const NotificationList = () => {
+const NotificationList = ({ from }) => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const [data, setData] = useState([]);
   const [finishedRental, setFinishedRental] = useState([]);
@@ -46,10 +46,17 @@ const NotificationList = () => {
   };
 
   const handleOnPress = (index) => {
+    let path = "";
+    if (from === "notification") {
+      path = "(notification)/booking-information";
+    } else {
+      path = "rent-my-vehicle/renting-application/booking-information";
+    }
+
     if (data[index]) {
       router.push({
-        pathname: "rent-my-vehicle/renting-application/booking-information",
-        params: { data: JSON.stringify(data[index]), from: "notification" },
+        pathname: path,
+        params: { data: JSON.stringify(data[index]), from: from },
       });
     }
   };

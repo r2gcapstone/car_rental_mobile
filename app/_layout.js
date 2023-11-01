@@ -102,6 +102,24 @@ function RootLayoutNav() {
                 ),
               })}
             />
+            <Stack.Screen
+              name="(notification)/booking-information"
+              options={() => ({
+                ...headerProp,
+                headerLeft: () => (
+                  <CustomBackButton router={router} customText="" />
+                ),
+              })}
+            />
+            <Stack.Screen
+              name="(notification)/success-screen"
+              options={() => ({
+                ...headerProp,
+                headerLeft: () => (
+                  <CustomBackButton router={router} customText="" />
+                ),
+              })}
+            />
 
             {/* tabs*/}
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

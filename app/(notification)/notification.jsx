@@ -8,7 +8,7 @@ import MainLayout from "layouts/MainLayout";
 const Notification = () => {
   return (
     <MainLayout>
-      <NotificationList />
+      <NotificationList from={"notification"} />
     </MainLayout>
   );
 };

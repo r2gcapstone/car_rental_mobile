@@ -30,8 +30,6 @@ const WriteReview = () => {
   const { user } = useUserContext();
   const [review, setReview] = useState(initialState);
 
-  //   console.log(JSON.stringify(user, null, 2));
-
   //prev data
   const data = JSON.parse(route.params?.data);
   const {

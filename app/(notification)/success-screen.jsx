@@ -16,7 +16,7 @@ export default function SuccessScreen() {
   const choice = route.params?.choice;
 
   const handleNav = () => {
-    router.push("/");
+    router.push("/home");
   };
 
   return (
