@@ -40,7 +40,7 @@ const MySubscription = () => {
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           {data.length > 0 ? (
-            data.map(({ carImage, vehicleName, duration }, index) => (
+            data.map(({ carImage, vehicleName, remainingDays }, index) => (
               <View
                 key={index}
                 style={[
@@ -56,7 +56,7 @@ const MySubscription = () => {
                     </Text>
                     <View style={styles.value}>
                       <Text style={styles.label}>Remaining Subscription :</Text>
-                      <Text style={styles.value}> {duration} Days(s)</Text>
+                      <Text style={styles.value}> {remainingDays} Days(s)</Text>
                     </View>
                   </View>
                 </View>
