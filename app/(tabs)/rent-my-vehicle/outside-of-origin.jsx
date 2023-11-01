@@ -16,6 +16,7 @@ import municipalityData from "json/municipality.json";
 const OutsideOfOrigin = () => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const [outsideRate, setOutsideRate] = useState();
+  const [provinceId, setprovinceId] = useState();
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data) || "";
@@ -35,11 +36,7 @@ const OutsideOfOrigin = () => {
   };
 
   const filteredData = () =>
-    useFilteredData(
-      municipalityData,
-      data.pickupLocation.province.id,
-      "province"
-    ) || [];
+    useFilteredData(municipalityData, provinceId, "province") || [];
 
   const filteredDataArray = filteredData();
 
@@ -51,6 +48,7 @@ const OutsideOfOrigin = () => {
       hideLoading();
       if (!result.error) {
         setOutsideRate(result.outsideRate);
+        setprovinceId(result.pickupLocation.province.id);
       }
     } catch (error) {
       hideLoading();
@@ -66,6 +64,9 @@ const OutsideOfOrigin = () => {
     try {
       showLoading();
       const result = await updateCarData(key, outsideRate, carId);
+      if (!result.error) {
+        alert("Outside of Origin Rate updated successfully!");
+      }
       hideLoading();
     } catch (error) {
       hideLoading();
