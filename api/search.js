@@ -6,22 +6,25 @@ import {
   getDoc,
   doc,
 } from "firebase/firestore";
-import { db } from "../services/firebaseConfig";
+import { auth, db } from "../services/firebaseConfig";
 
 export const searchAvailableCars = async (filter) => {
   try {
     const carsRef = collection(db, "cars");
     const rentalsRef = collection(db, "rentals");
+    let user = auth.currentUser;
 
-    // Get all rentals with pending status
     const pendingRentalsSnapshot = await getDocs(
-      query(rentalsRef, where("status", "==", "pending"))
+      query(
+        rentalsRef,
+        where("status", "==", "pending"),
+        where("userId", "==", user.uid)
+      )
     );
     const pendingRentalsCarIds = pendingRentalsSnapshot.docs.map(
       (doc) => doc.data().carId
     );
 
-    // Initialize queryRef with carsRef and default filter
     let queryRef = query(
       carsRef,
       where("subscriptionStatus", "==", "subscribed"),
@@ -29,7 +32,6 @@ export const searchAvailableCars = async (filter) => {
       where("isHidden", "==", false)
     );
 
-    // Add the not-in condition only if there are pending rentals
     if (pendingRentalsCarIds.length > 0) {
       queryRef = query(
         queryRef,
@@ -50,7 +52,7 @@ export const searchAvailableCars = async (filter) => {
       if (filter[key] !== "") {
         const value = parseToInt ? +filter[key] : filter[key];
         queryRef = query(
-          carsRef,
+          queryRef,
           where(`vehicleDetails.${field}`, "==", value)
         );
       }
