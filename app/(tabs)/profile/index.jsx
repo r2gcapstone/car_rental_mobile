@@ -14,6 +14,7 @@ import useSentenceCase from "hooks/useSentenceCase";
 import { colors } from "constants/Colors";
 import { router } from "expo-router";
 import formatDate from "utils/formatDate";
+import icon from "assets/icons/index";
 
 export default function Profile() {
   const { user } = useUserContext();
@@ -50,10 +51,22 @@ export default function Profile() {
           <Header />
           <View style={styles.container}>
             <View style={styles.row}>
-              <Image
-                style={styles.avatar}
-                source={{ uri: imageUrl && imageUrl }}
-              />
+              {imageUrl ? (
+                <Image style={styles.avatar} source={{ uri: imageUrl }} />
+              ) : (
+                <Text
+                  style={[
+                    styles.avatar,
+                    {
+                      textAlign: "center",
+                      backgroundColor: "#000",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    },
+                  ]}
+                ></Text>
+              )}
+
               <Text style={styles.nameText}>
                 {toSentenceCase(firstName) + " " + toSentenceCase(lastName)}
               </Text>

@@ -126,10 +126,24 @@ export default function UpdateUserInformation() {
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View style={styles.row}>
-            <Image
-              style={styles.avatar}
-              source={{ uri: newImageUrl ? newImageUrl : imageUrl }}
-            />
+            {newImageUrl || imageUrl ? (
+              <Image
+                style={styles.avatar}
+                source={{ uri: newImageUrl ? newImageUrl : imageUrl }}
+              />
+            ) : (
+              <Text
+                style={[
+                  styles.avatar,
+                  {
+                    textAlign: "center",
+                    backgroundColor: "#000",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  },
+                ]}
+              ></Text>
+            )}
 
             <TouchableOpacity
               onPress={pickImage}

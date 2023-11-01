@@ -33,12 +33,16 @@ export const signup = async (
     // Get the user object after signup
     const user = auth.currentUser;
 
-    //compress image
-    const resizedImageUrl = await resizeImage(imageUrl, 640);
+    let imageUrl = null;
 
-    // This line waits for uploadImageAsync to finish
-    // Arguments: resizedImageUrl (string - uri data),  storageName (string)
-    const downloadURL = await uploadImage(resizedImageUrl, "userProfile");
+    if (imageUrl) {
+      //compress image
+      const resizedImageUrl = await resizeImage(imageUrl, 640);
+
+      // This line waits for uploadImageAsync to finish
+      // Arguments: resizedImageUrl (string - uri data),  storageName (string)
+      const downloadURL = await uploadImage(resizedImageUrl, "userProfile");
+    }
 
     // Store additional user information in the database
     // Targeting a specific document using user UID
@@ -51,7 +55,7 @@ export const signup = async (
       address,
       email,
       mobileNumber,
-      imageUrl: downloadURL,
+      imageUrl: imageUrl,
       agreeToTerms,
       dateCreated,
       deactivatedAt,
