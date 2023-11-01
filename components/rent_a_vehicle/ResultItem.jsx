@@ -108,12 +108,25 @@ const ResultItem = ({ resultItem, dateTime }) => {
         <LocationItem
           icon={iconAssets.location}
           headerText="Pick-up Location:"
-          locationText={`${pickupLocation.streetName}, ${pickupLocation.municipality.name}, ${pickupLocation.zipCode} ${pickupLocation.province.name}`}
+          locationText={[
+            pickupLocation.streetName,
+            pickupLocation.municipality.name,
+            `${pickupLocation.zipCode} ${pickupLocation.province.name}`,
+          ]
+            .filter(Boolean)
+            .join(", ")}
         />
+
         <LocationItem
           icon={iconAssets.location}
           headerText="Drop-off Location:"
-          locationText={`${dropoffLocation.streetName}, ${dropoffLocation.municipality.name}, ${dropoffLocation.zipCode} ${dropoffLocation.province.name}`}
+          locationText={[
+            dropoffLocation.streetName,
+            dropoffLocation.municipality.name,
+            `${dropoffLocation.zipCode} ${dropoffLocation.province.name}`,
+          ]
+            .filter(Boolean)
+            .join(", ")}
         />
       </View>
     </View>
