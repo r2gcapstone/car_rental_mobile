@@ -184,8 +184,8 @@ const DropoffLocation = () => {
   };
 
   let key = "";
-  if (label === "Edit Pick-Up Location") {
-    key = "pickupLocation";
+  if (label === "Edit Drop-Off Location") {
+    key = "dropoffLocation";
   }
 
   const handleOnPress = async (carId) => {
