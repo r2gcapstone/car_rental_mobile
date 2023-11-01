@@ -226,7 +226,12 @@ export const updateCarImage = async (key, value, carId) => {
         if (imageUrl.startsWith("file://")) {
           // Create a promise for each image processing task
           const promise = resizeImage(imageUrl, 640)
-            .then((resizedImageUrl) => uploadImage(resizedImageUrl, "cars"))
+            .then((resizedImageUrl) =>
+              uploadImage(
+                resizedImageUrl,
+                key === "imageUrls" ? "cars" : "document"
+              )
+            )
             .then((downloadURL) => {
               // Update the data with the download URL
               dataCopy[image] = downloadURL;
