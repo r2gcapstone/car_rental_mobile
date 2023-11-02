@@ -88,7 +88,7 @@ export const rentalRequest = async (docId, value, carId) => {
     if (value === "approved") {
       const carDocRef = doc(db, "cars", carId);
       await updateDoc(carDocRef, {
-        status: "booked",
+        isRented: true,
       });
     }
 
@@ -313,7 +313,7 @@ export const getFinishedRental = async () => {
         await updateRentalDataField("viewed", false, doc.id);
 
         //reset car data status
-        await updateCarData("status", "not booked", rental.carId);
+        await updateCarData("isRented", false, rental.carId);
       }
     });
 

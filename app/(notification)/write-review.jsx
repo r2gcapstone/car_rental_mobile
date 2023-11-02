@@ -55,10 +55,6 @@ const WriteReview = () => {
     } catch (error) {}
   };
 
-  useEffect(() => {
-    console.log(JSON.stringify(review, null, 2));
-  }, [review]);
-
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>

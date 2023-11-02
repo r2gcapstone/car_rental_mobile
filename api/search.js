@@ -27,8 +27,8 @@ export const searchAvailableCars = async (filter) => {
 
     let queryRef = query(
       carsRef,
-      where("subscriptionStatus", "==", "subscribed"),
-      where("status", "==", "not booked"),
+      where("isSubscribed", "==", true),
+      where("isRented", "==", false),
       where("isHidden", "==", false)
     );
 

@@ -43,8 +43,8 @@ const SelectedVehicle = () => {
   const {
     imageUrls: { front },
     vehicleDetails: { vehicleName },
-    status,
-    subscriptionStatus,
+    isRented,
+    isSubscribed,
     rentee,
     carId,
   } = data;
@@ -269,11 +269,11 @@ const SelectedVehicle = () => {
               style={[
                 styles.status,
                 {
-                  backgroundColor: status !== "booked" ? "#FF0000" : "#0068C8",
+                  backgroundColor: !isRented ? "#FF0000" : "#0068C8",
                 },
               ]}
             >
-              {status === "booked" ? (
+              {isRented ? (
                 <>
                   Booked By :{" "}
                   <Text style={{ fontWeight: "bold" }}>
@@ -281,19 +281,18 @@ const SelectedVehicle = () => {
                   </Text>
                 </>
               ) : (
-                toSentenceCase(status)
+                "Not Booked"
               )}
             </Text>
             <Text
               style={[
                 styles.status,
                 {
-                  backgroundColor:
-                    subscriptionStatus !== "subscribed" ? "#526D82" : "#FF5C00",
+                  backgroundColor: !isSubscribed ? "#526D82" : "#FF5C00",
                 },
               ]}
             >
-              {toSentenceCase(subscriptionStatus)}
+              {"Not Subscribed"}
             </Text>
           </View>
         </View>
