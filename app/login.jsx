@@ -101,7 +101,7 @@ const SignInScreen = () => {
         alert(result.message);
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
       setIsLoading(false);
     }
   };
