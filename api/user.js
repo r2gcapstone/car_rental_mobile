@@ -106,23 +106,19 @@ export const getUserData = async (userId) => {
 };
 
 //update user profile
+//update user profile
 export const updateUserImage = async (value) => {
   try {
-    let image = null;
-    if (value.startsWith("file://")) {
-      await resizeImage(value, 640)
-        .then((resizedImageUrl) => uploadImage(resizedImageUrl, "userProfile"))
-        .then((downloadURL) => {
-          // Update the data with the download URL
-          image = downloadURL;
-        })
-        .catch((error) => alert(error));
-    } else {
+    if (!value.startsWith("file://")) {
       alert("updating profile failed!");
+      return;
     }
 
+    const resizedImageUrl = await resizeImage(value, 640);
+    const downloadURL = await uploadImage(resizedImageUrl, "userProfile");
+
     return {
-      imageUrl: image,
+      imageUrl: downloadURL,
       message: "update success!",
       error: false,
       status: 200,

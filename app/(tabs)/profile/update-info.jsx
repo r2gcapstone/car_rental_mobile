@@ -52,11 +52,14 @@ export default function UpdateUserInformation() {
     }
   };
 
-  const handleOnPress = async (userData) => {
+  const handleOnPress = async (updatedUser) => {
     try {
       showLoading();
       setUpdatedUser({ ...updatedUser, imageUrl: newImageUrl });
-      const result = await updateAllUserData(userData);
+      const result = await updateAllUserData({
+        ...updatedUser,
+        imageUrl: newImageUrl,
+      });
       hideLoading();
       if (!result.error) {
         setUser({ ...user, imageUrl: newImageUrl });
@@ -191,7 +194,7 @@ export default function UpdateUserInformation() {
           </View>
           <View style={styles.row}>
             <TouchableOpacity
-              onPress={() => handleOnPress(user)}
+              onPress={() => handleOnPress(updatedUser)}
               style={styles.btn}
             >
               <Text style={styles.btnText}>Update</Text>
