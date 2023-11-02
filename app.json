@@ -1,12 +1,12 @@
 {
   "expo": {
     "jsEngine": "hermes",
-    "name": "my-app",
-    "slug": "my-app",
+    "name": "car-rental-mobile",
+    "slug": "car-rental-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "car-rental-mobile",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -24,7 +24,7 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.RECORD_AUDIO"],
-      "package": "com.r2gcapstone.myapp"
+      "package": "com.r2gcapstone.car-rental-mobile"
     },
     "web": {
       "bundler": "metro",

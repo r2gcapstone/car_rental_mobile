@@ -7,7 +7,7 @@ import { useRoute } from "@react-navigation/native";
 import UploadImageBtn from "components/button/UploadImageBtn";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { router } from "expo-router";
-import { getVehicleInfo, updateCarData, RegisterCar } from "api/cars";
+import { getVehicleInfo, updateCarImage, RegisterCar } from "api/cars";
 
 const initialState = {
   governmentId: "",
@@ -79,7 +79,10 @@ const UploadDocs = () => {
   const handleOnPress = async (carId) => {
     try {
       showLoading();
-      const result = await updateCarData(key, document, carId);
+      const result = await updateCarImage(key, document, carId);
+      if (!result.error) {
+        alert("Document successfully updated!");
+      }
       hideLoading();
     } catch (error) {
       hideLoading();

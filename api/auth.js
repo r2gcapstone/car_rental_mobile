@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth, db } from "../services/firebaseConfig";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
@@ -19,7 +20,6 @@ export const signup = async (
   email,
   mobileNumber,
   password,
-  imageUrl,
   agreeToTerms
 ) => {
   let dateCreated = new Date();
@@ -33,12 +33,16 @@ export const signup = async (
     // Get the user object after signup
     const user = auth.currentUser;
 
-    //compress image
-    const resizedImageUrl = await resizeImage(imageUrl, 640);
+    let imageUrl = null;
 
-    // This line waits for uploadImageAsync to finish
-    // Arguments: resizedImageUrl (string - uri data),  storageName (string)
-    const downloadURL = await uploadImage(resizedImageUrl, "userProfile");
+    if (imageUrl) {
+      //compress image
+      const resizedImageUrl = await resizeImage(imageUrl, 640);
+
+      // This line waits for uploadImageAsync to finish
+      // Arguments: resizedImageUrl (string - uri data),  storageName (string)
+      const downloadURL = await uploadImage(resizedImageUrl, "userProfile");
+    }
 
     // Store additional user information in the database
     // Targeting a specific document using user UID
@@ -51,7 +55,7 @@ export const signup = async (
       address,
       email,
       mobileNumber,
-      imageUrl: downloadURL,
+      imageUrl: imageUrl,
       agreeToTerms,
       dateCreated,
       deactivatedAt,
@@ -96,6 +100,19 @@ export const login = async (email, password) => {
       error: false,
       status: 200,
       userData: userData,
+    };
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+export const changePass = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return {
+      message: "Change pass request sent, check your email to proceed !",
+      error: false,
+      status: 200,
     };
   } catch (error) {
     return { error: true, message: error.message, status: error.code };

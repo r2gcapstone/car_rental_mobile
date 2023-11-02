@@ -1,8 +1,7 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Tabs, useSegments, router, Stack } from "expo-router";
-import { Image } from "react-native";
+import { Tabs, useSegments } from "expo-router";
 import { colors } from "constants/Colors";
-import { TouchableOpacity, StyleSheet } from "react-native";
+import { StyleSheet, Image } from "react-native";
 
 function TabBarIcon(props) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
@@ -80,7 +79,17 @@ export default function TabLayout() {
         options={{
           title: "Rent A Vehicle",
           tabBarActiveTintColor: "#27374D",
-          tabBarIcon: ({ color }) => <TabBarIcon name="car" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Image
+              source={require("assets/icons/car.png")}
+              style={{
+                height: 34,
+                width: 34,
+                marginTop: 2,
+                tintColor: color,
+              }}
+            />
+          ),
           headerShown: false,
           tabBarStyle: {
             display: rentAVehicleRoute.includes(currentRoute) ? "none" : "flex",
@@ -96,7 +105,17 @@ export default function TabLayout() {
         options={{
           title: "Rent My Vehicle",
           tabBarActiveTintColor: "#27374D",
-          tabBarIcon: ({ color }) => <TabBarIcon name="car" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Image
+              source={require("assets/icons/myCar.png")}
+              style={{
+                height: 34,
+                width: 34,
+                marginTop: 2,
+                tintColor: color,
+              }}
+            />
+          ),
           headerShown: false,
           tabBarStyle: {
             display: rentMyVehicleRoute.includes(currentRoute)

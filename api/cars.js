@@ -206,6 +206,62 @@ export const updateCarData = async (key, value, carId) => {
   }
 };
 
+//update vehicle information
+export const updateCarImage = async (key, value, carId) => {
+  let dateUpdated = new Date();
+  dateUpdated = Timestamp.fromDate(dateUpdated);
+
+  try {
+    // Create a copy of data to avoid mutation
+    const dataCopy = JSON.parse(JSON.stringify(value));
+    const promises = [];
+
+    // Loop through imageUrls and documents
+    for (let image in value) {
+      if (value.hasOwnProperty(image)) {
+        // Get the image URL
+        const imageUrl = dataCopy[image];
+
+        // Check if the URL is a file URL
+        if (imageUrl.startsWith("file://")) {
+          // Create a promise for each image processing task
+          const promise = resizeImage(imageUrl, 640)
+            .then((resizedImageUrl) =>
+              uploadImage(
+                resizedImageUrl,
+                key === "imageUrls" ? "cars" : "document"
+              )
+            )
+            .then((downloadURL) => {
+              // Update the data with the download URL
+              dataCopy[image] = downloadURL;
+            })
+            .catch((error) => alert(error));
+
+          // Add the promise to the array
+          promises.push(promise);
+        }
+      }
+    }
+
+    // Wait for all promises to resolve
+    await Promise.all(promises);
+
+    await updateDoc(doc(db, "cars", carId), {
+      [key]: dataCopy,
+      dateUpdated: dateUpdated,
+    });
+
+    return {
+      message: "update success!",
+      error: false,
+      status: 200,
+    };
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
 //function get all vehicles for search vehicle feature
 export const getRegisteredVehicle = async () => {
   try {

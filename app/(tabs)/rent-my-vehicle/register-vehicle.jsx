@@ -75,6 +75,9 @@ export default function RegisterVehicle() {
     try {
       showLoading();
       const result = await updateCarData(key, formData, carId);
+      if (!result.error) {
+        alert("Vehicle Information updated successfully!");
+      }
       hideLoading();
     } catch (error) {
       hideLoading();

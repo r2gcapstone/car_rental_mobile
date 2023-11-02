@@ -2,10 +2,18 @@ import { auth, db } from "../services/firebaseConfig";
 import { updatePassword, updateEmail } from "firebase/auth";
 import { updateDoc, doc, getDoc, Timestamp } from "firebase/firestore";
 
-// Function to update user data from Firestore
+//utils
+import resizeImage from "../utils/resizeImage";
+import uploadImage from "../utils/uploadImage";
+
+// Function to update single field in user data from Firestore
 export const updateUserData = async (key, value) => {
   try {
     const user = auth.currentUser;
+
+    if (key === "imageUrl") {
+      updateUserImage(value);
+    }
 
     updateDoc(doc(db, "users/" + user.uid), {
       [key]: value,
@@ -44,7 +52,7 @@ export const updateUserPassword = async (newPassword) => {
   }
 };
 
-// Function to update all userData
+// Function to update all field of userData
 export const updateAllUserData = async (data) => {
   try {
     const user = auth.currentUser;
@@ -60,8 +68,18 @@ export const updateAllUserData = async (data) => {
       }
     }
 
+    let image = null;
+    try {
+      const result = await updateUserImage(data.imageUrl);
+
+      image = result.imageUrl;
+    } catch (error) {
+      alert(error);
+    }
+
     await updateDoc(doc(db, "users", user.uid), {
       ...data,
+      imageUrl: image,
       dateUpdated: dateUpdated,
     });
 
@@ -82,6 +100,33 @@ export const getUserData = async (userId) => {
     const userSnapshot = await getDoc(userDoc);
     const user = userSnapshot.data();
     return user;
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+//update user profile
+export const updateUserImage = async (value) => {
+  try {
+    let image = null;
+    if (value.startsWith("file://")) {
+      await resizeImage(value, 640)
+        .then((resizedImageUrl) => uploadImage(resizedImageUrl, "userProfile"))
+        .then((downloadURL) => {
+          // Update the data with the download URL
+          image = downloadURL;
+        })
+        .catch((error) => alert(error));
+    } else {
+      alert("updating profile failed!");
+    }
+
+    return {
+      imageUrl: image,
+      message: "update success!",
+      error: false,
+      status: 200,
+    };
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
   }

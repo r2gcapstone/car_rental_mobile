@@ -357,7 +357,6 @@ export const updateRentingDuration = async () => {
       if (currentDate >= startDate && currentDate <= endDate) {
         //calculate total days
         const updateRentDuration = countTotalDays(currentDate, endDate);
-        console.log(updateRentDuration);
         //calculate total payment based on rate or outside rate per day if destination data is provided
         await updateRentalDataField("rentDuration", updateRentDuration, doc.id);
       }

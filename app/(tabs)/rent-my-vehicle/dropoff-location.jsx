@@ -184,14 +184,17 @@ const DropoffLocation = () => {
   };
 
   let key = "";
-  if (label === "Edit Pick-Up Location") {
-    key = "pickupLocation";
+  if (label === "Edit Drop-Off Location") {
+    key = "dropoffLocation";
   }
 
   const handleOnPress = async (carId) => {
     try {
       showLoading();
       const result = await updateCarData(key, address, carId);
+      if (!result.error) {
+        alert("Dropoff Location updated successfully!");
+      }
       hideLoading();
     } catch (error) {
       hideLoading();

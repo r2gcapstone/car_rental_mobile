@@ -80,6 +80,7 @@ export const getAllSubscription = async () => {
   try {
     const user = auth.currentUser;
     const userId = user.uid;
+    let currentDate = new Date();
 
     // Get a reference to the 'subscription' collection
     const subscriptionCollection = collection(db, "subscription");
@@ -92,10 +93,22 @@ export const getAllSubscription = async () => {
     let subscription = [];
     querySnapshot.docs.forEach((doc) => {
       const sub = doc.data();
+      let days = 0;
+      let remainingDays = 0;
+
+      const dateCreated = sub.dateCreated;
+      const duration = sub.duration;
+      if (currentDate > dateCreated) {
+        days = countTotalDays(dateCreated.toDate(), currentDate);
+        if (days < duration) {
+          remainingDays = duration - days;
+          updateSubscriptionData("remainingDays", remainingDays, doc.id);
+        }
+      }
 
       // Only push the subscription if status is not 'pending'
       if (sub.status !== "pending") {
-        subscription.push(sub);
+        subscription.push({ ...sub, remainingDays: remainingDays });
       }
     });
 
@@ -113,7 +126,7 @@ export const updateSubscriptionData = async (key, value, docId) => {
   try {
     await updateDoc(doc(db, "subscription", docId), {
       [key]: value,
-      dateUpdated: dateUpdated,
+      dateUpdated: value && dateUpdated,
     });
 
     return {
@@ -131,7 +144,6 @@ export const updateSubscriptionData = async (key, value, docId) => {
 export const updateSubscription = async () => {
   try {
     let currentDate = new Date();
-
     // Get a reference to the 'subscription' collection
     const subscriptionCollection = collection(db, "subscription");
 
@@ -147,7 +159,10 @@ export const updateSubscription = async () => {
       if (currentDate > dateCreated) {
         days = countTotalDays(dateCreated.toDate(), currentDate);
         if (days > duration) {
+          //reset days to 0 when expiration is hit
+          //Not Recommended for realtime data changes
           updateCarData("subscriptionStatus", "not subscribed", sub.carId);
+          updateSubscriptionData("remainingDays", 0, doc.id);
         }
       }
     });

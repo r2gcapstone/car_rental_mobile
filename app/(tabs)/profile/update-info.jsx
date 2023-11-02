@@ -12,15 +12,19 @@ import { useUserContext } from "context/UserContext";
 import useSentenceCase from "hooks/useSentenceCase";
 import InputField from "components/InputField";
 import { colors } from "constants/Colors";
-import { updateAllUserData } from "api/user";
+import { updateAllUserData, updateUserImage } from "api/user";
 import { router } from "expo-router";
+import * as ImagePicker from "expo-image-picker";
+import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 
 export default function UpdateUserInformation() {
   const { user, setUser } = useUserContext();
   const { toSentenceCase } = useSentenceCase();
   const [updatedUser, setUpdatedUser] = useState(user);
+  const [newImageUrl, setNewImageUrl] = useState(null);
   const { firstName, lastName, address, email, imageUrl, mobileNumber } =
     updatedUser;
+  const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
 
   const [isEmail, setIsEmail] = useState(false);
 
@@ -34,10 +38,28 @@ export default function UpdateUserInformation() {
     }));
   };
 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setNewImageUrl(result.assets[0].uri);
+    }
+  };
+
   const handleOnPress = async (userData) => {
     try {
+      showLoading();
+      setUpdatedUser({ ...updatedUser, imageUrl: newImageUrl });
       const result = await updateAllUserData(userData);
+      hideLoading();
       if (!result.error) {
+        setUser({ ...user, imageUrl: newImageUrl });
         router.replace({
           pathname: "profile/success-screen",
           params: {
@@ -47,6 +69,7 @@ export default function UpdateUserInformation() {
         });
       }
     } catch (error) {
+      hideLoading();
       alert(error);
     }
   };
@@ -56,7 +79,7 @@ export default function UpdateUserInformation() {
     {
       key: 1,
       value: firstName,
-      label: "Full Name :",
+      label: "First Name :",
       type: "text",
       name: "firstName",
     },
@@ -103,7 +126,42 @@ export default function UpdateUserInformation() {
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View style={styles.row}>
-            <Image style={styles.avatar} source={{ uri: imageUrl }} />
+            {newImageUrl || imageUrl ? (
+              <Image
+                style={styles.avatar}
+                source={{ uri: newImageUrl ? newImageUrl : imageUrl }}
+              />
+            ) : (
+              <Text
+                style={[
+                  styles.avatar,
+                  {
+                    textAlign: "center",
+                    backgroundColor: "#000",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  },
+                ]}
+              ></Text>
+            )}
+
+            <TouchableOpacity
+              onPress={pickImage}
+              style={{
+                padding: 4,
+                paddingHorizontal: 12,
+                backgroundColor: "#D9D9D9",
+                borderRadius: 10,
+                marginTop: 10,
+                flexDirection: "row",
+                gap: 6,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ color: "#000" }}>Upload Image</Text>
+              <Text style={{ color: "#000", fontSize: 18 }}>+</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.row}>
             {updatedUser &&
@@ -141,6 +199,7 @@ export default function UpdateUserInformation() {
           </View>
         </View>
       </ScrollView>
+      <LoadingComponent />
     </MainLayout>
   );
 }

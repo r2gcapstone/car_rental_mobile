@@ -50,6 +50,9 @@ const PriceRate = () => {
     try {
       showLoading();
       const result = await updateCarData(key, priceRate, carId);
+      if (!result.error) {
+        alert("Price Rate updated successfully!");
+      }
       hideLoading();
     } catch (error) {
       hideLoading();

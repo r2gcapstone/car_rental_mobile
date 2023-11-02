@@ -228,7 +228,7 @@ const SelectedVehicle = () => {
         await updateCarData("isHidden", !isHidden, docId);
         setIsHidden((prev) => !prev);
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     } else {
       try {
