@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth, db } from "../services/firebaseConfig";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
@@ -19,7 +20,6 @@ export const signup = async (
   email,
   mobileNumber,
   password,
-  imageUrl,
   agreeToTerms
 ) => {
   let dateCreated = new Date();
@@ -100,6 +100,19 @@ export const login = async (email, password) => {
       error: false,
       status: 200,
       userData: userData,
+    };
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+export const changePass = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return {
+      message: "Change pass request sent, check your email to proceed !",
+      error: false,
+      status: 200,
     };
   } catch (error) {
     return { error: true, message: error.message, status: error.code };

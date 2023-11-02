@@ -5,6 +5,7 @@ import {
   View,
   StyleSheet,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { login } from "api/auth";
 
@@ -13,13 +14,15 @@ import { login } from "api/auth";
 import Text from "components/ThemedText";
 import LoadingAnimation from "components/LoadingAnimation";
 import ErrorMessage from "components/ErrorMessage";
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "layouts/MainLayout";
 // Constants
 import { colors } from "constants/Colors";
 import { emailRegex } from "constants/RegexValidation";
 import { router, Link } from "expo-router";
 //hook
-import { useUserContext } from "../context/UserContext";
+import { useUserContext } from "context/UserContext";
+
+import { changePass } from "api/auth";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
@@ -80,6 +83,29 @@ const SignInScreen = () => {
     }
   };
 
+  const handleRequestChangePass = async (email) => {
+    setIsLoading(true);
+
+    handleEmailChange(email);
+
+    if (emailError) {
+      alert(emailError);
+      return;
+    }
+
+    try {
+      if (!email) return;
+      const result = await changePass(email);
+      setIsLoading(false);
+      if (!result.error) {
+        alert(result.message);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <MainLayout>
       <View style={styles.container}>
@@ -113,7 +139,10 @@ const SignInScreen = () => {
         />
         <ErrorMessage error={passwordError} />
 
-        <TouchableOpacity style={styles.forgotPasswordButton}>
+        <TouchableOpacity
+          onPress={() => handleRequestChangePass(email)}
+          style={styles.forgotPasswordButton}
+        >
           <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -136,6 +165,7 @@ const SignInScreen = () => {
             </TouchableOpacity>
           </Link>
         </View>
+
         <LoadingAnimation isVisible={isLoading} />
       </View>
     </MainLayout>
