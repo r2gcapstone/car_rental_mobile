@@ -161,7 +161,7 @@ export const updateSubscription = async () => {
         if (days > duration) {
           //reset days to 0 when expiration is hit
           //Not Recommended for realtime data changes
-          updateCarData("subscriptionStatus", "not subscribed", sub.carId);
+          updateCarData("isSubscribed", false, sub.carId);
           updateSubscriptionData("remainingDays", 0, doc.id);
         }
       }

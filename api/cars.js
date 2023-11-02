@@ -87,8 +87,8 @@ export const RegisterCar = async ({ data }) => {
     // Update the document to include the carId
     await updateDoc(docRef, {
       carId,
-      subscriptionStatus: "not subscribed",
-      status: "not booked",
+      isSubscribed: false,
+      isRented: false,
       isHidden: false,
       location: { status: "off" },
       dateCreated: dateCreated,
@@ -145,7 +145,7 @@ export const getCars = async () => {
       vehicleSnapshot.docs.map(async (doc) => {
         const car = doc.data();
 
-        if (car.status === "booked") {
+        if (car.isRented) {
           // Get a reference to the 'rentals' collection
           const rentalsRef = collection(db, "rentals");
 
