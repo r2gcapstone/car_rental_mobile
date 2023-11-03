@@ -28,7 +28,7 @@ const Header = () => {
         router.replace("/login");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -43,6 +43,7 @@ const Header = () => {
   useEffect(() => {
     updateSubscription();
   }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>

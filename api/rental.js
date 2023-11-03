@@ -273,7 +273,7 @@ export const updateRentalDataField = async (key, value, docId) => {
   }
 };
 
-//Get notification for finished rental using userId
+//Get notification for finished rental using userId for review
 export const getFinishedRental = async () => {
   try {
     const user = auth.currentUser;
@@ -300,7 +300,6 @@ export const getFinishedRental = async () => {
       let rental = doc.data();
 
       const endDate = rental.dateTime.endDate.toDate();
-      const startDate = rental.dateTime.startDate.toDate();
       const status = rental.status;
 
       if (
@@ -311,7 +310,6 @@ export const getFinishedRental = async () => {
         await updateRentalDataField("status", "finished", doc.id);
         //always ask user for review and highlight in notif the count
         await updateRentalDataField("viewed", false, doc.id);
-
         //reset car data status
         await updateCarData("isRented", false, rental.carId);
       }
@@ -322,7 +320,7 @@ export const getFinishedRental = async () => {
 
     return rentals;
   } catch (error) {
-    return { status: "error", message: error.message };
+    return { error: true, status: "error", message: error.message };
   }
 };
 
@@ -330,7 +328,6 @@ export const getFinishedRental = async () => {
 export const updateRentingDuration = async () => {
   try {
     const user = auth.currentUser;
-    const userId = user.uid;
     let currentDate = new Date();
 
     // Get rentals reference
@@ -371,6 +368,6 @@ export const updateRentingDuration = async () => {
       status: 200,
     };
   } catch (error) {
-    return { status: "error", message: error.message };
+    return { error: true, status: "error", message: error.message };
   }
 };

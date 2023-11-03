@@ -106,7 +106,7 @@ const VehicleList = () => {
                         },
                       ]}
                     >
-                      {"Not Subscribed"}
+                      {"Subscribed"}
                     </Text>
                   </View>
                 </View>
