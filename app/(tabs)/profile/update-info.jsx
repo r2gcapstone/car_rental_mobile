@@ -12,7 +12,7 @@ import { useUserContext } from "context/UserContext";
 import useSentenceCase from "hooks/useSentenceCase";
 import InputField from "components/InputField";
 import { colors } from "constants/Colors";
-import { updateAllUserData, updateUserImage } from "api/user";
+import { updateAllUserData } from "api/user";
 import { router } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
@@ -21,7 +21,7 @@ export default function UpdateUserInformation() {
   const { user, setUser } = useUserContext();
   const { toSentenceCase } = useSentenceCase();
   const [updatedUser, setUpdatedUser] = useState(user);
-  const [newImageUrl, setNewImageUrl] = useState(null);
+  const [newImageUrl, setNewImageUrl] = useState(user.imageUrl);
   const { firstName, lastName, address, email, imageUrl, mobileNumber } =
     updatedUser;
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
@@ -55,14 +55,18 @@ export default function UpdateUserInformation() {
   const handleOnPress = async (updatedUser) => {
     try {
       showLoading();
-      setUpdatedUser({ ...updatedUser, imageUrl: newImageUrl });
-      const result = await updateAllUserData({
+
+      let result = await updateAllUserData({
         ...updatedUser,
         imageUrl: newImageUrl,
       });
+
       hideLoading();
       if (!result.error) {
-        setUser({ ...user, imageUrl: newImageUrl });
+        if (newImageUrl !== result.imageUrl) {
+          setUser({ ...user, imageUrl: result.imageUrl });
+          setUpdatedUser({ ...updatedUser, imageUrl: result.imageUrl });
+        }
         router.replace({
           pathname: "profile/success-screen",
           params: {

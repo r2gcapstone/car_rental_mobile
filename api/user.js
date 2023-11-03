@@ -11,10 +11,6 @@ export const updateUserData = async (key, value) => {
   try {
     const user = auth.currentUser;
 
-    if (key === "imageUrl") {
-      updateUserImage(value);
-    }
-
     updateDoc(doc(db, "users/" + user.uid), {
       [key]: value,
     });
@@ -32,10 +28,6 @@ export const updateUserData = async (key, value) => {
 export const updateUserPassword = async (newPassword) => {
   try {
     const user = auth.currentUser;
-    const userDoc = doc(db, "users", user.uid);
-    const userSnapshot = await getDoc(userDoc);
-    const userData = userSnapshot.data();
-    const currentPassword = userData.password;
 
     if (user) {
       await updatePassword(user, newPassword);
@@ -68,13 +60,15 @@ export const updateAllUserData = async (data) => {
       }
     }
 
-    let image = null;
-    try {
-      const result = await updateUserImage(data.imageUrl);
-
-      image = result.imageUrl;
-    } catch (error) {
-      alert(error);
+    let image = data.imageUrl;
+    if (data.imageUrl.startsWith("file://")) {
+      try {
+        const result = await updateUserImage(data.imageUrl);
+        //replace with new image
+        image = result.imageUrl;
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     await updateDoc(doc(db, "users", user.uid), {
@@ -87,8 +81,10 @@ export const updateAllUserData = async (data) => {
       message: "update success!",
       error: false,
       status: 200,
+      imageUrl: image,
     };
   } catch (error) {
+    alert(error);
     return { error: true, message: error.message, status: error.code };
   }
 };
@@ -106,14 +102,8 @@ export const getUserData = async (userId) => {
 };
 
 //update user profile
-//update user profile
 export const updateUserImage = async (value) => {
   try {
-    if (!value.startsWith("file://")) {
-      alert("updating profile failed!");
-      return;
-    }
-
     const resizedImageUrl = await resizeImage(value, 640);
     const downloadURL = await uploadImage(resizedImageUrl, "userProfile");
 
