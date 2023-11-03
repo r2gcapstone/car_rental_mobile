@@ -21,6 +21,8 @@ export const UserProvider = ({ children }) => {
     notifCount: 0,
   });
 
+  console.log(user.dateCreated);
+
   useEffect(() => {
     updateRentingDuration();
 
