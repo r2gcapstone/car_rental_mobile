@@ -101,7 +101,7 @@ export default function RentMyVehicleStack() {
 
 const styles = StyleSheet.create({
   backBtn: {
-    marginTop: 40, // emulator
+    // marginTop: 40, // emulator
     height: 20,
     width: 20,
     padding: 4,
