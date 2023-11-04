@@ -84,8 +84,6 @@ const SignInScreen = () => {
   };
 
   const handleRequestChangePass = async (email) => {
-    setIsLoading(true);
-
     handleEmailChange(email);
 
     if (emailError) {
@@ -94,15 +92,19 @@ const SignInScreen = () => {
     }
 
     try {
-      if (!email) return;
+      if (!email) {
+        alert("Email field is empty!");
+        return;
+      }
+      setIsLoading(true);
       const result = await changePass(email);
       setIsLoading(false);
       if (!result.error) {
         alert(result.message);
       }
     } catch (error) {
-      alert(error);
       setIsLoading(false);
+      alert(error);
     }
   };
 
