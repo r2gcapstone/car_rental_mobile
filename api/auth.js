@@ -20,12 +20,11 @@ export const signup = async (
   email,
   mobileNumber,
   password,
-  agreeToTerms
+  imageUrl
 ) => {
   let dateCreated = new Date();
   dateCreated = Timestamp.fromDate(dateCreated);
 
-  const deactivatedAt = null;
   try {
     // Signup using createUserWithEmailAndPassword function of firebase
     await createUserWithEmailAndPassword(auth, email, password);
@@ -33,7 +32,7 @@ export const signup = async (
     // Get the user object after signup
     const user = auth.currentUser;
 
-    let imageUrl = null;
+    let downloadURL = "";
 
     if (imageUrl) {
       //compress image
@@ -41,7 +40,7 @@ export const signup = async (
 
       // This line waits for uploadImageAsync to finish
       // Arguments: resizedImageUrl (string - uri data),  storageName (string)
-      const downloadURL = await uploadImage(resizedImageUrl, "userProfile");
+      downloadURL = await uploadImage(resizedImageUrl, "userProfile");
     }
 
     // Store additional user information in the database
@@ -55,10 +54,10 @@ export const signup = async (
       address,
       email,
       mobileNumber,
-      imageUrl: imageUrl,
-      agreeToTerms,
+      imageUrl: downloadURL,
+      agreeToTerms: true,
       dateCreated,
-      deactivatedAt,
+      deactivatedAt: null,
     });
 
     return {
