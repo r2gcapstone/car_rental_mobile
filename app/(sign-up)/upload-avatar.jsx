@@ -19,17 +19,9 @@ export default function UploadAvatar() {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
   const route = useRoute(); // Use the useRoute hook
-  const { signUpFormData } = route.params; // Retrieve the signUpFormData parameter
+  const data = route.params?.newData; // Retrieve the signUpFormData parameter
 
-  const {
-    firstName,
-    lastName,
-    address,
-    email,
-    mobileNumber,
-    password,
-    agreeToTerms,
-  } = signUpFormData;
+  // console.log(JSON.stringify(data, null, 2));
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -48,16 +40,13 @@ export default function UploadAvatar() {
   const handleRegister = async () => {
     setIsLoading(true); // Show loading modal
 
-    const response = await signup(
-      firstName,
-      lastName,
-      address,
-      email,
-      mobileNumber,
-      password,
-      imageUrl,
-      agreeToTerms
-    );
+    //append image
+    const newData = {
+      ...data,
+      imageUrl: imageUrl,
+    };
+
+    const response = await signup(newData);
 
     if (response.error === true) {
       setIsLoading(false);
