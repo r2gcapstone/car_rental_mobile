@@ -16,17 +16,43 @@ import { updateAllUserData } from "api/user";
 import { router } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
+import Dropdown2 from "components/button/DropDown2";
+import municipalityData from "json/municipality.json";
+import filterData from "utils/filterData";
+
+const idInitialState = {
+  municipalityId: "",
+};
+
+const addressInitialState = {
+  province: {
+    name: "Negros Occidental",
+    id: 38,
+  },
+  municipality: {
+    name: "",
+    id: null,
+  },
+};
 
 export default function UpdateUserInformation() {
   const { user, setUser } = useUserContext();
   const { toSentenceCase } = useSentenceCase();
   const [updatedUser, setUpdatedUser] = useState(user);
   const [newImageUrl, setNewImageUrl] = useState(user.imageUrl);
-  const { firstName, lastName, address, email, imageUrl, mobileNumber } =
-    updatedUser;
+  const {
+    username,
+    firstName,
+    lastName,
+    address: { subdivision, barangay, street, municipality },
+    email,
+    imageUrl,
+    mobileNumber,
+  } = updatedUser;
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
-
   const [isEmail, setIsEmail] = useState(false);
+  const [id, setId] = useState(idInitialState);
+  const [address, setAddress] = useState(addressInitialState);
 
   const handleOnChangeText = (name, value) => {
     if (name === "email") {
@@ -81,8 +107,24 @@ export default function UpdateUserInformation() {
     }
   };
 
+  const dropDownArray = [
+    {
+      key: 1,
+      label: "Municipalty / city",
+      name: "municipality",
+      options: filterData(municipalityData, "province_id", address.province.id),
+    },
+  ];
+
   //Input Field Array
   const inputFieldArray = [
+    {
+      key: 0,
+      value: username,
+      label: "Username :",
+      type: "text",
+      name: "username",
+    },
     {
       key: 1,
       value: firstName,
@@ -99,20 +141,39 @@ export default function UpdateUserInformation() {
     },
     {
       key: 3,
-      value: address,
-      label: "Address :",
+      value: subdivision,
+      label: "Subdivision :",
       type: "text",
-      name: "address",
+      name: "subdivision",
     },
     {
       key: 4,
+      value: street,
+      label: "Street :",
+      type: "text",
+      name: "street",
+    },
+    {
+      key: 5,
+      value: barangay,
+      label: "Barangay :",
+      type: "text",
+      name: "barangay",
+    },
+    {
+      key: 6,
+      value: municipality,
+      label: "Municipality :",
+    },
+    {
+      key: 7,
       value: email,
       label: "Email :",
       type: "text",
       name: "email",
     },
     {
-      key: 5,
+      key: 8,
       value: mobileNumber,
       label: "Mobile Number :",
       type: "number",
@@ -182,20 +243,45 @@ export default function UpdateUserInformation() {
                   keyboardType,
                   textError,
                 }) => (
-                  <InputField
-                    textProp={{ color: colors.dark2 }}
-                    key={key}
-                    label={label}
-                    type={type}
-                    name={name}
-                    textError={textError}
-                    keyboardType={keyboardType}
-                    onChangeText={(value) => handleOnChangeText(name, value)}
-                    value={name !== "email" ? toSentenceCase(value) : value}
-                  />
+                  <View style={{ flex: 1, width: "100%" }} key={key}>
+                    {key === 6 ? (
+                      dropDownArray.map(({ key, name, options }) => (
+                        <View
+                          style={{
+                            width: "100%",
+                          }}
+                          key={key}
+                        >
+                          <Dropdown2
+                            label={label}
+                            name={name}
+                            data={address}
+                            id={id}
+                            setId={setId}
+                            setData={setAddress}
+                            options={options}
+                          />
+                        </View>
+                      ))
+                    ) : (
+                      <InputField
+                        textProp={{ color: colors.dark2 }}
+                        label={label}
+                        type={type}
+                        name={name}
+                        textError={textError}
+                        keyboardType={keyboardType}
+                        onChangeText={(value) =>
+                          handleOnChangeText(name, value)
+                        }
+                        value={name !== "email" ? toSentenceCase(value) : value}
+                      />
+                    )}
+                  </View>
                 )
               )}
           </View>
+
           <View style={styles.row}>
             <TouchableOpacity
               onPress={() => handleOnPress(updatedUser)}
