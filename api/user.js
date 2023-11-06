@@ -7,13 +7,15 @@ import resizeImage from "../utils/resizeImage";
 import uploadImage from "../utils/uploadImage";
 
 // Function to update single field in user data from Firestore
-export const updateUserData = async (key, value) => {
+export const updateSpecificFeild = async (key, value) => {
   try {
     const user = auth.currentUser;
 
-    updateDoc(doc(db, "users/" + user.uid), {
-      [key]: value,
-    });
+    // Create the update data
+    let updateData = {};
+    updateData[`${key}.municipality`] = value;
+
+    updateDoc(doc(db, "users/" + user.uid), updateData);
 
     return {
       message: "update success!",

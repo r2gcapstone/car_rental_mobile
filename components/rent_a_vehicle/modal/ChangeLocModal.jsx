@@ -1,24 +1,60 @@
-import { Modal, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Modal, StyleSheet, View, TouchableOpacity } from "react-native";
 import React from "react";
-import InputField from "components/InputField";
-import { updateUserData } from "api/user";
+import Text from "components/ThemedText";
+import { updateSpecificFeild } from "api/user";
+import Dropdown2 from "components/button/DropDown2";
+import municipalityData from "json/municipality.json";
+import filterData from "utils/filterData";
+import { useState } from "react";
+//hook
+import { useUserContext } from "context/UserContext";
 
-const ChangeLocModal = ({
-  onClose,
-  addressProp: { newAddress, setNewAddress },
-  placeholder,
-}) => {
-  const key = "address";
-  const handleOnClick = async () => {
-    const response = await updateUserData(key, newAddress);
-    if (!response.error) {
-      onClose();
-    }
+const idInitialState = {
+  municipalityId: "",
+};
+
+const addressInitialState = {
+  province: {
+    name: "Negros Occidental",
+    id: 38,
+  },
+  municipality: {
+    name: "",
+    id: null,
+  },
+};
+
+const ChangeLocModal = ({ onClose, addressProp: { setNewCity } }) => {
+  const [id, setId] = useState(idInitialState);
+  const [address, setAddress] = useState(addressInitialState);
+  const { setUser } = useUserContext();
+
+  const handleOnClick = async (address) => {
+    const key = "address";
+
+    await updateSpecificFeild(key, address.municipality);
+    //will update value without checking the updateSpecificFeild response
+    setNewCity(address.municipality.name);
+    setUser((currentUser) => ({
+      ...currentUser,
+      address: {
+        ...currentUser.address,
+        municipality: address.municipality,
+      },
+    }));
+
+    onClose();
   };
 
-  const handleOnChange = (value) => {
-    setNewAddress(value);
-  };
+  const dropDownArray = [
+    {
+      key: 1,
+      label: "Municipalty / city",
+      name: "municipality",
+      options: filterData(municipalityData, "province_id", address.province.id),
+    },
+  ];
+
   return (
     <Modal
       style={styles.modal}
@@ -32,15 +68,23 @@ const ChangeLocModal = ({
         onPress={onClose}
       >
         <View style={styles.box}>
-          <InputField
-            label={"Current Location :"}
-            type="text"
-            name="plateNumber"
-            placeholder={placeholder}
-            onChangeText={(value) => handleOnChange(value)}
-            required
-          />
-          <TouchableOpacity onPress={handleOnClick} style={styles.proceedBtn}>
+          <Text>Choose new location :</Text>
+          {dropDownArray.map(({ key, name, options }) => (
+            <View style={{ paddingTop: -20, paddingVertical: 8 }} key={key}>
+              <Dropdown2
+                name={name}
+                data={address}
+                id={id}
+                setId={setId}
+                setData={setAddress}
+                options={options}
+              />
+            </View>
+          ))}
+          <TouchableOpacity
+            onPress={() => handleOnClick(address)}
+            style={styles.proceedBtn}
+          >
             <Text style={styles.buttonText}>Change Location</Text>
           </TouchableOpacity>
         </View>

@@ -21,8 +21,6 @@ export default function UploadAvatar() {
   const route = useRoute(); // Use the useRoute hook
   const data = route.params?.newData; // Retrieve the signUpFormData parameter
 
-  // console.log(JSON.stringify(data, null, 2));
-
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
