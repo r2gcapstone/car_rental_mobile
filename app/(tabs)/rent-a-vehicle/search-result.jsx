@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { StyleSheet, Image, ScrollView, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Image, ScrollView, View, Button } from "react-native";
 //layout
 import MainLayout from "layouts/MainLayout";
 
@@ -15,22 +15,43 @@ import { useUserContext } from "context/UserContext";
 
 const ResultScreen = () => {
   const route = useRoute();
-  const user = useUserContext().user;
+  const { user, setUser } = useUserContext();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const currentCity = user.address.municipality.name;
 
   //prev data
   const { result, dateTime } = JSON.parse(route.params?.data);
 
+  // Filter the results based on the current city
+  const filteredResults = result
+    ? result.filter(
+        (item) => item.pickupLocation.municipality.name === currentCity
+      )
+    : [];
+
+  // Calculate the total number of pages based on the filtered results
+  const itemsPerPage = 5;
+  const totalItems = filteredResults.length;
+
+  // Calculate the start and end indices based on the current page and items per page
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+  // Paginated results
+  const paginatedResults = filteredResults.slice(startIndex, endIndex);
+
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <ChangeLocation address={user.address} />
+        <ChangeLocation city={currentCity} setUser={setUser} />
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Available Vehicles For Rent</Text>
           <Image style={styles.logoIcon} source={logo} />
         </View>
         <View style={styles.resultContainer}>
-          {result && result.length > 0 ? (
-            result.map((resultItem) => (
+          {paginatedResults && paginatedResults.length > 0 ? (
+            paginatedResults.map((resultItem) => (
               <ResultItem
                 key={resultItem.id}
                 resultItem={resultItem}
@@ -42,6 +63,20 @@ const ResultScreen = () => {
               No result found!
             </Text>
           )}
+        </View>
+        {/* Pagination */}
+        <View style={styles.paginationContainer}>
+          <Button
+            title="<"
+            disabled={currentPage === 1}
+            onPress={() => setCurrentPage(currentPage - 1)}
+          />
+          <Text style={styles.pageNumber}>{currentPage}</Text>
+          <Button
+            title=">"
+            disabled={endIndex >= totalItems}
+            onPress={() => setCurrentPage(currentPage + 1)}
+          />
         </View>
       </ScrollView>
     </MainLayout>
@@ -70,7 +105,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 20,
   },
-
   logoIcon: {
     width: 30,
     height: 36,
@@ -79,5 +113,15 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     gap: 11,
+  },
+  paginationContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  pageNumber: {
+    marginHorizontal: 10,
+    fontSize: 16,
   },
 });

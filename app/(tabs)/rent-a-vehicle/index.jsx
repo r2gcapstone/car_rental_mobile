@@ -184,8 +184,8 @@ export default function RentAVehicle() {
             }}
           ></View>
           <Text>
-            Note : The location of your device will be used to find vehicles
-            near you. (Required)
+            The city or municipality indicated in your address will be employed
+            to locate the vehicle within your area.
           </Text>
           <TouchableOpacity
             disabled={isDate}

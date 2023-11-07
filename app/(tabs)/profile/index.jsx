@@ -21,21 +21,31 @@ export default function Profile() {
   const { toSentenceCase } = useSentenceCase();
 
   const {
-    id,
+    username,
     firstName,
     lastName,
-    address,
+    address: { province, municipality, barangay, subdivision, street },
     email,
     imageUrl,
     mobileNumber,
     dateCreated,
   } = user;
 
+  const newAddress = [
+    street,
+    subdivision,
+    barangay,
+    municipality.name,
+    province.name,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
   const dataArray = [
-    { id: 1, label: "Username :", value: firstName },
+    { id: 1, label: "Username :", value: username },
     { id: 2, label: "Email :", value: email },
     { id: 3, label: "Mobile Number :", value: mobileNumber },
-    { id: 4, label: "Address :", value: address },
+    { id: 4, label: "Address :", value: newAddress },
   ];
 
   const handleUpdateBtn = () => {

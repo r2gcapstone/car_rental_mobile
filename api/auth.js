@@ -13,30 +13,23 @@ import uploadImage from "../utils/uploadImage";
 import getUserDataFromDatabase from "../utils/getUserData";
 
 // Signup function
-export const signup = async (
-  firstName,
-  lastName,
-  address,
-  email,
-  mobileNumber,
-  password,
-  imageUrl
-) => {
+export const signup = async (data) => {
+  console.log(JSON.stringify(data, null, 2));
   let dateCreated = new Date();
   dateCreated = Timestamp.fromDate(dateCreated);
 
   try {
     // Signup using createUserWithEmailAndPassword function of firebase
-    await createUserWithEmailAndPassword(auth, email, password);
+    await createUserWithEmailAndPassword(auth, data.email, data.password);
 
     // Get the user object after signup
     const user = auth.currentUser;
 
     let downloadURL = "";
 
-    if (imageUrl) {
+    if (data.imageUrl) {
       //compress image
-      const resizedImageUrl = await resizeImage(imageUrl, 640);
+      const resizedImageUrl = await resizeImage(data.imageUrl, 640);
 
       // This line waits for uploadImageAsync to finish
       // Arguments: resizedImageUrl (string - uri data),  storageName (string)
@@ -49,11 +42,7 @@ export const signup = async (
 
     // Set the data in the document
     await setDoc(userDocRef, {
-      firstName,
-      lastName,
-      address,
-      email,
-      mobileNumber,
+      ...data,
       imageUrl: downloadURL,
       agreeToTerms: true,
       dateCreated,
