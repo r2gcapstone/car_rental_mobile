@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 52,
-    width: 43,
+    width: 44,
   },
   logoutModal: {
     padding: 8,

@@ -301,10 +301,8 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     width: "100%",
-    // marginTop: -23, //emulator
   },
   container: {
-    // marginTop: 20, //emulator
     flex: 1,
     gap: 20,
     justifyContent: "space-between",
