@@ -30,7 +30,7 @@ const SignInScreen = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { user, setUser } = useUserContext();
+  const { setUser } = useUserContext();
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -55,6 +55,7 @@ const SignInScreen = () => {
       setUser((prevUser) => ({
         ...prevUser, // Copy the previous user data
         ownerId: response.userData.ownerId,
+        username: response.userData.username,
         firstName: response.userData.firstName,
         lastName: response.userData.lastName,
         address: response.userData.address,
