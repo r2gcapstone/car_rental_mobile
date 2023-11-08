@@ -7,9 +7,9 @@ import { useState } from "react";
 import ChangeLocModal from "./modal/ChangeLocModal";
 import { useEffect } from "react";
 
-const ChangeLocation = ({ address }) => {
+const ChangeLocation = ({ city, setUser }) => {
   const [modal, setModal] = useState(false);
-  const [newAddress, setNewAddress] = useState(address);
+  const [newCity, setNewCity] = useState(city);
   const [placeholder, setPlaceholder] = useState("");
 
   const handleOnchange = () => {
@@ -17,14 +17,14 @@ const ChangeLocation = ({ address }) => {
   };
 
   useEffect(() => {
-    setPlaceholder(newAddress);
+    setPlaceholder(newCity);
   }, [modal]);
 
   return (
     <TouchableOpacity onPress={handleOnchange}>
       <View style={styles.container}>
         <Text style={styles.label}>
-          Your Location :{" "}
+          Municipality / City :{"  "}
           <Text style={styles.content}>
             {placeholder ? placeholder : "No address set !"}
           </Text>
@@ -34,7 +34,7 @@ const ChangeLocation = ({ address }) => {
       {modal && (
         <ChangeLocModal
           onClose={handleOnchange}
-          addressProp={{ newAddress, setNewAddress }}
+          addressProp={{ newCity, setNewCity }}
           placeholder={placeholder}
         />
       )}

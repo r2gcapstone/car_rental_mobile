@@ -7,7 +7,8 @@ import Text from "components/ThemedText";
 const DropDown2 = ({ data, setData, options, label, name, id, setId }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+      {label && <Text style={styles.label}>{label}</Text>}
+
       <View style={styles.pickerContainer}>
         {options && (
           <Picker
