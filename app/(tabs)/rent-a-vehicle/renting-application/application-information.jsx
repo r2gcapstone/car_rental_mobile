@@ -36,6 +36,7 @@ const ApplicationInformation = () => {
   const {
     vehicleDetails: { vehicleName },
     imageUrl,
+    ownersNumber,
     ownerName,
     status,
     dateTime,
@@ -78,7 +79,8 @@ const ApplicationInformation = () => {
   let endTime = formatTime2(convertedData.endTime.toDate());
 
   const dataArray = [
-    { id: 1, label: "Booking Status :", value: toSentenceCase(status) },
+    { id: 0, label: "Booking Status :", value: toSentenceCase(status) },
+    { id: 1, label: "Mobile Number :", value: ownersNumber },
     { id: 2, label: "Start Rent Date :", value: startDate },
     { id: 3, label: "Start Rent Time :", value: startTime },
     { id: 4, label: "End Rent Date :", value: endDate },

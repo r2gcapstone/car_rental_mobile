@@ -8,6 +8,7 @@ import UploadImageBtn from "components/button/UploadImageBtn";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { router } from "expo-router";
 import { getVehicleInfo, updateCarImage, RegisterCar } from "api/cars";
+import { useUserContext } from "context/UserContext";
 
 const initialState = {
   governmentId: "",
@@ -17,6 +18,8 @@ const initialState = {
 
 const UploadDocs = () => {
   const route = useRoute();
+  const { user } = useUserContext();
+  const mobileNumber = user.mobileNumber;
 
   //prev data
   const data = JSON.parse(route.params?.data);
@@ -37,6 +40,7 @@ const UploadDocs = () => {
   //create new object
   const registerVehicle = {
     ...data,
+    ownersNumber: mobileNumber,
     document: document,
   };
 
