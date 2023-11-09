@@ -40,7 +40,7 @@ export default function Map({ carId }) {
         });
       }
     } catch (error) {
-      // Handle errors here
+      alert(error);
     }
   };
 

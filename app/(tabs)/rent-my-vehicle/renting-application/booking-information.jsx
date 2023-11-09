@@ -12,10 +12,12 @@ import useSentenceCase from "hooks/useSentenceCase";
 import Text from "components/ThemedText";
 import ConfirmationModal from "components/modal/ConfirmationModal";
 import { getUserData } from "api/user";
-import { rentalRequest, updateRentalDataField } from "api/rental";
+import { rentalRequest } from "api/rental";
 import formatDate from "utils/formatDate";
 import formatTime from "utils/formatTime";
 import { Timestamp } from "firebase/firestore";
+import appendAddress from "utils/appendAddress";
+import firebaseTimestamp from "utils/FirebaseTimestamp";
 
 //icon
 import peso from "assets/icons/pesoWhite.png";
@@ -66,27 +68,8 @@ const BookingInformation = () => {
 
   const p = { ...pickupLocation };
   const d = { ...dropoffLocation };
-  const pickUp = [
-    p.streetName,
-    p.houseNumber,
-    p.barangay.name,
-    p.municipality.name,
-    p.zipCode,
-    p.province.name,
-  ]
-    .filter(Boolean)
-    .join(", ");
-
-  const dropOff = [
-    d.streetName,
-    d.houseNumber,
-    d.barangay.name,
-    d.municipality.name,
-    d.zipCode,
-    d.province.name,
-  ]
-    .filter(Boolean)
-    .join(", ");
+  const pickUp = appendAddress(p);
+  const dropOff = appendAddress(d);
 
   const dataArray = [
     { id: 1, label: "Vehicle to Rent :", value: toSentenceCase(vehicleName) },

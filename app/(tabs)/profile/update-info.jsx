@@ -301,6 +301,8 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     width: "100%",
+    marginTop: -48,
+    paddingTop: 20,
   },
   container: {
     flex: 1,
@@ -328,6 +330,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 4,
     marginVertical: 40,
+    marginBottom: 80,
   },
   btnText: {
     fontSize: 20,
