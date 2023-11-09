@@ -13,16 +13,23 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["android.permission.RECORD_AUDIO"],
-      "package": "com.r2gcapstone.car-rental-mobile"
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.r2gcapstone.carrentalmobile"
     },
-    "plugins": ["expo-router", "expo-image-picker"],
+    "plugins": [
+      "expo-router",
+      "expo-image-picker"
+    ],
     "experiments": {
       "tsconfigPaths": true,
       "typedRoutes": true
@@ -39,7 +46,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "8ade98aa-f769-4575-a77b-85d8dd88c7db"
+        "projectId": "5c8a7f39-8a11-4bb1-8ea4-5fc4ad274ebd"
       }
     }
   }
