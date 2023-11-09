@@ -68,13 +68,23 @@ const BookingInformation = () => {
   const d = { ...dropoffLocation };
 
   const pickUp = [
-    `${p.streetName}, ${p.houseNumber}, ${p.barangay.name}, ${p.municipality.name}, ${p.zipCode} ${p.province.name}`,
+    p.streetName,
+    p.houseNumber,
+    p.barangay.name,
+    p.municipality.name,
+    p.zipCode,
+    p.province.name,
   ]
     .filter(Boolean)
     .join(", ");
 
   const dropOff = [
-    `${d.streetName}, ${d.houseNumber}, ${d.barangay.name}, ${d.municipality.name}, ${d.zipCode} ${d.province.name}`,
+    d.streetName,
+    d.houseNumber,
+    d.barangay.name,
+    d.municipality.name,
+    d.zipCode,
+    d.province.name,
   ]
     .filter(Boolean)
     .join(", ");
