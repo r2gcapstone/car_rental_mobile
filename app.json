@@ -1,12 +1,12 @@
 {
   "expo": {
     "jsEngine": "hermes",
-    "name": "car-rental-mobile",
+    "name": "Car Rental",
     "slug": "car-rental-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "car-rental-mobile",
+    "scheme": "rentalcar",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -14,10 +14,6 @@
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": ["**/*"],
-    "ios": {
-      "supportsTablet": true,
-      "UIViewControllerBasedStatusBarAppearance": true
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
@@ -25,11 +21,6 @@
       },
       "permissions": ["android.permission.RECORD_AUDIO"],
       "package": "com.r2gcapstone.car-rental-mobile"
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
     },
     "plugins": ["expo-router", "expo-image-picker"],
     "experiments": {
