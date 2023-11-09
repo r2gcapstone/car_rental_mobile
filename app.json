@@ -13,23 +13,17 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
+    "softwareKeyboardLayoutMode": "pan",
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["android.permission.RECORD_AUDIO"],
       "package": "com.r2gcapstone.carrentalmobile"
     },
-    "plugins": [
-      "expo-router",
-      "expo-image-picker"
-    ],
+    "plugins": ["expo-router", "expo-image-picker"],
     "experiments": {
       "tsconfigPaths": true,
       "typedRoutes": true
