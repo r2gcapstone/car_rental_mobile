@@ -77,6 +77,8 @@ const SignInScreen = () => {
           "You have entered an invalid email or password, please try again!"
         );
         return;
+      } else if (response.status === "auth/network-request-failed") {
+        alert("Network Problem, please check your connection!");
       }
       alert(response.status);
     } else {
