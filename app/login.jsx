@@ -149,12 +149,12 @@ const SignInScreen = () => {
           <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          disabled={email === "" && password === ""}
           style={[
             styles.loginButton,
             { backgroundColor: colors.blue.slitedark },
           ]}
           onPress={handleLogin}
-          disabled={isLoading}
         >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
