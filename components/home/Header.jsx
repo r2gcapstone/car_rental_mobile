@@ -94,7 +94,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     marginBottom: 32,
-    paddingTop: StatusBar.currentHeight,
+    marginTop: 10,
+    // paddingTop: StatusBar.currentHeight,
   },
   bellIcon: {
     height: 28,
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 52,
-    width: 43,
+    width: 44,
   },
   logoutModal: {
     padding: 8,
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blue.slitedark,
     borderRadius: 5,
     position: "absolute",
-    top: 65,
+    top: 45,
     right: 0,
     shadowColor: "#000",
     shadowRadius: 10,

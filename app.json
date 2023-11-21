@@ -1,35 +1,29 @@
 {
   "expo": {
     "jsEngine": "hermes",
-    "name": "car-rental-mobile",
+    "name": "Car Rental",
     "slug": "car-rental-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "car-rental-mobile",
+    "scheme": "rentalcar",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
+      "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["android.permission.RECORD_AUDIO"],
       "package": "com.r2gcapstone.carrentalmobile"
     },
-    "plugins": [
-      "expo-router",
-      "expo-image-picker"
-    ],
+    "plugins": ["expo-router", "expo-image-picker"],
     "experiments": {
       "tsconfigPaths": true,
       "typedRoutes": true

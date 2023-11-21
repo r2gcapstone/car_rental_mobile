@@ -15,6 +15,7 @@ const MainLayout = ({ children }) => {
           translucent={true}
           barStyle={"light-content"}
         />
+        {/* {children} */}
         <SafeAreaView style={styles.safeView}>{children}</SafeAreaView>
       </View>
     </KeyboardAvoidingContainer>

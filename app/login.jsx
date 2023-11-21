@@ -77,6 +77,8 @@ const SignInScreen = () => {
           "You have entered an invalid email or password, please try again!"
         );
         return;
+      } else if (response.status === "auth/network-request-failed") {
+        alert("Network Problem, please check your connection!");
       }
       alert(response.status);
     } else {
@@ -149,12 +151,12 @@ const SignInScreen = () => {
           <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          disabled={email === "" && password === ""}
           style={[
             styles.loginButton,
             { backgroundColor: colors.blue.slitedark },
           ]}
           onPress={handleLogin}
-          disabled={isLoading}
         >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>

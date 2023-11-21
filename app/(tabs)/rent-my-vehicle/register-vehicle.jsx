@@ -141,6 +141,7 @@ export default function RegisterVehicle() {
           <InputField
             value={formData.plateNumber.toString()}
             label={"Plate Number :"}
+            keyboardType="default"
             type="text"
             name="plateNumber"
             onChangeText={(value) => handleOnhangeText("plateNumber", value)}

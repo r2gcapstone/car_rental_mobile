@@ -46,12 +46,7 @@ const NotificationList = ({ from }) => {
   };
 
   const handleOnPress = (index) => {
-    let path = "";
-    if (from === "notification") {
-      path = "(notification)/booking-information";
-    } else {
-      path = "rent-my-vehicle/renting-application/booking-information";
-    }
+    let path = "(notification)/booking-information";
 
     if (data[index]) {
       router.push({

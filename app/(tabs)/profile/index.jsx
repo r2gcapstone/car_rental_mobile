@@ -14,7 +14,6 @@ import useSentenceCase from "hooks/useSentenceCase";
 import { colors } from "constants/Colors";
 import { router } from "expo-router";
 import formatDate from "utils/formatDate";
-import icon from "assets/icons/index";
 
 export default function Profile() {
   const { user } = useUserContext();
@@ -107,10 +106,13 @@ export default function Profile() {
                 onPress={handleChangePassBtn}
                 style={[
                   styles.btn,
-                  { backgroundColor: colors.red.primary, opacity: 0.7 },
+                  {
+                    backgroundColor: colors.red.primary,
+                    opacity: 0.5,
+                  },
                 ]}
               >
-                <Text style={styles.btn2Text}>Change Password</Text>
+                <Text>Change Password</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -172,6 +174,7 @@ const styles = StyleSheet.create({
     width: "50%",
     textAlign: "right",
     right: 0,
+    color: colors.white[1],
   },
   label: {},
   btn: {

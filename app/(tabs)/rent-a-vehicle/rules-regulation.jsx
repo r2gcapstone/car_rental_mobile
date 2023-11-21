@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   logo: {
-    width: 68,
+    width: 67,
     height: 80,
   },
   caption: {

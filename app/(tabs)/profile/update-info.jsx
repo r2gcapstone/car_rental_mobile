@@ -301,10 +301,10 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     width: "100%",
-    marginTop: -23, //emulator
+    marginTop: -48,
+    paddingTop: 20,
   },
   container: {
-    marginTop: 20, //emulator
     flex: 1,
     gap: 20,
     justifyContent: "space-between",
@@ -330,6 +330,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 4,
     marginVertical: 40,
+    marginBottom: 80,
   },
   btnText: {
     fontSize: 20,
