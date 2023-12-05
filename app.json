@@ -20,8 +20,17 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["android.permission.RECORD_AUDIO"],
-      "package": "com.r2gcapstone.carrentalmobile"
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION"
+      ],
+      "package": "com.r2gcapstone.carrentalmobile",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBsjaYpcqQsuXso2ZmNYIWvhm7Pnr9h-tU"
+        }
+      }
     },
     "plugins": ["expo-router", "expo-image-picker"],
     "experiments": {
