@@ -14,7 +14,7 @@ const initialLoc = {
 
 export default function Map({ carId }) {
   const [location, setLocation] = useState(initialLoc);
-  const [isTracking, setIsTracking] = useState(null);
+  const [isTracking, setIsTracking] = useState(false);
 
   const handleMarkerPress = () => {
     const { latitude, longitude } = location;
@@ -38,9 +38,11 @@ export default function Map({ carId }) {
           latitudeDelta: 0.005,
           longitudeDelta: 0.005,
         });
+      } else {
+        // Handle the case when an error occurs from the API call
       }
     } catch (error) {
-      alert(error);
+      // Handle network or unexpected errors
     }
   };
 
@@ -51,7 +53,7 @@ export default function Map({ carId }) {
   return (
     <View style={styles.container}>
       <MapView region={location} style={styles.map}>
-        {isTracking == "on" && location && (
+        {isTracking === "on" && location && (
           <Marker
             title="Address"
             coordinate={location}
