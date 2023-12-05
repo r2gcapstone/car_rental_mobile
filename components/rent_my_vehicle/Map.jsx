@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import MapView, { Marker } from "react-native-maps";
-import { StyleSheet, View, Text } from "react-native";
+import MapView from "react-native-maps";
+import { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import { StyleSheet, View } from "react-native";
 import { loc } from "assets/icons/index";
 import { Image } from "react-native";
 import { getMyRentalLoc } from "api/rental";
@@ -52,7 +53,7 @@ export default function Map({ carId }) {
 
   return (
     <View style={styles.container}>
-      <MapView region={location} style={styles.map}>
+      <MapView provider={PROVIDER_GOOGLE} region={location} style={styles.map}>
         {isTracking === "on" && location && (
           <Marker
             title="Address"
