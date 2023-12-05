@@ -30,6 +30,7 @@ export const RentCar = async (data) => {
     if (userSnapshot.exists()) {
       const userData = userSnapshot.data();
       const ownerName = userData.firstName;
+      const ownerNumber = userData.mobileNumber;
 
       const dateCreated = Timestamp.now();
 
@@ -40,6 +41,7 @@ export const RentCar = async (data) => {
         reviewed: false,
         viewed: false,
         ownerName,
+        ownerNumber,
         dateCreated,
         dateTime: {
           startDate: Timestamp.fromDate(

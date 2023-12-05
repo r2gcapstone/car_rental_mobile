@@ -292,7 +292,7 @@ const SelectedVehicle = () => {
                 },
               ]}
             >
-              {"Subscribed"}
+              {isSubscribed ? "Subscribed" : "Not Subscribed"}
             </Text>
           </View>
         </View>

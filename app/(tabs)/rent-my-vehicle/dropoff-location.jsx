@@ -64,7 +64,7 @@ const DropoffLocation = () => {
   };
 
   const isAddressEmpty = () => {
-    const { streetName, houseNumber, ...rest } = address;
+    const { subdivision, streetName, houseNumber, ...rest } = address;
     return Object.values(rest).some((value) => value === "");
   };
 

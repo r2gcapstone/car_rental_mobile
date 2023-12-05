@@ -108,7 +108,6 @@ export default function Profile() {
                   styles.btn,
                   {
                     backgroundColor: colors.red.primary,
-                    opacity: 0.5,
                   },
                 ]}
               >

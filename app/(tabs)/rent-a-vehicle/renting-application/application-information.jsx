@@ -66,7 +66,11 @@ const ApplicationInformation = () => {
 
   const dataArray = [
     { id: 0, label: "Booking Status :", value: toSentenceCase(status) },
-    { id: 1, label: "Mobile Number :", value: ownersNumber },
+    {
+      id: 1,
+      label: "Mobile Number :",
+      value: ownersNumber ? ownersNumber : "none",
+    },
     { id: 2, label: "Start Rent Date :", value: startDate },
     { id: 3, label: "Start Rent Time :", value: startTime },
     { id: 4, label: "End Rent Date :", value: endDate },

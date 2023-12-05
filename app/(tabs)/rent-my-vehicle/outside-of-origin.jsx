@@ -35,20 +35,32 @@ const OutsideOfOrigin = () => {
     }
   };
 
-  const filteredData = () =>
-    useFilteredData(municipalityData, provinceId, "province") || [];
+  let filteredData = [];
+  if (mode !== "update" || mode !== undefined) {
+    try {
+      filteredData = useFilteredData(
+        municipalityData,
+        data.pickupLocation.province.id,
+        "province"
+      );
+    } catch (error) {
+      console.error;
+    }
+  }
 
-  const filteredDataArray = filteredData();
-
+  //UPDATE
   // fetch data when screen is used for updating data
   const fetchData = async (id) => {
     try {
       showLoading();
       const result = await getVehicleInfo(id);
+
       hideLoading();
       if (!result.error) {
         setOutsideRate(result.outsideRate);
-        setprovinceId(result.pickupLocation.province.id);
+        try {
+          setprovinceId(result.pickupLocation.province.id);
+        } catch (error) {}
       }
     } catch (error) {
       hideLoading();
@@ -60,7 +72,8 @@ const OutsideOfOrigin = () => {
     key = "outsideRate";
   }
 
-  const handleOnPress = async (carId) => {
+  //UPDATE
+  const handleUpdateOnPress = async (carId) => {
     try {
       showLoading();
       const result = await updateCarData(key, outsideRate, carId);
@@ -93,18 +106,19 @@ const OutsideOfOrigin = () => {
           <View style={styles.originLabel}>
             <Text>Origin Location :</Text>
             <View style={styles.originField}>
-              {mode !== "update" ? (
+              {mode !== "update" || mode !== undefined ? (
                 <Text style={styles.label}>
-                  {data.pickupLocation.municipality.name}
+                  {data.pickupLocation?.municipality?.name || placeOrigin}
                 </Text>
               ) : (
                 <Text style={styles.label}>{placeOrigin}</Text>
               )}
             </View>
           </View>
-          {mode !== "update" &&
-            filteredDataArray &&
-            filteredDataArray.map((item, index) => {
+
+          {(mode !== "update" || mode !== undefined) &&
+            filteredData &&
+            filteredData.map((item, index) => {
               if (
                 item.municipality_name !== data.pickupLocation.municipality.name
               ) {
@@ -125,7 +139,7 @@ const OutsideOfOrigin = () => {
               }
               return null;
             })}
-          {mode == "update" &&
+          {mode === "update" &&
             outsideRate &&
             Object.entries(outsideRate)
               .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
@@ -149,7 +163,7 @@ const OutsideOfOrigin = () => {
       {mode === "update" ? (
         <TouchableOpacity
           style={styles.proceedBtn}
-          onPress={() => handleOnPress(carId)}
+          onPress={() => handleUpdateOnPress(carId)}
         >
           <Text style={styles.buttonText}>Update</Text>
         </TouchableOpacity>
