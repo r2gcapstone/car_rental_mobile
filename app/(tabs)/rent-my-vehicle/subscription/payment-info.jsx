@@ -4,7 +4,6 @@ import { colors } from "constants/Colors";
 import Text from "components/ThemedText";
 import { useRoute } from "@react-navigation/native";
 import { Subscribe } from "api/subscription";
-import formatdate from "utils/formatDate";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import useSentenceCase from "hooks/useSentenceCase";
 
@@ -18,8 +17,17 @@ const PaymentInfo = () => {
   const { toSentenceCase } = useSentenceCase();
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const data = JSON.parse(route.params?.data);
-  const { type, price, value, days, wallet, gcashNumber, imageUrls, carId } =
-    data;
+  const {
+    type,
+    price,
+    value,
+    days,
+    wallet,
+    gcashNumber,
+    imageUrls,
+    carId,
+    mobileNumber,
+  } = data;
 
   const newObject = {
     carId: carId,
@@ -27,6 +35,7 @@ const PaymentInfo = () => {
     ammount: price,
     paymentMethod: wallet,
     walletNumber: gcashNumber,
+    ownerNumber: mobileNumber,
     duration: days,
     vehicleName: value,
     carImage: imageUrls.front,
