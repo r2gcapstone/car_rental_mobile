@@ -106,7 +106,7 @@ const VehicleList = () => {
                         },
                       ]}
                     >
-                      {"Subscribed"}
+                      {isSubscribed ? "Subscribed" : "Not Subscribed"}
                     </Text>
                   </View>
                 </View>
