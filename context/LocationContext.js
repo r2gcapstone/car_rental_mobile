@@ -26,7 +26,7 @@ export const LocationProvider = ({ children }) => {
       }
 
       subscriber = await Location.watchPositionAsync(
-        { accuracy: Location.Accuracy.High, timeInterval: 600000 }, // 10 minutes in milliseconds
+        { accuracy: Location.Accuracy.High, timeInterval: 60000 }, // 1 minute in milliseconds
         (newLocation) => {
           setLocation(newLocation);
           if (docIds) {

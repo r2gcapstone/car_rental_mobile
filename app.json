@@ -15,22 +15,21 @@
     },
     "assetBundlePatterns": ["**/*"],
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBsjaYpcqQsuXso2ZmNYIWvhm7Pnr9h-tU"
+        }
+      },
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
-        "android.permission.RECORD_AUDIO",
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION"
       ],
-      "package": "com.r2gcapstone.carrentalmobile",
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyBsjaYpcqQsuXso2ZmNYIWvhm7Pnr9h-tU"
-        }
-      }
+      "package": "com.r2gcapstone.carrentalmobile"
     },
     "plugins": ["expo-router", "expo-image-picker"],
     "experiments": {

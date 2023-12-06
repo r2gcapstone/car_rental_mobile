@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import MapView from "react-native-maps";
-import { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import { StyleSheet, View } from "react-native";
 import { loc } from "assets/icons/index";
 import { Image } from "react-native";
 import { getMyRentalLoc } from "api/rental";
+import { PROVIDER_GOOGLE } from "react-native-maps";
 
 const initialLoc = {
   latitude: 10.5643,
