@@ -37,7 +37,7 @@ const ApplicationInformation = () => {
   const {
     vehicleDetails: { vehicleName },
     imageUrl,
-    ownersNumber,
+    ownerNumber,
     ownerName,
     status,
     dateTime,
@@ -69,7 +69,7 @@ const ApplicationInformation = () => {
     {
       id: 1,
       label: "Mobile Number :",
-      value: ownersNumber ? ownersNumber : "none",
+      value: ownerNumber ? ownerNumber : "none",
     },
     { id: 2, label: "Start Rent Date :", value: startDate },
     { id: 3, label: "Start Rent Time :", value: startTime },

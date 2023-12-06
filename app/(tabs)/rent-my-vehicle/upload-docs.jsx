@@ -41,7 +41,7 @@ const UploadDocs = () => {
   //create new object
   const registerVehicle = {
     ...data,
-    ownersNumber: mobileNumber,
+    ownerNumber: mobileNumber,
     document: document,
     ownerUsername: ownerUsername,
   };
