@@ -128,7 +128,7 @@ const BookingInformation = () => {
     },
     {
       id: 12,
-      label: "Outside of Origin Rate :",
+      label: "Outside of Origin(Add-on cost) :",
       value: destination.rate.toString(),
     },
   ];

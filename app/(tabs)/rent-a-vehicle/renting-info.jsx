@@ -38,8 +38,27 @@ const RentingInfo = () => {
 
   const p = { ...pickupLocation };
   const d = { ...dropoffLocation };
-  const pickUp = `${p.streetName}, ${p.houseNumber}, ${p.barangay.name}, ${p.municipality.name}, ${p.zipCode} ${p.province.name}`;
-  const dropOff = `${d.streetName}, ${d.houseNumber}, ${d.barangay.name}, ${d.municipality.name}, ${d.zipCode} ${d.province.name}`;
+  const pickUp = [
+    p.streetName,
+    p.houseNumber,
+    p.barangay.name,
+    p.municipality.name,
+    p.zipCode,
+    p.province.name,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  const dropOff = [
+    d.streetName,
+    d.houseNumber,
+    d.barangay.name,
+    d.municipality.name,
+    d.zipCode,
+    d.province.name,
+  ]
+    .filter(Boolean)
+    .join(", ");
 
   //format date back to firebase timeStamp
   const convertedData = {
@@ -78,20 +97,15 @@ const RentingInfo = () => {
 
   //calculate total days
   const rentDuration = countTotalDays(startDate, endDate);
-  //calculate total payment based on rate or outside rate per day if destination data is provided
-  let total = 0;
-  if (destination.municipality) {
-    total = rentDuration * destination.rate;
-  } else {
-    total = rentDuration * priceRate;
-  }
+  //calculate total payment based on rate plus additional cost for outside destination if chosen
+  const total = rentDuration * priceRate + +destination.rate;
 
   const paymentArray = [
     { id: 1, label: "Method of Payment:", value: paymentOption },
     {
       id: 2,
       label: "Rent Duration :",
-      value: rentDuration.toString() + " day(s)",
+      value: +rentDuration < 1 ? "1 day" : rentDuration.toString() + " day(s)",
     },
     {
       id: 3,
@@ -107,7 +121,7 @@ const RentingInfo = () => {
     {
       id: 5,
       icon: peso,
-      label: "Outside of Origin Rate :",
+      label: "Outside of Origin(Add-on cost) :",
       value: destination.rate.toString(),
     },
   ];

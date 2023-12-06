@@ -96,7 +96,7 @@ const OutsideOfOrigin = () => {
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.headerContainer}>
-          <Text style={styles.header}>Outside of Origin Rate</Text>
+          <Text style={styles.header}>Outside of Origin(Add-On Price)</Text>
         </View>
         <Text style={styles.caption}>
           This is an additional payment that depends on the distance from the

@@ -91,7 +91,7 @@ const ApplicationInformation = () => {
     },
     {
       id: 12,
-      label: "Outside of Origin Rate :",
+      label: "Outside of Origin(Add-on cost) :",
       value: destination.rate.toString(),
     },
   ];
@@ -128,7 +128,7 @@ const ApplicationInformation = () => {
 
       if (isTracking && docIds.includes(data.docId)) {
         setDocIds((prevDocIds) => prevDocIds.filter((id) => id !== data.docId));
-        updateRentalData({ ...location, status: "off" }, data.docId);
+        await updateRentalData({ ...location, status: "off" }, data.docId);
       }
     }
   };
