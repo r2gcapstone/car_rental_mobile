@@ -57,6 +57,8 @@ const ChooseVehicle = () => {
     days: days,
     imageUrls: selectedVehicle.imageUrls,
     carId: selectedVehicle.carId,
+    ownerNumber: selectedVehicle.ownerNumber,
+    ownerUsername: selectedVehicle.ownerUsername,
   };
 
   return (

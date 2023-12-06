@@ -24,9 +24,7 @@ import MainLayout from "layouts/MainLayout";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { getMyRentalLoc } from "api/rental";
 import { updateRentalData } from "api/rental";
-import { getVehicleInfo, updateCarData } from "api/cars";
-import { useLoadingAnimation } from "hooks/useLoadingAnimation";
-import { deleteAVehicle } from "../../../../api/cars";
+import { getVehicleInfo, updateCarData, deleteAVehicle } from "api/cars";
 
 const SelectedVehicle = () => {
   const route = useRoute();
@@ -47,6 +45,8 @@ const SelectedVehicle = () => {
     isSubscribed,
     rentee,
     carId,
+    ownerNumber,
+    ownerUsername,
   } = data;
 
   const btnArray = [
@@ -160,6 +160,8 @@ const SelectedVehicle = () => {
     carId: carId,
     vehicleDetails: { vehicleName },
     imageUrls: { front },
+    ownerNumber: ownerNumber,
+    ownerUsername: ownerUsername,
   };
 
   const handleOnPress = (path, label) => {

@@ -17,6 +17,7 @@ const PaymentInfo = () => {
   const { toSentenceCase } = useSentenceCase();
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const data = JSON.parse(route.params?.data);
+
   const {
     type,
     price,
@@ -26,7 +27,8 @@ const PaymentInfo = () => {
     gcashNumber,
     imageUrls,
     carId,
-    mobileNumber,
+    ownerNumber,
+    ownerUsername,
   } = data;
 
   const newObject = {
@@ -35,7 +37,8 @@ const PaymentInfo = () => {
     ammount: price,
     paymentMethod: wallet,
     walletNumber: gcashNumber,
-    ownerNumber: mobileNumber,
+    ownerNumber: ownerNumber,
+    ownerUsername: ownerUsername,
     duration: days,
     vehicleName: value,
     carImage: imageUrls.front,
@@ -47,6 +50,7 @@ const PaymentInfo = () => {
       const result = await Subscribe(newObject);
       hideLoading();
       if (!result.error) {
+        alert("You've successfully send a subscription request!");
         router.push("/");
       }
     } catch (error) {
