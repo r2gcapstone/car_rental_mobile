@@ -3,6 +3,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
+  signInWithPhoneNumber,
 } from "firebase/auth";
 import { auth, db } from "../services/firebaseConfig";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
@@ -46,7 +47,7 @@ export const signup = async (data) => {
       imageUrl: downloadURL,
       agreeToTerms: true,
       dateCreated,
-      deactivatedAt: null,
+      deactivatedAt: "",
     });
 
     return {
@@ -115,6 +116,24 @@ export const logout = async () => {
       message: "Logout success!",
       error: false,
       status: 200,
+    };
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+export const otpAuth = async (phoneNumber, appVerifier) => {
+  try {
+    const confirmationResult = await signInWithPhoneNumber(
+      auth,
+      phoneNumber,
+      appVerifier
+    );
+    return {
+      message: "OTP request sent, check your phone to proceed!",
+      error: false,
+      status: 200,
+      confirmationResult: confirmationResult,
     };
   } catch (error) {
     return { error: true, message: error.message, status: error.code };

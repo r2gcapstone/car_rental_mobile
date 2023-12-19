@@ -162,7 +162,7 @@ const SignUpScreen = () => {
     };
 
     // Proceed to upload profile image screen when validation is all passed
-    navigation.navigate("(sign-up)/email-verification", {
+    navigation.navigate("(sign-up)/verify-user", {
       newData,
     });
   };
