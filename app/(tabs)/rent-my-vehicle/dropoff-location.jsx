@@ -13,7 +13,7 @@ import barangayData from "json/barangay.json";
 import filterData from "utils/filterData";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { getVehicleInfo, updateCarData } from "api/cars";
-
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useRoute } from "@react-navigation/native";
 
 const idInitialState = {
@@ -50,11 +50,14 @@ const addressInitialState = {
 const DropoffLocation = () => {
   const [id, setId] = useState(idInitialState);
   const [address, setAddress] = useState(addressInitialState);
+  const [check, setCheck] = useState(false);
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
 
   const route = useRoute();
   //vehicleDetails data
   const data = JSON.parse(route.params?.data);
+
+  // console.log(JSON.stringify(data, null, 2));
   const { mode, carId, label } = data;
   const handleOnChangeText = (name, value) => {
     setAddress((prevAddress) => ({
@@ -111,7 +114,7 @@ const DropoffLocation = () => {
         filterData(
           provinceData,
           "region_id",
-          mode === "update" ? address.region.id : id.regionId
+          mode === "update" || check ? address.region.id : id.regionId
         ),
     },
     {
@@ -124,7 +127,7 @@ const DropoffLocation = () => {
         filterData(
           municipalityData,
           "province_id",
-          mode === "update" ? address.province.id : id.provinceId
+          mode === "update" || check ? address.province.id : id.provinceId
         ),
     },
     {
@@ -138,7 +141,9 @@ const DropoffLocation = () => {
         filterData(
           barangayData,
           "municipality_id",
-          mode === "update" ? address.municipality.id : id.municipalityId
+          mode === "update" || check
+            ? address.municipality.id
+            : id.municipalityId
         ),
     },
   ];
@@ -232,6 +237,14 @@ const DropoffLocation = () => {
     resetDependentFields("barangay");
   }, [address.barangay]);
 
+  const onCheck = (data) => {
+    setCheck((prev) => !prev);
+    setAddress(data);
+    if (check) {
+      setAddress(addressInitialState);
+    }
+  };
+
   const newObject = { ...data, dropoffLocation: address };
 
   return (
@@ -243,6 +256,24 @@ const DropoffLocation = () => {
         <Text style={styles.caption}>
           Please state the location of the Drop-off of your vehicle.
         </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 20,
+          }}
+        >
+          <BouncyCheckbox
+            size={25}
+            fillColor="#2DCB2A"
+            unfillColor="#FFFFFF"
+            style={styles.checkBox}
+            innerIconStyle={{ borderWidth: 0 }}
+            onPress={() => onCheck(data.pickupLocation)}
+          />
+
+          <Text style={{ marginLeft: -8 }}>Same as Pick-up Location</Text>
+        </View>
         <View style={styles.formContainer}>
           <View style={styles.countryLabel}>
             <Text>Country :</Text>
@@ -250,6 +281,7 @@ const DropoffLocation = () => {
               <Text style={styles.label}>Philippines</Text>
             </View>
           </View>
+
           {dropDownArray.map(({ key, label, name, options }) => (
             <Dropdown2
               label={label}
