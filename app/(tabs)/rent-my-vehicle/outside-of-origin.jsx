@@ -8,25 +8,17 @@ import { colors } from "constants/Colors";
 import { useRoute } from "@react-navigation/native";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { getVehicleInfo, updateCarData } from "api/cars";
-//customHook
-import useFilteredData from "hooks/useFilteredData";
-//json
-import municipalityData from "json/municipality.json";
 
 const OutsideOfOrigin = () => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
-  const [outsideRate, setOutsideRate] = useState();
-  const [provinceId, setprovinceId] = useState();
+  const [outsideRate, setOutsideRate] = useState("");
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data) || "";
   const { mode, carId, label, placeOrigin } = data;
 
-  const handleOnChangeText = (municipalityName, value) => {
-    setOutsideRate((prevState) => ({
-      ...prevState,
-      [municipalityName]: value,
-    }));
+  const handleOnChangeText = (value) => {
+    setOutsideRate(+value);
   };
 
   const isFieldEmpty = (outsideRate) => {
@@ -34,19 +26,6 @@ const OutsideOfOrigin = () => {
       return true;
     }
   };
-
-  let filteredData = [];
-  if (mode !== "update" || mode !== undefined) {
-    try {
-      filteredData = useFilteredData(
-        municipalityData,
-        data.pickupLocation.province.id,
-        "province"
-      );
-    } catch (error) {
-      console.error;
-    }
-  }
 
   //UPDATE
   // fetch data when screen is used for updating data
@@ -58,9 +37,6 @@ const OutsideOfOrigin = () => {
       hideLoading();
       if (!result.error) {
         setOutsideRate(result.outsideRate);
-        try {
-          setprovinceId(result.pickupLocation.province.id);
-        } catch (error) {}
       }
     } catch (error) {
       hideLoading();
@@ -96,7 +72,7 @@ const OutsideOfOrigin = () => {
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.headerContainer}>
-          <Text style={styles.header}>Outside of Origin(Add-On Price)</Text>
+          <Text style={styles.header}>Outside of Origin Rate</Text>
         </View>
         <Text style={styles.caption}>
           This is an additional payment that depends on the distance from the
@@ -114,50 +90,18 @@ const OutsideOfOrigin = () => {
                 <Text style={styles.label}>{placeOrigin}</Text>
               )}
             </View>
+            <InputField
+              value={outsideRate.toString()}
+              placeholder="e.g 1500"
+              keyboardType="number-pad"
+              label={"Rate / Kilometer"}
+              textError="Please input a valid price"
+              type="number"
+              name="priceRate"
+              isIcon={true}
+              onChangeText={(value) => handleOnChangeText(value)}
+            />
           </View>
-
-          {(mode !== "update" || mode !== undefined) &&
-            filteredData &&
-            filteredData.map((item, index) => {
-              if (
-                item.municipality_name !== data.pickupLocation.municipality.name
-              ) {
-                return (
-                  <InputField
-                    key={index}
-                    keyboardType="number-pad"
-                    label="Origin Location to "
-                    labelTarget={item.municipality_name}
-                    textError="Please input a valid price"
-                    type="number"
-                    isIcon={true}
-                    onChangeText={(value) =>
-                      handleOnChangeText(item.municipality_name, value)
-                    }
-                  />
-                );
-              }
-              return null;
-            })}
-          {mode === "update" &&
-            outsideRate &&
-            Object.entries(outsideRate)
-              .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
-              .map(([key, value]) => {
-                return (
-                  <InputField
-                    value={value.toString()}
-                    key={key}
-                    keyboardType="number-pad"
-                    label="Origin Location to "
-                    labelTarget={key}
-                    textError="Please input a valid price"
-                    type="number"
-                    isIcon={true}
-                    onChangeText={(value) => handleOnChangeText(key, value)}
-                  />
-                );
-              })}
         </View>
       </ScrollView>
       {mode === "update" ? (

@@ -256,24 +256,28 @@ const DropoffLocation = () => {
         <Text style={styles.caption}>
           Please state the location of the Drop-off of your vehicle.
         </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginTop: 20,
-          }}
-        >
-          <BouncyCheckbox
-            size={25}
-            fillColor="#2DCB2A"
-            unfillColor="#FFFFFF"
-            style={styles.checkBox}
-            innerIconStyle={{ borderWidth: 0 }}
-            onPress={() => onCheck(data.pickupLocation)}
-          />
+        {mode === "update" ||
+          (mode === undefined && (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: 20,
+              }}
+            >
+              <BouncyCheckbox
+                size={25}
+                fillColor="#2DCB2A"
+                unfillColor="#FFFFFF"
+                style={styles.checkBox}
+                innerIconStyle={{ borderWidth: 0 }}
+                onPress={() => onCheck(data.pickupLocation)}
+              />
 
-          <Text style={{ marginLeft: -8 }}>Same as Pick-up Location</Text>
-        </View>
+              <Text style={{ marginLeft: -8 }}>Same as Pick-up Location</Text>
+            </View>
+          ))}
+
         <View style={styles.formContainer}>
           <View style={styles.countryLabel}>
             <Text>Country :</Text>
