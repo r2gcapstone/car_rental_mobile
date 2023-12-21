@@ -17,6 +17,7 @@ import View from "components/ThemedView";
 import Text from "components/ThemedText";
 import Dropdown2 from "components/button/DropDown2";
 import municipalityData from "json/municipality.json";
+import barangayData from "json/barangay.json";
 import filterData from "utils/filterData";
 
 //constants
@@ -38,7 +39,10 @@ const addressInitialState = {
     name: "",
     id: null,
   },
-  barangay: "",
+  barangay: {
+    name: "",
+    id: null,
+  },
   subdivision: "",
   street: "",
 };
@@ -53,7 +57,6 @@ const SignUpScreen = () => {
 
   //formData object for signup fields
   const [formData, setFormData] = useState({
-    username: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -159,17 +162,45 @@ const SignUpScreen = () => {
     };
 
     // Proceed to upload profile image screen when validation is all passed
-    navigation.navigate("(sign-up)/upload-avatar", {
+    navigation.navigate("(sign-up)/send-otp", {
       newData,
     });
+  };
+
+  const renderDropdown = (array) => {
+    return array.map(({ key, name, options }) => (
+      <View style={{ paddingTop: -20, paddingVertical: 8 }} key={key}>
+        <Dropdown2
+          name={name}
+          data={address}
+          id={id}
+          setId={setId}
+          setData={setAddress}
+          options={options}
+        />
+      </View>
+    ));
   };
 
   const dropDownArray = [
     {
       key: 1,
-      label: "Municipalty / city",
+      label: "Municipalty / City",
       name: "municipality",
       options: filterData(municipalityData, "province_id", address.province.id),
+    },
+  ];
+
+  const dropDownArray2 = [
+    {
+      key: 1,
+      label: "Barangay",
+      name: "barangay",
+      options: filterData(
+        barangayData,
+        "municipality_id",
+        address.municipality.id
+      ),
     },
   ];
 
@@ -228,22 +259,11 @@ const SignUpScreen = () => {
                   ? toSentenceCase(key) + " / City"
                   : toSentenceCase(key)}
               </Text>
+
               {key === "municipality" ? (
-                dropDownArray.map(({ key, label, name, options }) => (
-                  <View
-                    style={{ paddingTop: -20, paddingVertical: 8 }}
-                    key={key}
-                  >
-                    <Dropdown2
-                      name={name}
-                      data={address}
-                      id={id}
-                      setId={setId}
-                      setData={setAddress}
-                      options={options}
-                    />
-                  </View>
-                ))
+                renderDropdown(dropDownArray)
+              ) : key === "barangay" ? (
+                renderDropdown(dropDownArray2)
               ) : (
                 <TextInput
                   style={[
@@ -264,6 +284,7 @@ const SignUpScreen = () => {
                   onChangeText={(text) => handleInputAddress(key, text)}
                 />
               )}
+
               {!!formErrors[key] && (
                 <Text style={styles.errorText}>{formErrors[key]}</Text>
               )}

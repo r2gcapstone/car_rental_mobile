@@ -74,6 +74,10 @@ function RootLayoutNav() {
               options={{ headerShown: false }}
             />
             <Stack.Screen
+              name="(sign-up)/send-otp"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
               name="(sign-up)/upload-avatar"
               options={{ headerShown: false }}
             />

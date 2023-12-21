@@ -3,6 +3,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
+  PhoneAuthProvider,
+  signInWithCredential,
 } from "firebase/auth";
 import { auth, db } from "../services/firebaseConfig";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
@@ -46,7 +48,7 @@ export const signup = async (data) => {
       imageUrl: downloadURL,
       agreeToTerms: true,
       dateCreated,
-      deactivatedAt: null,
+      deactivatedAt: "",
     });
 
     return {
@@ -116,6 +118,27 @@ export const logout = async () => {
       error: false,
       status: 200,
     };
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};
+
+export const SendVerificationCode = async (number, recaptcha) => {
+  const phoneProvider = new PhoneAuthProvider(auth);
+  const verificationId = await phoneProvider.verifyPhoneNumber(
+    number,
+    recaptcha.current
+  );
+
+  return verificationId;
+};
+
+export const VerifyVerificationCode = async (user, verificationId, code) => {
+  const credential = PhoneAuthProvider.credential(verificationId, code);
+
+  try {
+    const result = await signInWithCredential(auth, credential);
+    return result;
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
   }
