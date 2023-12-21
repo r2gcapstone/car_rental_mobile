@@ -22,7 +22,6 @@ const initialState = {
   vehicleType: "",
   gearType: "",
   fuelType: "",
-  passengerCount: "",
   luggageCount: "",
   plateNumber: "",
 };
@@ -36,7 +35,7 @@ export default function RegisterVehicle() {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
 
   const handleOnhangeText = (name, value) => {
-    if (name === "passengerCount" || name === "luggageCount") {
+    if (name === "luggageCount") {
       setFormData({ ...formData, [name]: +value });
     } else {
       setFormData({ ...formData, [name]: value });
@@ -119,15 +118,7 @@ export default function RegisterVehicle() {
           />
           <VehicleType formData={formData} setFormData={setFormData} />
           <GearShiftDropdown formData={formData} setFormData={setFormData} />
-          <InputField
-            value={formData.passengerCount.toString()}
-            label={"Number of Passengers :"}
-            keyboardType="number-pad"
-            type="number"
-            name="passengerCount"
-            onChangeText={(value) => handleOnhangeText("passengerCount", value)}
-            required
-          />
+
           <FuelType formData={formData} setFormData={setFormData} />
           <InputField
             value={formData.luggageCount.toString()}
