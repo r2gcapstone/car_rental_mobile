@@ -3,7 +3,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
-  signInWithPhoneNumber,
+  PhoneAuthProvider,
+  signInWithCredential,
 } from "firebase/auth";
 import { auth, db } from "../services/firebaseConfig";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
@@ -122,19 +123,22 @@ export const logout = async () => {
   }
 };
 
-export const otpAuth = async (phoneNumber, appVerifier) => {
+export const SendVerificationCode = async (number, recaptcha) => {
+  const phoneProvider = new PhoneAuthProvider(auth);
+  const verificationId = await phoneProvider.verifyPhoneNumber(
+    number,
+    recaptcha.current
+  );
+
+  return verificationId;
+};
+
+export const VerifyVerificationCode = async (user, verificationId, code) => {
+  const credential = PhoneAuthProvider.credential(verificationId, code);
+
   try {
-    const confirmationResult = await signInWithPhoneNumber(
-      auth,
-      phoneNumber,
-      appVerifier
-    );
-    return {
-      message: "OTP request sent, check your phone to proceed!",
-      error: false,
-      status: 200,
-      confirmationResult: confirmationResult,
-    };
+    const result = await signInWithCredential(auth, credential);
+    return result;
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
   }
