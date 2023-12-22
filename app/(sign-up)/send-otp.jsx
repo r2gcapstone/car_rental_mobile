@@ -29,10 +29,12 @@ const SendOtp = () => {
   //prev data
   const data = route.params?.newData;
 
+  let mobileNum = "+63" + data.mobileNumber.slice(1);
+
   const inputFieldArray = [
     {
       key: 0,
-      value: "+639454757783",
+      value: mobileNum,
       label: "Mobile Number :",
       type: "text",
       name: "number",
@@ -45,10 +47,7 @@ const SendOtp = () => {
 
   const handleOnPress = async () => {
     try {
-      const result = await SendVerificationCode(
-        "+639454757783",
-        recaptchaVerifier
-      );
+      const result = await SendVerificationCode(mobileNum, recaptchaVerifier);
       setVerId(result);
     } catch (error) {
       console.error(error);
@@ -79,7 +78,7 @@ const SendOtp = () => {
 
       <View style={styles.titleContainer}>
         <View style={styles.textContainer}>
-          <Text style={styles.title}>Email Verification</Text>
+          <Text style={styles.title}>Mobile Number Verification</Text>
         </View>
         <View style={styles.logoContainer}>
           <Image
@@ -102,6 +101,7 @@ const SendOtp = () => {
             {inputFieldArray.map(
               ({ key, value, label, type, name, keyboardType, textError }) => (
                 <InputField
+                  isEditable={false}
                   key={key}
                   textProp={{ color: colors.dark2 }}
                   label={label}

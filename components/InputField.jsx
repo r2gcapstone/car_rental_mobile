@@ -15,6 +15,7 @@ const InputField = ({
   isTextError,
   isIcon,
   textProp,
+  isEditable,
 }) => {
   const [error, setError] = useState("");
   const validateInput = (text) => {
@@ -52,6 +53,7 @@ const InputField = ({
           keyboardType={keyboardType}
           placeholder={placeholder}
           value={value}
+          editable={isEditable}
         />
       </View>
       {isTextError && error && <Text style={styles.errorText}>{error}</Text>}
