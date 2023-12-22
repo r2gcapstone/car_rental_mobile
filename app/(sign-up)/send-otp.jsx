@@ -61,8 +61,6 @@ const SendOtp = () => {
       const result = await VerifyVerificationCode("", verId, OTP);
       hideLoading();
 
-      console.log(JSON.stringify(result, null, 2));
-
       if (result.error) {
         alert(result.status);
       } else {

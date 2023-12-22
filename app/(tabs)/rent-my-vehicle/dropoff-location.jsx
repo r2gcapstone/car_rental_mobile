@@ -57,7 +57,6 @@ const DropoffLocation = () => {
   //vehicleDetails data
   const data = JSON.parse(route.params?.data);
 
-  // console.log(JSON.stringify(data, null, 2));
   const { mode, carId, label } = data;
   const handleOnChangeText = (name, value) => {
     setAddress((prevAddress) => ({
