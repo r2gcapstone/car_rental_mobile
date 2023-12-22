@@ -58,6 +58,7 @@ const SignUpScreen = () => {
   //formData object for signup fields
   const [formData, setFormData] = useState({
     firstName: "",
+    middleName: "",
     lastName: "",
     email: "",
     mobileNumber: "",
