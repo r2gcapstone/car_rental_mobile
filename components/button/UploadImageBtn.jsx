@@ -1,12 +1,13 @@
 import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 
 import { colors } from "../../constants/Colors";
 
 import Text from "components/ThemedText";
 
-const UploadImageBtn = ({ label, name, imageUrl, setImageUrl }) => {
+const UploadImageBtn = ({ label, name, imageUrl, setImageUrl, btnProps }) => {
+  const [selectedImageName, setSelectedImageName] = useState("");
   const pickImage = async (name) => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -29,9 +30,9 @@ const UploadImageBtn = ({ label, name, imageUrl, setImageUrl }) => {
       {imageUrl[name] && (
         <Image source={{ uri: imageUrl[name] }} style={styles.selectedImage} />
       )}
-      <Text style={styles.label}> {label || "Label "}</Text>
+      <Text style={styles.label}> {label || ""}</Text>
       <TouchableOpacity
-        style={styles.uploadBtnContainer}
+        style={[styles.uploadBtnContainer, btnProps]}
         onPress={() => pickImage(name)}
       >
         <Text style={styles.btnText}>Upload</Text>

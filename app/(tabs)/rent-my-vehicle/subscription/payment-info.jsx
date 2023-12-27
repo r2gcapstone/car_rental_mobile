@@ -63,14 +63,15 @@ const PaymentInfo = () => {
       <View style={styles.container}>
         <View style={styles.row}>
           <View style={styles.header}>
-            <Text style={styles.headerText}>Follow the instructions below</Text>
+            <Text style={styles.headerText}>
+              Payment Info & Payment Details
+            </Text>
           </View>
         </View>
         <View style={styles.row}>
           <Text style={styles.caption}>
-            Please make the payment for the selected subscription by using the
-            provided payment method. Kindly send the payment to the given mobile
-            number.
+            You have to pay the amount with the payment method you use. After
+            that upload the receipt of the transaction.
           </Text>
         </View>
         <View style={styles.row}>
