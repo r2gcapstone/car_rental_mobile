@@ -81,7 +81,7 @@ const VehicleList = () => {
                       style={[
                         styles.status,
                         {
-                          backgroundColor: !isRented ? "#FF0000" : "#0068C8",
+                          backgroundColor: "#526D82",
                         },
                       ]}
                     >
@@ -100,9 +100,7 @@ const VehicleList = () => {
                       style={[
                         styles.status,
                         {
-                          backgroundColor: !isSubscribed
-                            ? "#526D82"
-                            : "#FF5C00",
+                          backgroundColor: "#526D82",
                         },
                       ]}
                     >

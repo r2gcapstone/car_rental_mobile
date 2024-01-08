@@ -1,5 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, ScrollView, View, Image } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import Text from "components/ThemedText";
 import useSentenceCase from "hooks/useSentenceCase";
 import { useRoute } from "@react-navigation/native";
@@ -21,10 +27,7 @@ import { colors } from "constants/Colors";
 
 //layout
 import MainLayout from "layouts/MainLayout";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { getMyRentalLoc } from "api/rental";
-import { updateRentalData } from "api/rental";
-import { getVehicleInfo, updateCarData, deleteAVehicle } from "api/cars";
+import { deleteAVehicle } from "api/cars";
 
 const SelectedVehicle = () => {
   const route = useRoute();
@@ -32,11 +35,6 @@ const SelectedVehicle = () => {
   const data = JSON.parse(route.params?.data);
   const { toSentenceCase } = useSentenceCase();
   const [modal, setModal] = useState(false);
-  const [modal2, setModal2] = useState(false);
-  const [modal3, setModal3] = useState(false);
-  const [isGps, setIsGps] = useState(null);
-  const [docId, setDocId] = useState(null);
-  const [isHidden, setIsHidden] = useState(null);
 
   const {
     imageUrls: { front },
@@ -52,49 +50,49 @@ const SelectedVehicle = () => {
   const btnArray = [
     {
       id: 1,
-      label: "Edit Vehicle Information",
+      label: "Vehicle Information",
       icon: gear,
       path: "(tabs)/rent-my-vehicle/register-vehicle",
     },
     {
       id: 2,
-      label: "Edit Vehicle Image",
+      label: "Vehicle Image",
       icon: img,
       path: "(tabs)/rent-my-vehicle/upload-screen",
     },
     {
       id: 3,
-      label: "Edit Pick-Up Location",
+      label: "Pick-Up Location",
       icon: doc,
       path: "(tabs)/rent-my-vehicle/pickup-location",
     },
     {
       id: 4,
-      label: "Edit Drop-Off Location",
+      label: "Drop-Off Location",
       icon: doc,
       path: "(tabs)/rent-my-vehicle/dropoff-location",
     },
     {
       id: 5,
-      label: "Edit Documents",
+      label: "Documents",
       icon: doc,
       path: "(tabs)/rent-my-vehicle/upload-docs",
     },
     {
       id: 6,
-      label: "Edit Price Rate",
+      label: "Price Rate",
       icon: dollar,
       path: "(tabs)/rent-my-vehicle/price-rate",
     },
     {
       id: 7,
-      label: "Edit Method of Payment",
+      label: "Payment Method",
       icon: hand,
       path: "(tabs)/rent-my-vehicle/payment-option",
     },
     {
       id: 8,
-      label: "Edit Outside of Origin Rate",
+      label: "Outside of Origin Rate",
       icon: road,
       path: "(tabs)/rent-my-vehicle/outside-of-origin",
     },
@@ -122,14 +120,6 @@ const SelectedVehicle = () => {
       btnText: { flex: 0, fontSize: 18, textAlign: "center" },
     },
     {
-      id: 11,
-      label: isGps ? "Turn Off GPS" : "Turn On GPS",
-      icon: "",
-      path: "",
-      btnBgColor: { backgroundColor: "#1C8A00", opacity: !isGps ? 1 : 0.5 },
-      btnText: { fontSize: 18, textAlign: "center" },
-    },
-    {
       id: 12,
       label: "GPS Tracker",
       icon: globe,
@@ -139,14 +129,6 @@ const SelectedVehicle = () => {
     },
     {
       id: 13,
-      label: isHidden ? "Show Vehicle" : "Hide Vehicle",
-      icon: "",
-      path: "",
-      btnBgColor: { backgroundColor: isHidden ? "#0068C8" : "#C89000" },
-      btnText: { fontSize: 18, textAlign: "center" },
-    },
-    {
-      id: 14,
       label: "Delete Vehicle",
       icon: "",
       path: "",
@@ -165,14 +147,8 @@ const SelectedVehicle = () => {
   };
 
   const handleOnPress = (path, label) => {
-    if (label === "Turn Off GPS" || label === "Turn On GPS") {
-      onClose("m1");
-      return;
-    } else if (label === "Hide Vehicle" || label === "Show Vehicle") {
-      onClose("m2");
-      return;
-    } else if (label === "Delete Vehicle") {
-      onClose("m3");
+    if (label === "Delete Vehicle") {
+      onClose();
       return;
     }
 
@@ -188,75 +164,19 @@ const SelectedVehicle = () => {
     });
   };
 
-  const fetchGPSStatus = async (carId) => {
+  const handleOkayBtn = async (docId) => {
     try {
-      const result = await getMyRentalLoc(carId);
+      const result = await deleteAVehicle(docId);
+      onClose();
       if (!result.error) {
-        setIsGps(result.location.status === "off" ? false : true);
-        setDocId(result.docId);
+        router.push("/");
       }
     } catch (error) {}
   };
 
-  const fetchHiddenStatus = async (carId, modal) => {
-    if (modal === "m1") {
-      try {
-        const result = await getMyRentalLoc(carId);
-        if (!result.error) {
-          setIsGps(result.location.status === "off" ? false : true);
-          setDocId(result.docId);
-        }
-      } catch (error) {}
-    } else if (modal === "m2") {
-      try {
-        const result = await getVehicleInfo(carId);
-        if (!result.error) {
-          setIsHidden(result.isHidden);
-        }
-      } catch (error) {}
-    }
+  const onClose = () => {
+    setModal((prev) => !prev);
   };
-
-  const handleOkayBtn = async (docId, modal) => {
-    if (modal === "m1") {
-      onClose("m1");
-      try {
-        await updateRentalData(isGps ? "off" : "on", docId);
-        setIsGps((prev) => !prev);
-      } catch (error) {}
-    } else if (modal === "m2") {
-      try {
-        onClose("m2");
-        await updateCarData("isHidden", !isHidden, docId);
-        setIsHidden((prev) => !prev);
-      } catch (error) {
-        alert(error);
-      }
-    } else {
-      try {
-        const result = await deleteAVehicle(docId);
-        onClose("m3");
-        if (!result.error) {
-          router.push("/");
-        }
-      } catch (error) {}
-    }
-  };
-
-  const onClose = (modal) => {
-    if (modal === "m1") {
-      setModal((prev) => !prev);
-    } else if (modal === "m2") {
-      setModal2((prev) => !prev);
-    } else {
-      setModal3((prev) => !prev);
-    }
-  };
-
-  useEffect(() => {
-    fetchGPSStatus(carId, "m1");
-    fetchHiddenStatus(carId, "m2");
-  }, [isGps, isHidden]);
 
   return (
     <MainLayout>
@@ -271,7 +191,7 @@ const SelectedVehicle = () => {
               style={[
                 styles.status,
                 {
-                  backgroundColor: !isRented ? "#FF0000" : "#0068C8",
+                  backgroundColor: "#526D82",
                 },
               ]}
             >
@@ -290,7 +210,7 @@ const SelectedVehicle = () => {
               style={[
                 styles.status,
                 {
-                  backgroundColor: !isSubscribed ? "#526D82" : "#FF5C00",
+                  backgroundColor: "#526D82",
                 },
               ]}
             >
@@ -326,53 +246,8 @@ const SelectedVehicle = () => {
           )}
         </View>
       </ScrollView>
+
       {modal && (
-        <ConfirmationModal
-          title="Are you sure?"
-          caption={() =>
-            isGps ? (
-              <Text style={styles.captionText}>
-                This will disable the GPS Tracking feature
-              </Text>
-            ) : (
-              <Text style={styles.captionText}>
-                This will enable the GPS Tracking feature
-              </Text>
-            )
-          }
-          onClose={() => onClose("m1")}
-          btn1Text="Yes"
-          btn2Text="No"
-          btn1Props={{
-            backgroundColor: colors.green.primary,
-          }}
-          handleOkayBtn={() => handleOkayBtn(docId, "m1")}
-        />
-      )}
-      {modal2 && (
-        <ConfirmationModal
-          title="Are you sure?"
-          caption={() =>
-            isGps ? (
-              <Text style={styles.captionText}>
-                This will hide your vehicle from everywhere.
-              </Text>
-            ) : (
-              <Text style={styles.captionText}>
-                This will show your vehicle from everywhere (if subscribed).
-              </Text>
-            )
-          }
-          onClose={() => onClose("m2")}
-          btn1Text="Yes"
-          btn2Text="No"
-          btn1Props={{
-            backgroundColor: isHidden ? "#0068C8" : "#C89000",
-          }}
-          handleOkayBtn={() => handleOkayBtn(modal2 && carId, "m2")}
-        />
-      )}
-      {modal3 && (
         <ConfirmationModal
           title="Are you sure?"
           caption={() => (
@@ -380,13 +255,13 @@ const SelectedVehicle = () => {
               This will delete your vehicle permanently
             </Text>
           )}
-          onClose={() => onClose("m3")}
+          onClose={() => onClose()}
           btn1Text="Yes"
           btn2Text="No"
           btn1Props={{
             backgroundColor: colors.red.primary,
           }}
-          handleOkayBtn={() => handleOkayBtn(modal3 && carId, "m3")}
+          handleOkayBtn={() => handleOkayBtn(modal && carId)}
         />
       )}
     </MainLayout>
@@ -411,7 +286,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 200,
+    height: 250,
     resizeMode: "cover",
     borderRadius: 10,
     borderWidth: 1,
