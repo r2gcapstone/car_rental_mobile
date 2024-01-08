@@ -29,7 +29,7 @@ const BuySubscription = () => {
       id: 3,
       label: "6 MONTHS",
       price: "999",
-      bg: "#BC2D00",
+      bg: "#0029FF",
       caption:
         "Opt for a six-month subscription to significantly boost the visibility of your vehicle. With an extended duration, you can attract a larger audience of potential renters and enhance your rental opportunities",
     },

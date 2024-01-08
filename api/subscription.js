@@ -13,17 +13,30 @@ import { router } from "expo-router";
 import countTotalDays from "utils/calculateDays";
 import { updateCarData } from "./cars";
 
+//utils
+import uploadImage from "../utils/uploadImage";
+
 //subscribe function
 export const Subscribe = async (data) => {
   let dateCreated = new Date();
   dateCreated = Timestamp.fromDate(dateCreated);
+
   try {
     const user = auth.currentUser;
+
+    let receiptImg = "";
+    try {
+      receiptImg = await uploadImage(data.receiptImg, "receipt");
+    } catch (error) {
+      alert(error);
+    }
+
     const newData = {
       ...data,
       userId: user.uid,
       status: "pending",
       dateCreated: dateCreated,
+      receiptImg: receiptImg,
     };
 
     // Get a reference to the 'rentals' collection
@@ -71,6 +84,7 @@ export const Subscribe = async (data) => {
       };
     }
   } catch (error) {
+    alert(error);
     return { error: true, message: error.message, status: error.code };
   }
 };

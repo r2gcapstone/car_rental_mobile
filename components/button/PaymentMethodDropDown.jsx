@@ -2,11 +2,11 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Picker } from "@react-native-picker/picker";
 
-const WalletDropDown = ({ wallet, options, handleOnChange }) => {
+const PaymentMethodDropDown = ({ paymentMethod, options, handleOnChange }) => {
   return (
     <View style={styles.dropdown}>
       <Picker
-        selectedValue={wallet}
+        selectedValue={paymentMethod}
         onValueChange={(value) => handleOnChange(value)}
         dropdownIconColor={"#fff"}
         style={{
@@ -25,7 +25,7 @@ const WalletDropDown = ({ wallet, options, handleOnChange }) => {
   );
 };
 
-export default WalletDropDown;
+export default PaymentMethodDropDown;
 
 const styles = StyleSheet.create({
   dropdown: {

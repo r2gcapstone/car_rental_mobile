@@ -65,6 +65,12 @@ export default function MyVehicleStack() {
           headerLeft: () => <CustomBackButton router={router} customText="" />,
         })}
       />
+      <Stack.Screen
+        name="success-screen"
+        options={() => ({
+          headerShown: false,
+        })}
+      />
     </Stack>
   );
 }

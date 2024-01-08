@@ -4,10 +4,8 @@ import { useRoute } from "@react-navigation/native";
 import Text from "components/ThemedText";
 import ProceedBtn from "components/button/ProceedBtn";
 import useSentenceCase from "hooks/useSentenceCase";
-import WalletDropDown from "components/button/WalletDropDown";
+import PaymentMethodDropDown from "components/button/PaymentMethodDropDown";
 import { colors } from "constants/Colors";
-import { TextInput } from "react-native-gesture-handler";
-import { phoneNumberRegex } from "constants/RegexValidation";
 //layout
 import MainLayout from "layouts/MainLayout";
 import { KeyboardAvoidingView } from "react-native";
@@ -16,29 +14,10 @@ const ChooseVehicle = () => {
   const { toSentenceCase } = useSentenceCase();
   const route = useRoute();
   const data = JSON.parse(route.params?.data);
-  const [wallet, setWallet] = useState("");
-  const [number, setNumber] = useState("");
-  const [error, setError] = useState("");
+  const [selectedMethod, setSelectedMethod] = useState("");
 
   const handleOnChange = (val) => {
-    setWallet(val);
-  };
-
-  const handleOnChangeText = (value) => {
-    const validNumber = validatePhoneNumber(value);
-    setNumber(validNumber);
-    if (validNumber === "") {
-      setError("Invalid Mobile Number!");
-    } else {
-      setError("");
-    }
-  };
-  const validatePhoneNumber = (phoneNumber) => {
-    if (phoneNumberRegex.test(phoneNumber)) {
-      return phoneNumber;
-    }
-    setError("Invalid Mobile Number!");
-    return "";
+    setSelectedMethod(val);
   };
 
   const isFieldEmpty = (value) => {
@@ -47,7 +26,11 @@ const ChooseVehicle = () => {
     }
   };
 
-  const paymentMethod = [{ id: 1, label: "Gcash", value: "gcash" }];
+  const paymentMethodOptions = [
+    { id: 1, label: "Gcash", value: "gcash" },
+    { id: 2, label: "Paypal", value: "Paypal" },
+    { id: 3, label: "Bank Transfer", value: "Bank Transfer" },
+  ];
 
   const dataArray = [
     {
@@ -73,7 +56,7 @@ const ChooseVehicle = () => {
     },
   ];
 
-  const newObject = { ...data, wallet, gcashNumber: number };
+  const newObject = { ...data, selectedMethod };
 
   return (
     <MainLayout>
@@ -103,9 +86,9 @@ const ChooseVehicle = () => {
                             {label2 === "Subscription Days Added :" ? (
                               `${value2 + " days"}`
                             ) : (
-                              <WalletDropDown
-                                wallet={wallet}
-                                options={paymentMethod}
+                              <PaymentMethodDropDown
+                                paymentMethod={selectedMethod}
+                                options={paymentMethodOptions}
                                 handleOnChange={handleOnChange}
                               />
                             )}
@@ -117,25 +100,10 @@ const ChooseVehicle = () => {
                 </View>
               )
             )}
-
-            {wallet && (
-              <View style={styles.row}>
-                <Text style={[styles.headerText, { marginTop: 20 }]}>
-                  Please enter your Gcash Mobile Number :
-                </Text>
-                <TextInput
-                  keyboardType="number-pad"
-                  placeholder="ex : 09xxxxxxxxx"
-                  style={styles.textInput}
-                  onChangeText={(value) => handleOnChangeText(value)}
-                />
-                <Text style={styles.errorText}>{error}</Text>
-              </View>
-            )}
           </View>
           <ProceedBtn
             data={newObject}
-            disable={isFieldEmpty(number)}
+            disable={isFieldEmpty(selectedMethod)}
             contProps={{
               marginBottom: 40,
               marginTop: 20,
