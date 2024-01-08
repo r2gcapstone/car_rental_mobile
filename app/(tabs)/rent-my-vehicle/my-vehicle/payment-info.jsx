@@ -7,6 +7,7 @@ import { Subscribe } from "api/subscription";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import useSentenceCase from "hooks/useSentenceCase";
 import UploadImageBtn from "components/button/UploadImageBtn";
+import ConfirmationModal from "components/modal/ConfirmationModal";
 
 //layout
 import MainLayout from "layouts/MainLayout";
@@ -22,6 +23,7 @@ const PaymentInfo = () => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const data = JSON.parse(route.params?.data);
   const [receiptImg, setReceiptImg] = useState(initialState);
+  const [modal, setModal] = useState(false);
 
   const {
     type,
@@ -55,12 +57,19 @@ const PaymentInfo = () => {
       const result = await Subscribe(newObject);
       hideLoading();
       if (!result.error) {
-        alert("You've successfully send a subscription request!");
-        router.push("/");
+        router.replace("rent-my-vehicle/my-vehicle/success-screen");
       }
     } catch (error) {
       hideLoading();
     }
+  };
+
+  const handleOkayBtn = async () => {
+    onClose();
+  };
+
+  const onClose = () => {
+    setModal((prev) => !prev);
   };
 
   const card1Array = [
@@ -123,6 +132,8 @@ const PaymentInfo = () => {
           <UploadImageBtn
             label="Upload the Receipt of the Payment"
             name="receipt"
+            imgProps={{ height: 500 }}
+            aspectRatio={[4, 6]}
             btnProps={{
               backgroundColor: colors.blue.slitedark,
               width: "35%",
@@ -131,11 +142,41 @@ const PaymentInfo = () => {
             setImageUrl={setReceiptImg}
           />
         </View>
-        <TouchableOpacity onPress={handleOnPress} style={styles.btn}>
+        <TouchableOpacity
+          onPress={handleOkayBtn}
+          style={[
+            styles.btn,
+            { opacity: receiptImg.receipt === "" ? 0.5 : "" },
+          ]}
+          disabled={receiptImg.receipt === ""}
+        >
           <Text style={styles.btnTxt}>Okay</Text>
         </TouchableOpacity>
         <LoadingComponent />
       </ScrollView>
+
+      {modal && (
+        <ConfirmationModal
+          title="Are you sure?"
+          caption={() => (
+            <Text style={styles.captionText}>
+              Please ensure that the amount and payment method are accurate and
+              the receipt is legit. Kindly note that the payment is
+              non-refundable.
+            </Text>
+          )}
+          onClose={onClose}
+          btn1Text="Proceed"
+          btn2Text="Go Back"
+          btn1Props={{
+            backgroundColor: colors.blue.primary,
+          }}
+          btn2Props={{
+            backgroundColor: colors.red.primary,
+          }}
+          handleOkayBtn={handleOnPress}
+        />
+      )}
     </MainLayout>
   );
 };

@@ -38,6 +38,7 @@ export default function TabLayout() {
     "(tabs)/rent-my-vehicle/my-vehicle/buy-subscription",
     "(tabs)/rent-my-vehicle/my-vehicle/subscription-info",
     "(tabs)/rent-my-vehicle/my-vehicle/payment-info",
+    "(tabs)/rent-my-vehicle/my-vehicle/success-screen",
     "(tabs)/rent-my-vehicle/renting-application",
     "(tabs)/rent-my-vehicle/renting-application/booking-information",
     "(tabs)/rent-my-vehicle/renting-application/success-screen",
