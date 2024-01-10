@@ -60,6 +60,17 @@ const SelectedVehicle = () => {
           }),
         },
       });
+      return;
+    } else if (label === "locationHistory") {
+      router.push({
+        pathname: "(tabs)/rent-my-vehicle/my-vehicle/location-history",
+        params: {
+          data: JSON.stringify({
+            carId: carId,
+          }),
+        },
+      });
+      return;
     } else {
       router.push({
         pathname: path,
