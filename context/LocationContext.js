@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import * as Location from "expo-location";
 import formatTimeStamp from "utils/formatTimeStamp";
 import { updateRentalData } from "api/rental";
-import { updateRentingDuration } from "api/rental";
+import { updateLocation } from "api/location";
 
 const LocationContext = createContext();
 export const useLocationContext = () => {
@@ -36,7 +36,7 @@ export const LocationProvider = ({ children }) => {
               status: "on",
             };
             docIds.forEach((docId) => {
-              updateRentalData(newLoc, docId);
+              updateLocation(newLoc, docId);
             });
           }
         }
