@@ -1,14 +1,10 @@
 import { StyleSheet, View, ScrollView, Image } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useRoute } from "@react-navigation/native";
-import { colors } from "constants/Colors";
 import Text from "components/ThemedText";
-// import { getLocationHistory } from "api/location";
 import * as Location from "expo-location";
-
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 //icon
-import peso from "assets/icons/pesoWhite.png";
 import history from "assets/images/history.png";
 
 //layout
@@ -19,55 +15,27 @@ const LocationHistory = () => {
   //prev data
   const data = JSON.parse(route.params?.data);
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
+  const [results, setResults] = useState([]);
 
   const { locationHistory } = data;
 
-  const mappedArray = locationHistory.map((item) => {
-    const innerArray = [
-      {
-        key: 0,
+  let newArray = [];
+  try {
+    newArray = locationHistory.slice(0, 5).map((item, index) => {
+      return {
+        key: index,
         date: item.timestamp,
         coords: {
           latitude: item.coords.latitude,
           longitude: item.coords.longitude,
         },
-      },
-      {
-        key: 1,
-        date: item.timestamp,
-        coords: {
-          latitude: item.coords.latitude,
-          longitude: item.coords.longitude,
-        },
-      },
-      {
-        key: 2,
-        date: item.timestamp,
-        coords: {
-          latitude: item.coords.latitude,
-          longitude: item.coords.longitude,
-        },
-      },
-      {
-        key: 3,
-        date: item.timestamp,
-        coords: {
-          latitude: item.coords.latitude,
-          longitude: item.coords.longitude,
-        },
-      },
-      {
-        key: 4,
-        date: item.timestamp,
-        coords: {
-          latitude: item.coords.latitude,
-          longitude: item.coords.longitude,
-        },
-      },
-    ];
+      };
+    });
+  } catch (error) {
+    console.log(error);
+  }
 
-    return innerArray;
-  });
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const reverseGeocode = async (lat, long) => {
     try {
@@ -87,16 +55,62 @@ const LocationHistory = () => {
     }
   };
 
-  mappedArray &&
-    reverseGeocode(11.4579207, 123.1284525)
-      .then((address) => console.log(address))
-      .catch((error) => console.error(error));
+  const processArray = async (array) => {
+    let tempResults = [];
+    let counter = 0; // Initialize a counter variable
 
-  // console.log(JSON.stringify(mappedArray, null, 2));
+    for (const item of array) {
+      if (counter >= 5) {
+        break; // Exit the loop if the counter exceeds 5
+      }
 
-  // useEffect(() => {
-  //   reverseGeocode(mappedArray);
-  // }, [mappedArray]);
+      try {
+        const address = await reverseGeocode(
+          item.coords.latitude,
+          item.coords.longitude
+        );
+        tempResults.push(address);
+      } catch (error) {
+        console.error(error);
+      }
+
+      counter++; // Increment the counter
+      await delay(100);
+    }
+
+    setResults(tempResults);
+  };
+
+  const joinAddress = (addressObject) => {
+    const addressComponents = [
+      addressObject.street,
+      addressObject.streetNumber,
+      addressObject.district,
+      addressObject.city,
+      addressObject.region,
+      addressObject.postalCode,
+    ];
+
+    // Filter out null or undefined values
+    const filteredAddressComponents = addressComponents.filter(Boolean);
+
+    // Join the filtered components with a comma and space
+    const joinedAddress = filteredAddressComponents.join(", ");
+
+    return joinedAddress;
+  };
+
+  // Apply the joinAddress function to each object in the finalData array
+  const formattedAddresses = results.map(joinAddress).slice(0, 5);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      showLoading();
+      await processArray(newArray);
+      hideLoading();
+    };
+    fetchData();
+  }, []);
 
   return (
     <MainLayout>
@@ -107,33 +121,22 @@ const LocationHistory = () => {
         <Text style={styles.text}>
           This will display the last five locations of the vehicle.
         </Text>
-
-        {/* <View style={styles.headerContaniner}>
-          <View style={styles.textContainer}>
-            {locationHistory.map((item) => (
-              <Text key={item.timestamp}>{item.timestamp}</Text>
-            ))}
-          </View>
-        </View> */}
         <View style={styles.locContainer}>
           <View style={[styles.col, styles.col1]}>
             <View style={styles.rowData}>
-              <Text style={styles.location}>
-                Brgy. Axe, Bacolod City, Negros Occidental, Philipppines.
-              </Text>
-              <Text style={styles.date}>12/11/2023 6:10 AM</Text>
+              <Text style={styles.location}>{formattedAddresses[3]}</Text>
+              <Text style={styles.date}>{newArray[3].date}</Text>
             </View>
             <View style={styles.rowData}>
               <Text style={styles.location}>
-                Brgy. Axe, Bacolod City, Negros Occidental, Philipppines.
+                <Text style={styles.location}>{formattedAddresses[1]}</Text>
               </Text>
-              <Text style={styles.date}>12/11/2023 6:10 AM</Text>
+              <Text style={styles.date}>{newArray[1].date}</Text>
             </View>
             <View style={styles.rowData}>
-              <Text style={styles.location}>
-                Brgy. Axe, Bacolod City, Negros Occidental, Philipppines.
+              <Text style={[styles.location, { top: -20, fontWeight: "bold" }]}>
+                START
               </Text>
-              <Text style={styles.date}>12/11/2023 6:10 AM</Text>
             </View>
           </View>
           <View style={styles.col}>
@@ -142,21 +145,21 @@ const LocationHistory = () => {
           <View style={[styles.col, styles.col2]}>
             <View style={styles.rowData}>
               <Text style={styles.location}>
-                Brgy. Axe, Bacolod City, Negros Occidental, Philipppines.
+                <Text style={styles.location}>{formattedAddresses[4]}</Text>
               </Text>
-              <Text style={styles.date}>12/11/2023 6:10 AM</Text>
+              <Text style={styles.date}>{newArray[4].date}</Text>
             </View>
             <View style={styles.rowData}>
               <Text style={styles.location}>
-                Brgy. Axe, Bacolod City, Negros Occidental, Philipppines.
+                <Text style={styles.location}>{formattedAddresses[2]}</Text>
               </Text>
-              <Text style={styles.date}>12/11/2023 6:10 AM</Text>
+              <Text style={styles.date}>{newArray[2].date}</Text>
             </View>
             <View style={styles.rowData}>
               <Text style={styles.location}>
-                Brgy. Axe, Bacolod City, Negros Occidental, Philipppines.
+                <Text style={styles.location}>{formattedAddresses[0]}</Text>
               </Text>
-              <Text style={styles.date}>12/11/2023 6:10 AM</Text>
+              <Text style={styles.date}>{newArray[0].date}</Text>
             </View>
           </View>
         </View>
@@ -195,20 +198,26 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
     gap: 1,
     marginTop: 50,
     minHeight: 600,
     height: "100%",
   },
   col: {
-    width: "33%",
+    width: "30%",
     height: "100%",
     flexDirection: "column",
     alignItems: "center",
   },
-  col1: { justifyContent: "space-evenly", marginTop: "25%" },
-  col2: { justifyContent: "space-evenly", marginTop: "-20%" },
+  col1: {
+    justifyContent: "space-evenly",
+    marginTop: "25%",
+  },
+  col2: {
+    justifyContent: "space-evenly",
+    marginTop: "-20%",
+  },
   image: {
     width: 180,
     height: "100%",
