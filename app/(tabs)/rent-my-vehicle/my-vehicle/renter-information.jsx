@@ -153,7 +153,7 @@ const RenterInformation = () => {
     const fetchData = async () => {
       showLoading();
       try {
-        await Promise.all([fetchVehicleData(carId), fetchRenterData(userId)]);
+        await Promise.all([fetchRenterData(userId), fetchVehicleData(carId)]);
         hideLoading();
         setIsLoading(false);
       } catch (error) {

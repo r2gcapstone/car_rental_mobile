@@ -86,7 +86,7 @@ export const rentalRequest = async (docId, value, carId) => {
       status: value,
     });
 
-    // If the status is approved, update the status of the car to 'booked'
+    // If the status is approved, update the status of the car to true
     if (value === "approved") {
       const carDocRef = doc(db, "cars", carId);
       await updateDoc(carDocRef, {
@@ -227,31 +227,6 @@ export const getMyRentalLoc = async (carId) => {
     });
 
     return results[0];
-  } catch (error) {
-    return { error: true, message: error.message, status: error.code };
-  }
-};
-
-// Function to update rented vehicle location bases on docId
-export const updateRentalData = async (location, docId) => {
-  try {
-    const docRef = doc(db, "rentals/", docId);
-
-    if (typeof location !== "string") {
-      await updateDoc(docRef, {
-        location: location,
-      });
-    } else {
-      await updateDoc(docRef, {
-        "location.status": location,
-      });
-    }
-
-    return {
-      message: "update success!",
-      error: false,
-      status: 200,
-    };
   } catch (error) {
     return { error: true, message: error.message, status: error.code };
   }

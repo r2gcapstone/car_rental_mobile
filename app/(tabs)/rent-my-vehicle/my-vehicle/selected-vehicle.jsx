@@ -15,6 +15,7 @@ import { arrow } from "assets/icons";
 import ConfirmationModal from "components/modal/ConfirmationModal";
 import { colors } from "constants/Colors";
 import { btnArray } from "constants/BtnArray";
+import { getRentingDoc } from "api/rental";
 
 //layout
 import MainLayout from "layouts/MainLayout";
@@ -26,6 +27,7 @@ const SelectedVehicle = () => {
   const data = JSON.parse(route.params?.data);
   const { toSentenceCase } = useSentenceCase();
   const [modal, setModal] = useState(false);
+  const [locationHistory, setLocationHistory] = useState();
 
   const {
     imageUrls: { front },
@@ -66,7 +68,7 @@ const SelectedVehicle = () => {
         pathname: "(tabs)/rent-my-vehicle/my-vehicle/location-history",
         params: {
           data: JSON.stringify({
-            carId: carId,
+            locationHistory: locationHistory,
           }),
         },
       });
@@ -98,6 +100,21 @@ const SelectedVehicle = () => {
   const onClose = () => {
     setModal((prev) => !prev);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getRentingDoc(carId);
+        if (!result.error) {
+          setLocationHistory(result.locationHistory);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <MainLayout>
