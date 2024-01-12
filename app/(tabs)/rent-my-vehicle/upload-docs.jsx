@@ -20,7 +20,7 @@ const UploadDocs = () => {
   const route = useRoute();
   const { user } = useUserContext();
   const mobileNumber = user.mobileNumber;
-  const ownerUsername = user.username;
+  const ownerfullName = user.firstName + " " + user.lastName;
 
   //prev data
   const data = JSON.parse(route.params?.data);
@@ -43,9 +43,8 @@ const UploadDocs = () => {
     ...data,
     ownerNumber: mobileNumber,
     document: document,
-    ownerUsername: ownerUsername,
+    ownerName: ownerfullName,
   };
-
   const handlePress = async () => {
     showLoading();
     try {

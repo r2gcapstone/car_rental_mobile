@@ -31,7 +31,6 @@ const SelecedVehicle = () => {
       vehicleType,
       gearType,
       fuelType,
-      passengerCount,
       luggageCount,
       plateNumber,
     },
@@ -40,14 +39,15 @@ const SelecedVehicle = () => {
     ownerName,
   } = data;
 
+  // console.log(JSON.stringify(data, null, 2));
+
   const dataArray = [
     { key: 1, label: "Vehicle Owner :", value: ownerName },
     { key: 2, label: "Vehicle Type :", value: vehicleType },
     { key: 3, label: "Gear Shift :", value: gearType },
     { key: 4, label: "Type of Fuel :", value: fuelType },
-    { key: 5, label: "Passengers :", value: passengerCount },
-    { key: 6, label: "Baggage(s) :", value: luggageCount },
-    { key: 7, label: "Plate Number :", value: plateNumber },
+    { key: 5, label: "Baggage(s) :", value: luggageCount },
+    { key: 6, label: "Plate Number :", value: plateNumber },
   ];
 
   const handleOnPress = () => {
