@@ -20,7 +20,6 @@ export default function Profile() {
   const { toSentenceCase } = useSentenceCase();
 
   const {
-    username,
     firstName,
     lastName,
     address: { province, municipality, barangay, subdivision, street },
@@ -41,10 +40,9 @@ export default function Profile() {
     .join(", ");
 
   const dataArray = [
-    { id: 1, label: "Username :", value: username },
-    { id: 2, label: "Email :", value: email },
-    { id: 3, label: "Mobile Number :", value: mobileNumber },
-    { id: 4, label: "Address :", value: newAddress },
+    { id: 0, label: "Email :", value: email },
+    { id: 1, label: "Mobile Number :", value: mobileNumber },
+    { id: 2, label: "Address :", value: newAddress },
   ];
 
   const handleUpdateBtn = () => {

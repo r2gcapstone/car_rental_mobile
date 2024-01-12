@@ -41,7 +41,6 @@ export default function UpdateUserInformation() {
   const [updatedUser, setUpdatedUser] = useState(user);
   const [newImageUrl, setNewImageUrl] = useState(user.imageUrl);
   const {
-    username,
     firstName,
     lastName,
     address: { subdivision, barangay, street, municipality },
@@ -118,13 +117,6 @@ export default function UpdateUserInformation() {
 
   //Input Field Array
   const inputFieldArray = [
-    {
-      key: 0,
-      value: username,
-      label: "Username :",
-      type: "text",
-      name: "username",
-    },
     {
       key: 1,
       value: firstName,
