@@ -8,6 +8,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
 import { Timestamp } from "firebase/firestore";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 //layout
 import MainLayout from "layouts/MainLayout";
@@ -37,6 +38,7 @@ export default function RentAVehicle() {
   const [dateTimeValues, setDateTimeValues] = useState(initialDateTimeValues);
   const [isDate, setIsDate] = useState(true);
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
+  const [isFilter, setIsFilter] = useState(false);
 
   const [filter, setFilter] = useState({
     vehicleType: "",
@@ -117,63 +119,85 @@ export default function RentAVehicle() {
               marginTop: -6,
             }}
           ></View>
-          <Text style={styles.filterText}>Filter ( Optional )</Text>
-          {/* VehicleType Dropdown */}
-          <VehicleDropdown formData={filter} setFormData={setFilter} />
-          {/* GearType Dropdown */}
-          <GearShiftDropdown formData={filter} setFormData={setFilter} />
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              width: "100%",
-              gap: 10,
-              justifyContent: "space-between",
-            }}
-          >
-            {/* FuelType Dropdown */}
-            <FuelTypeDropdown formData={filter} setFormData={setFilter} />
-            {/* PassengerCount Field */}
-            <InputField
-              label={"Passengers :"}
-              keyboardType="number-pad"
-              type="number"
-              name="passengerCount"
-              onChangeText={(value) =>
-                handleOnhangeText("passengerCount", value)
-              }
-              isTextError={false}
-              required
+
+          <View style={{ flexDirection: "row", gap: -8 }}>
+            <BouncyCheckbox
+              size={25}
+              fillColor="#2DCB2A"
+              unfillColor="#FFFFFF"
+              style={styles.checkBox}
+              innerIconStyle={{ borderWidth: 0 }}
+              onPress={() => {
+                setIsFilter((prevValue) => !prevValue);
+              }}
             />
+            <Text style={styles.filterText}>Filter ( Optional )</Text>
           </View>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              width: "100%",
-              gap: 10,
-              justifyContent: "space-between",
-            }}
-          >
-            {/* LuggageCount Field */}
-            <InputField
-              label={"Number of Luggage :"}
-              keyboardType="number-pad"
-              type="number"
-              name="luggageCount"
-              onChangeText={(value) => handleOnhangeText("luggageCount", value)}
-              required
-            />
-            {/*PriteRate Field */}
-            <InputField
-              label={"Price Rate (per day) :"}
-              keyboardType="number-pad"
-              type="number"
-              name="PriceRate"
-              onChangeText={(value) => handleOnhangeText("priceRate", value)}
-              required
-            />
-          </View>
+
+          {isFilter && (
+            <View>
+              {/* VehicleType Dropdown */}
+              <VehicleDropdown formData={filter} setFormData={setFilter} />
+              {/* GearType Dropdown */}
+              <GearShiftDropdown formData={filter} setFormData={setFilter} />
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  width: "100%",
+                  gap: 10,
+                  justifyContent: "space-between",
+                }}
+              >
+                {/* FuelType Dropdown */}
+                <FuelTypeDropdown formData={filter} setFormData={setFilter} />
+                {/* PassengerCount Field */}
+                <InputField
+                  label={"Passengers :"}
+                  keyboardType="number-pad"
+                  type="number"
+                  name="passengerCount"
+                  onChangeText={(value) =>
+                    handleOnhangeText("passengerCount", value)
+                  }
+                  isTextError={false}
+                  required
+                />
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  width: "100%",
+                  gap: 10,
+                  justifyContent: "space-between",
+                }}
+              >
+                {/* LuggageCount Field */}
+                <InputField
+                  label={"Number of Luggage :"}
+                  keyboardType="number-pad"
+                  type="number"
+                  name="luggageCount"
+                  onChangeText={(value) =>
+                    handleOnhangeText("luggageCount", value)
+                  }
+                  required
+                />
+                {/*PriteRate Field */}
+                <InputField
+                  label={"Price Rate (per day) :"}
+                  keyboardType="number-pad"
+                  type="number"
+                  name="PriceRate"
+                  onChangeText={(value) =>
+                    handleOnhangeText("priceRate", value)
+                  }
+                  required
+                />
+              </View>
+            </View>
+          )}
 
           {/* //line */}
           <View
