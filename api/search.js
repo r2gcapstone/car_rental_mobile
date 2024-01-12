@@ -70,7 +70,7 @@ export const searchAvailableCars = async (filter) => {
       const ownerDoc = await getDoc(doc(db, "users", carData.userId));
       const ownerData = ownerDoc.data();
 
-      carData.ownerName = ownerData.firstName || "Owner";
+      carData.ownerName = ownerData.firstName + " " + ownerData.lastName;
 
       return { id: carDoc.id, ...carData };
     });
