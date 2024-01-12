@@ -13,7 +13,7 @@ import appendAddress from "utils/appendAddress";
 import firebaseTimestamp from "utils/FirebaseTimestamp";
 //context
 import { useLocationContext } from "context/LocationContext";
-import { updateRentalData } from "api/rental";
+import { updateLocation } from "api/location";
 //icon
 import peso from "assets/icons/pesoWhite.png";
 //layout
@@ -128,7 +128,7 @@ const ApplicationInformation = () => {
 
       if (isTracking && docIds.includes(data.docId)) {
         setDocIds((prevDocIds) => prevDocIds.filter((id) => id !== data.docId));
-        await updateRentalData({ ...location, status: "off" }, data.docId);
+        await updateLocation({ ...location, status: "off" }, data.docId);
       }
     }
   };

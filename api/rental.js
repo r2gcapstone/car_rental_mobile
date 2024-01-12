@@ -86,7 +86,7 @@ export const rentalRequest = async (docId, value, carId) => {
       status: value,
     });
 
-    // If the status is approved, update the status of the car to 'booked'
+    // If the status is approved, update the status of the car to true
     if (value === "approved") {
       const carDocRef = doc(db, "cars", carId);
       await updateDoc(carDocRef, {
@@ -232,31 +232,6 @@ export const getMyRentalLoc = async (carId) => {
   }
 };
 
-// Function to update rented vehicle location bases on docId
-export const updateRentalData = async (location, docId) => {
-  try {
-    const docRef = doc(db, "rentals/", docId);
-
-    if (typeof location !== "string") {
-      await updateDoc(docRef, {
-        location: location,
-      });
-    } else {
-      await updateDoc(docRef, {
-        "location.status": location,
-      });
-    }
-
-    return {
-      message: "update success!",
-      error: false,
-      status: 200,
-    };
-  } catch (error) {
-    return { error: true, message: error.message, status: error.code };
-  }
-};
-
 export const updateRentalDataField = async (key, value, docId) => {
   try {
     const docRef = doc(db, "rentals/", docId);
@@ -371,5 +346,44 @@ export const updateRentingDuration = async () => {
     };
   } catch (error) {
     return { error: true, status: "error", message: error.message };
+  }
+};
+
+//function to get Renting doc of a specific vehicle
+export const getRentingDoc = async (carId) => {
+  try {
+    const user = auth.currentUser;
+    const userId = user.uid;
+    // Get a reference to the 'rentals' collection
+    const rentalsRef = collection(db, "rentals");
+
+    // Create a query against the collection
+    const q = query(
+      rentalsRef,
+      where("ownerId", "==", userId),
+      where("carId", "==", carId),
+      where("status", "==", "approved")
+    );
+
+    // Execute the query
+    const querySnapshot = await getDocs(q);
+
+    // If no rentals were found, return a message indicating this
+    if (querySnapshot.empty) {
+      return {
+        error: false,
+        message: "No rental records found!",
+        status: 204,
+      };
+    }
+
+    // You can use the docs property of the querySnapshot object to get all the documents in the result
+    const docs = querySnapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
+
+    return docs[0];
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
   }
 };

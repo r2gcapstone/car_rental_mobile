@@ -1,0 +1,102 @@
+//Icon
+import {
+  hand,
+  gear,
+  doc,
+  dollar,
+  globe,
+  img,
+  road,
+  star,
+  subscription,
+} from "assets/icons";
+
+export const btnArray = [
+  {
+    id: 1,
+    label: "Vehicle Information",
+    icon: gear,
+    path: "(tabs)/rent-my-vehicle/register-vehicle",
+  },
+  {
+    id: 2,
+    label: "Vehicle Image",
+    icon: img,
+    path: "(tabs)/rent-my-vehicle/upload-screen",
+  },
+  {
+    id: 3,
+    label: "Pick-Up Location",
+    icon: doc,
+    path: "(tabs)/rent-my-vehicle/pickup-location",
+  },
+  {
+    id: 4,
+    label: "Drop-Off Location",
+    icon: doc,
+    path: "(tabs)/rent-my-vehicle/dropoff-location",
+  },
+  {
+    id: 5,
+    label: "Documents",
+    icon: doc,
+    path: "(tabs)/rent-my-vehicle/upload-docs",
+  },
+  {
+    id: 6,
+    label: "Price Rate",
+    icon: dollar,
+    path: "(tabs)/rent-my-vehicle/price-rate",
+  },
+  {
+    id: 7,
+    label: "Payment Method",
+    icon: hand,
+    path: "(tabs)/rent-my-vehicle/payment-option",
+  },
+  {
+    id: 8,
+    label: "Outside of Origin Rate",
+    icon: road,
+    path: "(tabs)/rent-my-vehicle/outside-of-origin",
+  },
+  {
+    id: 9,
+    label: "Vehicle Rating & Review",
+    icon: star,
+    path: "(tabs)/rent-a-vehicle/vehicle-reviews",
+    style: {
+      width: "100%",
+      borderTopColor: "#fff",
+      borderTopWidth: 1,
+      paddingTop: 10,
+    },
+    alignText: { justifyContent: "center" },
+    btnText: { flex: 0, fontSize: 18 },
+  },
+  {
+    id: 10,
+    label: "Buy Subscription",
+    icon: subscription,
+    path: "(tabs)/rent-my-vehicle/my-vehicle/buy-subscription",
+    style: { width: "100%" },
+    alignText: { justifyContent: "center" },
+    btnText: { flex: 0, fontSize: 18, textAlign: "center" },
+  },
+  {
+    id: 12,
+    label: "GPS Tracker",
+    icon: globe,
+    path: "rent-my-vehicle/my-vehicle/tracker",
+    btnBgColor: { backgroundColor: "#1C8A00" },
+    btnText: { flex: 0, fontSize: 18, textAlign: "center" },
+  },
+  {
+    id: 13,
+    label: "Delete Vehicle",
+    icon: "",
+    path: "",
+    btnBgColor: { backgroundColor: "#FF0000" },
+    btnText: { fontSize: 18, textAlign: "center" },
+  },
+];

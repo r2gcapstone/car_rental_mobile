@@ -71,6 +71,20 @@ export default function MyVehicleStack() {
           headerShown: false,
         })}
       />
+      <Stack.Screen
+        name="renter-information"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => <CustomBackButton router={router} customText="" />,
+        })}
+      />
+      <Stack.Screen
+        name="location-history"
+        options={() => ({
+          ...headerProp,
+          headerLeft: () => <CustomBackButton router={router} customText="" />,
+        })}
+      />
     </Stack>
   );
 }
