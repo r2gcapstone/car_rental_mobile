@@ -115,18 +115,21 @@ const UploadDocs = () => {
             name="governmentId"
             imageUrl={document}
             setImageUrl={setDocument}
+            aspectRatio={[4, 6]}
           />
           <UploadImageBtn
             label="Birth Certificate :"
             name="BirthCert"
             imageUrl={document}
             setImageUrl={setDocument}
+            aspectRatio={[4, 6]}
           />
           <UploadImageBtn
             label="Certificate of Registration (Vehicle) : "
             name="CertificateOfReg"
             imageUrl={document}
             setImageUrl={setDocument}
+            aspectRatio={[4, 6]}
           />
         </View>
       </ScrollView>
