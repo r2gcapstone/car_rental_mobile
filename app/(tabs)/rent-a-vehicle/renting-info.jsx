@@ -8,6 +8,7 @@ import ProceedBtn from "components/button/ProceedBtn";
 import { useUserContext } from "context/UserContext";
 import { Timestamp } from "firebase/firestore";
 import { getDistanceBetweenCities } from "utils/calculateDistanceBetweenCity";
+import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 
 //utils
 import formatdate2 from "utils/formatDate2";
@@ -23,6 +24,7 @@ const RentingInfo = () => {
   const { user } = useUserContext();
   const userName = user.firstName + " " + user.lastName;
   const [distance, setDistance] = useState("");
+  const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
@@ -163,14 +165,24 @@ const RentingInfo = () => {
 
   const getDistance = async (city1, city2) => {
     try {
+      showLoading();
       const result = await getDistanceBetweenCities(city1, city2);
+      hideLoading();
       setDistance(result);
-    } catch (error) {}
+    } catch (error) {
+      hideLoading();
+    }
   };
 
   useEffect(() => {
+    //calculate distance from city of origin
     if (destination.municipality.name) {
-      getDistance(p.municipality.name, destination.municipality.name);
+      const city1 = [p.municipality.name, p.province.name].join(" ");
+      const currentCity = city1;
+      const Destination =
+        destination.municipality.name + " " + "Negros Occidental";
+
+      getDistance(currentCity, Destination);
     }
   }, [destination.municipality.name]);
 
@@ -238,6 +250,7 @@ const RentingInfo = () => {
           path={"rent-a-vehicle/rules-regulation"}
         />
       </ScrollView>
+      <LoadingComponent />
     </MainLayout>
   );
 };
