@@ -1,5 +1,4 @@
 import * as Location from "expo-location";
-import { getDistance } from "geolib";
 
 export const getDistanceBetweenCities = async (city1, city2) => {
   try {
@@ -18,21 +17,30 @@ export const getDistanceBetweenCities = async (city1, city2) => {
     const { latitude: lat1, longitude: lon1 } = geocodedLocation1[0];
 
     // Get latitude and longitude of the second city
-    const geocodedLocation2 = await Location.geocodeAsync(city2);
+    const geocodedLocation2 = await Location.geocodeAsync(
+      city2 + ", Philippines"
+    );
     if (!geocodedLocation2 || geocodedLocation2.length === 0) {
       console.log(`Geocoding failed for ${city2}`);
       return;
     }
     const { latitude: lat2, longitude: lon2 } = geocodedLocation2[0];
 
-    // Calculate the distance in kilometers
-    const distance = getDistance(
-      { latitude: lat1, longitude: lon1 },
-      { latitude: lat2, longitude: lon2 }
-    );
+    // Define the API URL
+    const apiUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${lat1},${lon1}&destinations=${lat2},${lon2}&key=AIzaSyBsjaYpcqQsuXso2ZmNYIWvhm7Pnr9h-tU`;
 
-    // console.log(distance / 1000);
-    return distance / 1000; // Convert to kilometers
+    // Fetch the data from the API
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    // Extract the distance from the data
+    let distance = data.rows[0].elements[0].distance.text;
+    let distanceInMiles = parseFloat(distance);
+    let distanceInKm = distanceInMiles * 1.60934;
+
+    let numWithTwoDecimals = distanceInKm.toFixed(3);
+
+    return numWithTwoDecimals;
   } catch (error) {
     console.error(error);
   }
