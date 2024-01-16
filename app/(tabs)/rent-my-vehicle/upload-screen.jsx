@@ -86,36 +86,42 @@ const UploadScreen = () => {
             name="front"
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
+            aspectRatio={[5, 3]}
           />
           <UploadImage
             caption="Side View (Left)"
             name="sideLeft"
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
+            aspectRatio={[5, 3]}
           />
           <UploadImage
             caption="Side View (Right)"
             name="sideRight"
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
+            aspectRatio={[5, 3]}
           />
           <UploadImage
             caption="Rear View of the Vehicle"
             name="rear"
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
+            aspectRatio={[5, 3]}
           />
           <UploadImage
             caption="Inside of the Vehicle 2"
             name="interior1"
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
+            aspectRatio={[5, 3]}
           />
           <UploadImage
             caption="Inside of the Vehicle 2"
             name="interior2"
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
+            aspectRatio={[5, 3]}
           />
         </View>
         {mode === "update" ? (
