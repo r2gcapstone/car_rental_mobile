@@ -36,6 +36,7 @@
     "expo-system-ui": "~2.4.0",
     "expo-web-browser": "~12.3.2",
     "firebase": "^10.4.0",
+    "geolib": "^3.3.4",
     "moment-timezone": "^0.5.43",
     "open": "^9.1.0",
     "react": "18.2.0",

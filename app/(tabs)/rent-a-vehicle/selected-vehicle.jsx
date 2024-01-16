@@ -2,8 +2,8 @@ import { useState } from "react";
 import { StyleSheet, ScrollView, View, TouchableOpacity } from "react-native";
 //layout
 import MainLayout from "layouts/MainLayout";
-import { colors } from "constants/Colors";
 
+import { colors } from "constants/Colors";
 import { useRoute } from "@react-navigation/native";
 import Text from "components/ThemedText";
 import ProceedBtn from "components/button/ProceedBtn";
@@ -20,9 +20,9 @@ const SelecedVehicle = () => {
   const data = JSON.parse(route.params?.data);
   const { toSentenceCase } = useSentenceCase();
   const [modal, setModal] = useState(false);
+
   const [destination, setDestination] = useState({
     municipality: "",
-    rate: "",
   });
 
   const {
@@ -34,12 +34,9 @@ const SelecedVehicle = () => {
       luggageCount,
       plateNumber,
     },
-    outsideRate,
     imageUrls,
     ownerName,
   } = data;
-
-  // console.log(JSON.stringify(data, null, 2));
 
   const dataArray = [
     { key: 1, label: "Vehicle Owner :", value: ownerName },
@@ -92,10 +89,10 @@ const SelecedVehicle = () => {
           <Text style={styles.buttonText}>Proceed</Text>
         </TouchableOpacity>
       </ScrollView>
+
       {modal && (
         <ConfirmDestinationModal
           data={data}
-          option={outsideRate}
           onClose={handleOnPress}
           prop={{ destination, setDestination }}
         />

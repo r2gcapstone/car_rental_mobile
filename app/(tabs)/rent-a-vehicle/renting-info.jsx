@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, ScrollView, View, Image } from "react-native";
 import useSentenceCase from "hooks/useSentenceCase";
 import { useRoute } from "@react-navigation/native";
@@ -7,6 +7,8 @@ import Text from "components/ThemedText";
 import ProceedBtn from "components/button/ProceedBtn";
 import { useUserContext } from "context/UserContext";
 import { Timestamp } from "firebase/firestore";
+import { getDistanceBetweenCities } from "utils/calculateDistanceBetweenCity";
+
 //utils
 import formatdate2 from "utils/formatDate2";
 import formatTime2 from "utils/formatTime2";
@@ -20,6 +22,7 @@ import MainLayout from "layouts/MainLayout";
 const RentingInfo = () => {
   const { user } = useUserContext();
   const userName = user.firstName + " " + user.lastName;
+  const [distance, setDistance] = useState("");
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
@@ -34,6 +37,7 @@ const RentingInfo = () => {
     userId,
     imageUrls,
     vehicleDetails,
+    outsideRate,
   } = data;
 
   const p = { ...pickupLocation };
@@ -98,7 +102,15 @@ const RentingInfo = () => {
   //calculate total days
   const rentDuration = countTotalDays(startDate, endDate);
   //calculate total payment based on rate plus additional cost for outside destination if chosen
-  const total = rentDuration * priceRate + +destination.rate;
+  let total = "";
+  try {
+    total = rentDuration * priceRate;
+
+    //check if outside destination is true
+    if (destination.municipality.name) {
+      total = total + +distance * 1000;
+    }
+  } catch (error) {}
 
   const paymentArray = [
     { id: 1, label: "Method of Payment:", value: paymentOption },
@@ -116,13 +128,18 @@ const RentingInfo = () => {
     {
       id: 4,
       label: "Outside of Origin Location :",
-      value: destination.municipality,
+      value: destination.municipality.name,
     },
     {
       id: 5,
+      label: "Distance in Kilometer :",
+      value: distance ? distance.toString() + " " + "km" : "",
+    },
+    {
+      id: 6,
       icon: peso,
       label: "Outside of Origin(Add-on cost) :",
-      value: destination.rate.toString(),
+      value: destination.rate ? destination.rate.toString() : "",
     },
   ];
 
@@ -143,6 +160,19 @@ const RentingInfo = () => {
       rentee: userName,
     },
   };
+
+  const getDistance = async (city1, city2) => {
+    try {
+      const result = await getDistanceBetweenCities(city1, city2);
+      setDistance(result);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    if (destination.municipality.name) {
+      getDistance(p.municipality.name, destination.municipality.name);
+    }
+  }, [destination.municipality.name]);
 
   return (
     <MainLayout>
@@ -174,7 +204,7 @@ const RentingInfo = () => {
                       <Text style={styles.value2}>
                         {item.label === "Method of Payment:"
                           ? item.value
-                          : toSentenceCase(item.value)}
+                          : item.value}
                       </Text>
                     </View>
                   </View>
@@ -188,7 +218,9 @@ const RentingInfo = () => {
                   source={peso}
                 />
 
-                <Text style={styles.totalValue}>{total}</Text>
+                <Text style={styles.totalValue}>
+                  {Number(total).toLocaleString()}
+                </Text>
               </View>
             </View>
           </View>
