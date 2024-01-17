@@ -58,7 +58,6 @@ const ChooseVehicle = () => {
     imageUrls: selectedVehicle.imageUrls,
     carId: selectedVehicle.carId,
     ownerNumber: selectedVehicle.ownerNumber,
-    ownerUsername: selectedVehicle.ownerUsername,
   };
 
   return (

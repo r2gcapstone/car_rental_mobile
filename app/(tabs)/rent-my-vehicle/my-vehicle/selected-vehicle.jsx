@@ -37,7 +37,6 @@ const SelectedVehicle = () => {
     rentee,
     carId,
     ownerNumber,
-    ownerUsername,
   } = data;
 
   const newObject = {
@@ -46,7 +45,6 @@ const SelectedVehicle = () => {
     vehicleDetails: { vehicleName },
     imageUrls: { front },
     ownerNumber: ownerNumber,
-    ownerUsername: ownerUsername,
   };
 
   const handleOnPress = (path, label) => {

@@ -67,7 +67,6 @@ const BuySubscription = () => {
       imageUrls: data.imageUrls,
       carId: data.carId,
       ownerNumber: data.ownerNumber,
-      ownerUsername: data.ownerUsername,
     };
     router.push({
       pathname: "rent-my-vehicle/my-vehicle/subscription-info",
