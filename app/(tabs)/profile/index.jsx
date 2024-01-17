@@ -40,9 +40,10 @@ export default function Profile() {
     .join(", ");
 
   const dataArray = [
-    { id: 0, label: "Email :", value: email },
-    { id: 1, label: "Mobile Number :", value: mobileNumber },
-    { id: 2, label: "Address :", value: newAddress },
+    { id: 0, label: "Full Name :", value: firstName + " " + lastName },
+    { id: 1, label: "Email :", value: email },
+    { id: 2, label: "Mobile Number :", value: mobileNumber },
+    { id: 3, label: "Address :", value: newAddress },
   ];
 
   const handleUpdateBtn = () => {

@@ -56,6 +56,7 @@ const SignInScreen = () => {
         ...prevUser, // Copy the previous user data
         ownerId: response.userData.ownerId,
         firstName: response.userData.firstName,
+        middleName: response.userData.middleName,
         lastName: response.userData.lastName,
         address: response.userData.address,
         email: response.userData.email,

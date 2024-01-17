@@ -12,6 +12,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     ownerId: null,
     firstName: "",
+    middleName: "",
     lastName: "",
     address: "",
     email: "",
