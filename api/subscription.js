@@ -92,17 +92,20 @@ export const Subscribe = async (data) => {
 //fetch all subscription function
 export const getAllSubscription = async () => {
   try {
-    const user = auth.currentUser;
-    const userId = user.uid;
+    const userId = auth.currentUser.uid;
     let currentDate = new Date();
 
     // Get a reference to the 'subscription' collection
     const subscriptionCollection = collection(db, "subscription");
 
-    const querySnapshot = await getDocs(
+    //query data
+    let querySnapshotRef = query(
       subscriptionCollection,
       where("userId", "==", userId)
     );
+
+    //fetch data
+    const querySnapshot = await getDocs(querySnapshotRef);
 
     let subscription = [];
     querySnapshot.docs.forEach((doc) => {
