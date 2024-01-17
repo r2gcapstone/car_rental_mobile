@@ -20,7 +20,7 @@ const UploadDocs = () => {
   const route = useRoute();
   const { user } = useUserContext();
   const mobileNumber = user.mobileNumber;
-  const ownerUsername = user.username;
+  const ownerfullName = user.firstName + " " + user.lastName;
 
   //prev data
   const data = JSON.parse(route.params?.data);
@@ -43,9 +43,8 @@ const UploadDocs = () => {
     ...data,
     ownerNumber: mobileNumber,
     document: document,
-    ownerUsername: ownerUsername,
+    ownerName: ownerfullName,
   };
-
   const handlePress = async () => {
     showLoading();
     try {
@@ -116,18 +115,21 @@ const UploadDocs = () => {
             name="governmentId"
             imageUrl={document}
             setImageUrl={setDocument}
+            aspectRatio={[4, 6]}
           />
           <UploadImageBtn
             label="Birth Certificate :"
             name="BirthCert"
             imageUrl={document}
             setImageUrl={setDocument}
+            aspectRatio={[4, 6]}
           />
           <UploadImageBtn
             label="Certificate of Registration (Vehicle) : "
             name="CertificateOfReg"
             imageUrl={document}
             setImageUrl={setDocument}
+            aspectRatio={[4, 6]}
           />
         </View>
       </ScrollView>

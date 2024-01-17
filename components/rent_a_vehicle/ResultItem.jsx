@@ -26,7 +26,6 @@ const ResultItem = ({ resultItem, dateTime }) => {
 
   const iconAssets = {
     car: carIcon,
-    user: userIcon,
     baggage: baggageIcon,
     transmission: transmissionIcon,
     payment: paymentIcon,

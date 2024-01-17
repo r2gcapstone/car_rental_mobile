@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, ScrollView, View, Image } from "react-native";
 import useSentenceCase from "hooks/useSentenceCase";
 import { useRoute } from "@react-navigation/native";
@@ -7,6 +7,9 @@ import Text from "components/ThemedText";
 import ProceedBtn from "components/button/ProceedBtn";
 import { useUserContext } from "context/UserContext";
 import { Timestamp } from "firebase/firestore";
+import { getDistanceBetweenCities } from "utils/calculateDistanceBetweenCity";
+import { useLoadingAnimation } from "hooks/useLoadingAnimation";
+
 //utils
 import formatdate2 from "utils/formatDate2";
 import formatTime2 from "utils/formatTime2";
@@ -19,7 +22,9 @@ import MainLayout from "layouts/MainLayout";
 
 const RentingInfo = () => {
   const { user } = useUserContext();
-  const userName = user.firstName + " " + user.lastName;
+  const fullName = user.firstName + " " + user.lastName;
+  const [distance, setDistance] = useState("");
+  const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
@@ -34,6 +39,7 @@ const RentingInfo = () => {
     userId,
     imageUrls,
     vehicleDetails,
+    outsideRate,
   } = data;
 
   const p = { ...pickupLocation };
@@ -98,7 +104,16 @@ const RentingInfo = () => {
   //calculate total days
   const rentDuration = countTotalDays(startDate, endDate);
   //calculate total payment based on rate plus additional cost for outside destination if chosen
-  const total = rentDuration * priceRate + +destination.rate;
+  let total = "";
+  let subTotal = "";
+  try {
+    subTotal = rentDuration * priceRate;
+    total = subTotal;
+    //check if outside destination is true
+    if (destination.municipality.name) {
+      total = subTotal + +distance * outsideRate;
+    }
+  } catch (error) {}
 
   const paymentArray = [
     { id: 1, label: "Method of Payment:", value: paymentOption },
@@ -111,18 +126,30 @@ const RentingInfo = () => {
       id: 3,
       icon: peso,
       label: "Price Rate (Per day) :",
-      value: priceRate.toString(),
+      value: priceRate.toLocaleString(),
     },
     {
       id: 4,
-      label: "Outside of Origin Location :",
-      value: destination.municipality,
+      icon: peso,
+      label: "Sub Total :",
+      value: destination.municipality.name && subTotal.toLocaleString(),
     },
     {
       id: 5,
+      label: "Destination(City) :",
+      value: destination.municipality.name,
+    },
+    {
+      id: 6,
       icon: peso,
-      label: "Outside of Origin(Add-on cost) :",
-      value: destination.rate.toString(),
+      label: "Outside of Origin Rate :",
+      value:
+        destination.municipality.name && outsideRate.toLocaleString() + " x",
+    },
+    {
+      id: 7,
+      label: "Distance in Kilometer :",
+      value: distance ? distance.toString() + " " + "km" : "",
     },
   ];
 
@@ -140,9 +167,34 @@ const RentingInfo = () => {
       ownerId: userId,
       carId,
       vehicleDetails,
-      rentee: userName,
+      rentee: fullName,
+      distance: distance,
+      outsideRate,
     },
   };
+
+  const getDistance = async (city1, city2) => {
+    try {
+      showLoading();
+      const result = await getDistanceBetweenCities(city1, city2);
+      hideLoading();
+      setDistance(result);
+    } catch (error) {
+      hideLoading();
+    }
+  };
+
+  useEffect(() => {
+    //calculate distance from city of origin
+    if (destination.municipality.name) {
+      const city1 = [p.municipality.name, p.province.name].join(" ");
+      const currentCity = city1;
+      const Destination =
+        destination.municipality.name + " " + "Negros Occidental";
+
+      getDistance(currentCity, Destination);
+    }
+  }, [destination.municipality.name]);
 
   return (
     <MainLayout>
@@ -174,7 +226,7 @@ const RentingInfo = () => {
                       <Text style={styles.value2}>
                         {item.label === "Method of Payment:"
                           ? item.value
-                          : toSentenceCase(item.value)}
+                          : item.value}
                       </Text>
                     </View>
                   </View>
@@ -188,7 +240,9 @@ const RentingInfo = () => {
                   source={peso}
                 />
 
-                <Text style={styles.totalValue}>{total}</Text>
+                <Text style={styles.totalValue}>
+                  {Number(total).toLocaleString()}
+                </Text>
               </View>
             </View>
           </View>
@@ -206,6 +260,7 @@ const RentingInfo = () => {
           path={"rent-a-vehicle/rules-regulation"}
         />
       </ScrollView>
+      <LoadingComponent />
     </MainLayout>
   );
 };

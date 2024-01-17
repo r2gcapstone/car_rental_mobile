@@ -34,7 +34,6 @@ const PaymentInfo = () => {
     imageUrls,
     carId,
     ownerNumber,
-    ownerUsername,
   } = data;
 
   const newObject = {
@@ -43,7 +42,6 @@ const PaymentInfo = () => {
     ammount: price,
     paymentMethod: selectedMethod,
     ownerNumber: ownerNumber,
-    ownerUsername: ownerUsername,
     duration: days,
     vehicleName: value,
     carImage: imageUrls.front,

@@ -4,13 +4,13 @@ import * as ImagePicker from "expo-image-picker";
 
 import Text from "components/ThemedText";
 
-const UploadImage = ({ caption, name, imageUrl, setImageUrl }) => {
+const UploadImage = ({ caption, name, imageUrl, setImageUrl, aspectRatio }) => {
   const pickImage = async (name) => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: aspectRatio,
       quality: 1,
     });
 
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   uploadContainer: {
     flex: 1,
-    height: 180,
+    height: 220,
     justifyContent: "center",
     alignItems: "center",
     alignContent: "center",
@@ -83,11 +83,12 @@ const styles = StyleSheet.create({
     height: "100%",
     borderColor: "#fff",
     borderWidth: 2,
+    objectFit: "cover",
   },
   imageButton: {
     flex: 1,
     width: "100%",
-    objectFit: "contain",
+    objectFit: "cover",
   },
   caption: {
     alignSelf: "center",

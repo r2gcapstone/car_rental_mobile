@@ -53,6 +53,8 @@ const BookingInformation = () => {
     userId,
     docId,
     carId,
+    distance,
+    outsideRate,
   } = newObject;
 
   const renteeId = userId;
@@ -120,16 +122,20 @@ const BookingInformation = () => {
       value: paymentMethod,
     },
     { id: 10, label: "Rent Duration :", value: `${rentDuration} Day(s)` },
-
     {
       id: 11,
-      label: "Outside of Origin Location :",
-      value: toSentenceCase(destination.municipality),
+      label: "Destination :",
+      value: toSentenceCase(destination.municipality.name),
     },
     {
       id: 12,
-      label: "Outside of Origin(Add-on cost) :",
-      value: destination.rate.toString(),
+      label: "Outside of Origin Rate :",
+      value: outsideRate,
+    },
+    {
+      id: 13,
+      label: "Distance between cities :",
+      value: distance + " " + "km",
     },
   ];
 
@@ -191,11 +197,10 @@ const BookingInformation = () => {
   }
 
   const applicantArray = [
-    { id: 1, label: "Username :", value: firstName },
-    { id: 2, label: "Full Name :", value: firstName + " " + lastName },
-    { id: 3, label: "Address :", value: newAddress && newAddress },
-    { id: 4, label: "Email :", value: email },
-    { id: 5, label: "Mobile Number :", value: mobileNumber },
+    { id: 0, label: "Full Name :", value: firstName + " " + lastName },
+    { id: 1, label: "Address :", value: newAddress && newAddress },
+    { id: 2, label: "Email :", value: email },
+    { id: 3, label: "Mobile Number :", value: mobileNumber },
   ];
 
   useEffect(() => {
@@ -218,7 +223,7 @@ const BookingInformation = () => {
                 <View key={item.id} style={styles.row}>
                   <Text style={styles.label}>{item.label}</Text>
                   <View style={styles.valueContainer}>
-                    {[10, 12].includes(item.id) && (
+                    {[8, 12].includes(item.id) && (
                       <Image style={styles.icon} source={peso} />
                     )}
                     <Text style={styles.value}>{item.value}</Text>
@@ -230,7 +235,9 @@ const BookingInformation = () => {
             <Text style={styles.totalLabel}>Total Amount :</Text>
             <View style={styles.valueContainer}>
               <Image style={styles.icon} source={peso} />
-              <Text style={styles.totalValue}>{totalPayment}</Text>
+              <Text style={styles.totalValue}>
+                {totalPayment.toLocaleString()}
+              </Text>
             </View>
           </View>
         </View>

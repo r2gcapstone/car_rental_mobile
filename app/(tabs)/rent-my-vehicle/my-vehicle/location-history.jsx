@@ -112,6 +112,13 @@ const LocationHistory = () => {
     fetchData();
   }, []);
 
+  const FillerComp = () => (
+    <View style={[styles.rowData, { opacity: 0 }]}>
+      <Text style={styles.location}>filler, filler, filler, filler</Text>
+      <Text style={styles.date}>00/00/0000</Text>
+    </View>
+  );
+
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -123,16 +130,26 @@ const LocationHistory = () => {
         </Text>
         <View style={styles.locContainer}>
           <View style={[styles.col, styles.col1]}>
-            <View style={styles.rowData}>
-              <Text style={styles.location}>{formattedAddresses[3]}</Text>
-              <Text style={styles.date}>{newArray[3].date}</Text>
-            </View>
-            <View style={styles.rowData}>
-              <Text style={styles.location}>
-                <Text style={styles.location}>{formattedAddresses[1]}</Text>
-              </Text>
-              <Text style={styles.date}>{newArray[1].date}</Text>
-            </View>
+            {formattedAddresses[3] && newArray[3].date ? (
+              <View style={styles.rowData}>
+                <Text style={styles.location}>{formattedAddresses[3]}</Text>
+                <Text style={styles.date}>{newArray[3].date}</Text>
+              </View>
+            ) : (
+              <FillerComp />
+            )}
+
+            {formattedAddresses[1] && newArray[1].date ? (
+              <View style={styles.rowData}>
+                <Text style={styles.location}>
+                  <Text style={styles.location}>{formattedAddresses[1]}</Text>
+                </Text>
+                <Text style={styles.date}>{newArray[1].date}</Text>
+              </View>
+            ) : (
+              <FillerComp />
+            )}
+
             <View style={styles.rowData}>
               <Text style={[styles.location, { top: -20, fontWeight: "bold" }]}>
                 START
@@ -143,24 +160,38 @@ const LocationHistory = () => {
             <Image style={styles.image} source={history} />
           </View>
           <View style={[styles.col, styles.col2]}>
-            <View style={styles.rowData}>
-              <Text style={styles.location}>
-                <Text style={styles.location}>{formattedAddresses[4]}</Text>
-              </Text>
-              <Text style={styles.date}>{newArray[4].date}</Text>
-            </View>
-            <View style={styles.rowData}>
-              <Text style={styles.location}>
-                <Text style={styles.location}>{formattedAddresses[2]}</Text>
-              </Text>
-              <Text style={styles.date}>{newArray[2].date}</Text>
-            </View>
-            <View style={styles.rowData}>
-              <Text style={styles.location}>
-                <Text style={styles.location}>{formattedAddresses[0]}</Text>
-              </Text>
-              <Text style={styles.date}>{newArray[0].date}</Text>
-            </View>
+            {formattedAddresses[4] && newArray[4].date ? (
+              <View style={styles.rowData}>
+                <Text style={styles.location}>
+                  <Text style={styles.location}>{formattedAddresses[4]}</Text>
+                </Text>
+                <Text style={styles.date}>{newArray[4].date}</Text>
+              </View>
+            ) : (
+              <FillerComp />
+            )}
+
+            {formattedAddresses[2] && newArray[2].date ? (
+              <View style={styles.rowData}>
+                <Text style={styles.location}>
+                  <Text style={styles.location}>{formattedAddresses[2]}</Text>
+                </Text>
+                <Text style={styles.date}>{newArray[2].date}</Text>
+              </View>
+            ) : (
+              <FillerComp />
+            )}
+
+            {formattedAddresses[0] && newArray[0].date ? (
+              <View style={styles.rowData}>
+                <Text style={styles.location}>
+                  <Text style={styles.location}>{formattedAddresses[0]}</Text>
+                </Text>
+                <Text style={styles.date}>{newArray[0].date}</Text>
+              </View>
+            ) : (
+              <FillerComp />
+            )}
           </View>
         </View>
       </ScrollView>

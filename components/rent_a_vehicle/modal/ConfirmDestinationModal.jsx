@@ -1,26 +1,35 @@
 import { Modal, StyleSheet, View, TouchableOpacity, Image } from "react-native";
-import React from "react";
-import { Picker } from "@react-native-picker/picker";
+import React, { useState } from "react";
 import { colors } from "constants/Colors";
 import Text from "components/ThemedText";
 import ProceedBtn from "components/button/ProceedBtn";
 import exit from "assets/icons/exit.png";
 
+//Json
+import municipalityData from "json/municipality.json";
+import filterData from "utils/filterData";
+import Dropdown2 from "components/button/DropDown2";
+//
+
 const ConfirmDestinationModal = ({
   onClose,
-  option,
   data,
   prop: { destination, setDestination },
 }) => {
-  const handleOnChange = (e) => {
-    if (e == "") {
-      setDestination({ municipality: "", rate: "" });
-      return;
-    }
+  const [id, setId] = useState("");
 
-    const result = Object.entries(option).find(([key]) => key === e);
-    setDestination({ municipality: result[0], rate: result[1] });
-  };
+  const dropDownArray = [
+    {
+      key: 1,
+      label: "Municipalty / City",
+      name: "municipality",
+      options: filterData(
+        municipalityData,
+        "province_id",
+        data.pickupLocation.province.id
+      ),
+    },
+  ];
 
   const newObject = { ...data, destination };
 
@@ -37,26 +46,20 @@ const ConfirmDestinationModal = ({
           </TouchableOpacity>
           <Text style={styles.caption}>
             If you're traveling outside the city of origin, please state city or
-            the municipality. If no, choose None
+            the municipality. If not, please press proceed.
           </Text>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={destination.municipality}
-              onValueChange={(value) => handleOnChange(value)}
-              style={styles.picker}
-            >
-              <Picker.Item
-                style={styles.label}
-                label={"Choose City or Municipality"}
-                value=""
-              />
-
-              {option &&
-                Object.keys(option).map((key, index) => (
-                  <Picker.Item key={index} label={key} value={key} />
-                ))}
-            </Picker>
-          </View>
+          {dropDownArray.map(({ key, label, name, options }) => (
+            <Dropdown2
+              label={label}
+              name={name}
+              id={id}
+              setId={setId}
+              data={destination}
+              setData={setDestination}
+              options={options}
+              key={key}
+            />
+          ))}
           <ProceedBtn
             data={newObject}
             contProps={{

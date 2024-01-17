@@ -22,7 +22,7 @@ const RenterInformation = () => {
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data);
-  const [vehicleData, setVehicleData] = useState({});
+  const [vehicleData, setVehicleData] = useState("");
   const [renterData, setRenterData] = useState({});
   const { toSentenceCase } = useSentenceCase();
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
@@ -41,7 +41,14 @@ const RenterInformation = () => {
     priceRate,
     destination,
     totalPayment,
+    distance,
+    outsideRate,
   } = vehicleData;
+
+  let cityDestination = "";
+  try {
+    cityDestination = toSentenceCase(destination.municipality.name);
+  } catch (error) {}
 
   const { firstName, lastName, mobileNumber, email, address, imageUrl } =
     renterData;
@@ -51,8 +58,6 @@ const RenterInformation = () => {
   try {
     convertedData = firebaseTimestamp(dateTime);
   } catch (error) {}
-
-  // console.log(JSON.stringify(convertedData, null, 2));
 
   let pickUp = "";
   let dropOff = "";
@@ -117,16 +122,25 @@ const RenterInformation = () => {
       value: paymentMethod,
     },
     { id: 9, label: "Rent Duration :", value: `${rentDuration} Day(s)` },
-    { id: 10, label: "Price Rate (Per Day) :", value: priceRate },
+    {
+      id: 10,
+      label: "Price Rate (Per Day) :",
+      value: priceRate && priceRate.toLocaleString(),
+    },
     {
       id: 11,
-      label: "Outside of Origin Location :",
-      value: toSentenceCase(destination ? destination.municipality : ""),
+      label: "Destination(City) :",
+      value: cityDestination,
     },
     {
       id: 12,
-      label: "Outside of Origin(Add-on cost) :",
-      value: destination ? destination.rate.toString() : "",
+      label: "Outside of Origin Rate :",
+      value: outsideRate && outsideRate.toLocaleString(),
+    },
+    {
+      id: 13,
+      label: "Distance between cities :",
+      value: distance + " " + "km",
     },
   ];
 
@@ -149,11 +163,12 @@ const RenterInformation = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     const fetchData = async () => {
       showLoading();
       try {
-        await Promise.all([fetchRenterData(userId), fetchVehicleData(carId)]);
+        await fetchVehicleData(carId);
         hideLoading();
         setIsLoading(false);
       } catch (error) {
@@ -162,9 +177,27 @@ const RenterInformation = () => {
         setIsLoading(false);
       }
     };
-
     fetchData();
-  }, [carId, userId]);
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      const fetchData = async () => {
+        showLoading();
+        try {
+          await fetchRenterData(userId);
+          hideLoading();
+          setIsLoading(false);
+        } catch (error) {
+          console.error(error);
+          hideLoading();
+          setIsLoading(false);
+        }
+      };
+      fetchData();
+    }
+  }, [userId]);
+
   return (
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -192,25 +225,28 @@ const RenterInformation = () => {
           <Text style={styles.header}>Booking Information</Text>
         </View>
         <View style={styles.rentingInfo}>
-          {dataArray.map(
-            (item) =>
-              item.value && (
-                <View key={item.id} style={styles.row}>
-                  <Text style={styles.label}>{item.label}</Text>
-                  <View style={styles.valueContainer}>
-                    {[10, 12].includes(item.id) && (
-                      <Image style={styles.icon} source={peso} />
-                    )}
-                    <Text style={styles.value}>{item.value}</Text>
+          {!isLoading &&
+            dataArray.map(
+              (item) =>
+                item.value && (
+                  <View key={item.id} style={styles.row}>
+                    <Text style={styles.label}>{item.label}</Text>
+                    <View style={styles.valueContainer}>
+                      {[10, 12].includes(item.id) && (
+                        <Image style={styles.icon} source={peso} />
+                      )}
+                      <Text style={styles.value}>{item.value}</Text>
+                    </View>
                   </View>
-                </View>
-              )
-          )}
+                )
+            )}
           <View style={[styles.row, styles.totalContent]}>
             <Text style={styles.totalLabel}>Total Amount :</Text>
             <View style={styles.valueContainer}>
               <Image style={styles.icon} source={peso} />
-              <Text style={styles.totalValue}>{totalPayment}</Text>
+              <Text style={styles.totalValue}>
+                {totalPayment && totalPayment.toLocaleString()}
+              </Text>
             </View>
           </View>
         </View>

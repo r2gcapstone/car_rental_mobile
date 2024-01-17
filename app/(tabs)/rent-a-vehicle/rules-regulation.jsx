@@ -121,14 +121,6 @@ const RulesRegulation = () => {
           <TouchableOpacity style={styles.btn} onPress={handleOnChange}>
             <Text style={styles.btnText}>Agree</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.btn,
-              { backgroundColor: colors.red.primary, opacity: 0.5 },
-            ]}
-          >
-            <Text style={styles.btnText}>Disagree</Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
       {modal && <RulesRegulationModal data={data} onClose={handleOnChange} />}

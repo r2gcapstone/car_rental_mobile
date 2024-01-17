@@ -42,7 +42,11 @@ const UploadImageBtn = ({
       )}
       <Text style={styles.label}> {label || ""}</Text>
       <TouchableOpacity
-        style={[styles.uploadBtnContainer, btnProps]}
+        style={[
+          styles.uploadBtnContainer,
+          btnProps,
+          { opacity: imageUrl[name] ? 0.5 : "" },
+        ]}
         onPress={() => pickImage(name)}
       >
         <Text style={styles.btnText}>Upload</Text>
@@ -86,7 +90,7 @@ const styles = StyleSheet.create({
   },
   selectedImage: {
     width: "100%",
-    minHeight: 200,
+    minHeight: 550,
     borderColor: "#6A6A6A",
     borderWidth: 2,
     borderRadius: 4,
