@@ -22,7 +22,7 @@ import MainLayout from "layouts/MainLayout";
 
 const RentingInfo = () => {
   const { user } = useUserContext();
-  const userName = user.firstName + " " + user.lastName;
+  const fullName = user.firstName + " " + user.lastName;
   const [distance, setDistance] = useState("");
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const route = useRoute();
@@ -105,12 +105,13 @@ const RentingInfo = () => {
   const rentDuration = countTotalDays(startDate, endDate);
   //calculate total payment based on rate plus additional cost for outside destination if chosen
   let total = "";
+  let subTotal = "";
   try {
-    total = rentDuration * priceRate;
-
+    subTotal = rentDuration * priceRate;
+    total = subTotal;
     //check if outside destination is true
     if (destination.municipality.name) {
-      total = total + +distance * 1000;
+      total = subTotal + +distance * outsideRate;
     }
   } catch (error) {}
 
@@ -125,23 +126,30 @@ const RentingInfo = () => {
       id: 3,
       icon: peso,
       label: "Price Rate (Per day) :",
-      value: priceRate.toString(),
+      value: priceRate.toLocaleString(),
     },
     {
       id: 4,
-      label: "Outside of Origin Location :",
-      value: destination.municipality.name,
+      icon: peso,
+      label: "Sub Total :",
+      value: destination.municipality.name && subTotal.toLocaleString(),
     },
     {
       id: 5,
-      label: "Distance in Kilometer :",
-      value: distance ? distance.toString() + " " + "km" : "",
+      label: "Destination(City) :",
+      value: destination.municipality.name,
     },
     {
       id: 6,
       icon: peso,
-      label: "Outside of Origin(Add-on cost) :",
-      value: destination.rate ? destination.rate.toString() : "",
+      label: "Outside of Origin Rate :",
+      value:
+        destination.municipality.name && outsideRate.toLocaleString() + " x",
+    },
+    {
+      id: 7,
+      label: "Distance in Kilometer :",
+      value: distance ? distance.toString() + " " + "km" : "",
     },
   ];
 
@@ -159,7 +167,9 @@ const RentingInfo = () => {
       ownerId: userId,
       carId,
       vehicleDetails,
-      rentee: userName,
+      rentee: fullName,
+      distance: distance,
+      outsideRate,
     },
   };
 

@@ -48,6 +48,8 @@ const ApplicationInformation = () => {
     priceRate,
     destination,
     totalPayment,
+    distance,
+    outsideRate,
   } = newObject;
 
   //format date back to firebase timeStamp
@@ -86,13 +88,18 @@ const ApplicationInformation = () => {
     { id: 10, label: "Price Rate (Per Day) :", value: priceRate },
     {
       id: 11,
-      label: "Outside of Origin Location :",
-      value: toSentenceCase(destination.municipality),
+      label: "Destination :",
+      value: toSentenceCase(destination.municipality.name),
     },
     {
       id: 12,
-      label: "Outside of Origin(Add-on cost) :",
-      value: destination.rate.toString(),
+      label: "Outside of Origin Rate :",
+      value: outsideRate,
+    },
+    {
+      id: 13,
+      label: "Distance between cities :",
+      value: distance + " " + "km",
     },
   ];
 
@@ -230,7 +237,7 @@ const ApplicationInformation = () => {
                     </View>
                   ) : (
                     <View style={styles.valueContainer}>
-                      {[10, 12].includes(item.id) && (
+                      {[8, 12].includes(item.id) && (
                         <Image style={styles.icon} source={peso} />
                       )}
                       <Text style={styles.value}>{item.value}</Text>
@@ -243,7 +250,9 @@ const ApplicationInformation = () => {
             <Text style={styles.totalLabel}>Total Amount :</Text>
             <View style={styles.valueContainer}>
               <Image style={styles.icon} source={peso} />
-              <Text style={styles.totalValue}>{totalPayment}</Text>
+              <Text style={styles.totalValue}>
+                {totalPayment.toLocaleString()}
+              </Text>
             </View>
           </View>
         </View>

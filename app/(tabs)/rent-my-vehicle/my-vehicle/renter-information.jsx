@@ -41,6 +41,8 @@ const RenterInformation = () => {
     priceRate,
     destination,
     totalPayment,
+    distance,
+    outsideRate,
   } = vehicleData;
 
   const { firstName, lastName, mobileNumber, email, address, imageUrl } =
@@ -120,13 +122,18 @@ const RenterInformation = () => {
     { id: 10, label: "Price Rate (Per Day) :", value: priceRate },
     {
       id: 11,
-      label: "Outside of Origin Location :",
-      value: toSentenceCase(destination ? destination.municipality : ""),
+      label: "Destination :",
+      value: toSentenceCase(destination.municipality.name),
     },
     {
       id: 12,
-      label: "Outside of Origin(Add-on cost) :",
-      value: destination ? destination.rate.toString() : "",
+      label: "Outside of Origin Rate :",
+      value: outsideRate,
+    },
+    {
+      id: 13,
+      label: "Distance between cities :",
+      value: distance + " " + "km",
     },
   ];
 
@@ -198,7 +205,7 @@ const RenterInformation = () => {
                 <View key={item.id} style={styles.row}>
                   <Text style={styles.label}>{item.label}</Text>
                   <View style={styles.valueContainer}>
-                    {[10, 12].includes(item.id) && (
+                    {[8, 10, 12].includes(item.id) && (
                       <Image style={styles.icon} source={peso} />
                     )}
                     <Text style={styles.value}>{item.value}</Text>
