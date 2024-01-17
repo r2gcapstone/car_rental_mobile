@@ -96,7 +96,11 @@ const BookingInformation = () => {
     },
     { id: 6, label: "Pick-up Location :", value: toSentenceCase(pickUp) },
     { id: 7, label: "Drop-off Location :", value: toSentenceCase(dropOff) },
-    { id: 8, label: "Price Rate (Per Day) :", value: priceRate },
+    {
+      id: 8,
+      label: "Price Rate (Per Day) :",
+      value: priceRate && priceRate.toLocaleString(),
+    },
     {
       id: 9,
       label: "Method of Payment :",
@@ -106,12 +110,12 @@ const BookingInformation = () => {
 
     {
       id: 11,
-      label: "Outside of Origin Location :",
+      label: "Destination(City) :",
       value: toSentenceCase(destination.municipality.name),
     },
     {
       id: 12,
-      label: "Outside of Origin(Add-on cost) :",
+      label: "Distance between cities :",
       value: distance + " " + "km",
     },
   ];
