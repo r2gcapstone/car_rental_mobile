@@ -12,13 +12,25 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { router } from "expo-router";
 import { useIsFocused } from "@react-navigation/native";
 import { useUserContext } from "context/UserContext";
+import { getSubscriptionData } from "api/notifications";
+import { updateSubscriptionData } from "api/subscription";
+//notfiMessages
+import { notifications } from "constants/message/notification";
 
 const NotificationList = ({ from }) => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const [data, setData] = useState([]);
+  const [subData, setSubData] = useState([]);
   const [finishedRental, setFinishedRental] = useState([]);
   const isFocused = useIsFocused();
   const { user, setUser } = useUserContext();
+  const {
+    subExpired,
+    subResponseApproved,
+    subResponseDenied,
+    regResponseApproved,
+    regResponseDenied,
+  } = notifications;
 
   const getRentingDetails = async () => {
     try {
@@ -56,6 +68,32 @@ const NotificationList = ({ from }) => {
     }
   };
 
+  const handleOnPress2 = async (index) => {
+    // console.log(JSON.stringify(subData[index], null, 2));
+
+    let status = subData[index].status;
+    try {
+      let path = "";
+
+      if (status === "approved") {
+        path = "(tabs)/rent-my-vehicle/subscription/my-subscription";
+        await updateSubscriptionData("status", "ongoing", subData[index].docId);
+      } else {
+        path = "(notification)/admin-message";
+        await updateSubscriptionData("viewed", true, subData[index].docId);
+      }
+
+      if (subData[index]) {
+        router.push({
+          pathname: path,
+          params: { data: JSON.stringify(subData[index]), from: from },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleOnPressReview = (index) => {
     if (finishedRental[index]) {
       router.push({
@@ -77,6 +115,94 @@ const NotificationList = ({ from }) => {
     }
   };
 
+  const fetchSubData = async () => {
+    try {
+      showLoading();
+      const result = await getSubscriptionData("approved");
+      const result2 = await getSubscriptionData("declined");
+
+      const combined = [...result, ...result2];
+
+      if (Array.isArray(combined)) {
+        setSubData(combined);
+      }
+    } catch (error) {
+      console.error(error); // Log the error for debugging
+      alert("There has been an error fetching Rental Notification.");
+    }
+  };
+
+  //components
+  const RentingRequestNotif = () => (
+    <View style={styles.wrapper2}>
+      {data.length > 0 &&
+        data.map(({ imageUrl, remainingHours }, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.container]}
+            onPress={() => handleOnPress(index)}
+          >
+            <View style={styles.row}>
+              <Image style={styles.img} source={{ uri: imageUrl }} />
+              <View style={styles.col}>
+                <Text style={styles.Message}>
+                  You have {remainingHours.toString()} hour(s) remaining to
+                  respond to this application for renting your vehicle.
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))}
+    </View>
+  );
+
+  const RentExpires = () => (
+    <View style={styles.wrapper2}>
+      {finishedRental.length > 0 &&
+        finishedRental.map(({ imageUrl }, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.container]}
+            onPress={() => handleOnPressReview(index)}
+          >
+            <View style={styles.row}>
+              <Image style={styles.img} source={{ uri: imageUrl }} />
+              <View style={styles.col}>
+                <Text style={styles.Message}>
+                  As your rental with this vehicle comes to an end, we kindly
+                  ask for your valuable review and rating.
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))}
+    </View>
+  );
+
+  const SubRequestResponseNotif = () => (
+    <View style={styles.wrapper2}>
+      {subData.length > 0 &&
+        subData.map(({ carImage }, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.container]}
+            onPress={() => handleOnPress2(index)}
+          >
+            <View style={styles.row}>
+              <Image style={styles.img} source={{ uri: carImage }} />
+              <View style={styles.col}>
+                <Text style={styles.Message}>
+                  {subData[index].status == "approved"
+                    ? subResponseApproved.message
+                    : subResponseDenied.message}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))}
+    </View>
+  );
+
   //run using sideeffect
   useEffect(() => {
     setUser({ ...user, notifCount: 0 });
@@ -85,58 +211,26 @@ const NotificationList = ({ from }) => {
 
   useEffect(() => {
     if (isFocused) {
+      showLoading();
       getRentingDetails();
       finishedRentals();
+      fetchSubData();
     }
+    hideLoading();
   }, [isFocused]);
 
   return (
     <View style={styles.wrapper}>
-      <View style={styles.wrapper2}>
-        {data.length > 0 &&
-          data.map(({ imageUrl, remainingHours }, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[styles.container]}
-              onPress={() => handleOnPress(index)}
-            >
-              <View style={styles.row}>
-                <Image style={styles.img} source={{ uri: imageUrl }} />
-                <View style={styles.col}>
-                  <Text style={styles.Message}>
-                    You have {remainingHours.toString()} hour(s) remaining to
-                    respond to this application for renting your vehicle.
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
-      </View>
-      <View style={styles.wrapper2}>
-        {finishedRental.length > 0 &&
-          finishedRental.map(({ imageUrl }, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[styles.container]}
-              onPress={() => handleOnPressReview(index)}
-            >
-              <View style={styles.row}>
-                <Image style={styles.img} source={{ uri: imageUrl }} />
-                <View style={styles.col}>
-                  <Text style={styles.Message}>
-                    As your rental with this vehicle comes to an end, we kindly
-                    ask for your valuable review and rating.
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
-      </View>
-      {finishedRental.length === 0 && data.length === 0 && (
-        <View style={{ marginTop: 20 }}>
-          <Text style={{ textAlign: "center" }}>No notification found !</Text>
-        </View>
-      )}
+      <RentingRequestNotif />
+      <RentExpires />
+      <SubRequestResponseNotif />
+      {finishedRental.length === 0 &&
+        data.length === 0 &&
+        subData.length === 0 && (
+          <View style={{ marginTop: 20 }}>
+            <Text style={{ textAlign: "center" }}>No notification found !</Text>
+          </View>
+        )}
       <LoadingComponent />
     </View>
   );
