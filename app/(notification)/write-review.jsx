@@ -19,7 +19,6 @@ import { TextInput } from "react-native-gesture-handler";
 import { router } from "expo-router";
 
 const initialState = {
-  userName: "",
   comment: "",
   rating: 1,
   imageUrl: null,
@@ -45,7 +44,6 @@ const WriteReview = () => {
       const newData = {
         ...data,
         imageUrl: user.imageUrl,
-        userName: user.firstName,
         carId: carId,
       };
       const result = await postReview(newData, docId);
