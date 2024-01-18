@@ -16,14 +16,8 @@ const AdminMessage = () => {
   const route = useRoute();
   //prev data
   const data = JSON.parse(route.params?.data) || "";
-  const {
-    carImage,
-    vehicleName,
-    status,
-    subscriptionType,
-    dateCreated,
-    adminMessage,
-  } = data;
+  const { carImage, status, subscriptionType, dateCreated, adminMessage } =
+    data;
 
   // Convert the timestamp to milliseconds by adding the seconds and nanoseconds together
   let dateInMilliseconds =
@@ -38,7 +32,7 @@ const AdminMessage = () => {
   const dataArray = [
     {
       key: 0,
-      label: data.vehicleDetails.vehicleName
+      label: data.vehicleDetails?.vehicleName
         ? "Date of Vehicle Registration :"
         : "Subscription Purchase Date :",
       value: readableDate,
@@ -61,12 +55,14 @@ const AdminMessage = () => {
 
   const MessageComponent = () => (
     <>
-      {adminMessage.split("  ").map((line, index) => (
-        <Text key={index}>
-          {"\n"}
-          {line}
-        </Text>
-      ))}
+      {adminMessage
+        ? adminMessage.split("  ").map((line, index) => (
+            <Text key={index}>
+              {"\n"}
+              {line}
+            </Text>
+          ))
+        : ""}
     </>
   );
 
@@ -79,7 +75,7 @@ const AdminMessage = () => {
             source={{ uri: carImage || data.imageUrls.front }}
           />
           <Text style={styles.h1}>
-            {vehicleName || data.vehicleDetails.vehicleName}
+            {data.vehicleName || data.vehicleDetails.vehicleName}
           </Text>
           {dataArray.map(
             ({ key, label, value }) =>
@@ -98,21 +94,23 @@ const AdminMessage = () => {
               )
           )}
 
-          <View
-            style={[
-              styles.row,
-              {
-                marginTop: 20,
-                backgroundColor: "#526D82",
-                padding: 14,
-                paddingTop: -10,
-                borderRadius: 14,
-                flexDirection: "column",
-              },
-            ]}
-          >
-            <MessageComponent />
-          </View>
+          {adminMessage && (
+            <View
+              style={[
+                styles.row,
+                {
+                  marginTop: 20,
+                  backgroundColor: "#526D82",
+                  padding: 14,
+                  paddingTop: -10,
+                  borderRadius: 14,
+                  flexDirection: "column",
+                },
+              ]}
+            >
+              <MessageComponent />
+            </View>
+          )}
         </View>
       </ScrollView>
       <TouchableOpacity onPress={handleOnPress} style={styles.btn}>

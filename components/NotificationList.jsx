@@ -259,7 +259,7 @@ const NotificationList = ({ from }) => {
                     ? subResponseApproved.message
                     : subData[index].status === "expired"
                     ? subExpired.message
-                    : ""}
+                    : subResponseDenied.message}
                 </Text>
               </View>
             </View>
