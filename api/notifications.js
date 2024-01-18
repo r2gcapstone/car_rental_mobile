@@ -50,3 +50,42 @@ export const getSubscriptionData = async (status, isViewed) => {
     return { error: true, message: error.message, status: error.code };
   }
 };
+
+export const getVehicleRegistrationlData = async (status, isViewed) => {
+  try {
+    const userId = auth.currentUser.uid;
+
+    // Get a reference to the 'cars' collection
+    const carsCollection = collection(db, "cars");
+
+    //query data
+    let querySnapshotRef = null;
+    if (status == "approved") {
+      querySnapshotRef = query(
+        carsCollection,
+        where("userId", "==", userId),
+        where("status", "==", "approved")
+      );
+    } else if (status == "declined") {
+      querySnapshotRef = query(
+        carsCollection,
+        where("userId", "==", userId),
+        where("viewed", "==", false),
+        where("status", "==", "declined")
+      );
+    }
+
+    //fetch data
+    const querySnapshot = await getDocs(querySnapshotRef);
+
+    let regCarsRequest = [];
+    querySnapshot.docs.forEach((doc) => {
+      const carsReg = doc.data();
+      regCarsRequest.push({ ...carsReg });
+    });
+
+    return regCarsRequest;
+  } catch (error) {
+    return { error: true, message: error.message, status: error.code };
+  }
+};

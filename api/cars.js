@@ -90,6 +90,8 @@ export const RegisterCar = async ({ data }) => {
       isSubscribed: false,
       isRented: false,
       isHidden: false,
+      viewed: false,
+      status: "pending",
       location: { status: "off" },
       dateCreated: dateCreated,
     });

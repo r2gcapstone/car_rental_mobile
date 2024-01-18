@@ -7,13 +7,17 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { router } from "expo-router";
 import { useIsFocused } from "@react-navigation/native";
 import { useUserContext } from "context/UserContext";
-import { getSubscriptionData, getRentalData } from "api/notifications";
+import {
+  getSubscriptionData,
+  getVehicleRegistrationlData,
+} from "api/notifications";
 import {
   getAllRentals,
   getFinishedRental,
   updateRentalDataField,
 } from "api/rental";
 import { updateSubscriptionData } from "api/subscription";
+import { updateCarData } from "api/cars";
 
 //notfiMessages
 import { notifications } from "constants/message/notification";
@@ -43,6 +47,50 @@ const NotificationList = ({ from }) => {
       }
     } catch (error) {
       alert("There has been an error fetching Rental Notification.");
+    }
+  };
+
+  const fetchSubData = async () => {
+    try {
+      showLoading();
+      const [result, result2] = await Promise.all([
+        getSubscriptionData("approved"),
+        getSubscriptionData("declined"),
+      ]);
+
+      const combined = [...result, ...result2];
+
+      if (Array.isArray(combined)) {
+        setSubData(combined);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("There has been an error fetching subscription Notification.");
+    } finally {
+      hideLoading();
+    }
+  };
+
+  const fetchVehicleRegistrationlData = async () => {
+    try {
+      showLoading();
+      const [result, result2] = await Promise.all([
+        getVehicleRegistrationlData("approved"),
+        getVehicleRegistrationlData("declined"),
+      ]);
+
+      const combined = [...result, ...result2];
+
+      if (Array.isArray(combined)) {
+        setVehicleReg(combined); // You should set combined array, not just result
+      }
+    } catch (error) {
+      console.error(error);
+      alert(
+        "There has been an error fetching vehicle registration Notification."
+      );
+    } finally {
+      hideLoading();
     }
   };
 
@@ -95,28 +143,29 @@ const NotificationList = ({ from }) => {
   };
 
   const handleOnPress3 = async (index) => {
-    let status = data[index].status;
+    let status = vehicleReg[index].status;
     try {
       let path = "";
 
       if (status === "approved") {
-        path = "(tabs)/rent-my-vehicle/subscription/my-subscription";
-        await updateSubscriptionData("status", "ongoing", data[index].docId);
-      } else {
+        path = "(tabs)/rent-my-vehicle/subscription/buy-subscription";
+        await updateCarData("status", "ongoing", vehicleReg[index].carId);
+      } else if (status === "declined") {
         path = "(notification)/admin-message";
-        await updateSubscriptionData("viewed", true, data[index].docId);
+        await updateCarData("viewed", true, vehicleReg[index].carId);
       }
 
-      if (data[index]) {
+      if (vehicleReg[index]) {
         router.push({
           pathname: path,
-          params: { data: JSON.stringify(data[index]), from: from },
+          params: { data: JSON.stringify(vehicleReg[index]), from: from },
         });
       }
     } catch (error) {
       console.error(error);
     }
   };
+
   const handleOnPressReview = (index) => {
     if (finishedRental[index]) {
       router.push({
@@ -135,23 +184,6 @@ const NotificationList = ({ from }) => {
     }
     for (let { docId } of finishedRental) {
       await updateRentalDataField("viewed", true, docId);
-    }
-  };
-
-  const fetchSubData = async () => {
-    try {
-      showLoading();
-      const result = await getSubscriptionData("approved");
-      const result2 = await getSubscriptionData("declined");
-
-      const combined = [...result, ...result2];
-
-      if (Array.isArray(combined)) {
-        setSubData(combined);
-      }
-    } catch (error) {
-      console.error(error); // Log the error for debugging
-      alert("There has been an error fetching Rental Notification.");
     }
   };
 
@@ -228,18 +260,18 @@ const NotificationList = ({ from }) => {
 
   const VehicleRegResNotif = () => (
     <View style={styles.wrapper2}>
-      {data.length > 0 &&
-        data.map(({ carImage }, index) => (
+      {vehicleReg.length > 0 &&
+        vehicleReg.map(({ imageUrls: { front } }, index) => (
           <TouchableOpacity
             key={index}
             style={[styles.container]}
             onPress={() => handleOnPress3(index)}
           >
             <View style={styles.row}>
-              <Image style={styles.img} source={{ uri: carImage }} />
+              <Image style={styles.img} source={{ uri: front }} />
               <View style={styles.col}>
                 <Text style={styles.Message}>
-                  {data[index].status == "approved"
+                  {vehicleReg[index].status === "approved"
                     ? regResponseApproved.message
                     : regResponseDenied.message}
                 </Text>
@@ -262,7 +294,7 @@ const NotificationList = ({ from }) => {
       getRentingDetails();
       finishedRentals();
       fetchSubData();
-      getRentalData();
+      fetchVehicleRegistrationlData();
     }
     hideLoading();
   }, [isFocused]);
@@ -275,7 +307,8 @@ const NotificationList = ({ from }) => {
       <VehicleRegResNotif />
       {finishedRental.length === 0 &&
         data.length === 0 &&
-        subData.length === 0 && (
+        subData.length === 0 &&
+        vehicleReg.length === 0 && (
           <View style={{ marginTop: 20 }}>
             <Text style={{ textAlign: "center" }}>No notification found !</Text>
           </View>
@@ -284,8 +317,6 @@ const NotificationList = ({ from }) => {
     </View>
   );
 };
-
-export default NotificationList;
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -322,3 +353,5 @@ const styles = StyleSheet.create({
     color: colors.white[1],
   },
 });
+
+export default NotificationList;

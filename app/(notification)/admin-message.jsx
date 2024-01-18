@@ -36,7 +36,13 @@ const AdminMessage = () => {
   let readableDate = date.toLocaleDateString();
 
   const dataArray = [
-    { key: 0, label: "Subscription Purchase Date :", value: readableDate },
+    {
+      key: 0,
+      label: data.vehicleDetails.vehicleName
+        ? "Date of Vehicle Registration :"
+        : "Subscription Purchase Date :",
+      value: readableDate,
+    },
     {
       key: 1,
       label: "Type of Subscription : ",
@@ -68,18 +74,29 @@ const AdminMessage = () => {
     <MainLayout>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-          <Image style={styles.img} source={{ uri: carImage }} />
-          <Text style={styles.h1}>{vehicleName}</Text>
-          {dataArray.map(({ key, label, value }) => (
-            <View style={styles.row} key={key}>
-              <Text style={styles.h2}>{label}</Text>
-              <Text
-                style={[styles.value, { color: key === 2 ? "red" : "white" }]}
-              >
-                {value}
-              </Text>
-            </View>
-          ))}
+          <Image
+            style={styles.img}
+            source={{ uri: carImage || data.imageUrls.front }}
+          />
+          <Text style={styles.h1}>
+            {vehicleName || data.vehicleDetails.vehicleName}
+          </Text>
+          {dataArray.map(
+            ({ key, label, value }) =>
+              value && (
+                <View style={styles.row} key={key}>
+                  <Text style={styles.h2}>{label}</Text>
+                  <Text
+                    style={[
+                      styles.value,
+                      { color: key === 2 ? "red" : "white" },
+                    ]}
+                  >
+                    {value}
+                  </Text>
+                </View>
+              )
+          )}
 
           <View
             style={[

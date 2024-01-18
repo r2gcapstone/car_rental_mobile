@@ -29,7 +29,8 @@ export const searchAvailableCars = async (filter) => {
       carsRef,
       where("isSubscribed", "==", true),
       where("isRented", "==", false),
-      where("isHidden", "==", false)
+      where("isHidden", "==", false),
+      where("status", "==", "approved")
     );
 
     if (pendingRentalsCarIds.length > 0) {

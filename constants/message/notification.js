@@ -16,12 +16,12 @@ export const notifications = {
   },
   regResponseApproved: {
     message:
-      "Your registered vehicle is now accepted. You can now purchase a subscription for this vehicle.",
+      "Your vehicle registration request is now accepted. You can now purchase a subscription for this vehicle.",
     read: true,
   },
   regResponseDenied: {
     message:
-      "Your registered vehicle has been declined. Please click here to review the reasons for rejection.",
+      "Your vehicle registration request has been declined. Please click here to review the reasons for rejection.",
     read: false,
   },
 };
