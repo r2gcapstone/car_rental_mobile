@@ -27,11 +27,12 @@ export const getSubscriptionData = async (status, isViewed) => {
         where("userId", "==", userId),
         where("status", "==", status)
       );
-    } else {
+    } else if (status === "declined") {
       querySnapshotRef = query(
         subscriptionCollection,
         where("userId", "==", userId),
-        where("viewed", "==", false)
+        where("viewed", "==", false),
+        where("status", "==", status)
       );
     }
 

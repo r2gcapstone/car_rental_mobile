@@ -1,10 +1,5 @@
 import { StyleSheet, View, Image } from "react-native";
 import React, { useEffect, useState } from "react";
-import {
-  getAllRentals,
-  getFinishedRental,
-  updateRentalDataField,
-} from "api/rental";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import { colors } from "constants/Colors";
 import Text from "components/ThemedText";
@@ -12,8 +7,14 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { router } from "expo-router";
 import { useIsFocused } from "@react-navigation/native";
 import { useUserContext } from "context/UserContext";
-import { getSubscriptionData } from "api/notifications";
+import { getSubscriptionData, getRentalData } from "api/notifications";
+import {
+  getAllRentals,
+  getFinishedRental,
+  updateRentalDataField,
+} from "api/rental";
 import { updateSubscriptionData } from "api/subscription";
+
 //notfiMessages
 import { notifications } from "constants/message/notification";
 
@@ -21,6 +22,7 @@ const NotificationList = ({ from }) => {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
+  const [vehicleReg, setVehicleReg] = useState([]);
   const [finishedRental, setFinishedRental] = useState([]);
   const isFocused = useIsFocused();
   const { user, setUser } = useUserContext();
@@ -69,8 +71,6 @@ const NotificationList = ({ from }) => {
   };
 
   const handleOnPress2 = async (index) => {
-    // console.log(JSON.stringify(subData[index], null, 2));
-
     let status = subData[index].status;
     try {
       let path = "";
@@ -94,6 +94,29 @@ const NotificationList = ({ from }) => {
     }
   };
 
+  const handleOnPress3 = async (index) => {
+    let status = data[index].status;
+    try {
+      let path = "";
+
+      if (status === "approved") {
+        path = "(tabs)/rent-my-vehicle/subscription/my-subscription";
+        await updateSubscriptionData("status", "ongoing", data[index].docId);
+      } else {
+        path = "(notification)/admin-message";
+        await updateSubscriptionData("viewed", true, data[index].docId);
+      }
+
+      if (data[index]) {
+        router.push({
+          pathname: path,
+          params: { data: JSON.stringify(data[index]), from: from },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleOnPressReview = (index) => {
     if (finishedRental[index]) {
       router.push({
@@ -203,6 +226,30 @@ const NotificationList = ({ from }) => {
     </View>
   );
 
+  const VehicleRegResNotif = () => (
+    <View style={styles.wrapper2}>
+      {data.length > 0 &&
+        data.map(({ carImage }, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.container]}
+            onPress={() => handleOnPress3(index)}
+          >
+            <View style={styles.row}>
+              <Image style={styles.img} source={{ uri: carImage }} />
+              <View style={styles.col}>
+                <Text style={styles.Message}>
+                  {data[index].status == "approved"
+                    ? regResponseApproved.message
+                    : regResponseDenied.message}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))}
+    </View>
+  );
+
   //run using sideeffect
   useEffect(() => {
     setUser({ ...user, notifCount: 0 });
@@ -215,6 +262,7 @@ const NotificationList = ({ from }) => {
       getRentingDetails();
       finishedRentals();
       fetchSubData();
+      getRentalData();
     }
     hideLoading();
   }, [isFocused]);
@@ -224,6 +272,7 @@ const NotificationList = ({ from }) => {
       <RentingRequestNotif />
       <RentExpires />
       <SubRequestResponseNotif />
+      <VehicleRegResNotif />
       {finishedRental.length === 0 &&
         data.length === 0 &&
         subData.length === 0 && (

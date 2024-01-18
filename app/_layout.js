@@ -124,6 +124,15 @@ function RootLayoutNav() {
                 ),
               })}
             />
+            <Stack.Screen
+              name="(notification)/admin-message"
+              options={() => ({
+                ...headerProp,
+                headerLeft: () => (
+                  <CustomBackButton router={router} customText="" />
+                ),
+              })}
+            />
 
             {/* tabs*/}
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
