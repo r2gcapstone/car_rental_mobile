@@ -37,6 +37,8 @@ export const Subscribe = async (data) => {
       status: "pending",
       dateCreated: dateCreated,
       receiptImg: receiptImg,
+      viewed: false,
+      expiredStatus: false,
     };
 
     // Get a reference to the 'rentals' collection
@@ -75,7 +77,11 @@ export const Subscribe = async (data) => {
 
     if (!alertShown) {
       // Add a new document with an auto-generated id
-      await addDoc(subscriptionCollection, newData);
+      const docRef = await addDoc(subscriptionCollection, newData);
+      const docId = docRef.id; // Retrieve the auto-generated document ID
+
+      // Update the document to include the docId
+      await updateDoc(docRef, { docId: docId });
 
       return {
         message: "Subscription request successfully created!",
@@ -89,40 +95,51 @@ export const Subscribe = async (data) => {
   }
 };
 
-//fetch all subscription function
 export const getAllSubscription = async () => {
   try {
-    const user = auth.currentUser;
-    const userId = user.uid;
+    const userId = auth.currentUser.uid;
     let currentDate = new Date();
 
     // Get a reference to the 'subscription' collection
     const subscriptionCollection = collection(db, "subscription");
 
-    const querySnapshot = await getDocs(
+    //query data
+    let approvedQuery = query(
       subscriptionCollection,
-      where("userId", "==", userId)
+      where("userId", "==", userId),
+      where("status", "==", "approved")
     );
 
+    let ongoingQuery = query(
+      subscriptionCollection,
+      where("userId", "==", userId),
+      where("status", "==", "ongoing")
+    );
+
+    // Run the queries and get the results
+    let approvedPromise = getDocs(approvedQuery);
+    let ongoingPromise = getDocs(ongoingQuery);
+
+    let [approvedSnapshot, ongoingSnapshot] = await Promise.all([
+      approvedPromise,
+      ongoingPromise,
+    ]);
+
     let subscription = [];
-    querySnapshot.docs.forEach((doc) => {
-      const sub = doc.data();
-      let days = 0;
-      let remainingDays = 0;
 
-      const dateCreated = sub.dateCreated;
-      const duration = sub.duration;
-      if (currentDate > dateCreated) {
-        days = countTotalDays(dateCreated.toDate(), currentDate);
-        if (days < duration) {
-          remainingDays = duration - days;
-          updateSubscriptionData("remainingDays", remainingDays, doc.id);
-        }
+    // Process the results of the 'approved' query
+    approvedSnapshot.docs.forEach((doc) => {
+      const sub = processSubscription(doc, currentDate);
+      if (sub) {
+        subscription.push(sub);
       }
+    });
 
-      // Only push the subscription if status is not 'pending'
-      if (sub.status !== "pending") {
-        subscription.push({ ...sub, remainingDays: remainingDays });
+    // Process the results of the 'ongoing' query
+    ongoingSnapshot.docs.forEach((doc) => {
+      const sub = processSubscription(doc, currentDate);
+      if (sub) {
+        subscription.push(sub);
       }
     });
 
@@ -131,6 +148,30 @@ export const getAllSubscription = async () => {
     return { error: true, message: error.message, status: error.code };
   }
 };
+
+// Helper function to process a subscription document
+function processSubscription(doc, currentDate) {
+  const sub = doc.data();
+  let days = 0;
+  let remainingDays = 0;
+
+  const dateCreated = sub.dateCreated;
+  const duration = sub.duration;
+  if (currentDate > dateCreated) {
+    days = countTotalDays(dateCreated.toDate(), currentDate);
+    if (days < duration) {
+      remainingDays = duration - days;
+      updateSubscriptionData("remainingDays", remainingDays, doc.id);
+    }
+  }
+
+  // Only return the subscription if status is not 'pending'
+  if (sub.status !== "pending") {
+    return { ...sub, remainingDays: remainingDays };
+  } else {
+    return null;
+  }
+}
 
 //update vehicle information
 export const updateSubscriptionData = async (key, value, docId) => {
@@ -175,8 +216,9 @@ export const updateSubscription = async () => {
         if (days > duration) {
           //reset days to 0 when expiration is hit
           //Not Recommended for realtime data changes
-          updateCarData("isSubscribed", false, sub.carId);
+          updateSubscriptionData("status", "expired", doc.id);
           updateSubscriptionData("remainingDays", 0, doc.id);
+          updateCarData("isSubscribed", false, sub.carId);
         }
       }
     });

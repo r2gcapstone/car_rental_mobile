@@ -77,6 +77,7 @@ export const login = async (email, password) => {
     const userData = {
       ownerId: user.uid,
       firstName: ownerData.firstName,
+      middleName: ownerData.middleName,
       lastName: ownerData.lastName,
       address: ownerData.address,
       email: ownerData.email,
