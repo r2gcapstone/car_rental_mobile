@@ -38,6 +38,7 @@ export const Subscribe = async (data) => {
       dateCreated: dateCreated,
       receiptImg: receiptImg,
       viewed: false,
+      expiredStatus: false,
     };
 
     // Get a reference to the 'rentals' collection

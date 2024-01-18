@@ -53,12 +53,13 @@ const NotificationList = ({ from }) => {
   const fetchSubData = async () => {
     try {
       showLoading();
-      const [result, result2] = await Promise.all([
+      const [result, result2, result3] = await Promise.all([
         getSubscriptionData("approved"),
         getSubscriptionData("declined"),
+        getSubscriptionData("expired"),
       ]);
 
-      const combined = [...result, ...result2];
+      const combined = [...result, ...result2, ...result3];
 
       if (Array.isArray(combined)) {
         setSubData(combined);
@@ -126,9 +127,16 @@ const NotificationList = ({ from }) => {
       if (status === "approved") {
         path = "(tabs)/rent-my-vehicle/subscription/my-subscription";
         await updateSubscriptionData("status", "ongoing", subData[index].docId);
-      } else {
+      } else if (status === "declined") {
         path = "(notification)/admin-message";
         await updateSubscriptionData("viewed", true, subData[index].docId);
+      } else if (status === "expired") {
+        path = "(tabs)/rent-my-vehicle/subscription/buy-subscription";
+        await updateSubscriptionData(
+          "expiredStatus",
+          true,
+          subData[index].docId
+        );
       }
 
       if (subData[index]) {
@@ -249,7 +257,9 @@ const NotificationList = ({ from }) => {
                 <Text style={styles.Message}>
                   {subData[index].status == "approved"
                     ? subResponseApproved.message
-                    : subResponseDenied.message}
+                    : subData[index].status === "expired"
+                    ? subExpired.message
+                    : ""}
                 </Text>
               </View>
             </View>

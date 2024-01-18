@@ -13,6 +13,7 @@ import { router } from "expo-router";
 
 //fetch all subscription function
 export const getSubscriptionData = async (status, isViewed) => {
+  // console.log(status);
   try {
     const userId = auth.currentUser.uid;
 
@@ -25,14 +26,21 @@ export const getSubscriptionData = async (status, isViewed) => {
       querySnapshotRef = query(
         subscriptionCollection,
         where("userId", "==", userId),
-        where("status", "==", status)
+        where("status", "==", "approved")
       );
     } else if (status === "declined") {
       querySnapshotRef = query(
         subscriptionCollection,
         where("userId", "==", userId),
         where("viewed", "==", false),
-        where("status", "==", status)
+        where("status", "==", "declined")
+      );
+    } else if (status === "expired") {
+      querySnapshotRef = query(
+        subscriptionCollection,
+        where("userId", "==", userId),
+        where("status", "==", "expired"),
+        where("expiredStatus", "==", false)
       );
     }
 
