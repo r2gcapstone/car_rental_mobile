@@ -89,10 +89,16 @@ export default function RentAVehicle() {
     const { startRentDate, endRentDate } = dateTimeValues;
 
     //check if endRentDate is not set
+    let currentDate = new Date();
+
+    // Set the time to midnight for each date
+    let date1 = startRentDate.setHours(0, 0, 0, 0);
+    let date2 = currentDate.setHours(0, 0, 0, 0);
 
     if (
       startRentDate.toString() !== endRentDate.toString() &&
-      startRentDate < endRentDate
+      startRentDate < endRentDate &&
+      date1 >= date2
     ) {
       setIsDate(false);
     } else {
