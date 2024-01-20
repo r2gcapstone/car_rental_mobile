@@ -18,21 +18,12 @@ import * as ImagePicker from "expo-image-picker";
 import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import Dropdown2 from "components/button/DropDown2";
 import municipalityData from "json/municipality.json";
+import barangayData from "json/barangay.json";
 import filterData from "utils/filterData";
 
 const idInitialState = {
   municipalityId: "",
-};
-
-const addressInitialState = {
-  province: {
-    name: "Negros Occidental",
-    id: 38,
-  },
-  municipality: {
-    name: "",
-    id: null,
-  },
+  barangayId: "",
 };
 
 export default function UpdateUserInformation() {
@@ -52,6 +43,20 @@ export default function UpdateUserInformation() {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const [isEmail, setIsEmail] = useState(false);
   const [id, setId] = useState(idInitialState);
+  const addressInitialState = {
+    province: {
+      name: "Negros Occidental",
+      id: 38,
+    },
+    municipality: {
+      name: municipality.name,
+      id: municipality.id,
+    },
+    barangay: {
+      name: barangay.name,
+      id: barangay.id,
+    },
+  };
   const [address, setAddress] = useState(addressInitialState);
 
   const handleOnChangeText = (name, value) => {
@@ -116,6 +121,19 @@ export default function UpdateUserInformation() {
     },
   ];
 
+  const dropDownArray2 = [
+    {
+      key: 1,
+      label: "Barangay",
+      name: "barangay",
+      options: filterData(
+        barangayData,
+        "municipality_id",
+        address.municipality.id
+      ),
+    },
+  ];
+
   //Input Field Array
   const inputFieldArray = [
     {
@@ -155,16 +173,15 @@ export default function UpdateUserInformation() {
     },
     {
       key: 5,
-      value: barangay,
-      label: "Barangay :",
-      type: "text",
-      name: "barangay",
-    },
-    {
-      key: 6,
       value: municipality,
       label: "Municipality :",
     },
+    {
+      key: 6,
+      value: barangay,
+      label: "Barangay :",
+    },
+
     {
       key: 7,
       value: email,
@@ -182,6 +199,12 @@ export default function UpdateUserInformation() {
       textError: "Please enter a valid number",
     },
   ];
+
+  //components
+
+  // const MunicipalDropdown = () => <>
+  // </>
+  // }
 
   useEffect(() => {
     setUser(() => ({
@@ -244,8 +267,27 @@ export default function UpdateUserInformation() {
                   textError,
                 }) => (
                   <View style={{ flex: 1, width: "100%" }} key={key}>
-                    {key === 6 ? (
+                    {key === 5 ? (
                       dropDownArray.map(({ key, name, options }) => (
+                        <View
+                          style={{
+                            width: "100%",
+                          }}
+                          key={key}
+                        >
+                          <Dropdown2
+                            label={label}
+                            name={name}
+                            data={address}
+                            id={id}
+                            setId={setId}
+                            setData={setAddress}
+                            options={options}
+                          />
+                        </View>
+                      ))
+                    ) : key === 6 ? (
+                      dropDownArray2.map(({ key, name, options }) => (
                         <View
                           style={{
                             width: "100%",

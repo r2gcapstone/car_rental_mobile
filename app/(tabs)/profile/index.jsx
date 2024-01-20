@@ -32,7 +32,7 @@ export default function Profile() {
   const newAddress = [
     street,
     subdivision,
-    barangay,
+    barangay.name,
     municipality.name,
     province.name,
   ]
