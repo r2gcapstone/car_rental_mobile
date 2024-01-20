@@ -26,21 +26,6 @@ const idInitialState = {
   barangayId: "",
 };
 
-const addressInitialState = {
-  province: {
-    name: "Negros Occidental",
-    id: 38,
-  },
-  municipality: {
-    name: "",
-    id: null,
-  },
-  barangay: {
-    name: "",
-    id: null,
-  },
-};
-
 export default function UpdateUserInformation() {
   const { user, setUser } = useUserContext();
   const { toSentenceCase } = useSentenceCase();
@@ -58,6 +43,20 @@ export default function UpdateUserInformation() {
   const { showLoading, hideLoading, LoadingComponent } = useLoadingAnimation();
   const [isEmail, setIsEmail] = useState(false);
   const [id, setId] = useState(idInitialState);
+  const addressInitialState = {
+    province: {
+      name: "Negros Occidental",
+      id: 38,
+    },
+    municipality: {
+      name: municipality.name,
+      id: municipality.id,
+    },
+    barangay: {
+      name: barangay.name,
+      id: barangay.id,
+    },
+  };
   const [address, setAddress] = useState(addressInitialState);
 
   const handleOnChangeText = (name, value) => {
