@@ -110,7 +110,7 @@ const UploadScreen = () => {
             aspectRatio={[5, 3]}
           />
           <UploadImage
-            caption="Inside of the Vehicle 2"
+            caption="Inside of the Vehicle 1"
             name="interior1"
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}

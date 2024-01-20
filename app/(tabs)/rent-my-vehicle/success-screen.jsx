@@ -20,12 +20,11 @@ export default function SuccessScreen() {
       <View style={styles.container}>
         <Image source={require("assets/images/logo.png")} style={styles.logo} />
         <Text style={styles.successText}>
-          You successfully registered your vehicle
+          Your vehicle information has been submitted to the administration.
         </Text>
         <Text style={styles.caption}>
-          To be able to showcase your vehicle to other users in the application,
-          you have buy a <Text style={styles.boldCaption}>Subscription</Text>{" "}
-          first.
+          An administrator will review your registration request, please wait
+          atleast 24 hours for the response.
         </Text>
 
         <View style={styles.btnContainer}>
