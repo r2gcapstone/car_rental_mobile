@@ -8,6 +8,7 @@ import { useLoadingAnimation } from "hooks/useLoadingAnimation";
 import useSentenceCase from "hooks/useSentenceCase";
 import UploadImageBtn from "components/button/UploadImageBtn";
 import ConfirmationModal from "components/modal/ConfirmationModal";
+import { useUserContext } from "context/UserContext";
 
 //layout
 import MainLayout from "layouts/MainLayout";
@@ -24,6 +25,10 @@ const PaymentInfo = () => {
   const data = JSON.parse(route.params?.data);
   const [receiptImg, setReceiptImg] = useState(initialState);
   const [modal, setModal] = useState(false);
+  const {
+    user: { firstName, lastName },
+  } = useUserContext();
+  const userName = firstName + " " + lastName;
 
   const {
     type,
@@ -47,6 +52,7 @@ const PaymentInfo = () => {
     carImage: imageUrls.front,
     status: "pending",
     receiptImg: receiptImg.receipt,
+    userName: userName,
   };
 
   const handleOnPress = async () => {
