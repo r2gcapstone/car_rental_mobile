@@ -77,7 +77,7 @@ const UploadDocs = () => {
   };
 
   let key = "";
-  if (label === "Edit Documents") {
+  if (label === "Documents") {
     key = "document";
   }
 
@@ -90,6 +90,7 @@ const UploadDocs = () => {
       }
       hideLoading();
     } catch (error) {
+      console.log(error);
       hideLoading();
     }
   };

@@ -16,7 +16,6 @@ import getUserDataFromDatabase from "../utils/getUserData";
 
 // Signup function
 export const signup = async (data) => {
-  console.log(JSON.stringify(data, null, 2));
   let dateCreated = new Date();
   dateCreated = Timestamp.fromDate(dateCreated);
 

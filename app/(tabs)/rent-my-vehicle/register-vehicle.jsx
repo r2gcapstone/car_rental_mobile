@@ -66,7 +66,7 @@ export default function RegisterVehicle() {
   };
 
   let key = "";
-  if (label === "Edit Vehicle Information") {
+  if (label === "Vehicle Information") {
     key = "vehicleDetails";
   }
 

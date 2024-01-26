@@ -42,7 +42,7 @@ const PriceRate = () => {
   };
 
   let key = "";
-  if (label === "Edit Price Rate") {
+  if (label === "Price Rate") {
     key = "priceRate";
   }
 

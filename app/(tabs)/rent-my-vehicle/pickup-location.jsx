@@ -210,7 +210,7 @@ const PickupLocation = () => {
   };
 
   let key = "";
-  if (label === "Edit Pick-Up Location") {
+  if (label === "Pick-Up Location") {
     key = "pickupLocation";
   }
 

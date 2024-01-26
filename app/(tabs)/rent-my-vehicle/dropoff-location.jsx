@@ -196,7 +196,7 @@ const DropoffLocation = () => {
   };
 
   let key = "";
-  if (label === "Edit Drop-Off Location") {
+  if (label === "Drop-Off Location") {
     key = "dropoffLocation";
   }
 

@@ -167,15 +167,18 @@ const SelectedVehicle = () => {
           </TouchableOpacity>
         )}
 
-        <TouchableOpacity
-          onPress={() => handleOnPress("", "locationHistory")}
-          style={styles.viewBtn}
-        >
-          <View style={styles.btnTextContainer}>
-            <Text>View Location History</Text>
-            <Image style={styles.arrowIcon} source={arrow} />
-          </View>
-        </TouchableOpacity>
+        {isRented && (
+          <TouchableOpacity
+            onPress={() => handleOnPress("", "locationHistory")}
+            style={styles.viewBtn}
+          >
+            <View style={styles.btnTextContainer}>
+              <Text>View Location History</Text>
+              <Image style={styles.arrowIcon} source={arrow} />
+            </View>
+          </TouchableOpacity>
+        )}
+
         <View style={styles.btnContainer}>
           {btnArray.map(
             ({

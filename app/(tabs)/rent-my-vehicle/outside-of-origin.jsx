@@ -44,7 +44,7 @@ const OutsideOfOrigin = () => {
   };
 
   let key = "";
-  if (label === "Edit Outside of Origin Rate") {
+  if (label === "Outside of Origin Rate") {
     key = "outsideRate";
   }
 

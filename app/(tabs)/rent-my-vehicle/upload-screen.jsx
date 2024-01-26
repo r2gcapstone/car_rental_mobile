@@ -45,7 +45,7 @@ const UploadScreen = () => {
   };
 
   let key = "";
-  if (label === "Edit Vehicle Image") {
+  if (label === "Vehicle Image") {
     key = "imageUrls";
   }
 
