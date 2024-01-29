@@ -22,7 +22,6 @@ import { useUserContext } from "context/UserContext";
 
 const ResultItem = ({ resultItem, dateTime }) => {
   const { user } = useUserContext();
-  const { ownerId } = user;
 
   const iconAssets = {
     car: carIcon,
@@ -67,10 +66,10 @@ const ResultItem = ({ resultItem, dateTime }) => {
 
         <ProceedBtn
           data={newObject}
-          disable={userId == ownerId}
+          disable={userId == user.userId}
           contProps={{
             backgroundColor: colors.red.primary,
-            opacity: userId == ownerId ? 0.8 : 1,
+            opacity: userId == user.userId ? 0.8 : 1,
           }}
           btnProps={{ fontSize: 12 }}
           btnText={"Apply for Renting"}

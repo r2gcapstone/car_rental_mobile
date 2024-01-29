@@ -32,18 +32,16 @@ export const signup = async (data) => {
       //compress image
       const resizedImageUrl = await resizeImage(data.imageUrl, 640);
 
-      // This line waits for uploadImageAsync to finish
-      // Arguments: resizedImageUrl (string - uri data),  storageName (string)
       downloadURL = await uploadImage(resizedImageUrl, "userProfile");
     }
 
-    // Store additional user information in the database
-    // Targeting a specific document using user UID
+    // Use user.uid as the docId
     const userDocRef = doc(db, "users", user.uid);
 
     // Set the data in the document
     await setDoc(userDocRef, {
       ...data,
+      userId: user.uid,
       imageUrl: downloadURL,
       agreeToTerms: true,
       dateCreated,

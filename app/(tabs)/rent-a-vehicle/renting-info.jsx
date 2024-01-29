@@ -164,7 +164,7 @@ const RentingInfo = () => {
       pickupLocation,
       dropoffLocation,
       destination,
-      ownerId: userId,
+      userId,
       carId,
       vehicleDetails,
       rentee: fullName,
