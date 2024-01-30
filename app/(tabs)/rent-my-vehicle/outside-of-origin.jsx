@@ -91,7 +91,7 @@ const OutsideOfOrigin = () => {
               )}
             </View>
             <InputField
-              value={outsideRate.toString()}
+              value={outsideRate && outsideRate.toString()}
               placeholder="e.g 1500"
               keyboardType="number-pad"
               label={"Rate / Kilometer"}

@@ -120,7 +120,10 @@ const RentingInfo = () => {
     {
       id: 2,
       label: "Rent Duration :",
-      value: +rentDuration < 1 ? "1 day" : rentDuration.toString() + " day(s)",
+      value:
+        rentDuration && +rentDuration < 1
+          ? "1 day"
+          : rentDuration.toString() + " day(s)",
     },
     {
       id: 3,

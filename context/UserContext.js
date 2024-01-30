@@ -11,6 +11,7 @@ export const useUserContext = () => {
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     ownerId: null,
+    userId: "",
     firstName: "",
     middleName: "",
     lastName: "",

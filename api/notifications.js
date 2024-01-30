@@ -15,17 +15,16 @@ import { router } from "expo-router";
 export const getSubscriptionData = async (status, isViewed) => {
   try {
     const userId = auth.currentUser.uid;
-
     // Get a reference to the 'subscription' collection
     const subscriptionCollection = collection(db, "subscription");
 
     //query data
     let querySnapshotRef = null;
-    if (status === "approved" || status === "ongoing") {
+    if (status === "approved") {
       querySnapshotRef = query(
         subscriptionCollection,
         where("userId", "==", userId),
-        where("status", "in", ["ongoing", "approved"])
+        where("status", "==", "approved")
       );
     } else if (status === "declined") {
       querySnapshotRef = query(
@@ -67,11 +66,11 @@ export const getVehicleRegistrationlData = async (status, isViewed) => {
 
     //query data
     let querySnapshotRef = null;
-    if (status == "approved" || status == "ongoing") {
+    if (status == "approved") {
       querySnapshotRef = query(
         carsCollection,
         where("userId", "==", userId),
-        where("status", "in", ["ongoing", "approved"])
+        where("status", "in", ["approved"])
       );
     } else if (status == "declined") {
       querySnapshotRef = query(
