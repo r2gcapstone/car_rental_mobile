@@ -38,6 +38,7 @@ export const RentCar = async (data) => {
         ...data.rentInformation,
         status: "pending",
         userId,
+        ownerId: ownerId,
         reviewed: false,
         viewed: false,
         ownerName,
