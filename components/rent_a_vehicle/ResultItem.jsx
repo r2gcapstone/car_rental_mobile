@@ -3,26 +3,22 @@ import { View, StyleSheet, Image } from "react-native";
 import Text from "components/ThemedText";
 import useSentenceCase from "hooks/useSentenceCase";
 import { colors } from "constants/Colors";
-
+import { auth } from "../../services/firebaseConfig";
 import ProceedBtn from "../button/ProceedBtn";
 
 //Icons
 import arrow from "assets/icons/arrow.png";
 import logo from "assets/icons/logo.png";
 import carIcon from "assets/icons/car.png";
-import userIcon from "assets/icons/user.png";
 import baggageIcon from "assets/icons/baggage.png";
 import transmissionIcon from "assets/icons/transmission.png";
 import paymentIcon from "assets/icons/payment.png";
 import fuelIcon from "assets/icons/fuel.png";
 import locationIcon from "assets/icons/location.png";
 import pesoWhite from "assets/icons/pesoWhite.png";
-//hook
-import { useUserContext } from "context/UserContext";
 
 const ResultItem = ({ resultItem, dateTime }) => {
-  const { user } = useUserContext();
-  const { ownerId } = user;
+  const currentUser = auth.currentUser.uid;
 
   const iconAssets = {
     car: carIcon,
@@ -46,6 +42,8 @@ const ResultItem = ({ resultItem, dateTime }) => {
     priceRate,
   } = resultItem;
 
+  // console.log(JSON.stringify(user, null, 2));
+
   const newObject = { ...resultItem, dateTime };
 
   return (
@@ -67,10 +65,10 @@ const ResultItem = ({ resultItem, dateTime }) => {
 
         <ProceedBtn
           data={newObject}
-          disable={userId == ownerId}
+          disable={userId == currentUser}
           contProps={{
             backgroundColor: colors.red.primary,
-            opacity: userId == ownerId ? 0.8 : 1,
+            opacity: userId == currentUser ? 0.8 : 1,
           }}
           btnProps={{ fontSize: 12 }}
           btnText={"Apply for Renting"}
