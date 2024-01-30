@@ -87,7 +87,7 @@ export const rentalRequest = async (docId, value, carId) => {
     });
 
     // If the status is approved, update the status of the car to true
-    if (value === "approved") {
+    if (value === "approved" || value === "ongoing") {
       const carDocRef = doc(db, "cars", carId);
       await updateDoc(carDocRef, {
         isRented: true,
@@ -280,8 +280,8 @@ export const getFinishedRental = async () => {
       const status = rental.status;
 
       if (
-        (currentDate >= endDate && status === "approved") ||
-        status === "finished"
+        currentDate >= endDate &&
+        (status === "approved" || status == "ongoing" || status === "finished")
       ) {
         rentals.push(rental);
         await updateRentalDataField("status", "finished", doc.id);
@@ -314,7 +314,7 @@ export const updateRentingDuration = async () => {
     const q = query(
       collectionRef,
       // all users will act as trigger to update duration since no cloud function is used
-      where("status", "==", "approved")
+      where("status", "in", ["ongoing", "approved"])
     );
 
     // Get all rentals
@@ -362,7 +362,7 @@ export const getRentingDoc = async (carId) => {
       rentalsRef,
       where("ownerId", "==", userId),
       where("carId", "==", carId),
-      where("status", "==", "approved")
+      where("status", "in", ["ongoing", "approved"])
     );
 
     // Execute the query

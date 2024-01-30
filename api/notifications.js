@@ -22,11 +22,11 @@ export const getSubscriptionData = async (status, isViewed) => {
 
     //query data
     let querySnapshotRef = null;
-    if (status === "approved") {
+    if (status === "approved" || status === "ongoing") {
       querySnapshotRef = query(
         subscriptionCollection,
         where("userId", "==", userId),
-        where("status", "==", "approved")
+        where("status", "in", ["ongoing", "approved"])
       );
     } else if (status === "declined") {
       querySnapshotRef = query(
@@ -68,11 +68,11 @@ export const getVehicleRegistrationlData = async (status, isViewed) => {
 
     //query data
     let querySnapshotRef = null;
-    if (status == "approved") {
+    if (status == "approved" || status == "ongoing") {
       querySnapshotRef = query(
         carsCollection,
         where("userId", "==", userId),
-        where("status", "==", "approved")
+        where("status", "in", ["ongoing", "approved"])
       );
     } else if (status == "declined") {
       querySnapshotRef = query(

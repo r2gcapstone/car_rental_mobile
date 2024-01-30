@@ -63,7 +63,10 @@ export const Subscribe = async (data) => {
           router.push("/");
           alertShown = true;
         }
-        if (doc.data().status === "approved") {
+        if (
+          doc.data().status === "approved" ||
+          doc.data().status === "ongoing"
+        ) {
           alert(
             `You still have ${
               doc.data().duration

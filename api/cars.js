@@ -311,7 +311,7 @@ export const deleteAVehicle = async (carId) => {
     let rentalQueryRef = query(
       rentalRef,
       where("carId", "==", carId),
-      where("status", "==", "approved")
+      where("status", "in", ["ongoing", "approved"])
     );
 
     // Get all documents from rentals collection that satisfy the query

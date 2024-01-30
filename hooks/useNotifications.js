@@ -32,7 +32,7 @@ const useNotifications = () => {
       query(
         collection(db, "subscription"),
         where("userId", "==", user.ownerId),
-        where("status", "==", "approved")
+        where("status", "in", ["ongoing", "approved"])
       ),
       query(
         collection(db, "subscription"),
@@ -52,7 +52,7 @@ const useNotifications = () => {
       query(
         collection(db, "cars"),
         where("userId", "==", user.ownerId),
-        where("status", "==", "approved")
+        where("status", "in", ["ongoing", "approved"])
       ),
       query(
         collection(db, "cars"),
