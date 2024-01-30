@@ -11,8 +11,7 @@ import { doc, setDoc, Timestamp } from "firebase/firestore";
 //utils
 import resizeImage from "../utils/resizeImage";
 import uploadImage from "../utils/uploadImage";
-
-import getUserDataFromDatabase from "../utils/getUserData";
+import { getUserData } from "./user";
 
 // Signup function
 export const signup = async (data) => {
@@ -68,9 +67,18 @@ export const login = async (email, password) => {
     // Get the user object after signup
     const user = auth.currentUser;
 
-    const ownerData = await getUserDataFromDatabase(user.uid);
+    const ownerData = await getUserData(user.uid);
 
-    //filter user data for context
+    // Check if the user is deactivated
+    if (ownerData.deactivatedAt !== "") {
+      return {
+        error: true,
+        message: "Account is disabled!",
+        status: "disabled",
+      };
+    }
+
+    // Filter user data for context
     const userData = {
       ownerId: user.uid,
       userId: ownerData.userId,

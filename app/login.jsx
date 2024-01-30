@@ -68,7 +68,7 @@ const SignInScreen = () => {
 
     setIsLoading(false);
 
-    if (response.error === true) {
+    if (response.error) {
       if (
         response.status === "auth/user-not-found" ||
         response.status === "auth/wrong-password"
@@ -79,6 +79,9 @@ const SignInScreen = () => {
         return;
       } else if (response.status === "auth/network-request-failed") {
         alert("Network Problem, please check your connection!");
+      } else if (response.status === "disabled") {
+        alert("Account is currently disabled!");
+        return;
       }
       alert(response.status);
     } else {
