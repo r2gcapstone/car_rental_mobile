@@ -214,7 +214,6 @@ export const updateCarData = async (key, value, carId) => {
 
 //update vehicle information
 export const updateCarImage = async (key, value, carId) => {
-  console.log(key);
   let dateUpdated = new Date();
   dateUpdated = Timestamp.fromDate(dateUpdated);
 

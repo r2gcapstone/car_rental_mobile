@@ -16,7 +16,6 @@ import countTotalDays from "utils/calculateDays";
 
 //Rent a car function
 export const RentCar = async (data) => {
-  console.log(JSON.stringify(data, null, 2));
   try {
     const user = auth.currentUser;
     const userId = user.uid;
