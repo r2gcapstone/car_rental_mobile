@@ -121,6 +121,7 @@ const BookingInformation = () => {
   ];
 
   const handleOkayBtn = async (choice, docId, carId) => {
+    console.log(choice, docId, carId);
     let path = "";
     if (from === "notification") {
       path = "(notification)/success-screen";
@@ -130,13 +131,17 @@ const BookingInformation = () => {
 
     if (choice === "approve") {
       try {
-        await rentalRequest(docId, "approved", carId);
+        const result = await rentalRequest(docId, "approved", carId);
+        console.log(result);
         router.push({
           pathname: path,
           params: { choice, from },
         });
       } catch (error) {
-        alert(error);
+        router.push({
+          pathname: path,
+          params: { choice, from },
+        });
       }
     } else {
       try {
@@ -146,7 +151,7 @@ const BookingInformation = () => {
           params: { choice, from },
         });
       } catch (error) {
-        alert(error);
+        // console.log(error);
       }
     }
   };
@@ -169,7 +174,7 @@ const BookingInformation = () => {
     newAddress = [
       address.street,
       address.subdivision,
-      address.barangay,
+      address.barangay.name,
       address.municipality.name,
       `${address.zipCode} ${address.province.name}`,
     ]

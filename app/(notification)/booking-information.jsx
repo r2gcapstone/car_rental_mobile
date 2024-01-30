@@ -188,7 +188,7 @@ const BookingInformation = () => {
     newAddress = [
       address.street,
       address.subdivision,
-      address.barangay,
+      address.barangay.name,
       address.municipality.name,
       `${address.zipCode} ${address.province.name}`,
     ]
