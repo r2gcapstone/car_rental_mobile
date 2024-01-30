@@ -84,7 +84,7 @@ const RenterInformation = () => {
     newAddress = [
       address.subdivision,
       address.street,
-      address.barangay,
+      address.barangay.name,
       address.municipality.name,
       address.province.name,
     ]
