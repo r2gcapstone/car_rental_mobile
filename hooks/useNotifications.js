@@ -31,18 +31,18 @@ const useNotifications = () => {
     const subscriptionQueries = [
       query(
         collection(db, "subscription"),
-        where("userId", "==", user.ownerId),
-        where("status", "in", ["ongoing", "approved"])
+        where("userId", "==", user.userId),
+        where("status", "==", "approved")
       ),
       query(
         collection(db, "subscription"),
-        where("userId", "==", user.ownerId),
+        where("userId", "==", user.userId),
         where("viewed", "==", false),
         where("status", "==", "declined")
       ),
       query(
         collection(db, "subscription"),
-        where("userId", "==", user.ownerId),
+        where("userId", "==", user.userId),
         where("status", "==", "expired"),
         where("expiredStatus", "==", false)
       ),
@@ -51,12 +51,12 @@ const useNotifications = () => {
     const carQueries = [
       query(
         collection(db, "cars"),
-        where("userId", "==", user.ownerId),
-        where("status", "in", ["ongoing", "approved"])
+        where("userId", "==", user.userId),
+        where("status", "==", "approved")
       ),
       query(
         collection(db, "cars"),
-        where("userId", "==", user.ownerId),
+        where("userId", "==", user.userId),
         where("viewed", "==", false),
         where("status", "==", "declined")
       ),

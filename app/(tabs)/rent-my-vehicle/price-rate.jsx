@@ -77,7 +77,7 @@ const PriceRate = () => {
         </Text>
         <View style={styles.formContainer}>
           <InputField
-            value={priceRate.toString()}
+            value={priceRate && priceRate.toString()}
             placeholder="e.g 1500"
             keyboardType="number-pad"
             label={"Price per day :"}

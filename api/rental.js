@@ -80,20 +80,15 @@ export const RentCar = async (data) => {
 //handle applicant rental request
 export const rentalRequest = async (docId, value, carId) => {
   try {
-    // get the document reference
     const docRef = doc(db, "rentals", docId);
+    const updates = { status: value };
 
-    await updateDoc(docRef, {
-      status: value,
-    });
-
-    // If the status is approved, update the status of the car to true
-    if (value === "approved" || value === "ongoing") {
+    if (value === "approved") {
       const carDocRef = doc(db, "cars", carId);
-      await updateDoc(carDocRef, {
-        isRented: true,
-      });
+      await updateDoc(carDocRef, { isRented: true });
     }
+
+    await updateDoc(docRef, updates);
 
     return {
       status: "success",

@@ -17,7 +17,6 @@ import formatDate from "utils/formatDate";
 import formatTime from "utils/formatTime";
 import { Timestamp } from "firebase/firestore";
 import appendAddress from "utils/appendAddress";
-import firebaseTimestamp from "utils/FirebaseTimestamp";
 
 //icon
 import peso from "assets/icons/pesoWhite.png";
@@ -121,7 +120,6 @@ const BookingInformation = () => {
   ];
 
   const handleOkayBtn = async (choice, docId, carId) => {
-    console.log(choice, docId, carId);
     let path = "";
     if (from === "notification") {
       path = "(notification)/success-screen";
@@ -132,17 +130,14 @@ const BookingInformation = () => {
     if (choice === "approve") {
       try {
         const result = await rentalRequest(docId, "approved", carId);
-        console.log(result);
-        router.push({
-          pathname: path,
-          params: { choice, from },
-        });
-      } catch (error) {
-        router.push({
-          pathname: path,
-          params: { choice, from },
-        });
-      }
+
+        if (!result.error) {
+          router.push({
+            pathname: path,
+            params: { choice, from },
+          });
+        }
+      } catch (error) {}
     } else {
       try {
         await rentalRequest(docId, "declined");
@@ -150,9 +145,7 @@ const BookingInformation = () => {
           pathname: path,
           params: { choice, from },
         });
-      } catch (error) {
-        // console.log(error);
-      }
+      } catch (error) {}
     }
   };
 
@@ -176,7 +169,8 @@ const BookingInformation = () => {
       address.subdivision,
       address.barangay.name,
       address.municipality.name,
-      `${address.zipCode} ${address.province.name}`,
+      address.zipCode,
+      address.province.name,
     ]
       .filter(Boolean)
       .join(", ");
@@ -209,7 +203,7 @@ const BookingInformation = () => {
                 <View key={item.id} style={styles.row}>
                   <Text style={styles.label}>{item.label}</Text>
                   <View style={styles.valueContainer}>
-                    {[10].includes(item.id) && (
+                    {[8].includes(item.id) && (
                       <Image style={styles.icon} source={peso} />
                     )}
                     <Text style={styles.value}>{item.value}</Text>
@@ -221,7 +215,9 @@ const BookingInformation = () => {
             <Text style={styles.totalLabel}>Total Amount :</Text>
             <View style={styles.valueContainer}>
               <Image style={styles.icon} source={peso} />
-              <Text style={styles.totalValue}>{totalPayment}</Text>
+              <Text style={styles.totalValue}>
+                {totalPayment && totalPayment.toLocaleString()}
+              </Text>
             </View>
           </View>
         </View>
