@@ -14,6 +14,7 @@ const RulesRegulationModal = ({ onClose, data }) => {
     try {
       showLoading();
       const result = await RentCar(data);
+      console.log(JSON.stringify(result, null, 2));
 
       if (result.error) {
         hideLoading();
