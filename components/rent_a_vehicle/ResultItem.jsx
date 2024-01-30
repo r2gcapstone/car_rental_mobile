@@ -42,8 +42,6 @@ const ResultItem = ({ resultItem, dateTime }) => {
     priceRate,
   } = resultItem;
 
-  // console.log(JSON.stringify(user, null, 2));
-
   const newObject = { ...resultItem, dateTime };
 
   return (

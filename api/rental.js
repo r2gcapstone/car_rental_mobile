@@ -19,7 +19,7 @@ export const RentCar = async (data) => {
   try {
     const user = auth.currentUser;
     const userId = user.uid;
-    const ownerId = data.rentInformation.ownerId;
+    const ownerId = data.rentInformation.userId;
 
     const rentalsCollection = collection(db, "rentals");
     const usersCollection = collection(db, "users");

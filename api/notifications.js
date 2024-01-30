@@ -13,7 +13,6 @@ import { router } from "expo-router";
 
 //fetch all subscription function
 export const getSubscriptionData = async (status, isViewed) => {
-  // console.log(status);
   try {
     const userId = auth.currentUser.uid;
 
