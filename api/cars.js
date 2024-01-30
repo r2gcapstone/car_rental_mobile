@@ -128,7 +128,7 @@ export const getReviews = async (carId) => {
 };
 
 //function get all vehicles for search vehicle feature
-export const getCars = async () => {
+export const getRegisteredCars = async () => {
   try {
     const user = auth.currentUser;
     const userId = user.uid;
@@ -137,7 +137,11 @@ export const getCars = async () => {
     const carsRef = collection(db, "cars");
 
     // Create a query against the collection
-    const q = query(carsRef, where("userId", "==", userId));
+    const q = query(
+      carsRef,
+      where("userId", "==", userId),
+      where("status", "in", ["approved", "ongoing"])
+    );
 
     // Execute the query
     const vehicleSnapshot = await getDocs(q);

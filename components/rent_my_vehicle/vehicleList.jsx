@@ -6,7 +6,7 @@ import { colors } from "constants/Colors";
 import useSentenceCase from "hooks/useSentenceCase";
 import Text from "components/ThemedText";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { getCars } from "api/cars";
+import { getRegisteredCars } from "api/cars";
 import { router } from "expo-router";
 
 const VehicleList = () => {
@@ -18,16 +18,13 @@ const VehicleList = () => {
   const getRegVehicles = async () => {
     try {
       showLoading();
-      const result = await getCars();
+      const result = await getRegisteredCars();
       if (Array.isArray(result)) {
         setData(result);
       }
       hideLoading();
     } catch (error) {
       hideLoading();
-      alert(
-        "There has been an error fetching renting details, please try again later."
-      );
     }
   };
 
